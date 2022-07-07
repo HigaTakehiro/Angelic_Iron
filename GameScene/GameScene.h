@@ -1,5 +1,5 @@
 #pragma once
-#include "Input.h"//
+#include "KeyInput.h"//
 #include "DirectXCommon.h"//
 #include "Object3d.h"
 #include "Model.h"
@@ -11,6 +11,7 @@
 #include "SafeDelete.h"
 #include "FbxLoader.h"
 #include "FBXObject3d.h"
+#include "MouseInput.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -54,7 +55,7 @@ public: //ƒƒ“ƒoŠÖ”
 
 private: //ƒƒ“ƒo•Ï”
 	DirectXCommon* dxCommon = nullptr;
-	Input* input = nullptr;
+	KeyInput* input = nullptr;
 	WinApp* winApp = nullptr;
 	DebugText debugText;
 	Sound* sound = nullptr;

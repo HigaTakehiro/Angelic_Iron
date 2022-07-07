@@ -57,7 +57,7 @@
     <ClCompile Include="Base\WinApp.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Input.cpp">
+    <ClCompile Include="Input\KeyInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
     <ClCompile Include="Object2D\DebugText.cpp">
@@ -89,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="Object2D\PostEffect.cpp">
       <Filter>ソース ファイル\Object2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\MouseInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +156,7 @@
     <ClInclude Include="Base\WinApp.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Input\Input.h">
+    <ClInclude Include="Input\KeyInput.h">
       <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
     <ClInclude Include="Object2D\DebugText.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="Object2D\PostEffect.h">
       <Filter>ソース ファイル\Object2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\MouseInput.h">
+      <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

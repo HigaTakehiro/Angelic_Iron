@@ -20,7 +20,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	this->dxCommon = dxCommon;
 	this->sound = sound;
-	input = Input::GetIns();
+	input = KeyInput::GetIns();
 
 	//カメラ初期化
 	camera = new Camera;
@@ -75,7 +75,7 @@ void GameScene::Update() {
 	camera->SetTarget(object1->GetPosition());
 
 	//デバッグテキスト
-	if (input->TriggerKey(DIK_SPACE)) {
+	if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
 		debugText.Print("Test", 100, 100, 10.0f);
 		if (object1->GetIsAnimation() == true) {
 			object1->StopAnimation();
@@ -115,6 +115,12 @@ void GameScene::Update() {
 	if (input->PushKey(DIK_E)) {
 		playerPos.y -= 0.5f;
 	}
+	char xPos[256];
+	char yPos[256];
+	sprintf_s(xPos, "Xpoint : %f", MouseInput::GetIns()->GetMouseXVelocity());
+	sprintf_s(yPos, "Ypoint : %f", MouseInput::GetIns()->GetMouseYVelocity());
+	debugText.Print(xPos, 100, 300, 2.0f);
+	debugText.Print(yPos, 100, 400, 2.0f);
 
 	object1->SetPosition(playerPos);
 	player->Update();

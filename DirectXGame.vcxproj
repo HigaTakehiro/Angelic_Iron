@@ -156,7 +156,8 @@
     <ClCompile Include="FBX\FBXModel.cpp" />
     <ClCompile Include="FBX\FBXObject3d.cpp" />
     <ClCompile Include="GameScene\GameScene.cpp" />
-    <ClCompile Include="Input\Input.cpp" />
+    <ClCompile Include="Input\KeyInput.cpp" />
+    <ClCompile Include="Input\MouseInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object2D\DebugText.cpp" />
     <ClCompile Include="Object2D\PostEffect.cpp" />
@@ -249,7 +250,8 @@
     <ClInclude Include="FBX\FBXModel.h" />
     <ClInclude Include="FBX\FBXObject3d.h" />
     <ClInclude Include="GameScene\GameScene.h" />
-    <ClInclude Include="Input\Input.h" />
+    <ClInclude Include="Input\KeyInput.h" />
+    <ClInclude Include="Input\MouseInput.h" />
     <ClInclude Include="Object2D\DebugText.h" />
     <ClInclude Include="Object2D\PostEffect.h" />
     <ClInclude Include="Object2D\Sprite.h" />

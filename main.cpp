@@ -1,9 +1,10 @@
-﻿#include "Input.h"
+﻿#include "KeyInput.h"
 #include "WinApp.h"
 #include "DirectXCommon.h"
 #include "Sound.h"
 #include "GameScene.h"
 #include "PostEffect.h"
+#include "MouseInput.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -30,7 +31,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//入力の初期化
 	//input = new Input();
-	Input::GetIns()->Initialize(winApp);
+	KeyInput::GetIns()->Initialize(winApp);
+	MouseInput::GetIns()->Initialize(winApp);
 
 	//Soundの初期化
 	sound = new Sound();
@@ -57,11 +59,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 
-		if (Input::GetIns()->PushKey(DIK_0)) {
+		if (KeyInput::GetIns()->PushKey(DIK_0)) {
 			break;
 		}
 
-		Input::GetIns()->Update();
+		KeyInput::GetIns()->Update();
+		MouseInput::GetIns()->Update();
 		gameScene->Update();
 
 		// DirectX毎フレーム処理　ここまで
