@@ -75,14 +75,17 @@ void GameScene::Update() {
 	camera->SetTarget(object1->GetPosition());
 
 	//デバッグテキスト
-	if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
-		debugText.Print("Test", 100, 100, 10.0f);
+	if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::GetIns()->Button_A)) {
 		if (object1->GetIsAnimation() == true) {
 			object1->StopAnimation();
 		}
 		else {
 			object1->PlayAnimation();
 		}
+	}
+
+	if (MouseInput::GetIns()->PushClick(MouseInput::GetIns()->RIGHT_CLICK) || PadInput::GetIns()->PushCrossKey(PadInput::GetIns()->CrossKey_UpperLeft)) {
+		debugText.Print("Test", 100, 100, 10.0f);
 	}
 
 	if (input->PushKey(DIK_RIGHT)) {

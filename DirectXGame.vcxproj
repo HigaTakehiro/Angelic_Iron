@@ -158,6 +158,7 @@
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="Input\KeyInput.cpp" />
     <ClCompile Include="Input\MouseInput.cpp" />
+    <ClCompile Include="Input\PadInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object2D\DebugText.cpp" />
     <ClCompile Include="Object2D\PostEffect.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="Input\KeyInput.h" />
     <ClInclude Include="Input\MouseInput.h" />
+    <ClInclude Include="Input\PadInput.h" />
     <ClInclude Include="Object2D\DebugText.h" />
     <ClInclude Include="Object2D\PostEffect.h" />
     <ClInclude Include="Object2D\Sprite.h" />

@@ -5,6 +5,7 @@
 #include "GameScene.h"
 #include "PostEffect.h"
 #include "MouseInput.h"
+#include "PadInput.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -33,6 +34,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//input = new Input();
 	KeyInput::GetIns()->Initialize(winApp);
 	MouseInput::GetIns()->Initialize(winApp);
+	PadInput::GetIns()->Initialize(winApp);
 
 	//Soundの初期化
 	sound = new Sound();
@@ -65,6 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		KeyInput::GetIns()->Update();
 		MouseInput::GetIns()->Update();
+		PadInput::GetIns()->Update();
 		gameScene->Update();
 
 		// DirectX毎フレーム処理　ここまで

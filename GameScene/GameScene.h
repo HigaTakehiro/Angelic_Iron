@@ -12,6 +12,7 @@
 #include "FbxLoader.h"
 #include "FBXObject3d.h"
 #include "MouseInput.h"
+#include "PadInput.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

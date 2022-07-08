@@ -93,6 +93,9 @@
     <ClCompile Include="Input\MouseInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Input\PadInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -193,6 +196,9 @@
       <Filter>ソース ファイル\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Input\MouseInput.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\PadInput.h">
       <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
   </ItemGroup>

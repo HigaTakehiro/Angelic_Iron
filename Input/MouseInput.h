@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include <Windows.h>
 #include <wrl.h>
@@ -7,7 +6,6 @@
 
 #define DIRECTINPUT_VERSION     0x0800   // DirectInputのバージョン指定
 #include <dinput.h>
-#include "DirectXCommon.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
