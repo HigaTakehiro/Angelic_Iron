@@ -15,10 +15,12 @@ void MouseInput::Initialize(WinApp* winApp) {
 	result = DirectInput8Create(winApp->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
 	//マウスデバイス生成
 	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
-	//入力データ形式のセット
-	result = devMouse->SetDataFormat(&c_dfDIMouse);
-	//排他制御レベルのセット
-	result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	if (devMouse != nullptr) {
+		//入力データ形式のセット
+		result = devMouse->SetDataFormat(&c_dfDIMouse);
+		//排他制御レベルのセット
+		result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	}
 }
 
 void MouseInput::Update() {
@@ -27,13 +29,15 @@ void MouseInput::Update() {
 	//前回のマウスのクリックを保存
 	preMouseState = mouseState;
 	//マウス情報の更新
-	result = devMouse->Acquire();
-	//マウスの入力情報を取得する
-	result = devMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
-	//マウスカーソルの位置を取得
-	GetCursorPos(&mousePoint);
-	//取得したカーソルの位置をウィンドウ上の位置に変換
-	ScreenToClient(winApp->GetHwnd(), &mousePoint);
+	if (devMouse != nullptr) {
+		result = devMouse->Acquire();
+		//マウスの入力情報を取得する
+		result = devMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+		//マウスカーソルの位置を取得
+		GetCursorPos(&mousePoint);
+		//取得したカーソルの位置をウィンドウ上の位置に変換
+		ScreenToClient(winApp->GetHwnd(), &mousePoint);
+	}
 }
 
 bool MouseInput::PushClick(BYTE mouseClick) {

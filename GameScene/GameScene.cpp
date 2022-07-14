@@ -8,7 +8,7 @@ GameScene::GameScene() {
 
 GameScene::~GameScene() {
 	safe_delete(sprite);
-	safe_delete(model);
+	player->Finalize();
 	safe_delete(player);
 	safe_delete(map1_a);
 	safe_delete(map1_b);
@@ -24,6 +24,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	//カメラ初期化
 	camera = new Camera;
+	camera->SetEye(XMFLOAT3(50, 1, -100));
+	camera->SetTarget(XMFLOAT3(50, 0, 0));
 
 	//Sprite & DebugTextの初期化
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -31,22 +33,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Sprite::LoadTexture(debugTextNumber, L"Resources/debugfont.png");
 	debugText.Initialize(debugTextNumber);
 
-	Sprite::LoadTexture(1, L"Resources/house.png");
-	sprite = Sprite::Create(1, { 0, 0 });
+	//Sprite::LoadTexture(1, L"Resources/Aim.png");
+	//sprite = Sprite::Create(1, { 0, 0 });
 	Sprite::LoadTexture(2, L"Resources/background.png");
 	background = Sprite::Create(2, { 0, 0 });
 
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
-	model = Model::CreateModel("Player");
-	player = Object3d::Create(model);
-	playerScale = { 5, 5, 5 };
-	playerPos = { 0, 0, 0 };
-	playerRot = { 0, 180, 0 };
-	player->SetScale(playerScale);
-	player->SetPosition(playerPos);
-	player->SetRotation(playerRot);
+	player = new Player();
+	player->Initialize();
 
 	//MapChipの初期化
 	mapchip = new MapChip;
@@ -72,7 +68,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 void GameScene::Update() {
 	// DirectX毎フレーム処理　ここから
-	camera->SetTarget(object1->GetPosition());
+	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
+	aimPosY = MouseInput::GetIns()->GetMousePoint().y;
 
 	//デバッグテキスト
 	if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::GetIns()->Button_A)) {
@@ -100,32 +97,14 @@ void GameScene::Update() {
 	if (input->PushKey(DIK_DOWN)) {
 		camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
 	}
-	if (input->PushKey(DIK_W)) {
-		playerPos.z += 0.5f;
-	}
-	if (input->PushKey(DIK_S)) {
-		playerPos.z -= 0.5f;
-	}
-	if (input->PushKey(DIK_D)) {
-		playerPos.x += 0.5f;
-	}
-	if (input->PushKey(DIK_A)) {
-		playerPos.x -= 0.5f;
-	}
-	if (input->PushKey(DIK_Q)) {
-		playerPos.y += 0.5f;
-	}
-	if (input->PushKey(DIK_E)) {
-		playerPos.y -= 0.5f;
-	}
+
 	char xPos[256];
 	char yPos[256];
-	sprintf_s(xPos, "Xpoint : %f", MouseInput::GetIns()->GetMouseXVelocity());
-	sprintf_s(yPos, "Ypoint : %f", MouseInput::GetIns()->GetMouseYVelocity());
+	sprintf_s(xPos, "Xpoint : %f", MouseInput::GetIns()->GetMousePoint());
+	sprintf_s(yPos, "Ypoint : %f", MouseInput::GetIns()->GetMousePoint());
 	debugText.Print(xPos, 100, 300, 2.0f);
 	debugText.Print(yPos, 100, 400, 2.0f);
 
-	object1->SetPosition(playerPos);
 	player->Update();
 	object1->Update();
 
@@ -146,7 +125,7 @@ void GameScene::Draw() {
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(dxCommon->GetCmdList());
-	player->Draw();
+	player->ObjectDraw();
 	for (auto object : objects) {
 		object->Draw();
 	}
@@ -158,7 +137,7 @@ void GameScene::Draw() {
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(dxCommon->GetCmdList());
-	sprite->Draw();
+	player->SpriteDraw();
 	debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 

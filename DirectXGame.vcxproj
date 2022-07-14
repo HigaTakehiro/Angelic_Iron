@@ -166,6 +166,7 @@
     <ClCompile Include="Object3d\MapChip.cpp" />
     <ClCompile Include="Object3d\Model.cpp" />
     <ClCompile Include="Object3d\Object3d.cpp" />
+    <ClCompile Include="Object3d\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -245,6 +246,7 @@
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXCommon.h" />
     <ClInclude Include="Base\SafeDelete.h" />
+    <ClInclude Include="Base\Vector3.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="FBX\FbxLoader.h" />
@@ -260,6 +262,7 @@
     <ClInclude Include="Object3d\MapChip.h" />
     <ClInclude Include="Object3d\Model.h" />
     <ClInclude Include="Object3d\Object3d.h" />
+    <ClInclude Include="Object3d\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXGame.rc" />

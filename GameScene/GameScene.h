@@ -13,6 +13,7 @@
 #include "FBXObject3d.h"
 #include "MouseInput.h"
 #include "PadInput.h"
+#include "Player.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -64,8 +65,7 @@ private: //メンバ変数
 	MapChip* mapchip = nullptr;
 
 	//ゲームオブジェクト & スプライト
-	Model* model = nullptr;
-	Object3d* player = nullptr;
+	Player* player = nullptr;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
 
@@ -80,9 +80,8 @@ private: //メンバ変数
 	FBXObject3d* object1 = nullptr;
 
 	//ゲームシーン用変数
-	XMFLOAT3 playerPos = { 0, 0, 0 };
-	XMFLOAT3 playerScale = { 0, 0, 0 };
-	XMFLOAT3 playerRot = { 0, 0, 0 };
+	float aimPosX;
+	float aimPosY;
 
 };
 

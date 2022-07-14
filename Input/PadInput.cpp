@@ -15,21 +15,25 @@ void PadInput::Initialize(WinApp* winApp) {
 	result = DirectInput8Create(winApp->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
 	//パッドデバイス生成
 	result = dinput->CreateDevice(GUID_Joystick, &devPad, NULL);
-	//入力データ形式のセット
-	result = devPad->SetDataFormat(&c_dfDIJoystick);
-	//排他制御レベルのセット
-	result = devPad->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	if (devPad != nullptr) {
+		//入力データ形式のセット
+		result = devPad->SetDataFormat(&c_dfDIJoystick);
+		//排他制御レベルのセット
+		result = devPad->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	}
 }
 
 void PadInput::Update() {
 	HRESULT result;
 
-	//前回のパッドのボタン押下を保存
-	prePadState = padState;
-	//パッド情報の更新
-	result = devPad->Acquire();
-	//パッドの入力情報を取得する
-	result = devPad->GetDeviceState(sizeof(DIJOYSTATE), &padState);
+	if (devPad != nullptr) {
+		//前回のパッドのボタン押下を保存
+		prePadState = padState;
+		//パッド情報の更新
+		result = devPad->Acquire();
+		//パッドの入力情報を取得する
+		result = devPad->GetDeviceState(sizeof(DIJOYSTATE), &padState);
+	}
 }
 
 bool PadInput::PushButton(BYTE buttonNumber) {
