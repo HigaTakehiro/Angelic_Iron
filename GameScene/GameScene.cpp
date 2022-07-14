@@ -100,8 +100,8 @@ void GameScene::Update() {
 
 	char xPos[256];
 	char yPos[256];
-	sprintf_s(xPos, "Xpoint : %f", MouseInput::GetIns()->GetMousePoint());
-	sprintf_s(yPos, "Ypoint : %f", MouseInput::GetIns()->GetMousePoint());
+	sprintf_s(xPos, "Xpoint : %d", MouseInput::GetIns()->GetMousePoint().x);
+	sprintf_s(yPos, "Ypoint : %d", MouseInput::GetIns()->GetMousePoint().y);
 	debugText.Print(xPos, 100, 300, 2.0f);
 	debugText.Print(yPos, 100, 400, 2.0f);
 

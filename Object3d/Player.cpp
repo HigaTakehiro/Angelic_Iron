@@ -4,6 +4,7 @@
 void Player::Initialize() {
 	Sprite::LoadTexture(1, L"Resources/Aim.png");
 	aim = Sprite::Create(1, { 0, 0 });
+	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
 
 	playerModel = Model::CreateModel("Player");
 	player = Object3d::Create(playerModel);
@@ -34,7 +35,7 @@ void Player::Finalize() {
 
 void Player::Update() {
 	Move();
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 75.0f, MouseInput::GetIns()->GetMousePoint().y - 75.0f);
+	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50.0f, MouseInput::GetIns()->GetMousePoint().y - 50.0f);
 
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) && !isShot) {
 		targetAimPos = XMFLOAT3(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 500.0f);
