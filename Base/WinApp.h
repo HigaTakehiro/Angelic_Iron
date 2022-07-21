@@ -33,6 +33,10 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 	/// <summary>
+	/// ウィンドウスタイルの指定
+	/// </summary>
+	void SetWindowStyle(LONG windowStyle);
+	/// <summary>
 	/// ウィンドウハンドルの取得
 	/// </summary>
 	/// <returns></returns>
@@ -42,5 +46,6 @@ public: //メンバ関数
 private: //メンバ変数
 	HWND hwnd = nullptr;
 	WNDCLASSEX w;
+	LONG windowStyle; //ウィンドウスタイル
 };
 

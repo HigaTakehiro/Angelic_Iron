@@ -24,6 +24,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//WindowsAPIの初期化
 	winApp = new WinApp();
+	winApp->SetWindowStyle(WS_SYSMENU | WS_CAPTION | WS_EX_CONTEXTHELP);
 	winApp->Initialize();
 
 	//DirectXの初期化
@@ -51,7 +52,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//Sprite::LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-
 
 	// DirectX初期化処理　ここまで
 

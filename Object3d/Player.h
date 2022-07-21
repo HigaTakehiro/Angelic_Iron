@@ -6,6 +6,7 @@
 #include "PadInput.h"
 #include "Sprite.h"
 #include "Vector3.h"
+#include "Camera.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -16,7 +17,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Initialize();
+	void Initialize(Camera* camera);
 
 	/// <summary>
 	/// 更新処理
@@ -80,5 +81,10 @@ private: //メンバ変数
 	XMFLOAT2 aimPos;
 	Vector3 oldShotPos;
 	Vector3 targetAimPos;
+	Vector3 posNear;
+	Vector3 posFar;
+	XMMATRIX matVPV;
+	XMMATRIX matInverseVPV;
+	Camera* camera;
 };
 

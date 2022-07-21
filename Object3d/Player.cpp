@@ -1,7 +1,9 @@
 #include "Player.h"
 #include "SafeDelete.h"
 
-void Player::Initialize() {
+void Player::Initialize(Camera* camera) {
+	this->camera = camera;
+
 	Sprite::LoadTexture(1, L"Resources/Aim.png");
 	aim = Sprite::Create(1, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
@@ -38,7 +40,7 @@ void Player::Update() {
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50.0f, MouseInput::GetIns()->GetMousePoint().y - 50.0f);
 
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) && !isShot) {
-		targetAimPos = XMFLOAT3(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 500.0f);
+		targetAimPos = Vector3(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 500.0f);
 		shotPos = playerPos;
 		oldShotPos = shotPos;
 		shot->SetPosition(shotPos);
@@ -87,14 +89,15 @@ void Player::Move() {
 
 void Player::Shot() {
 	const float shotSpeed = 3.0f;
+	const float windowOverX = -100.0f;
 
 	Vector3 direction = oldShotPos - targetAimPos;
 	direction.normalize();
 
-	shotPos += direction * shotSpeed;
+	shotPos -= direction * shotSpeed;
 	shot->SetPosition(shotPos);
 
-	if (shotPos.z >= 100.0f) {
+	if (shotPos.z >= 100.0f || shotPos.x <= windowOverX || shotPos.x >= WinApp::window_width) {
 		isShot = false;
 	}
 }

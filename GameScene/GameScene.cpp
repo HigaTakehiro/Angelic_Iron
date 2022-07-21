@@ -42,7 +42,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
 	player = new Player();
-	player->Initialize();
+	player->Initialize(camera);
 
 	//MapChipの初期化
 	mapchip = new MapChip;
@@ -126,13 +126,13 @@ void GameScene::Draw() {
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(dxCommon->GetCmdList());
 	player->ObjectDraw();
-	for (auto object : objects) {
+	/*for (auto object : objects) {
 		object->Draw();
 	}
 	for (auto object : objects2) {
 		object->Draw();
 	}
-	object1->Draw(dxCommon->GetCmdList());
+	object1->Draw(dxCommon->GetCmdList());*/
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)

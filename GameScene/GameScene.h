@@ -82,6 +82,5 @@ private: //メンバ変数
 	//ゲームシーン用変数
 	float aimPosX;
 	float aimPosY;
-
 };
 
