@@ -278,7 +278,7 @@ void Object3d::Update()
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap0);
-	constMap0->mat = camera->MartixMix(matWorld);
+	constMap0->mat = matWorld * camera->GetMatView() * camera->GetMatProjection();
 	constBuffB0->Unmap(0, nullptr);
 
 	model->Update(model->GetMaterial());

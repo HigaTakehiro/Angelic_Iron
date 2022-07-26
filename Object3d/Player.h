@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "Vector3.h"
 #include "Camera.h"
+#include "DebugText.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -43,13 +44,13 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return playerPos; }
+	const XMFLOAT3 GetPlayerPos() { return mouseDirection; }
 
 	/// <summary>
 	/// 向き取得
 	/// </summary>
 	/// <returns>向き</returns>
-	const XMFLOAT3 GetPlayerRot() { return playerRot; }
+	const XMFLOAT3 GetPlayerRot() { return posFarMath; }
 
 private: //メンバ関数
 	/// <summary>
@@ -81,10 +82,13 @@ private: //メンバ変数
 	XMFLOAT2 aimPos;
 	Vector3 oldShotPos;
 	Vector3 targetAimPos;
-	Vector3 posNear;
-	Vector3 posFar;
+	XMVECTOR posNear;
+	XMVECTOR posFar;
+	Vector3 posNearMath;
+	Vector3 posFarMath;
 	XMMATRIX matVPV;
 	XMMATRIX matInverseVPV;
+	Vector3 mouseDirection;
 	Camera* camera;
 };
 

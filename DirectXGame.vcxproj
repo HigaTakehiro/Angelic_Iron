@@ -150,9 +150,9 @@
   <ItemGroup>
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXCommon.cpp" />
-    <ClCompile Include="Base\Matrix4.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Object3d\Enemy.cpp" />
     <ClCompile Include="FBX\FbxLoader.cpp" />
     <ClCompile Include="FBX\FBXModel.cpp" />
     <ClCompile Include="FBX\FBXObject3d.cpp" />
@@ -246,11 +246,11 @@
   <ItemGroup>
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXCommon.h" />
-    <ClInclude Include="Base\Matrix4.h" />
     <ClInclude Include="Base\SafeDelete.h" />
     <ClInclude Include="Base\Vector3.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Object3d\Enemy.h" />
     <ClInclude Include="FBX\FbxLoader.h" />
     <ClInclude Include="FBX\FBXModel.h" />
     <ClInclude Include="FBX\FBXObject3d.h" />

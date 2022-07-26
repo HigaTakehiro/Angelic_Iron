@@ -10,8 +10,8 @@ void Player::Initialize(Camera* camera) {
 
 	playerModel = Model::CreateModel("Player");
 	player = Object3d::Create(playerModel);
-	playerScale = { 5, 5, 5 };
-	playerPos = { 50, 0, 0 };
+	playerScale = { 2, 2, 2 };
+	playerPos = { 50, 0, -50 };
 	playerRot = { 0, 0, 0 };
 	player->SetScale(playerScale);
 	player->SetPosition(playerPos);
@@ -40,7 +40,8 @@ void Player::Update() {
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50.0f, MouseInput::GetIns()->GetMousePoint().y - 50.0f);
 
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) && !isShot) {
-		targetAimPos = Vector3(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 500.0f);
+		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
+		targetAimPos.normalize();
 		shotPos = playerPos;
 		oldShotPos = shotPos;
 		shot->SetPosition(shotPos);
@@ -66,10 +67,12 @@ void Player::ObjectDraw() {
 	if (isShot) {
 		shot->Draw();
 	}
+
 }
 
 void Player::Move() {
 	const float moveSpeed = 2.0f;
+	const float autoSpeed = 0.2;
 
 	if (KeyInput::GetIns()->PushKey(DIK_W)) {
 		playerPos.y += moveSpeed;
@@ -84,20 +87,35 @@ void Player::Move() {
 		playerPos.x += moveSpeed;
 	}
 
+	playerPos.z += autoSpeed;
+
 	player->SetPosition(playerPos);
 }
 
 void Player::Shot() {
 	const float shotSpeed = 3.0f;
-	const float windowOverX = -100.0f;
+	const float windowOverX_Left = -100.0f;
+	const float windowOverX_Right = 200.0f;
+	const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatView();
+	matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
+	matInverseVPV = XMMatrixInverse(nullptr, matVPV);
+	posNear = { WinApp::window_width, WinApp::window_height, 0 };
+	posFar = { WinApp::window_width, WinApp::window_height, 1 };
 
-	Vector3 direction = oldShotPos - targetAimPos;
-	direction.normalize();
+	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
+	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
 
-	shotPos -= direction * shotSpeed;
+	posNearMath = posNear;
+	posFarMath = posFar;
+
+	mouseDirection = posNear - posFar;
+	mouseDirection.normalize();
+
+	const float kDistanceTestObject = 50.0f;
+	shotPos += (posNearMath - mouseDirection) / kDistanceTestObject;
 	shot->SetPosition(shotPos);
 
-	if (shotPos.z >= 100.0f || shotPos.x <= windowOverX || shotPos.x >= WinApp::window_width) {
+	if (shotPos.z >=  playerPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
 		isShot = false;
 	}
 }

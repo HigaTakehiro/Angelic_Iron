@@ -14,6 +14,7 @@
 #include "MouseInput.h"
 #include "PadInput.h"
 #include "Player.h"
+#include "Enemy.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -66,8 +67,13 @@ private: //メンバ変数
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr;
+	Enemy* enemy = nullptr;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
+	Model* groundModel = nullptr;
+	Object3d* ground = nullptr;
+	Vector3 groundPos = { 0, 0, 0 };
+	Vector3 groundScale = { 1, 1, 1 };
 
 	//マップチップ用変数
 	int** map1_a = nullptr;

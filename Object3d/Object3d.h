@@ -125,6 +125,12 @@ public: // メンバ関数
 	//モデルのセット
 	void SetModel(Model* model) { this->model = model; }
 
+	/// <summary>
+	/// ワールド変換行列の取得
+	/// </summary>
+	/// <returns>ワールド変換行列</returns>
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色

@@ -10,8 +10,11 @@ GameScene::~GameScene() {
 	safe_delete(sprite);
 	player->Finalize();
 	safe_delete(player);
+	enemy->Finalize();
+	safe_delete(enemy);
 	safe_delete(map1_a);
 	safe_delete(map1_b);
+	safe_delete(ground);
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
@@ -41,8 +44,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
+	groundModel = Model::CreateModel("ground");
+	ground = Object3d::Create(groundModel);
+	groundPos = { 0, -50, 0 };
+	ground->SetPosition(groundPos);
+	groundScale = { 10, 10, 10 };
+	ground->SetScale(groundScale);
+
 	player = new Player();
 	player->Initialize(camera);
+
+	enemy = new Enemy();
+	enemy->Initialize();
 
 	//MapChipの初期化
 	mapchip = new MapChip;
@@ -98,14 +111,18 @@ void GameScene::Update() {
 		camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
 	}
 
+	camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
+
 	char xPos[256];
 	char yPos[256];
-	sprintf_s(xPos, "Xpoint : %d", MouseInput::GetIns()->GetMousePoint().x);
-	sprintf_s(yPos, "Ypoint : %d", MouseInput::GetIns()->GetMousePoint().y);
+	sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
+	sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 	debugText.Print(xPos, 100, 300, 2.0f);
 	debugText.Print(yPos, 100, 400, 2.0f);
 
+	ground->Update();
 	player->Update();
+	enemy->Update();
 	object1->Update();
 
 	for (auto object : objects) {
@@ -125,14 +142,17 @@ void GameScene::Draw() {
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(dxCommon->GetCmdList());
-	player->ObjectDraw();
+	ground->Draw();
+	
 	/*for (auto object : objects) {
 		object->Draw();
 	}
 	for (auto object : objects2) {
 		object->Draw();
-	}
-	object1->Draw(dxCommon->GetCmdList());*/
+	}*/
+	enemy->Draw();
+	player->ObjectDraw();
+	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)

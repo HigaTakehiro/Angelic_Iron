@@ -119,6 +119,12 @@ public: //メンバ関数
 	/// <returns></returns>
 	const bool& GetIsAnimation() { return isPlay; }
 
+	/// <summary>
+	/// ワールド変換行列の取得
+	/// </summary>
+	/// <returns>ワールド変換行列</returns>
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+
 protected: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBufferTransform;

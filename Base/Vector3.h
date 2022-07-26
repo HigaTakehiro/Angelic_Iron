@@ -19,6 +19,9 @@ public:
 		this->y = r.y;
 		this->z = r.z;
 	}
+	Vector3(const XMVECTOR &vec) : XMFLOAT3() {
+		XMStoreFloat3(this, vec);
+	}
 	
 	//2çÄââéZéq
 	Vector3 operator+=(const Vector3& v) {
@@ -32,6 +35,20 @@ public:
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
+		return *this;
+	}
+
+	Vector3 operator*=(const Vector3& v) {
+		x *= v.x;
+		y *= v.y;
+		z *= v.z;
+		return *this;
+	}
+
+	Vector3 operator/=(const Vector3& v) {
+		x /= v.x;
+		y /= v.y;
+		z /= v.z;
 		return *this;
 	}
 

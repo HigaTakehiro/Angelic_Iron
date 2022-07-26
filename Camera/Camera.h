@@ -62,8 +62,17 @@ public: //静的メンバ関数
 	static void CameraMoveVector(XMFLOAT3 move);
 	static void CameraMoveEyeVector(XMFLOAT3 move);
 
-public: //メンバ関数
-	XMMATRIX MartixMix(XMMATRIX matWorld) { return matWorld * matView * matProjection; }
+	/// <summary>
+	/// ビュー行列の取得
+	/// </summary>
+	/// <returns>ビュー行列</returns>
+	static const XMMATRIX& GetMatView() { return matView; }
+
+	/// <summary>
+	/// 射影行列の取得
+	/// </summary>
+	/// <returns>射影行列</returns>
+	static const XMMATRIX& GetMatProjection() { return matProjection; }
 
 private: //静的メンバ変数
 	// ビュー行列
