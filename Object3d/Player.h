@@ -44,13 +44,30 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return mouseDirection; }
+	const XMFLOAT3 GetPlayerPos() { return aimPos3d; }
 
 	/// <summary>
 	/// 向き取得
 	/// </summary>
 	/// <returns>向き</returns>
 	const XMFLOAT3 GetPlayerRot() { return posFarMath; }
+
+	/// <summary>
+	/// プレイヤーオブジェクトの取得
+	/// </summary>
+	/// <returns>プレイヤーオブジェクト</returns>
+	Object3d* GetPlayerObject() { return player; }
+
+	/// <summary>
+	/// 弾オブジェクトの取得
+	/// </summary>
+	/// <returns>弾オブジェクト</returns>
+	Object3d* GetShotObject() { return shot; }
+
+	/// <summary>
+	/// リセット処理
+	/// </summary>
+	void Reset();
 
 private: //メンバ関数
 	/// <summary>
@@ -75,6 +92,7 @@ private: //メンバ変数
 	Model* shotModel = nullptr;
 	Object3d* player = nullptr;
 	Object3d* shot = nullptr;
+	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
 
 	bool isShot = false;
@@ -86,9 +104,16 @@ private: //メンバ変数
 	XMVECTOR posFar;
 	Vector3 posNearMath;
 	Vector3 posFarMath;
-	XMMATRIX matVPV;
-	XMMATRIX matInverseVPV;
-	Vector3 mouseDirection;
+	XMVECTOR positionRaticle;
+	XMMATRIX matViewPort;
+	XMMATRIX matViewProjection;
+	XMFLOAT3 aimPosMath;
+
+	//XMMATRIX matVPV;
+	//XMMATRIX matInverseVPV;
+	//Vector3 mouseDirection;
+	XMVECTOR mouseDirection;
+	Vector3 aimPos3d;
 	Camera* camera;
 };
 

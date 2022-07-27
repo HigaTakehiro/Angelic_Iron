@@ -41,6 +41,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Sprite::LoadTexture(2, L"Resources/background.png");
 	background = Sprite::Create(2, { 0, 0 });
 
+	Sprite::LoadTexture(4, L"Resources/Title.png");
+	title = Sprite::Create(4, { 0, 0 });
+
+	Sprite::LoadTexture(5, L"Resources/Gameover.png");
+	gameover = Sprite::Create(5, { 0, 0 });
+
+	Sprite::LoadTexture(6, L"Resources/Clear.png");
+	clear = Sprite::Create(6, { 0, 0 });
+
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
@@ -77,6 +86,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	object1->SetScale({ 5.0f, 5.0f, 5.0f });
 	object1->PlayAnimation();
 
+	isDead = false;
+	isClear = false;
+	isTitle = true;
+	enemyDeadCount = 0;
+	for (int i = 0; i < 3; i++) {
+		isEnemyDead[i] = false;
+	}
+
+	
 }
 
 void GameScene::Update() {
@@ -85,51 +103,90 @@ void GameScene::Update() {
 	aimPosY = MouseInput::GetIns()->GetMousePoint().y;
 
 	//デバッグテキスト
-	if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::GetIns()->Button_A)) {
-		if (object1->GetIsAnimation() == true) {
-			object1->StopAnimation();
+	//if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::GetIns()->Button_A)) {
+	//	if (object1->GetIsAnimation() == true) {
+	//		object1->StopAnimation();
+	//	}
+	//	else {
+	//		object1->PlayAnimation();
+	//	}
+	//}
+
+	if (isTitle) {
+		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+			isTitle = false;
 		}
-		else {
-			object1->PlayAnimation();
+	}
+
+	if (!isTitle && !isClear && !isDead) {
+
+		if (input->PushKey(DIK_RIGHT)) {
+			camera->CameraMoveEyeVector({ +2.0f, 0.0f, 0.0f });
+		}
+		if (input->PushKey(DIK_LEFT)) {
+			camera->CameraMoveEyeVector({ -2.0f, 0.0f, 0.0f });
+		}
+		if (input->PushKey(DIK_UP)) {
+			camera->CameraMoveEyeVector({ 0.0f, 0.0f, +2.0f });
+		}
+		if (input->PushKey(DIK_DOWN)) {
+			camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
+		}
+
+		camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
+
+		char xPos[256];
+		char yPos[256];
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
+		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+		debugText.Print(xPos, 100, 300, 2.0f);
+		debugText.Print(yPos, 100, 400, 2.0f);
+
+		for (int i = 0; i < 3; i++) {
+			if (Collision::GetIns()->SphereCollision(player->GetShotObject(), enemy->GetEnemy(i))) {
+				isEnemyDead[i] = true;
+			}
+
+			if (Collision::GetIns()->SphereCollision(player->GetPlayerObject(), enemy->GetEnemy(i))) {
+				if (!isEnemyDead[i]) {
+					isDead = true;
+				}
+			}
+		}
+
+		if (player->GetPlayerObject()->GetPosition().z > enemy->GetEnemy(2)->GetPosition().z) {
+			isDead = true;
+		}
+
+		for (int i = 0; i < 3; i++) {
+			if (isEnemyDead[0] && isEnemyDead[1] && isEnemyDead[2]) {
+				isClear = true;
+			}
+		}
+
+		ground->Update();
+		player->Update();
+		enemy->Update();
+		object1->Update();
+
+		for (auto object : objects) {
+			object->Update();
+		}
+		for (auto object : objects2) {
+			object->Update();
 		}
 	}
 
-	if (MouseInput::GetIns()->PushClick(MouseInput::GetIns()->RIGHT_CLICK) || PadInput::GetIns()->PushCrossKey(PadInput::GetIns()->CrossKey_UpperLeft)) {
-		debugText.Print("Test", 100, 100, 10.0f);
+	if (isClear) {
+		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+			Reset();
+		}
 	}
 
-	if (input->PushKey(DIK_RIGHT)) {
-		camera->CameraMoveEyeVector({ +2.0f, 0.0f, 0.0f });
-	}
-	if (input->PushKey(DIK_LEFT)) {
-		camera->CameraMoveEyeVector({ -2.0f, 0.0f, 0.0f });
-	}
-	if (input->PushKey(DIK_UP)) {
-		camera->CameraMoveEyeVector({ 0.0f, 0.0f, +2.0f });
-	}
-	if (input->PushKey(DIK_DOWN)) {
-		camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
-	}
-
-	camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
-
-	char xPos[256];
-	char yPos[256];
-	sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
-	sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
-	debugText.Print(xPos, 100, 300, 2.0f);
-	debugText.Print(yPos, 100, 400, 2.0f);
-
-	ground->Update();
-	player->Update();
-	enemy->Update();
-	object1->Update();
-
-	for (auto object : objects) {
-		object->Update();
-	}
-	for (auto object : objects2) {
-		object->Update();
+	if (isDead) {
+		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+			Reset();
+		}
 	}
 }
 
@@ -150,15 +207,26 @@ void GameScene::Draw() {
 	for (auto object : objects2) {
 		object->Draw();
 	}*/
-	enemy->Draw();
-	player->ObjectDraw();
+	enemy->Draw(isEnemyDead);
+	if (!isDead) {
+		player->ObjectDraw();
+	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	player->SpriteDraw();
-	debugText.DrawAll(dxCommon->GetCmdList());
+	if (isTitle) {
+		title->Draw();
+	}
+	if (isDead) {
+		gameover->Draw();
+	}
+	if (isClear) {
+		clear->Draw();
+	}
+	//debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	// ４．描画コマンドここまで
@@ -175,4 +243,19 @@ void GameScene::Finalize() {
 	safe_delete(object1);
 	safe_delete(model1);
 	FbxLoader::GetInstance()->Finalize();
+}
+
+void GameScene::Reset() {
+	camera->SetEye(XMFLOAT3(50, 1, -100));
+	camera->SetTarget(XMFLOAT3(50, 0, 0));
+
+	player->Reset();
+
+	isDead = false;
+	isClear = false;
+	isTitle = true;
+	enemyDeadCount = 0;
+	for (int i = 0; i < 3; i++) {
+		isEnemyDead[i] = false;
+	}
 }

@@ -102,6 +102,12 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Object3d\Collision.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -214,6 +220,12 @@
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Object3d\Enemy.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d\Collision.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d\PlayerBullet.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>

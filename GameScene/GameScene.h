@@ -15,6 +15,7 @@
 #include "PadInput.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Collision.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -56,6 +57,13 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+private: //メンバ関数
+
+	/// <summary>
+	/// リセット処理
+	/// </summary>
+	void Reset();
+
 private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	KeyInput* input = nullptr;
@@ -70,6 +78,10 @@ private: //メンバ変数
 	Enemy* enemy = nullptr;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
+	Sprite* title = nullptr;
+	Sprite* gameover = nullptr;
+	Sprite* clear = nullptr;
+
 	Model* groundModel = nullptr;
 	Object3d* ground = nullptr;
 	Vector3 groundPos = { 0, 0, 0 };
@@ -88,5 +100,10 @@ private: //メンバ変数
 	//ゲームシーン用変数
 	float aimPosX;
 	float aimPosY;
+	int enemyDeadCount;
+	bool isDead;
+	bool isEnemyDead[3];
+	bool isTitle;
+	bool isClear;
 };
 

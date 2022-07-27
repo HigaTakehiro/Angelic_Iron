@@ -152,6 +152,7 @@
     <ClCompile Include="Base\DirectXCommon.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Object3d\Collision.cpp" />
     <ClCompile Include="Object3d\Enemy.cpp" />
     <ClCompile Include="FBX\FbxLoader.cpp" />
     <ClCompile Include="FBX\FBXModel.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Object3d\Model.cpp" />
     <ClCompile Include="Object3d\Object3d.cpp" />
     <ClCompile Include="Object3d\Player.cpp" />
+    <ClCompile Include="Object3d\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -250,6 +252,7 @@
     <ClInclude Include="Base\Vector3.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Object3d\Collision.h" />
     <ClInclude Include="Object3d\Enemy.h" />
     <ClInclude Include="FBX\FbxLoader.h" />
     <ClInclude Include="FBX\FBXModel.h" />
@@ -265,6 +268,7 @@
     <ClInclude Include="Object3d\Model.h" />
     <ClInclude Include="Object3d\Object3d.h" />
     <ClInclude Include="Object3d\Player.h" />
+    <ClInclude Include="Object3d\PlayerBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXGame.rc" />
