@@ -1,12 +1,43 @@
 #include "Enemy.h"
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <wrl.h>
+
+using namespace std;
 
 void Enemy::Initialize() {
 	enemyModel = Model::CreateModel("Enemy");
 	shotModel = Model::CreateModel("Block");
 
-	enemyPos[0] = { 30, 0, 50 };
-	enemyPos[1] = { 80, -10, 150 };
-	enemyPos[2] = { 20, 20, 300 };
+	//ファイルストリーム
+	ifstream file;
+
+	const string filename = "EnemySet.txt";
+	const string directory = "Resources/";
+	file.open(directory + filename);
+	if (file.fail()) {
+		assert(0);
+	}
+	string line;
+	while (getline(file, line)) {
+		istringstream line_stream(line);
+		string word;
+		//半角区切りで文字列を取得
+		getline(line_stream, word, ' ');
+		if (word == "Pos") {
+			Vector3 pos{};
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			line_stream >> pos.z;
+
+			enemyPos.push_back(pos);
+		}
+	}
+
+	file.close();
+
 	enemyRot = { 0, 180, 0 };
 	for (int i = 0; i < 3; i++) {
 		shotPos[i] = enemyPos[i];
@@ -42,6 +73,8 @@ void Enemy::Finalize() {
 	for (int i = 0; i < 3; i++) {
 		safe_delete(enemy[i]);
 	}
+	enemyPos.clear();
+	enemyPos.shrink_to_fit();
 }
 
 void Enemy::Shot() {

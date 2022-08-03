@@ -59,7 +59,7 @@ private: //メンバ関数
 private: //メンバ変数
 
 	//エネミーの位置
-	Vector3 enemyPos[3];
+	std::vector<Vector3> enemyPos;
 
 	//エネミーの向き
 	Vector3 enemyRot;

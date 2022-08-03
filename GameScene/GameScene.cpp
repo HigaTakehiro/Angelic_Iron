@@ -60,6 +60,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
+	celestialSphereModel = Model::CreateModel("CelestialSphere");
+	celetialSphere = Object3d::Create(celestialSphereModel);
+	celetialSphere->SetPosition(spherePos);
+	celetialSphere->SetScale(sphereScale);
+
 	player = new Player();
 	player->Initialize(camera);
 
@@ -164,6 +169,7 @@ void GameScene::Update() {
 			}
 		}
 
+		celetialSphere->Update();
 		ground->Update();
 		player->Update();
 		enemy->Update();
@@ -200,6 +206,7 @@ void GameScene::Draw() {
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(dxCommon->GetCmdList());
 	ground->Draw();
+	celetialSphere->Draw();
 	
 	/*for (auto object : objects) {
 		object->Draw();

@@ -82,10 +82,14 @@ private: //メンバ変数
 	Sprite* gameover = nullptr;
 	Sprite* clear = nullptr;
 
+	Model* celestialSphereModel = nullptr;
 	Model* groundModel = nullptr;
+	Object3d* celetialSphere = nullptr;
 	Object3d* ground = nullptr;
 	Vector3 groundPos = { 0, 0, 0 };
 	Vector3 groundScale = { 1, 1, 1 };
+	Vector3 spherePos = { 0, 0, 0 };
+	Vector3 sphereScale = { 10, 10, 10 };
 
 	//マップチップ用変数
 	int** map1_a = nullptr;
