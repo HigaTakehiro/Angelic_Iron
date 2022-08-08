@@ -272,14 +272,15 @@ void Object3d::Update()
 	// 親オブジェクトがあれば
 	if (parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
+		matWorld *= parent->GetMatWorld();
 	}
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap0);
-	constMap0->mat = matWorld * camera->GetMatView() * camera->GetMatProjection();
-	constBuffB0->Unmap(0, nullptr);
+	if (SUCCEEDED(constBuffB0->Map(0, nullptr, (void**)&constMap0))) {
+		constMap0->mat = matWorld * camera->GetMatView() * camera->GetMatProjection();
+		constBuffB0->Unmap(0, nullptr);
+	}
 
 	model->Update(model->GetMaterial());
 }

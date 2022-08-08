@@ -90,6 +90,10 @@ void Enemy::Finalize() {
 	}
 	enemyPos.clear();
 	enemyPos.shrink_to_fit();
+	enemyRot.clear();
+	enemyRot.shrink_to_fit();
+	enemyScale.clear();
+	enemyScale.shrink_to_fit();
 }
 
 void Enemy::Shot() {

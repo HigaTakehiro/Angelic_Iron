@@ -233,7 +233,7 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	//debugText.DrawAll(dxCommon->GetCmdList());
+	debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	// ４．描画コマンドここまで

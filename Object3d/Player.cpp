@@ -28,8 +28,9 @@ void Player::Initialize(Camera* camera) {
 
 	aim3d = Object3d::Create(shotModel);
 	aim3d->SetScale(shotScale);
-	aim3d->SetPosition(shotPos);
-	shot->SetRotation(shotRot);
+	aim3d->SetPosition(Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f));
+	aim3d->SetRotation(shotRot);
+	aim3d->SetParent(player);
 }
 
 void Player::Finalize() {
@@ -48,6 +49,7 @@ void Player::Update() {
 	matViewProjection = Camera::GetMatView() * Camera::GetMatProjection() * matViewPort;
 	positionRaticle = XMVector3TransformCoord(positionRaticle, matViewProjection);
 	aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
+	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
@@ -62,17 +64,17 @@ void Player::Update() {
 		Shot();
 	}
 
-	aimPos3d = Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f);
-	aim3d->SetPosition(aimPos3d);
+	/*aimPos3d = Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f);
+	aim3d->SetPosition(aimPos3d);*/
 
 	aim->SetPosition(aimPos);
 	player->Update();
-	shot->Update();
 	aim3d->Update();
+	shot->Update();
 }
 
 void Player::SpriteDraw() {
-	//aim->Draw();
+	aim->Draw();
 }
 
 void Player::ObjectDraw() {

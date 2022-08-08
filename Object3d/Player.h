@@ -44,7 +44,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// ˆÊ’uæ“¾
 	/// </summary>
 	/// <returns>ˆÊ’u</returns>
-	const XMFLOAT3 GetPlayerPos() { return aimPos3d; }
+	const XMFLOAT3 GetPlayerPos() { return aim3d->GetPosition(); }
 
 	/// <summary>
 	/// Œü‚«æ“¾
