@@ -34,19 +34,34 @@ void Enemy::Initialize() {
 
 			enemyPos.push_back(pos);
 		}
+		if (word == "Rot") {
+			Vector3 rot{};
+			line_stream >> rot.x;
+			line_stream >> rot.y;
+			line_stream >> rot.z;
+
+			enemyRot.push_back(rot);
+		}
+		if (word == "Scale") {
+			Vector3 scale{};
+			line_stream >> scale.x;
+			line_stream >> scale.y;
+			line_stream >> scale.z;
+
+			enemyScale.push_back(scale);
+		}
 	}
 
 	file.close();
 
-	enemyRot = { 0, 180, 0 };
 	for (int i = 0; i < 3; i++) {
 		shotPos[i] = enemyPos[i];
 		shotScale[i] = { 2, 2, 2 };
 
 		enemy[i] = Object3d::Create(enemyModel);
 		enemy[i]->SetPosition(enemyPos[i]);
-		enemy[i]->SetScale(enemyScale);
-		enemy[i]->SetRotation(enemyRot);
+		enemy[i]->SetScale(enemyScale[i]);
+		enemy[i]->SetRotation(enemyRot[i]);
 
 		shot[i] = Object3d::Create(shotModel);
 		shot[i]->SetPosition(shotPos[i]);

@@ -62,10 +62,10 @@ private: //メンバ変数
 	std::vector<Vector3> enemyPos;
 
 	//エネミーの向き
-	Vector3 enemyRot;
+	std::vector<Vector3> enemyRot;
 
 	//エネミーの大きさ
-	Vector3 enemyScale = { 5, 5, 5 };
+	std::vector<Vector3> enemyScale;
 
 	//弾の位置
 	Vector3 shotPos[3];
