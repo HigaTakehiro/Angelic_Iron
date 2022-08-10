@@ -28,7 +28,7 @@ void Player::Initialize(Camera* camera) {
 
 	aim3d = Object3d::Create(shotModel);
 	aim3d->SetScale(shotScale);
-	aim3d->SetPosition(Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f));
+	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(shotRot);
 	aim3d->SetParent(player);
 }
@@ -64,13 +64,13 @@ void Player::Update() {
 		Shot();
 	}
 
-	/*aimPos3d = Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f);
-	aim3d->SetPosition(aimPos3d);*/
+	//aimPos3d = Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f);
+	//aim3d->SetPosition(aimPos3d);
 
 	aim->SetPosition(aimPos);
-	player->Update();
 	aim3d->Update();
 	shot->Update();
+	player->Update();
 }
 
 void Player::SpriteDraw() {
