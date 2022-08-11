@@ -11,11 +11,12 @@ void Player::Initialize(Camera* camera) {
 	playerModel = Model::CreateModel("Player");
 	player = Object3d::Create(playerModel);
 	playerScale = { 2, 2, 2 };
-	playerPos = { 50, 0, -50 };
+	playerPos = { 0, 0, 20 };
 	playerRot = { 0, 0, 0 };
 	player->SetScale(playerScale);
 	player->SetPosition(playerPos);
 	player->SetRotation(playerRot);
+	player->SetCameraParent(camera);
 
 	shotModel = Model::CreateModel("Block");
 	shot = Object3d::Create(shotModel);
@@ -104,7 +105,7 @@ void Player::Move() {
 		playerPos.x += moveSpeed;
 	}
 
-	playerPos.z += autoSpeed;
+	//playerPos.z += autoSpeed;
 
 	player->SetPosition(playerPos);
 }

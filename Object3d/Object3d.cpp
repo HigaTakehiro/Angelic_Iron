@@ -274,6 +274,10 @@ void Object3d::Update()
 		matWorld *= parent->GetMatWorld();
 	}
 
+	if (cameraParent != nullptr) {
+		matWorld *= cameraParent->GetMatWorld();
+	}
+
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
 	if (SUCCEEDED(constBuffB0->Map(0, nullptr, (void**)&constMap0))) {

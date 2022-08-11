@@ -74,11 +74,19 @@ public: //静的メンバ関数
 	/// <returns>射影行列</returns>
 	static const XMMATRIX& GetMatProjection() { return matProjection; }
 
+	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	static const XMMATRIX& GetMatWorld() { return matWorld; }
+
 private: //静的メンバ変数
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
 	static XMMATRIX matProjection;
+	//ワールド行列
+	static XMMATRIX matWorld;
 	// 視点座標
 	static XMFLOAT3 eye;
 	// 注視点座標

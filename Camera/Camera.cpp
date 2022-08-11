@@ -4,6 +4,7 @@ using namespace DirectX;
 
 XMMATRIX Camera::matView{};
 XMMATRIX Camera::matProjection{};
+XMMATRIX Camera::matWorld{};
 XMFLOAT3 Camera::eye = { 0, 200.0f, -200.0f };
 XMFLOAT3 Camera::target = { 0, 0, 0 };
 XMFLOAT3 Camera::up = { 0, 1, 0 };
@@ -22,11 +23,15 @@ void Camera::InitializeCamera(int window_width, int window_height)
 		(float)window_width / window_height,
 		0.1f, 10000.0f
 	);
+
+	//ÉèÅ[ÉãÉhçsóÒÇÃê∂ê¨
+	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
 }
 
 void Camera::SetEye(XMFLOAT3 eye)
 {
 	Camera::eye = eye;
+	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
 
 	UpdateViewMatrix();
 }
