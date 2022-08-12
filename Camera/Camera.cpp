@@ -31,9 +31,10 @@ void Camera::InitializeCamera(int window_width, int window_height)
 void Camera::SetEye(XMFLOAT3 eye)
 {
 	Camera::eye = eye;
-	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
 
 	UpdateViewMatrix();
+
+	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
 }
 
 void Camera::SetTarget(XMFLOAT3 target)

@@ -14,7 +14,7 @@ void Enemy::Initialize() {
 	//ファイルストリーム
 	ifstream file;
 
-	const string filename = "EnemySet.txt";
+	const string filename = "EnemySet.aid";
 	const string directory = "Resources/";
 	file.open(directory + filename);
 	if (file.fail()) {

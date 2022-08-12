@@ -11,10 +11,10 @@ void Player::Initialize(Camera* camera) {
 	playerModel = Model::CreateModel("Player");
 	player = Object3d::Create(playerModel);
 	playerScale = { 2, 2, 2 };
-	playerPos = { 0, 0, 20 };
+	playerLPos = { 0, 0, 50 };
 	playerRot = { 0, 0, 0 };
 	player->SetScale(playerScale);
-	player->SetPosition(playerPos);
+	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
 
@@ -52,10 +52,12 @@ void Player::Update() {
 	aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
 
+	//playerWPos = ;
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
 		targetAimPos.normalize();
-		shotPos = playerPos;
+		shotPos = playerWPos;
 		oldShotPos = shotPos;
 		shot->SetPosition(shotPos);
 		isShot = true;
@@ -93,21 +95,22 @@ void Player::Move() {
 	const float autoSpeed = 0.2;
 
 	if (KeyInput::GetIns()->PushKey(DIK_W)) {
-		playerPos.y += moveSpeed;
+		playerLPos.y += moveSpeed;
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_S)) {
-		playerPos.y -= moveSpeed;
+		playerLPos.y -= moveSpeed;
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_A)) {
-		playerPos.x -= moveSpeed;
+		playerLPos.x -= moveSpeed;
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_D)) {
-		playerPos.x += moveSpeed;
+		playerLPos.x += moveSpeed;
 	}
 
 	//playerPos.z += autoSpeed;
+	//playerWPos = playerLPos * player->GetMatWorld().r->m128_f32[3];
 
-	player->SetPosition(playerPos);
+	player->SetPosition(playerLPos);
 }
 
 void Player::Shot() {
@@ -140,19 +143,19 @@ void Player::Shot() {
 	shotPos.z += shotSpeed;
 	shot->SetPosition(shotPos);
 
-	if (shotPos.z >= playerPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
+	if (shotPos.z >= playerLPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
 		isShot = false;
 	}
 }
 
 void Player::Reset() {
 	playerScale = { 2, 2, 2 };
-	playerPos = { 50, 0, -50 };
+	playerLPos = { 0, 0, 50 };
 	playerRot = { 0, 0, 0 };
 	shotScale = { 2, 2, 2 };
 	shotPos = { 50, 0, 0 };
 	shotRot = { 0, 0, 0 };
 
-	player->SetPosition(playerPos);
-	shot->SetPosition(playerPos);
+	player->SetPosition(playerLPos);
+	shot->SetPosition(playerLPos);
 }

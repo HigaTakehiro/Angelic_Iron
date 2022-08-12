@@ -81,7 +81,8 @@ private: //ƒƒ“ƒoŠÖ”
 	void Shot();
 
 private: //ƒƒ“ƒo•Ï”
-	Vector3 playerPos = { 0, 0, 0 };
+	Vector3 playerLPos = { 0, 0, 0 };
+	Vector3 playerWPos = { 0, 0, 0 };
 	Vector3 playerRot = { 0, 0, 0 };
 	Vector3 playerScale = { 0, 0, 0 };
 	Vector3 shotPos = { 0, 0, 0 };
