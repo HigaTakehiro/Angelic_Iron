@@ -32,6 +32,11 @@ public: //静的メンバ関数
 	static void UpdateViewMatrix();
 
 	/// <summary>
+	/// ワールド行列の更新
+	/// </summary>
+	static void UpdateWorldMatrix();
+
+	/// <summary>
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>

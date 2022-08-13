@@ -52,7 +52,7 @@ void Player::Update() {
 	aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
 
-	//playerWPos = ;
+	playerWPos = player->GetMatWorld().r[3];
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
@@ -143,7 +143,7 @@ void Player::Shot() {
 	shotPos.z += shotSpeed;
 	shot->SetPosition(shotPos);
 
-	if (shotPos.z >= playerLPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
+	if (shotPos.z >= playerWPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
 		isShot = false;
 	}
 }
@@ -157,5 +157,5 @@ void Player::Reset() {
 	shotRot = { 0, 0, 0 };
 
 	player->SetPosition(playerLPos);
-	shot->SetPosition(playerLPos);
+	shot->SetPosition(playerWPos);
 }

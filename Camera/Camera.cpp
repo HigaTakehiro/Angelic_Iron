@@ -34,7 +34,7 @@ void Camera::SetEye(XMFLOAT3 eye)
 
 	UpdateViewMatrix();
 
-	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
+	UpdateWorldMatrix();
 }
 
 void Camera::SetTarget(XMFLOAT3 target)
@@ -76,4 +76,10 @@ void Camera::UpdateViewMatrix()
 {
 	// ビュー行列の更新
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+}
+
+void Camera::UpdateWorldMatrix()
+{
+	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
+
 }
