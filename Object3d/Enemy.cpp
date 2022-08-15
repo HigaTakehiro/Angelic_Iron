@@ -7,9 +7,10 @@
 
 using namespace std;
 
-void Enemy::Initialize() {
+void Enemy::Initialize(Player* player) {
 	enemyModel = Model::CreateModel("Enemy");
 	shotModel = Model::CreateModel("Block");
+	this->player = player;
 
 	//ファイルストリーム
 	ifstream file;
@@ -72,6 +73,12 @@ void Enemy::Initialize() {
 
 void Enemy::Update() {
 	for (int i = 0; i < 3; i++) {
+		//if (!isShotRange[i]) {
+		//	shotPos[i] = enemy[i]->GetPosition();
+		//	isShotRange[i] = ShotRangeJudge(player->GetPlayerObject());
+		//	oldPlayerPos = player->GetPlayerPos();
+		//}
+		//Shot();
 		enemy[i]->Update();
 	}
 }
@@ -97,13 +104,24 @@ void Enemy::Finalize() {
 }
 
 void Enemy::Shot() {
+	const float shotSpeed = 2.0f;
 
+	for (int i = 0; i < 3; i++) {
+		if (isShotRange[i]) {
+			Vector3 direction = enemyPos[i] - oldPlayerPos;
+			direction.normalize();
+			shotPos[i] += direction * shotSpeed;
+		}
+		if (shotPos[i].z < player->GetPlayerPos().z) {
+			isShotRange[i] = false;
+		}
+	}
 }
 
-//bool Enemy::ShotRangeJudge(Object3d* player) {
-//	for (int i = 0; i < 3; i++) {
-//		if (enemyPos[i].z > player->GetPosition().z) return true;
-//	}
-//	
-//	return false;
-//}
+bool Enemy::ShotRangeJudge(Object3d* player) {
+	for (int i = 0; i < 3; i++) {
+		if (enemyPos[i].z > player->GetPosition().z) return true;
+	}
+	
+	return false;
+}

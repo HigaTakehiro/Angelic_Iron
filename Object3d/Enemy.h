@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Vector3.h"
 #include "SafeDelete.h"
+#include "Player.h"
 
 class Enemy
 {
@@ -11,7 +12,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Player* player);
 
 	/// <summary>
 	/// 更新処理
@@ -80,8 +81,10 @@ private: //メンバ変数
 	//3dオブジェクト
 	Object3d* enemy[3];
 	Object3d* shot[3];
+	Player* player;
 
 	//ゲームに使用する変数
 	bool isShotRange[3];
+	Vector3 oldPlayerPos;
 };
 

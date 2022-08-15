@@ -8,6 +8,7 @@
 #include "Vector3.h"
 #include "Camera.h"
 #include "DebugText.h"
+#include "WinApp.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -44,7 +45,7 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return aim3d->GetPosition(); }
+	const XMFLOAT3 GetPlayerPos() { return aimPos3d; }
 
 	/// <summary>
 	/// 向き取得
@@ -79,6 +80,11 @@ private: //メンバ関数
 	/// 通常攻撃処理
 	/// </summary>
 	void Shot();
+
+	/// <summary>
+	/// 3dレティクル更新処理
+	/// </summary>
+	void AimUpdate();
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };

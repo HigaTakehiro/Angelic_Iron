@@ -29,7 +29,7 @@ void Player::Initialize(Camera* camera) {
 
 	aim3d = Object3d::Create(shotModel);
 	aim3d->SetScale(shotScale);
-	aim3d->SetPosition(Vector3(0, 0, 50));
+	aim3d->SetPosition(Vector3(0, 0, 200));
 	aim3d->SetRotation(shotRot);
 	aim3d->SetParent(player);
 }
@@ -45,14 +45,16 @@ void Player::Finalize() {
 
 void Player::Update() {
 	Move();
-	positionRaticle = XMLoadFloat3(&aimPos3d);
-	matViewPort = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
-	matViewProjection = Camera::GetMatView() * Camera::GetMatProjection() * matViewPort;
-	positionRaticle = XMVector3TransformCoord(positionRaticle, matViewProjection);
-	aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
+	//positionRaticle = XMLoadFloat3(&aimPos3d);
+	//matViewPort = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
+	//matViewProjection = Camera::GetMatView() * Camera::GetMatProjection() * matViewPort;
+	//positionRaticle = XMVector3TransformCoord(positionRaticle, matViewProjection);
+	//aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
 
 	playerWPos = player->GetMatWorld().r[3];
+
+	AimUpdate();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
@@ -67,8 +69,7 @@ void Player::Update() {
 		Shot();
 	}
 
-	//aimPos3d = Vector3(playerPos.x, playerPos.y, playerPos.z + 50.0f);
-	//aim3d->SetPosition(aimPos3d);
+	//aim3d->SetPosition(Vector3(aimPos.x, aimPos.y, 50));
 
 	aim->SetPosition(aimPos);
 	aim3d->Update();
@@ -117,27 +118,27 @@ void Player::Shot() {
 	const float shotSpeed = 3.0f;
 	const float windowOverX_Left = -100.0f;
 	const float windowOverX_Right = 200.0f;
-	/*const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
-	matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
-	matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	posNear = { aimPos.x, aimPos.y, 0 };
-	posFar = { aimPos.x, aimPos.y, 1 };
+	//const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
+	//matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
+	//matInverseVPV = XMMatrixInverse(nullptr, matVPV);
+	//posNear = { aimPos.x, aimPos.y, 0 };
+	//posFar = { aimPos.x, aimPos.y, 1 };
 
-	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
-	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
+	//posNear = XMVector3TransformCoord(posNear, matInverseVPV);
+	//posFar = XMVector3TransformCoord(posFar, matInverseVPV);
 
-	posNearMath = posNear;
-	posFarMath = posFar;
+	//posNearMath = posNear;
+	//posFarMath = posFar;
 
-	mouseDirection = posNear - posFar;
-	mouseDirection = XMVector3Normalize(mouseDirection);
+	//mouseDirection = posNear - posFar;
+	//mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 50.0f;
-	aimPos3d.x = ((mouseDirection.m128_f32[0] * mouseDirection.m128_f32[0]) * (posNear.m128_f32[0] * posNear.m128_f32[0])) - kDistanceTestObject;
-	aimPos3d.y = ((mouseDirection.m128_f32[1] * mouseDirection.m128_f32[1]) * (posNear.m128_f32[1] * posNear.m128_f32[1])) - kDistanceTestObject;
-	aimPos3d.z = ((mouseDirection.m128_f32[2] * mouseDirection.m128_f32[2]) * (posNear.m128_f32[2] * posNear.m128_f32[2])) + kDistanceTestObject;
+	//const float kDistanceTestObject = 50.0f;
+	//aimPos3d.x = ((mouseDirection.m128_f32[0] * mouseDirection.m128_f32[0]) * (posNear.m128_f32[0] * posNear.m128_f32[0])) - kDistanceTestObject;
+	//aimPos3d.y = ((mouseDirection.m128_f32[1] * mouseDirection.m128_f32[1]) * (posNear.m128_f32[1] * posNear.m128_f32[1])) - kDistanceTestObject;
+	//aimPos3d.z = ((mouseDirection.m128_f32[2] * mouseDirection.m128_f32[2]) * (posNear.m128_f32[2] * posNear.m128_f32[2])) + kDistanceTestObject;
 
-	aim3d->SetPosition(aimPos3d);*/
+	//aim3d->SetPosition(aimPos3d);
 	//shot->SetPosition(shotPos);
 
 	shotPos.z += shotSpeed;
@@ -158,4 +159,24 @@ void Player::Reset() {
 
 	player->SetPosition(playerLPos);
 	shot->SetPosition(playerWPos);
+}
+
+void Player::AimUpdate() {
+	const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
+	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
+	posNear = { aimPos.x, aimPos.y, 0 };
+	posFar = { aimPos.x, aimPos.y, 1 };
+
+	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
+	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
+
+	mouseDirection = posFar - posNear;
+	mouseDirection = XMVector3Normalize(mouseDirection);
+
+	const float kDistanceTestObject = 50.0f;
+	aimPos3d = (mouseDirection * mouseDirection) + (posNear * posNear);
+	aimPos3d.z = kDistanceTestObject;
+
+	aim3d->SetPosition(aimPos3d);
 }

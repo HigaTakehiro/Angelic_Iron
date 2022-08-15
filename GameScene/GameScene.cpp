@@ -69,7 +69,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	player->Initialize(camera);
 
 	enemy = new Enemy();
-	enemy->Initialize();
+	enemy->Initialize(player);
 
 	//MapChip‚Ì‰Šú‰»
 	mapchip = new MapChip;
