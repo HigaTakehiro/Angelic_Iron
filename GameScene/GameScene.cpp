@@ -144,8 +144,8 @@ void GameScene::Update() {
 		char yPos[256];
 		sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
-		debugText.Print(xPos, 100, 300, 2.0f);
-		debugText.Print(yPos, 100, 400, 2.0f);
+		debugText.Print(xPos, 0, 0, 2.0f);
+		debugText.Print(yPos, 0, 50, 2.0f);
 
 		for (int i = 0; i < 3; i++) {
 			if (Collision::GetIns()->SphereCollision(player->GetShotObject(), enemy->GetEnemy(i))) {
