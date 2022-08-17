@@ -162,7 +162,7 @@ void Player::Reset() {
 }
 
 void Player::AimUpdate() {
-	const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
+	XMMATRIX matViewport = Camera::GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
 	posNear = { aimPos.x, aimPos.y, 0 };
@@ -175,7 +175,7 @@ void Player::AimUpdate() {
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 50.0f;
-	aimPos3d = (mouseDirection * mouseDirection) + (posNear * posNear);
+	aimPos3d = mouseDirection * -posNear;
 	aimPos3d.z = kDistanceTestObject;
 
 	aim3d->SetPosition(aimPos3d);
