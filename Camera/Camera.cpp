@@ -42,6 +42,8 @@ void Camera::SetTarget(XMFLOAT3 target)
 	Camera::target = target;
 
 	UpdateViewMatrix();
+
+	UpdateWorldMatrix();
 }
 
 void Camera::CameraMoveVector(XMFLOAT3 move)
@@ -80,6 +82,20 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateWorldMatrix()
 {
+	XMVECTOR crossDot;
+	XMFLOAT3 rotate;
+	XMMATRIX matRot;
+
+	crossDot = XMVector3Cross(XMLoadFloat3(&eye), XMLoadFloat3(&target));
+	rotate.x = crossDot.m128_f32[0];
+	rotate.y = crossDot.m128_f32[1];
+	rotate.z = crossDot.m128_f32[2];
+	matRot = XMMatrixIdentity();
+	matRot = XMMatrixRotationZ(XMConvertToRadians(rotate.z));
+	matRot = XMMatrixRotationX(XMConvertToRadians(rotate.x));
+	matRot = XMMatrixRotationY(XMConvertToRadians(rotate.y));
+
 	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
+	matWorld *= matRot;
 
 }

@@ -98,5 +98,6 @@ private: //静的メンバ変数
 	static XMFLOAT3 target;
 	// 上方向ベクトル
 	static XMFLOAT3 up;
+	//
 };
 
