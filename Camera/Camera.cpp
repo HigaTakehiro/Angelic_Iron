@@ -82,20 +82,22 @@ void Camera::UpdateViewMatrix()
 
 void Camera::UpdateWorldMatrix()
 {
-	XMVECTOR crossDot;
-	XMFLOAT3 rotate;
-	XMMATRIX matRot;
+	float xRot, yRot, zRot;
+	XMFLOAT3 distance;
+	XMMATRIX matRot, matTrans;
 
-	crossDot = XMVector3Cross(XMLoadFloat3(&eye), XMLoadFloat3(&target));
-	rotate.x = crossDot.m128_f32[0];
-	rotate.y = crossDot.m128_f32[1];
-	rotate.z = crossDot.m128_f32[2];
+	distance = XMFLOAT3(eye.x - target.x, eye.y - target.y, eye.z - target.z);
+	xRot = (atan2(distance.y, distance.z) * 180.0f / 3.14f);
+	yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
+	zRot = (atan2(distance.y, distance.x) * 180.0f / 3.14f);
 	matRot = XMMatrixIdentity();
-	matRot = XMMatrixRotationZ(XMConvertToRadians(rotate.z));
-	matRot = XMMatrixRotationX(XMConvertToRadians(rotate.x));
-	matRot = XMMatrixRotationY(XMConvertToRadians(rotate.y));
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(zRot));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(xRot));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(yRot));
+	matTrans = XMMatrixTranslation(eye.x, eye.y, eye.z);
 
-	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
+	matWorld = XMMatrixIdentity();
 	matWorld *= matRot;
+	matWorld *= matTrans;
 
 }
