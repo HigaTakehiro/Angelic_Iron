@@ -66,6 +66,7 @@ public: //静的メンバ関数
 	/// <param name="move">移動量</param>
 	static void CameraMoveVector(XMFLOAT3 move);
 	static void CameraMoveEyeVector(XMFLOAT3 move);
+	static void CameraMoveTargetVector(XMFLOAT3 move);
 
 	/// <summary>
 	/// ビュー行列の取得
@@ -85,6 +86,12 @@ public: //静的メンバ関数
 	/// <returns>ワールド行列</returns>
 	static const XMMATRIX& GetMatWorld() { return matWorld; }
 
+	/// <summary>
+	/// ビューポート行列の取得
+	/// </summary>
+	/// <returns>ビューポート行列</returns>
+	static const XMMATRIX& GetMatViewPort() { return matViewPort; }
+
 private: //静的メンバ変数
 	// ビュー行列
 	static XMMATRIX matView;
@@ -98,6 +105,7 @@ private: //静的メンバ変数
 	static XMFLOAT3 target;
 	// 上方向ベクトル
 	static XMFLOAT3 up;
-	//
+	//ビューポート行列
+	static XMMATRIX matViewPort;
 };
 

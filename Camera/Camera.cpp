@@ -5,6 +5,7 @@ using namespace DirectX;
 XMMATRIX Camera::matView{};
 XMMATRIX Camera::matProjection{};
 XMMATRIX Camera::matWorld{};
+XMMATRIX Camera::matViewPort{};
 XMFLOAT3 Camera::eye = { 0, 200.0f, -200.0f };
 XMFLOAT3 Camera::target = { 0, 0, 0 };
 XMFLOAT3 Camera::up = { 0, 1, 0 };
@@ -26,6 +27,15 @@ void Camera::InitializeCamera(int window_width, int window_height)
 
 	//ワールド行列の生成
 	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
+
+	//ビューポート行列の生成
+	matViewPort.r[0].m128_f32[0] = window_width / 2;
+	matViewPort.r[1].m128_f32[1] = -window_height / 2;
+	matViewPort.r[2].m128_f32[2] = 1;
+	matViewPort.r[3].m128_f32[0] = window_width / 2;
+	matViewPort.r[3].m128_f32[1] = window_height / 2;
+	matViewPort.r[3].m128_f32[3] = 1;
+
 }
 
 void Camera::SetEye(XMFLOAT3 eye)
@@ -72,6 +82,16 @@ void Camera::CameraMoveEyeVector(XMFLOAT3 move)
 	eye_moved.z += move.z;
 
 	SetEye(eye_moved);
+}
+
+void Camera::CameraMoveTargetVector(XMFLOAT3 move) {
+	XMFLOAT3  target_moved = GetTarget();
+
+	target_moved.x += move.x;
+	target_moved.y += move.y;
+	target_moved.z += move.z;
+
+	SetTarget(target_moved);
 }
 
 void Camera::UpdateViewMatrix()
