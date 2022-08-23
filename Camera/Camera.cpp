@@ -29,13 +29,13 @@ void Camera::InitializeCamera(int window_width, int window_height)
 	matWorld = XMMatrixTranslation(eye.x, eye.y, eye.z);
 
 	//ビューポート行列の生成
-	matViewPort.r[0].m128_f32[0] = window_width / 2;
-	matViewPort.r[1].m128_f32[1] = -window_height / 2;
-	matViewPort.r[2].m128_f32[2] = 1;
-	matViewPort.r[3].m128_f32[0] = window_width / 2;
-	matViewPort.r[3].m128_f32[1] = window_height / 2;
-	matViewPort.r[3].m128_f32[3] = 1;
-
+	matViewPort = XMMatrixIdentity();
+	matViewPort.r[0].m128_f32[0] = (float)window_width / 2.0f;
+	matViewPort.r[1].m128_f32[1] = -1.0f * (float)(window_height / 2.0f);
+	matViewPort.r[2].m128_f32[2] = 1.0f;
+	matViewPort.r[3].m128_f32[0] = (float)window_width / 2.0f;
+	matViewPort.r[3].m128_f32[1] = (float)window_height / 2.0f;
+	matViewPort.r[3].m128_f32[3] = 1.0f;
 }
 
 void Camera::SetEye(XMFLOAT3 eye)
@@ -107,9 +107,9 @@ void Camera::UpdateWorldMatrix()
 	XMMATRIX matRot, matTrans;
 
 	distance = XMFLOAT3(eye.x - target.x, eye.y - target.y, eye.z - target.z);
-	xRot = (atan2(distance.y, distance.z) * 180.0f / 3.14f);
+	xRot = 0.0f;
 	yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
-	zRot = (atan2(distance.y, distance.x) * 180.0f / 3.14f);
+	zRot = 0.0f;
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(XMConvertToRadians(zRot));
 	matRot *= XMMatrixRotationX(XMConvertToRadians(xRot));

@@ -11,8 +11,8 @@ void Player::Initialize(Camera* camera) {
 	playerModel = Model::CreateModel("Player");
 	player = Object3d::Create(playerModel);
 	playerScale = { 2, 2, 2 };
-	playerLPos = { 0, 0, 50 };
-	playerRot = { 0, 0, 0 };
+	playerLPos = { 0, 0, -50 };
+	playerRot = { 0, 180, 0 };
 	player->SetScale(playerScale);
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
@@ -29,9 +29,9 @@ void Player::Initialize(Camera* camera) {
 
 	aim3d = Object3d::Create(shotModel);
 	aim3d->SetScale(shotScale);
-	aim3d->SetPosition(Vector3(0, 0, 200));
+	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(shotRot);
-	//aim3d->SetParent(player);
+	aim3d->SetParent(player);
 }
 
 void Player::Finalize() {
@@ -54,7 +54,7 @@ void Player::Update() {
 
 	playerWPos = player->GetMatWorld().r[3];
 
-	AimUpdate();
+	//AimUpdate();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
@@ -69,6 +69,7 @@ void Player::Update() {
 		Shot();
 	}
 
+	playerLPos.z = -50.0f;
 	//aim3d->SetPosition(Vector3(aimPos.x, aimPos.y, 50));
 
 	aim->SetPosition(aimPos);
@@ -164,8 +165,8 @@ void Player::Reset() {
 void Player::AimUpdate() {
  	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	posNear = { aimPos.x, aimPos.y, 0 };
-	posFar = { aimPos.x, aimPos.y, 1 };
+	posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
+	posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
 
 	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
 	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
@@ -174,8 +175,8 @@ void Player::AimUpdate() {
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 50.0f;
-	aimPos3d = mouseDirection * posNear;
-	//aimPos3d.z = kDistanceTestObject;
+	aimPos3d = (mouseDirection - posNear);
+	aimPos3d.z = kDistanceTestObject;
 
 	aim3d->SetPosition(aimPos3d);
 }

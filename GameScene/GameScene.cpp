@@ -137,6 +137,12 @@ void GameScene::Update() {
 		if (input->PushKey(DIK_DOWN)) {
 			camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
 		}
+		if (input->PushKey(DIK_Q)) {
+			camera->CameraMoveEyeVector({ 0.0f, +2.0f, 0.0f });
+		}
+		if (input->PushKey(DIK_E)) {
+			camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
+		}
 
 		camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
