@@ -54,7 +54,7 @@ void Player::Update() {
 
 	playerWPos = player->GetMatWorld().r[3];
 
-	//AimUpdate();
+	AimUpdate();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && !isShot) {
 		targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
@@ -165,18 +165,36 @@ void Player::Reset() {
 void Player::AimUpdate() {
  	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
-	posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
+	posNear = { (float)1280, (float)720, 0 };
+	posFar = { (float)1280, (float)720, 1 };
 
-	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
-	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
+	posNear = Wdivided(posNear, matInverseVPV);
+	posFar = Wdivided(posFar, matInverseVPV);
 
 	mouseDirection = posFar - posNear;
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 50.0f;
-	aimPos3d = (mouseDirection - posNear);
-	aimPos3d.z = kDistanceTestObject;
+	aimPos3d = (posNear - mouseDirection) / kDistanceTestObject;
 
 	aim3d->SetPosition(aimPos3d);
+}
+
+XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
+	float x, y, z, w;
+	float zMem;
+
+	x = (mat.r[0].m128_f32[0] * vec.m128_f32[0]) + (mat.r[1].m128_f32[0] * vec.m128_f32[0]) + (mat.r[2].m128_f32[0] * vec.m128_f32[0]) + (1.0 * vec.m128_f32[0]);
+	y = (mat.r[0].m128_f32[1] * vec.m128_f32[1]) + (mat.r[1].m128_f32[1] * vec.m128_f32[1]) + (mat.r[2].m128_f32[1] * vec.m128_f32[1]) + (1.0 * vec.m128_f32[1]);
+	z = (mat.r[0].m128_f32[2] * vec.m128_f32[2]) + (mat.r[1].m128_f32[2] * vec.m128_f32[2]) + (mat.r[2].m128_f32[2] * vec.m128_f32[2]) + (1.0 * vec.m128_f32[2]);
+	w = 1.0f;
+
+	zMem = z;
+	
+	x = x / w;
+	y = y / w;
+	z = z / w;
+	w = zMem;
+
+	return XMVECTOR{ x, y, z, w };
 }

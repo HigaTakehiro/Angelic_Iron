@@ -86,6 +86,14 @@ private: //メンバ関数
 	/// </summary>
 	void AimUpdate();
 
+	/// <summary>
+	/// 座標に行列を掛けて最後にw除算する
+	/// </summary>
+	/// <param name="vec">座標</param>
+	/// <param name="mat">行列</param>
+	/// <returns>計算結果</returns>
+	XMVECTOR Wdivided(XMVECTOR vec, XMMATRIX mat);
+
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
 	Vector3 playerWPos = { 0, 0, 0 };
