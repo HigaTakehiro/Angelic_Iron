@@ -51,7 +51,7 @@ public: //メンバ関数
 	/// 向き取得
 	/// </summary>
 	/// <returns>向き</returns>
-	const XMFLOAT3 GetPlayerRot() { return posFarMath; }
+	//const XMFLOAT3 GetPlayerRot() { return  }
 
 	/// <summary>
 	/// プレイヤーオブジェクトの取得
@@ -115,19 +115,11 @@ private: //メンバ変数
 	XMFLOAT2 aimPos;
 	Vector3 oldShotPos;
 	Vector3 targetAimPos;
-	XMVECTOR posNear;
-	XMVECTOR posFar;
-	Vector3 posNearMath;
-	Vector3 posFarMath;
 	XMVECTOR positionRaticle;
 	XMMATRIX matViewPort;
 	XMMATRIX matViewProjection;
 	XMFLOAT3 aimPosMath;
 
-	//XMMATRIX matVPV;
-	//XMMATRIX matInverseVPV;
-	//Vector3 mouseDirection;
-	XMVECTOR mouseDirection;
 	Vector3 aimPos3d;
 	Camera* camera;
 };

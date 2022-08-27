@@ -31,7 +31,7 @@ void Player::Initialize(Camera* camera) {
 	aim3d->SetScale(shotScale);
 	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(shotRot);
-	aim3d->SetParent(player);
+	//aim3d->SetParent(player);
 }
 
 void Player::Finalize() {
@@ -163,38 +163,44 @@ void Player::Reset() {
 }
 
 void Player::AimUpdate() {
- 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+
+	const float kDistancePlayerTo3DRaticle = 50.0f;
+	XMVECTOR offset = { 0, 0, 1.0f };
+	offset = Wdivided(offset, player->GetMatWorld());
+	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
+
+ 	/*XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	posNear = { (float)1280, (float)720, 0 };
-	posFar = { (float)1280, (float)720, 1 };
+	XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0, 1 };
+	XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1, 1 };
 
 	posNear = Wdivided(posNear, matInverseVPV);
 	posFar = Wdivided(posFar, matInverseVPV);
 
-	mouseDirection = posFar - posNear;
+	XMVECTOR mouseDirection = posFar - posNear;
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 50.0f;
-	aimPos3d = (posNear - mouseDirection) / kDistanceTestObject;
+	aimPos3d = (posNear - mouseDirection) * kDistanceTestObject;*/
+	aimPos3d.x = offset.m128_f32[0] * playerWPos.x;
+	aimPos3d.y = offset.m128_f32[1] * playerWPos.y;
+	aimPos3d.z = offset.m128_f32[2] * playerWPos.z;
 
 	aim3d->SetPosition(aimPos3d);
 }
 
 XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
 	float x, y, z, w;
-	float zMem;
 
-	x = (mat.r[0].m128_f32[0] * vec.m128_f32[0]) + (mat.r[1].m128_f32[0] * vec.m128_f32[0]) + (mat.r[2].m128_f32[0] * vec.m128_f32[0]) + (1.0 * vec.m128_f32[0]);
-	y = (mat.r[0].m128_f32[1] * vec.m128_f32[1]) + (mat.r[1].m128_f32[1] * vec.m128_f32[1]) + (mat.r[2].m128_f32[1] * vec.m128_f32[1]) + (1.0 * vec.m128_f32[1]);
-	z = (mat.r[0].m128_f32[2] * vec.m128_f32[2]) + (mat.r[1].m128_f32[2] * vec.m128_f32[2]) + (mat.r[2].m128_f32[2] * vec.m128_f32[2]) + (1.0 * vec.m128_f32[2]);
+	x = (vec.m128_f32[0] * mat.r[0].m128_f32[0]) + (vec.m128_f32[1] * mat.r[1].m128_f32[0]) + (vec.m128_f32[2] * mat.r[2].m128_f32[0]) + (1.0f * mat.r[3].m128_f32[0]);
+	y = (vec.m128_f32[0] * mat.r[0].m128_f32[1]) + (vec.m128_f32[1] * mat.r[1].m128_f32[1]) + (vec.m128_f32[2] * mat.r[2].m128_f32[1]) + (1.0f * mat.r[3].m128_f32[1]);
+	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (1.0f * mat.r[3].m128_f32[2]);
 	w = 1.0f;
-
-	zMem = z;
 	
-	x = x / w;
-	y = y / w;
-	z = z / w;
-	w = zMem;
+	//w = z;
+	//x = x / w;
+	//y = y / w;
+	//z = z / w;
 
 	return XMVECTOR{ x, y, z, w };
 }
