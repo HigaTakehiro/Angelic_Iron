@@ -166,7 +166,7 @@ void Player::AimUpdate() {
 
 	const float kDistancePlayerTo3DRaticle = 50.0f;
 	XMVECTOR offset = { 0, 0, 1.0f };
-	offset = Wdivided(offset, player->GetMatWorld());
+	offset = VecDivided(offset, player->GetMatWorld());
 	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
  	/*XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
@@ -182,9 +182,9 @@ void Player::AimUpdate() {
 
 	const float kDistanceTestObject = 50.0f;
 	aimPos3d = (posNear - mouseDirection) * kDistanceTestObject;*/
-	aimPos3d.x = offset.m128_f32[0] * playerWPos.x;
-	aimPos3d.y = offset.m128_f32[1] * playerWPos.y;
-	aimPos3d.z = offset.m128_f32[2] * playerWPos.z;
+	aimPos3d.x = playerWPos.x + offset.m128_f32[0];
+	aimPos3d.y= playerWPos.y + offset.m128_f32[1];
+	aimPos3d.z = playerWPos.z + offset.m128_f32[2];
 
 	aim3d->SetPosition(aimPos3d);
 }
@@ -201,6 +201,17 @@ XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
 	//x = x / w;
 	//y = y / w;
 	//z = z / w;
+
+	return XMVECTOR{ x, y, z, w };
+}
+
+XMVECTOR Player::VecDivided(XMVECTOR vec, XMMATRIX mat) {
+	float x, y, z, w;
+
+	x = (vec.m128_f32[0] * mat.r[0].m128_f32[0]) + (vec.m128_f32[1] * mat.r[1].m128_f32[0]) + (vec.m128_f32[2] * mat.r[2].m128_f32[0]) + (0.0f * mat.r[3].m128_f32[0]);
+	y = (vec.m128_f32[0] * mat.r[0].m128_f32[1]) + (vec.m128_f32[1] * mat.r[1].m128_f32[1]) + (vec.m128_f32[2] * mat.r[2].m128_f32[1]) + (0.0f * mat.r[3].m128_f32[1]);
+	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (0.0f * mat.r[3].m128_f32[2]);
+	w = 0.0f;
 
 	return XMVECTOR{ x, y, z, w };
 }

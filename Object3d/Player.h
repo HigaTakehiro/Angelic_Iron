@@ -94,6 +94,14 @@ private: //メンバ関数
 	/// <returns>計算結果</returns>
 	XMVECTOR Wdivided(XMVECTOR vec, XMMATRIX mat);
 
+	/// <summary>
+	/// ベクトルと行列の掛け算
+	/// </summary>
+	/// <param name="vec">ベクトル</param>
+	/// <param name="mat">行列</param>
+	/// <returns>計算結果</returns>
+	XMVECTOR VecDivided(XMVECTOR vec, XMMATRIX mat);
+
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
 	Vector3 playerWPos = { 0, 0, 0 };
