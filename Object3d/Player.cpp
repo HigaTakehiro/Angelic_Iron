@@ -50,7 +50,7 @@ void Player::Update() {
 	//matViewProjection = Camera::GetMatView() * Camera::GetMatProjection() * matViewPort;
 	//positionRaticle = XMVector3TransformCoord(positionRaticle, matViewProjection);
 	//aimPos = XMFLOAT2(positionRaticle.m128_f32[0], positionRaticle.m128_f32[1]);
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
+	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x - 50, MouseInput::GetIns()->GetMousePoint().y - 50);
 
 	playerWPos = player->GetMatWorld().r[3];
 
@@ -119,28 +119,6 @@ void Player::Shot() {
 	const float shotSpeed = 3.0f;
 	const float windowOverX_Left = -100.0f;
 	const float windowOverX_Right = 200.0f;
-	//const XMMATRIX matViewport = player->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
-	//matVPV = Camera::GetMatView() * Camera::GetMatProjection() * matViewport;
-	//matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	//posNear = { aimPos.x, aimPos.y, 0 };
-	//posFar = { aimPos.x, aimPos.y, 1 };
-
-	//posNear = XMVector3TransformCoord(posNear, matInverseVPV);
-	//posFar = XMVector3TransformCoord(posFar, matInverseVPV);
-
-	//posNearMath = posNear;
-	//posFarMath = posFar;
-
-	//mouseDirection = posNear - posFar;
-	//mouseDirection = XMVector3Normalize(mouseDirection);
-
-	//const float kDistanceTestObject = 50.0f;
-	//aimPos3d.x = ((mouseDirection.m128_f32[0] * mouseDirection.m128_f32[0]) * (posNear.m128_f32[0] * posNear.m128_f32[0])) - kDistanceTestObject;
-	//aimPos3d.y = ((mouseDirection.m128_f32[1] * mouseDirection.m128_f32[1]) * (posNear.m128_f32[1] * posNear.m128_f32[1])) - kDistanceTestObject;
-	//aimPos3d.z = ((mouseDirection.m128_f32[2] * mouseDirection.m128_f32[2]) * (posNear.m128_f32[2] * posNear.m128_f32[2])) + kDistanceTestObject;
-
-	//aim3d->SetPosition(aimPos3d);
-	//shot->SetPosition(shotPos);
 
 	shotPos.z += shotSpeed;
 	shot->SetPosition(shotPos);
@@ -183,10 +161,16 @@ void Player::AimUpdate() {
 	const float kDistanceTestObject = 50.0f;
 	aimPos3d = (posNear - mouseDirection) * kDistanceTestObject;*/
 	aimPos3d.x = playerWPos.x + offset.m128_f32[0];
-	aimPos3d.y= playerWPos.y + offset.m128_f32[1];
+	aimPos3d.y = playerWPos.y + offset.m128_f32[1];
 	aimPos3d.z = playerWPos.z + offset.m128_f32[2];
 
 	aim3d->SetPosition(aimPos3d);
+
+	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3]};
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	raticle2D = Wdivided(raticle2D, matViewProjectionViewport);
+
+	aimPos = { raticle2D.m128_f32[0] - 50.0f, raticle2D.m128_f32[1] - 50.0f };
 }
 
 XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
@@ -197,10 +181,10 @@ XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
 	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (1.0f * mat.r[3].m128_f32[2]);
 	w = 1.0f;
 	
-	//w = z;
-	//x = x / w;
-	//y = y / w;
-	//z = z / w;
+	w = z;
+	x = x / w;
+	y = y / w;
+	z = z / w;
 
 	return XMVECTOR{ x, y, z, w };
 }

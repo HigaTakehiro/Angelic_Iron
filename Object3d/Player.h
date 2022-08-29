@@ -51,7 +51,7 @@ public: //メンバ関数
 	/// 向き取得
 	/// </summary>
 	/// <returns>向き</returns>
-	//const XMFLOAT3 GetPlayerRot() { return  }
+	const XMFLOAT2 GetPlayerRot() { return aimPos; }
 
 	/// <summary>
 	/// プレイヤーオブジェクトの取得
