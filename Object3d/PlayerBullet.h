@@ -10,7 +10,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize();
+	void Initialize(Vector3 pos);
 
 	/// <summary>
 	/// XVˆ—
