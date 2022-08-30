@@ -119,7 +119,7 @@ private: //メンバ変数
 	Object3d* shot = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
-	std::vector<std::unique_ptr<PlayerBullet>> bullets;
+	std::list<std::unique_ptr<PlayerBullet>> bullets;
 
 	bool isShot = false;
 	//ゲームシーン用変数

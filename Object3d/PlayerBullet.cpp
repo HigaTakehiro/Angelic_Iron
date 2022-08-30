@@ -7,11 +7,23 @@ void PlayerBullet::Initialize(Vector3 pos) {
 	bullet = Object3d::Create(bulletModel);
 	bullet->SetScale(bulletSize);
 	bullet->SetRotation(Vector3(0, 0, 0));
-	bullet->SetPosition(pos);
+	initPos = pos;
+	this->pos = pos;
+	bullet->SetPosition(this->pos);
 }
 
 void PlayerBullet::Update() {
-	bullet->Update();
+	if (pos.z <= initPos.z + 100.0f) {
+		pos.z += 1.0f;
+	}
+	else {
+		isDead = true;
+	}
+
+	if (bullet != nullptr) {
+		bullet->SetPosition(pos);
+		bullet->Update();
+	}
 }
 
 void PlayerBullet::Draw() {
