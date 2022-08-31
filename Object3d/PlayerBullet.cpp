@@ -1,23 +1,25 @@
 #include "PlayerBullet.h"
 
-void PlayerBullet::Initialize(Vector3 pos) {
+void PlayerBullet::Initialize(Vector3 pos, Vector3 velocity) {
 	const Vector3 bulletSize = { 2, 2, 2 };
 
 	bulletModel = Model::CreateModel("Block");
 	bullet = Object3d::Create(bulletModel);
 	bullet->SetScale(bulletSize);
 	bullet->SetRotation(Vector3(0, 0, 0));
-	initPos = pos;
 	this->pos = pos;
+	this->velocity = velocity;
 	bullet->SetPosition(this->pos);
 }
 
 void PlayerBullet::Update() {
-	if (pos.z <= initPos.z + 100.0f) {
-		pos.z += 1.0f;
+	const int timeOver = 0;
+
+	if (--lifeTimer <= timeOver) {
+		isDead = true;
 	}
 	else {
-		isDead = true;
+		pos += velocity;
 	}
 
 	if (bullet != nullptr) {

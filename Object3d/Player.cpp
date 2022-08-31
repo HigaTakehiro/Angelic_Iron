@@ -117,12 +117,13 @@ void Player::Move() {
 }
 
 void Player::Shot() {
-	const float shotSpeed = 3.0f;
-	const float windowOverX_Left = -100.0f;
-	const float windowOverX_Right = 200.0f;
+	const float bulletSpeed = 1.0f;
+	XMVECTOR velocity = { 0, 0, bulletSpeed };
+
+	velocity = MatCalc::GetIns()->VecDivided(velocity, player->GetMatWorld());
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initialize(playerWPos);
+	newBullet->Initialize(playerWPos, velocity);
 
 	bullets.push_back(std::move(newBullet));
 
@@ -171,8 +172,8 @@ void Player::AimUpdate() {
 	XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
 	XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
 
-	posNear = Wdivided(posNear, matInverseVPV);
-	posFar = Wdivided(posFar, matInverseVPV);
+	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
+	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
 
 	XMVECTOR mouseDirection = posFar - posNear;
 	mouseDirection = XMVector3Normalize(mouseDirection);
@@ -182,31 +183,4 @@ void Player::AimUpdate() {
 
 	aim3d->SetPosition(aimPos3d);
 
-}
-
-XMVECTOR Player::Wdivided(XMVECTOR vec, XMMATRIX mat) {
-	float x, y, z, w;
-
-	x = (vec.m128_f32[0] * mat.r[0].m128_f32[0]) + (vec.m128_f32[1] * mat.r[1].m128_f32[0]) + (vec.m128_f32[2] * mat.r[2].m128_f32[0]) + (1.0f * mat.r[3].m128_f32[0]);
-	y = (vec.m128_f32[0] * mat.r[0].m128_f32[1]) + (vec.m128_f32[1] * mat.r[1].m128_f32[1]) + (vec.m128_f32[2] * mat.r[2].m128_f32[1]) + (1.0f * mat.r[3].m128_f32[1]);
-	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (1.0f * mat.r[3].m128_f32[2]);
-	w = 1.0f;
-
-	w = z;
-	x = x / w;
-	y = y / w;
-	z = z / w;
-
-	return XMVECTOR{ x, y, z, w };
-}
-
-XMVECTOR Player::VecDivided(XMVECTOR vec, XMMATRIX mat) {
-	float x, y, z, w;
-
-	x = (vec.m128_f32[0] * mat.r[0].m128_f32[0]) + (vec.m128_f32[1] * mat.r[1].m128_f32[0]) + (vec.m128_f32[2] * mat.r[2].m128_f32[0]) + (0.0f * mat.r[3].m128_f32[0]);
-	y = (vec.m128_f32[0] * mat.r[0].m128_f32[1]) + (vec.m128_f32[1] * mat.r[1].m128_f32[1]) + (vec.m128_f32[2] * mat.r[2].m128_f32[1]) + (0.0f * mat.r[3].m128_f32[1]);
-	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (0.0f * mat.r[3].m128_f32[2]);
-	w = 0.0f;
-
-	return XMVECTOR{ x, y, z, w };
 }

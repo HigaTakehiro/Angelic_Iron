@@ -108,6 +108,9 @@
     <ClCompile Include="Object3d\PlayerBullet.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="Base\MatCalc.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="Object3d\PlayerBullet.h">
       <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\MatCalc.h">
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

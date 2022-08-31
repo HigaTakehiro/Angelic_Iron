@@ -11,6 +11,7 @@
 #include "WinApp.h"
 #include "PlayerBullet.h"
 #include <memory>
+#include  "MatCalc.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -87,22 +88,6 @@ private: //メンバ関数
 	/// 3dレティクル更新処理
 	/// </summary>
 	void AimUpdate();
-
-	/// <summary>
-	/// 座標に行列を掛けて最後にw除算する
-	/// </summary>
-	/// <param name="vec">座標</param>
-	/// <param name="mat">行列</param>
-	/// <returns>計算結果</returns>
-	XMVECTOR Wdivided(XMVECTOR vec, XMMATRIX mat);
-
-	/// <summary>
-	/// ベクトルと行列の掛け算
-	/// </summary>
-	/// <param name="vec">ベクトル</param>
-	/// <param name="mat">行列</param>
-	/// <returns>計算結果</returns>
-	XMVECTOR VecDivided(XMVECTOR vec, XMMATRIX mat);
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };

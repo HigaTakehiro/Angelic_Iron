@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXCommon.cpp" />
+    <ClCompile Include="Base\MatCalc.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Object3d\Collision.cpp" />
@@ -248,6 +249,7 @@
   <ItemGroup>
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXCommon.h" />
+    <ClInclude Include="Base\MatCalc.h" />
     <ClInclude Include="Base\SafeDelete.h" />
     <ClInclude Include="Base\Vector3.h" />
     <ClInclude Include="Base\WinApp.h" />
