@@ -25,10 +25,21 @@ public: //メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// 弾の状態を渡す
 	/// </summary>
 	/// <returns>弾の状態</returns>
 	bool IsDead() const { return isDead; }
+
+	/// <summary>
+	/// 弾オブジェクト取得
+	/// </summary>
+	/// <returns>弾オブジェクト</returns>
+	Object3d* GetBulletObj() { return bullet; }
 
 private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;

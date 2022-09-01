@@ -19,10 +19,6 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 	static Collision* GetIns();
 
 public: //ƒƒ“ƒoŠÖ”
-	/// <summary>
-	/// ‰Šú‰»
-	/// </summary>
-	void Initialize();
 
 	/// <summary>
 	/// ‹…‚Æ‹…‚Ì“–‚½‚è”»’è

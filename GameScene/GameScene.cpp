@@ -153,11 +153,17 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		for (int i = 0; i < 3; i++) {
-			if (Collision::GetIns()->SphereCollision(player->GetShotObject(), enemy->GetEnemy(i))) {
-				isEnemyDead[i] = true;
-			}
+		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
+		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+			for (int i = 0; i < 3; i++) {
+				if (Collision::GetIns()->SphereCollision(bullet->GetBulletObj(), enemy->GetEnemy(i))) {
+					isEnemyDead[i] = true;
+				}
+			}
+		}
+
+		for (int i = 0; i < 3; i++) {
 			if (Collision::GetIns()->SphereCollision(player->GetPlayerObject(), enemy->GetEnemy(i))) {
 				if (!isEnemyDead[i]) {
 					isDead = true;

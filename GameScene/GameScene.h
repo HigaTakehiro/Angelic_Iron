@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Collision.h"
+#include "PlayerBullet.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

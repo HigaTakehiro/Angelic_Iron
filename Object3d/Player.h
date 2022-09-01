@@ -48,7 +48,7 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return aimPos3d; }
+	const XMFLOAT3 GetPlayerPos() { return playerWPos; }
 
 	/// <summary>
 	/// 向き取得
@@ -63,10 +63,10 @@ public: //メンバ関数
 	Object3d* GetPlayerObject() { return player; }
 
 	/// <summary>
-	/// 弾オブジェクトの取得
+	/// 弾のリスト取得
 	/// </summary>
-	/// <returns>弾オブジェクト</returns>
-	Object3d* GetShotObject() { return shot; }
+	/// <returns>弾のリスト</returns>
+	std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 	/// <summary>
 	/// リセット処理
@@ -94,14 +94,10 @@ private: //メンバ変数
 	Vector3 playerWPos = { 0, 0, 0 };
 	Vector3 playerRot = { 0, 0, 0 };
 	Vector3 playerScale = { 0, 0, 0 };
-	Vector3 shotPos = { 0, 0, 0 };
-	Vector3 shotRot = { 0, 0, 0 };
-	Vector3 shotScale = { 0, 0, 0 };
 
 	Model* playerModel = nullptr;
-	Model* shotModel = nullptr;
+	Model* aim3dModel = nullptr;
 	Object3d* player = nullptr;
-	Object3d* shot = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
 	std::list<std::unique_ptr<PlayerBullet>> bullets;

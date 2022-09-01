@@ -17,28 +17,17 @@ void Player::Initialize(Camera* camera) {
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
-
-	shotModel = Model::CreateModel("Block");
-	shot = Object3d::Create(shotModel);
-	shotScale = { 2, 2, 2 };
-	shotPos = { 50, 0, 0 };
-	shotRot = { 0, 0, 0 };
-	shot->SetScale(shotScale);
-	shot->SetPosition(shotPos);
-	shot->SetRotation(shotRot);
-
-	aim3d = Object3d::Create(shotModel);
-	aim3d->SetScale(shotScale);
+	aim3dModel = Model::CreateModel("Block");
+	aim3d = Object3d::Create(aim3dModel);
+	aim3d->SetScale(Vector3(0, 0, 0));
 	aim3d->SetPosition(Vector3(0, 0, 50));
-	aim3d->SetRotation(shotRot);
+	aim3d->SetRotation(Vector3(0, 0, 0));
 	//aim3d->SetParent(player);
 }
 
 void Player::Finalize() {
 	safe_delete(player);
 	safe_delete(playerModel);
-	safe_delete(shot);
-	safe_delete(shotModel);
 	safe_delete(aim);
 	safe_delete(aim3d);
 }
@@ -70,7 +59,6 @@ void Player::Update() {
 
 	aim->SetPosition(XMFLOAT2(aimPos.x - 50.0f, aimPos.y - 50.0f));
 	aim3d->Update();
-	shot->Update();
 	player->Update();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
@@ -141,12 +129,10 @@ void Player::Reset() {
 	playerScale = { 2, 2, 2 };
 	playerLPos = { 0, 0, 50 };
 	playerRot = { 0, 0, 0 };
-	shotScale = { 2, 2, 2 };
-	shotPos = { 50, 0, 0 };
-	shotRot = { 0, 0, 0 };
+
+	bullets.clear();
 
 	player->SetPosition(playerLPos);
-	shot->SetPosition(playerWPos);
 }
 
 void Player::AimUpdate() {

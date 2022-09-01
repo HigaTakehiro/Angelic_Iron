@@ -31,3 +31,7 @@ void PlayerBullet::Update() {
 void PlayerBullet::Draw() {
 	bullet->Draw();
 }
+
+void PlayerBullet::OnCollision() {
+	isDead = true;
+}
