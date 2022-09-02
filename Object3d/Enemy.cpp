@@ -55,7 +55,9 @@ void Enemy::Initialize(Player* player) {
 
 	file.close();
 
-	for (int i = 0; i < 3; i++) {
+
+
+	for (int i = 0; i < enemyPos.size(); i++) {
 		shotPos[i] = enemyPos[i];
 		shotScale[i] = { 2, 2, 2 };
 
