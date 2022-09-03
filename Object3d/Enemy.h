@@ -79,8 +79,8 @@ private: //メンバ変数
 	Model* shotModel;
 
 	//3dオブジェクト
-	std::vector<Object3d>* enemy_;
-	Object3d* enemy[3];
+	std::vector<Object3d*> enemy;
+	//Object3d* enemy[3];
 	Object3d* shot[3];
 	Player* player;
 

@@ -58,35 +58,43 @@ void Enemy::Initialize(Player* player) {
 
 
 	for (int i = 0; i < enemyPos.size(); i++) {
+		Object3d* enemy_;
+
 		shotPos[i] = enemyPos[i];
 		shotScale[i] = { 2, 2, 2 };
 
-		enemy[i] = Object3d::Create(enemyModel);
-		enemy[i]->SetPosition(enemyPos[i]);
-		enemy[i]->SetScale(enemyScale[i]);
-		enemy[i]->SetRotation(enemyRot[i]);
+		enemy_ = Object3d::Create(enemyModel);
+		enemy_->SetPosition(enemyPos[i]);
+		enemy_->SetScale(enemyScale[i]);
+		enemy_->SetRotation(enemyRot[i]);
 
 		shot[i] = Object3d::Create(shotModel);
 		shot[i]->SetPosition(shotPos[i]);
 		shot[i]->SetScale(shotScale[i]);
+
+		enemy.push_back(enemy_);
 	}
 
 }
 
 void Enemy::Update() {
-	for (int i = 0; i < 3; i++) {
-		//if (!isShotRange[i]) {
-		//	shotPos[i] = enemy[i]->GetPosition();
-		//	isShotRange[i] = ShotRangeJudge(player->GetPlayerObject());
-		//	oldPlayerPos = player->GetPlayerPos();
-		//}
-		//Shot();
+	//for (int i = 0; i < enemy; i++) {
+	//	//if (!isShotRange[i]) {
+	//	//	shotPos[i] = enemy[i]->GetPosition();
+	//	//	isShotRange[i] = ShotRangeJudge(player->GetPlayerObject());
+	//	//	oldPlayerPos = player->GetPlayerPos();
+	//	//}
+	//	//Shot();
+	//	enemy[i]->Update();
+	//}
+
+	for (int i = 0; i < enemy.size(); i++) {
 		enemy[i]->Update();
 	}
 }
 
 void Enemy::Draw(bool isEnemyDead[]) {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < enemy.size(); i++) {
 		if (!isEnemyDead[i]) {
 			enemy[i]->Draw();
 		}
@@ -94,9 +102,8 @@ void Enemy::Draw(bool isEnemyDead[]) {
 }
 
 void Enemy::Finalize() {
-	for (int i = 0; i < 3; i++) {
-		safe_delete(enemy[i]);
-	}
+	enemy.clear();
+	enemy.shrink_to_fit();
 	enemyPos.clear();
 	enemyPos.shrink_to_fit();
 	enemyRot.clear();
