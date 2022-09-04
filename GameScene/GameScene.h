@@ -117,9 +117,7 @@ private: //メンバ変数
 	//ゲームシーン用変数
 	float aimPosX;
 	float aimPosY;
-	int enemyDeadCount;
 	bool isDead;
-	bool isEnemyDead[3];
 	bool isTitle;
 	bool isClear;
 	std::stringstream enemyData;

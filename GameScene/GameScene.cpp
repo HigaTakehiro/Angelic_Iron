@@ -11,7 +11,6 @@ GameScene::~GameScene() {
 	safe_delete(sprite);
 	player->Finalize();
 	safe_delete(player);
-	//safe_delete(enemy);
 	safe_delete(map1_a);
 	safe_delete(map1_b);
 	safe_delete(ground);
@@ -68,9 +67,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	player = new Player();
 	player->Initialize(camera);
 
-	//enemy = new Enemy();
-	//enemy->Initialize(player);
-
 	LoadEnemyData();
 
 	//MapChipの初期化
@@ -96,12 +92,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	isDead = false;
 	isClear = false;
 	isTitle = true;
-	enemyDeadCount = 0;
-	for (int i = 0; i < 3; i++) {
-		isEnemyDead[i] = false;
-	}
 
-	
 }
 
 void GameScene::Update() {
@@ -110,16 +101,6 @@ void GameScene::Update() {
 	// DirectX毎フレーム処理　ここから
 	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
 	aimPosY = MouseInput::GetIns()->GetMousePoint().y;
-
-	//デバッグテキスト
-	//if (input->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::GetIns()->Button_A)) {
-	//	if (object1->GetIsAnimation() == true) {
-	//		object1->StopAnimation();
-	//	}
-	//	else {
-	//		object1->PlayAnimation();
-	//	}
-	//}
 
 	if (isTitle) {
 		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
@@ -169,7 +150,7 @@ void GameScene::Update() {
 
 		EnemyDataUpdate();
 
-		if (enemies.size() <= 2) {
+		if (enemies.empty()) {
 			isClear = true;
 		}
 
@@ -215,13 +196,6 @@ void GameScene::Draw() {
 	ground->Draw();
 	celetialSphere->Draw();
 	
-	/*for (auto object : objects) {
-		object->Draw();
-	}
-	for (auto object : objects2) {
-		object->Draw();
-	}*/
-	//enemy->Draw(isEnemyDead);
 	if (!isDead) {
 		player->ObjectDraw();
 	}
@@ -299,13 +273,16 @@ void GameScene::EnemyDataUpdate() {
 	Vector3 pos{};
 	Vector3 rot{};
 	Vector3 scale{};
+	bool isPos = false;
+	bool isRot = false;
+	bool isScale = false;
 
 	while (getline(enemyData, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
 		//半角区切りで文字列を取得
 		getline(line_stream, word, ' ');
-		if (word == "//") {
+		if (word == "#") {
 			continue;
 		}
 		if (word == "Pos") {
@@ -313,22 +290,27 @@ void GameScene::EnemyDataUpdate() {
 			line_stream >> pos.x;
 			line_stream >> pos.y;
 			line_stream >> pos.z;
+			isPos = true;
 		}
 		if (word == "Rot") {
 			//Vector3 rot{};
 			line_stream >> rot.x;
 			line_stream >> rot.y;
 			line_stream >> rot.z;
+			isRot = true;
 		}
 		if (word == "Scale") {
 			//Vector3 scale{};
 			line_stream >> scale.x;
 			line_stream >> scale.y;
 			line_stream >> scale.z;
+			isScale = true;
 		}
 
-		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-		newEnemy->Initialize("Enemy", pos, rot, scale);
-		enemies.push_back(std::move(newEnemy));
+		if (isPos && isRot && isScale) {
+			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+			newEnemy->Initialize("Enemy", pos, rot, scale);
+			enemies.push_back(std::move(newEnemy));
+		}
 	}
 }
