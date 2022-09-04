@@ -87,7 +87,6 @@ private: //メンバ変数
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr;
-	//Enemy* enemy = nullptr;
 	std::list<std::unique_ptr<Enemy>> enemies;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
