@@ -7,12 +7,18 @@
 
 class Enemy
 {
+	enum EnemyStyle {
+		STOP,
+		UDMOVE,
+		LRMOVE
+	};
+
 public: //メンバ関数
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Player* player);
+	void Initialize(const std::string& modelName, Vector3 pos, Vector3 rot, Vector3 scale);
 
 	/// <summary>
 	/// 更新処理
@@ -22,70 +28,30 @@ public: //メンバ関数
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	void Draw(bool isEnemyDead[]);
+	void Draw();
 
 	/// <summary>
-	/// 終了処理
+	/// 衝突時コールバック関数
 	/// </summary>
-	void Finalize();
+	void OnCollision();
 
 	/// <summary>
-	/// 攻撃処理
+	/// 敵の状態を取得
 	/// </summary>
-	void Shot();
+	/// <returns>敵の状態</returns>
+	bool IsDead() const { return isDead; }
 
 	/// <summary>
-	/// エネミーを取得
+	/// 敵オブジェクト取得
 	/// </summary>
-	/// <param name="i">エネミー配列の番号</param>
-	/// <returns>エネミーオブジェクト</returns>
-	Object3d* GetEnemy(int enemyNo) { return enemy[enemyNo]; }
-
-	/// <summary>
-	/// エネミーの弾を取得
-	/// </summary>
-	/// <param name="enemyNo">エネミー配列の番号</param>
-	/// <returns>指定したエネミーの弾</returns>
-	Object3d* GetEnemyShot(int enemyNo) { return shot[enemyNo]; }
-
-	/// <summary>
-	/// 発射可能範囲にいるか判定
-	/// </summary>
-	/// <param name="player">プレイヤーオブジェクト</param>
-	/// <returns>発射可能かどうか</returns>
-	bool ShotRangeJudge(Object3d* player);
-
-private: //メンバ関数
+	/// <returns>敵オブジェクト</returns>
+	Object3d* GetEnemyObj() { return enemy; }
 
 private: //メンバ変数
 
-	//エネミーの位置
-	std::vector<Vector3> enemyPos;
-
-	//エネミーの向き
-	std::vector<Vector3> enemyRot;
-
-	//エネミーの大きさ
-	std::vector<Vector3> enemyScale;
-
-	//弾の位置
-	Vector3 shotPos[3];
-
-	//弾の大きさ
-	Vector3 shotScale[3];
-
-	//モデル
 	Model* enemyModel;
-	Model* shotModel;
-
-	//3dオブジェクト
-	std::vector<Object3d*> enemy;
-	//Object3d* enemy[3];
-	Object3d* shot[3];
-	Player* player;
-
-	//ゲームに使用する変数
-	bool isShotRange[3];
-	Vector3 oldPlayerPos;
+	Object3d* enemy;
+	Vector3 pos;
+	bool isDead;
 };
 

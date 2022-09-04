@@ -2,7 +2,6 @@
 #include "Object3d.h"
 #include "Model.h"
 #include "Vector3.h"
-#include "SafeDelete.h"
 #include "MatCalc.h"
 
 class PlayerBullet
@@ -30,7 +29,7 @@ public: //ƒƒ“ƒoŠÖ”
 	void OnCollision();
 
 	/// <summary>
-	/// ’e‚Ìó‘Ô‚ğ“n‚·
+	/// ’e‚Ìó‘Ô‚ğæ“¾
 	/// </summary>
 	/// <returns>’e‚Ìó‘Ô</returns>
 	bool IsDead() const { return isDead; }

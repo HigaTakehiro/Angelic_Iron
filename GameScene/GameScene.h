@@ -17,6 +17,7 @@
 #include "Enemy.h"
 #include "Collision.h"
 #include "PlayerBullet.h"
+#include <sstream>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -58,6 +59,16 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// エネミーデータの読み込み
+	/// </summary>
+	void LoadEnemyData();
+
+	/// <summary>
+	/// 読み込んだエネミーデータの更新
+	/// </summary>
+	void EnemyDataUpdate();
+
 private: //メンバ関数
 
 	/// <summary>
@@ -76,7 +87,8 @@ private: //メンバ変数
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr;
-	Enemy* enemy = nullptr;
+	//Enemy* enemy = nullptr;
+	std::list<std::unique_ptr<Enemy>> enemies;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
 	Sprite* title = nullptr;
@@ -110,5 +122,6 @@ private: //メンバ変数
 	bool isEnemyDead[3];
 	bool isTitle;
 	bool isClear;
+	std::stringstream enemyData;
 };
 

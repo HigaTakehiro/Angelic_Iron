@@ -130,9 +130,8 @@ void Player::Reset() {
 	playerLPos = { 0, 0, 50 };
 	playerRot = { 0, 0, 0 };
 
-	bullets.clear();
-
 	player->SetPosition(playerLPos);
+	bullets.clear();
 }
 
 void Player::AimUpdate() {

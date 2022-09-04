@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "FBXObject3d.h"
 #include <algorithm>
+#include <fstream>
 
 GameScene::GameScene() {
 
@@ -10,8 +11,7 @@ GameScene::~GameScene() {
 	safe_delete(sprite);
 	player->Finalize();
 	safe_delete(player);
-	enemy->Finalize();
-	safe_delete(enemy);
+	//safe_delete(enemy);
 	safe_delete(map1_a);
 	safe_delete(map1_b);
 	safe_delete(ground);
@@ -68,8 +68,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	player = new Player();
 	player->Initialize(camera);
 
-	enemy = new Enemy();
-	enemy->Initialize(player);
+	//enemy = new Enemy();
+	//enemy->Initialize(player);
+
+	LoadEnemyData();
 
 	//MapChipの初期化
 	mapchip = new MapChip;
@@ -103,6 +105,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 }
 
 void GameScene::Update() {
+	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+
 	// DirectX毎フレーム処理　ここから
 	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
 	aimPosY = MouseInput::GetIns()->GetMousePoint().y;
@@ -155,36 +159,27 @@ void GameScene::Update() {
 
 		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
-		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-			for (int i = 0; i < 3; i++) {
-				if (Collision::GetIns()->SphereCollision(bullet->GetBulletObj(), enemy->GetEnemy(i))) {
-					isEnemyDead[i] = true;
+		for (const std::unique_ptr<Enemy>& enemy : enemies) {
+			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+				if (Collision::GetIns()->SphereCollision(bullet->GetBulletObj(), enemy->GetEnemyObj())) {
+					enemy->OnCollision();
 				}
 			}
 		}
 
-		for (int i = 0; i < 3; i++) {
-			if (Collision::GetIns()->SphereCollision(player->GetPlayerObject(), enemy->GetEnemy(i))) {
-				if (!isEnemyDead[i]) {
-					isDead = true;
-				}
-			}
+		EnemyDataUpdate();
+
+		if (enemies.size() <= 2) {
+			isClear = true;
 		}
 
-		if (player->GetPlayerObject()->GetPosition().z > enemy->GetEnemy(2)->GetPosition().z) {
-			isDead = true;
-		}
-
-		for (int i = 0; i < 3; i++) {
-			if (isEnemyDead[0] && isEnemyDead[1] && isEnemyDead[2]) {
-				isClear = true;
-			}
+		for (std::unique_ptr<Enemy>& enemy : enemies) {
+			enemy->Update();
 		}
 
 		celetialSphere->Update();
 		ground->Update();
 		player->Update();
-		enemy->Update();
 		object1->Update();
 
 		for (auto object : objects) {
@@ -226,9 +221,12 @@ void GameScene::Draw() {
 	for (auto object : objects2) {
 		object->Draw();
 	}*/
-	enemy->Draw(isEnemyDead);
+	//enemy->Draw(isEnemyDead);
 	if (!isDead) {
 		player->ObjectDraw();
+	}
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->Draw();
 	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
@@ -273,8 +271,64 @@ void GameScene::Reset() {
 	isDead = false;
 	isClear = false;
 	isTitle = true;
-	enemyDeadCount = 0;
-	for (int i = 0; i < 3; i++) {
-		isEnemyDead[i] = false;
+
+	LoadEnemyData();
+}
+
+void GameScene::LoadEnemyData() {
+	//ファイルストリーム
+	std::ifstream file;
+	enemyData.str("");
+	enemyData.clear(std::stringstream::goodbit);
+	enemies.clear();
+
+	const std::string filename = "EnemySet.aid";
+	const std::string directory = "Resources/";
+	file.open(directory + filename);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	enemyData << file.rdbuf();
+
+	file.close();
+}
+
+void GameScene::EnemyDataUpdate() {
+	std::string line;
+	Vector3 pos{};
+	Vector3 rot{};
+	Vector3 scale{};
+
+	while (getline(enemyData, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		//半角区切りで文字列を取得
+		getline(line_stream, word, ' ');
+		if (word == "//") {
+			continue;
+		}
+		if (word == "Pos") {
+			//Vector3 pos{};
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			line_stream >> pos.z;
+		}
+		if (word == "Rot") {
+			//Vector3 rot{};
+			line_stream >> rot.x;
+			line_stream >> rot.y;
+			line_stream >> rot.z;
+		}
+		if (word == "Scale") {
+			//Vector3 scale{};
+			line_stream >> scale.x;
+			line_stream >> scale.y;
+			line_stream >> scale.z;
+		}
+
+		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+		newEnemy->Initialize("Enemy", pos, rot, scale);
+		enemies.push_back(std::move(newEnemy));
 	}
 }
