@@ -28,5 +28,16 @@ public: //ƒƒ“ƒoŠÖ”
 
 		return -maxPos * time * (time - 2.0f) + nowPos;
 	}
+
+	inline float easeInOut(float time, float maxTime, float maxPos, float nowPos) {
+		maxPos -= nowPos;
+		time /= maxTime;
+
+		if (time / 2.0f < 1.0f) return maxTime / 2.0f * time * time + nowPos;
+
+		--time;
+
+		return -maxTime * (time * (time - 2.0f) - 1.0f) + nowPos;
+	}
 };
 
