@@ -114,6 +114,9 @@
     <ClCompile Include="Object3d\EnemyBullet.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="Object3d\ModelManager.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="Base\Easing.h">
       <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d\ModelManager.h">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
