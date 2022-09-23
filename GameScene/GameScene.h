@@ -17,6 +17,7 @@
 #include "Enemy.h"
 #include "Collision.h"
 #include "PlayerBullet.h"
+#include "ModelManager.h"
 #include <sstream>
 
 using namespace DirectX;

@@ -142,7 +142,7 @@ void GameScene::Update() {
 
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
 			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-				if (Collision::GetIns()->SphereCollision(bullet->GetBulletObj(), enemy->GetEnemyObj())) {
+				if (Collision::GetIns()->OBJSphereCollision(bullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 					enemy->OnCollision();
 				}
 			}

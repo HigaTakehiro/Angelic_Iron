@@ -46,7 +46,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <returns>モデル</returns>
-	Model* GetModel(ModelName modelName) { return model[modelName]; }
+	Model* GetModel(const ModelName modelName) { return model[modelName]; }
 
 private: //メンバ変数
 	std::vector<Model*> model;

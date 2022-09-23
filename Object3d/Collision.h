@@ -25,15 +25,14 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="object1">判定したいオブジェクト1</param>
 	/// <param name="object2">判定したいオブジェクト2</param>
+	/// <param name="objScale1">判定したいオブジェクトの半径1</param>
+	/// <param name="objScale2">判定したいオブジェクトの半径2</param>
 	/// <returns>当たった</returns>
-	bool SphereCollision(Object3d* object1, Object3d* object2);
+	bool OBJSphereCollision(Object3d* object1, Object3d* object2, float objScale1, float objScale2);
 
 private: //メンバ変数
 	Vector3 object1Pos = { 0, 0, 0 };
 	Vector3 object2Pos = { 0, 0, 0 };
-
-	Vector3 object1Scale = { 0, 0, 0 };
-	Vector3 object2Scale = { 0, 0, 0 };
 
 	float objectPosTotal = 0;
 	float objectScaleTotal = 0;
