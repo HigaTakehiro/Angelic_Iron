@@ -28,6 +28,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(50, 1, -100));
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
+	cameraPos = { 50.0f, 1.0f, -100.0f };
+	startCount = GetTickCount();
 
 	//Sprite & DebugText‚Ì‰Šú‰»
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -129,7 +131,27 @@ void GameScene::Update() {
 			camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
 		}
 
-		camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
+		nowCount = GetTickCount();
+		elapsedCount = nowCount - startCount;
+		float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+
+		timeRate = elapsedCount / maxTime;
+
+		if (timeRate >= 1.0f) {
+			if (startIndex < points.size() - 3) {
+				startIndex += 1.0f;
+				timeRate -= 1.0f;
+				startCount = GetTickCount();
+			}
+			else {
+				timeRate = 1.0f;
+			}
+		}
+
+		cameraPos = testSpline(points, startIndex, timeRate);
+
+		camera->SetEye(cameraPos);
+		//camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
 		char xPos[256];
 		char yPos[256];
@@ -313,4 +335,20 @@ void GameScene::EnemyDataUpdate() {
 			enemies.push_back(std::move(newEnemy));
 		}
 	}
+}
+
+Vector3 GameScene::testSpline(const std::vector<Vector3>& points, size_t startIndex, float t) {
+	size_t n = points.size() - 2;
+
+	if (startIndex > n) return points[n];
+	if (startIndex < 1) return points[1];
+
+	Vector3 p0 = points[startIndex - 1];
+	Vector3 p1 = points[startIndex];
+	Vector3 p2 = points[startIndex + 1];
+	Vector3 p3 = points[startIndex + 2];
+
+	Vector3 position = ((p1 * 2.0f) + ((p0 * -1.0f) + p2) * t + ((p0 * 2.0f) - (p1 * 5.0f) + (p2 * 4.0f) - p3) * (t * t) + ((p0 * -1.0f) + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t)) * 0.5f;
+
+	return position;
 }
