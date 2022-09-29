@@ -29,7 +29,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	camera->SetEye(XMFLOAT3(50, 1, -100));
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
 	cameraPos = { 50.0f, 1.0f, -100.0f };
-	startCount = GetTickCount();
+	startCount = GetTickCount64();
 
 	//Sprite & DebugText‚Ì‰Šú‰»
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -50,6 +50,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	Sprite::LoadTexture(6, L"Resources/Clear.png");
 	clear = Sprite::Create(6, { 0, 0 });
+
+	aimPosX = 0;
+	aimPosY = 0;
 
 	//Object3d‚Ì‰Šú‰»
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -131,7 +134,7 @@ void GameScene::Update() {
 			camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
 		}
 
-		nowCount = GetTickCount();
+		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
 		float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
@@ -141,7 +144,7 @@ void GameScene::Update() {
 			if (startIndex < points.size() - 3) {
 				startIndex += 1.0f;
 				timeRate -= 1.0f;
-				startCount = GetTickCount();
+				startCount = GetTickCount64();
 			}
 			else {
 				timeRate = 1.0f;
