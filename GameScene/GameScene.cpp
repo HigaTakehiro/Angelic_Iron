@@ -355,9 +355,9 @@ Vector3 GameScene::testSpline(const std::vector<Vector3>& points, int startIndex
 	Vector3 p2 = points[startIndex + 1];
 	Vector3 p3 = points[startIndex + 2];
 
-	Vector3 test1 = (p1 * 2.0f) + ((p0 * -1.0f) + p2) * t;
+	Vector3 test1 = (p1 * 2.0f) + (-p0 + p2) * t;
 	Vector3 test2 = ((p0 * 2.0f) - (p1 * 5.0f) + (p2 * 4.0f) - p3) * (t * t);
-	Vector3 test3 = ((p0 * -1.0f) + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t);
+	Vector3 test3 = (-p0 + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t);
 
 	Vector3 position = (test1 + test2 + test3);
 	position = position / 2.0f;

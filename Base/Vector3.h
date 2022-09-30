@@ -23,13 +23,16 @@ public:
 		XMStoreFloat3(this, vec);
 	}
 	
-	//2€‰‰Zq
-	Vector3 operator*(const Vector3& v) {
-		x *= v.x;
-		y *= v.y;
-		z *= v.z;
+	//’P€‰‰Zq
+	Vector3 Vector3::operator+() const {
+		return *this;
 	}
 
+	Vector3 Vector3::operator-() const {
+		return Vector3(-x, -y, -z);
+	}
+
+	//‘ã“ü‰‰Zq
 	Vector3 operator+=(const Vector3& v) {
 		x += v.x;
 		y += v.y;
@@ -44,47 +47,33 @@ public:
 		return *this;
 	}
 
-	Vector3 operator*=(const Vector3& v) {
-		x *= v.x;
-		y *= v.y;
-		z *= v.z;
-		return *this;
-	}
+	//Vector3 operator*=(const Vector3& v) {
+	//	x *= v.x;
+	//	y *= v.y;
+	//	z *= v.z;
+	//	return *this;
+	//}
 
-	Vector3 operator/=(const Vector3& v) {
-		x /= v.x;
-		y /= v.y;
-		z /= v.z;
-		return *this;
-	}
+	//Vector3 operator/=(const Vector3& v) {
+	//	x /= v.x;
+	//	y /= v.y;
+	//	z /= v.z;
+	//	return *this;
+	//}
 
-	Vector3 operator+(XMFLOAT3& r) {
-		x += r.x;
-		y += r.y;
-		z += r.z;
-		return *this;
-	}
+	//Vector3 operator*(float s) {
+	//	x *= s;
+	//	y *= s;
+	//	z *= s;
+	//	return *this;
+	//}
 
-	Vector3 operator-(XMFLOAT3& r) {
-		x += r.x;
-		y += r.y;
-		z += r.z;
-		return *this;
-	}
-
-	Vector3 operator*(float s) {
-		x *= s;
-		y *= s;
-		z *= s;
-		return *this;
-	}
-
-	Vector3 operator/(float s) {
-		x /= s;
-		y /= s;
-		z /= s;
-		return *this;
-	}
+	//Vector3 operator/(float s) {
+	//	x /= s;
+	//	y /= s;
+	//	z /= s;
+	//	return *this;
+	//}
 
 	Vector3 operator*=(float s) {
 		x *= s;
@@ -105,7 +94,7 @@ public:
 	/// </summary>
 	/// <returns>’·‚³</returns>
 	float length() const {
-		return(float)sqrtf(x * x + y * y + z * z);
+		return (float)sqrtf(x * x + y * y + z * z);
 	}
 
 	/// <summary>
@@ -139,3 +128,28 @@ public:
 		return *this;
 	}
 };
+
+//2€‰‰Zq
+const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp(v1);
+	return temp += v2;
+}
+
+const Vector3 operator-(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp(v1);
+	return temp -= v2;
+}
+
+const Vector3 operator*(const Vector3& v, float s) {
+	Vector3 temp(v);
+	return temp *= s;
+}
+
+const Vector3 operator*(float s, const Vector3& v) {
+	return v * s;
+}
+
+const Vector3 operator/(const Vector3& v, float s) {
+	Vector3 temp(v);
+	return temp /= s;
+}
