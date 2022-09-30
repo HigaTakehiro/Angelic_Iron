@@ -77,7 +77,7 @@ public: //メンバ関数
 	/// <param name="startIndex">最初の頂点</param>
 	/// <param name="t">時間</param>
 	/// <returns>位置</returns>
-	Vector3 testSpline(const std::vector<Vector3>& points, size_t startIndex, float t);
+	Vector3 testSpline(const std::vector<Vector3>& points, int startIndex, float t);
 
 private: //メンバ関数
 
@@ -132,9 +132,9 @@ private: //メンバ変数
 	std::stringstream enemyData;
 
 	//
-	DWORD startCount = 1;
-	DWORD nowCount = 0;
-	DWORD elapsedCount = 0;
+	long long startCount = 1;
+	long long nowCount = 0;
+	long long elapsedCount = 0;
 
 	Vector3 start = { 50.0f, 1.0f, -100.0f };
 	Vector3 p2 = { 50.0f, 5.0f, 0.0f };
@@ -142,9 +142,9 @@ private: //メンバ変数
 	Vector3 end = { -50.0f, 1.0f, -150.0f };
 	std::vector<Vector3> points{ start, start, p2, p3, end, end };
 
-	float maxTime = 5000.0f;
+	float maxTime = 10000.0f;
 	float timeRate;
-	size_t startIndex = 1;
+	int startIndex = 1;
 	Vector3 cameraPos;
 };
 

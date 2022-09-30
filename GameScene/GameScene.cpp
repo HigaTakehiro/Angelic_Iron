@@ -133,16 +133,20 @@ void GameScene::Update() {
 		if (input->PushKey(DIK_E)) {
 			camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
 		}
+		if (input->PushKey(DIK_R)) {
+			startCount = GetTickCount64();
+			startIndex = 1;
+		}
 
 		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
-		float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+		float elapsedTime = static_cast<float> (elapsedCount) / 1000.0f;
 
 		timeRate = elapsedCount / maxTime;
 
 		if (timeRate >= 1.0f) {
 			if (startIndex < points.size() - 3) {
-				startIndex += 1.0f;
+				startIndex += 1;
 				timeRate -= 1.0f;
 				startCount = GetTickCount64();
 			}
@@ -151,14 +155,14 @@ void GameScene::Update() {
 			}
 		}
 
-		cameraPos = testSpline(points, startIndex, timeRate);
+		cameraPos = testSpline(points, startIndex, timeRate) * -1.0f;
 
 		camera->SetEye(cameraPos);
 		//camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
 		char xPos[256];
 		char yPos[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", timeRate, startIndex, elapsedTime);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
@@ -340,8 +344,8 @@ void GameScene::EnemyDataUpdate() {
 	}
 }
 
-Vector3 GameScene::testSpline(const std::vector<Vector3>& points, size_t startIndex, float t) {
-	size_t n = points.size() - 2;
+Vector3 GameScene::testSpline(const std::vector<Vector3>& points, int startIndex, float t) {
+	int n = points.size() - 2;
 
 	if (startIndex > n) return points[n];
 	if (startIndex < 1) return points[1];
@@ -351,7 +355,12 @@ Vector3 GameScene::testSpline(const std::vector<Vector3>& points, size_t startIn
 	Vector3 p2 = points[startIndex + 1];
 	Vector3 p3 = points[startIndex + 2];
 
-	Vector3 position = ((p1 * 2.0f) + ((p0 * -1.0f) + p2) * t + ((p0 * 2.0f) - (p1 * 5.0f) + (p2 * 4.0f) - p3) * (t * t) + ((p0 * -1.0f) + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t)) * 0.5f;
+	Vector3 test1 = (p1 * 2.0f) + ((p0 * -1.0f) + p2) * t;
+	Vector3 test2 = ((p0 * 2.0f) - (p1 * 5.0f) + (p2 * 4.0f) - p3) * (t * t);
+	Vector3 test3 = ((p0 * -1.0f) + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t);
+
+	Vector3 position = (test1 + test2 + test3);
+	position = position / 2.0f;
 
 	return position;
 }
