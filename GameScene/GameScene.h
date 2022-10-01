@@ -142,7 +142,7 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 end = { -50.0f, 1.0f, -150.0f };
 	std::vector<Vector3> points{ start, start, p2, p3, end, end };
 
-	float maxTime = 10000.0f;
+	float maxTime = 5000.0f;
 	float timeRate;
 	int startIndex = 1;
 	Vector3 cameraPos;

@@ -151,6 +151,7 @@
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXCommon.cpp" />
     <ClCompile Include="Base\MatCalc.cpp" />
+    <ClCompile Include="Base\Vector3.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Object3d\Collision.cpp" />
