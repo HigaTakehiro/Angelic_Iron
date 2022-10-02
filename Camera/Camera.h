@@ -1,5 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
+#include "Vector3.h"
+#include "MatCalc.h"
 
 class Camera
 {
