@@ -140,7 +140,7 @@ void GameScene::Update() {
 
 		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
-		float elapsedTime = static_cast<float> (elapsedCount) / 1000.0f;
+		float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
 		timeRate = elapsedCount / maxTime;
 
@@ -151,6 +151,7 @@ void GameScene::Update() {
 				startCount = GetTickCount64();
 			}
 			else {
+				startIndex = 0;
 				timeRate = 1.0f;
 			}
 		}
@@ -158,6 +159,7 @@ void GameScene::Update() {
 		cameraPos = testSpline(points, startIndex, timeRate) * -1.0f;
 
 		camera->SetEye(cameraPos);
+		camera->SetTarget(cameraPos * 1.2f);
 		//camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
 		char xPos[256];

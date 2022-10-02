@@ -54,7 +54,7 @@ void Player::Update() {
 		Shot();
 	}
 
-	playerLPos.z = -50.0f;
+	//playerLPos.z = -50.0f;
 	//aim3d->SetPosition(Vector3(aimPos.x, aimPos.y, 50));
 
 	aim->SetPosition(XMFLOAT2(aimPos.x - 50.0f, aimPos.y - 50.0f));
