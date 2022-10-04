@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector3.h"
-#include "Matrix4.h"
 #include <DirectXMath.h>
 
 using namespace DirectX;
@@ -50,6 +49,6 @@ Quaternion operator / (const Quaternion& q, float s);
 
 Quaternion slerp(const Quaternion& q1, const Quaternion& q2, float t);
 Quaternion lerp(const Quaternion& q1, const Quaternion& q2, float t);
-Matrix4 rotate(const Quaternion& q);
-Quaternion quaternion(const Matrix4& m);
+XMMATRIX rotate(const Quaternion& q);
+Quaternion quaternion(const XMMATRIX& m);
 Vector3 getAxis(const Quaternion& q);

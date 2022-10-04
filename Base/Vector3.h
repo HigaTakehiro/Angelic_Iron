@@ -41,6 +41,3 @@ const Vector3 operator/(const Vector3& v, float s);
 //•âŠÔŠÖ”
 //üŒ`•âŠÔ(1ŸŠÖ”•âŠÔ)
 const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);
-const Vector3 easeIn(const Vector3& start, const Vector3& end, const float t);
-const Vector3 easeOut(const Vector3& start, const Vector3& end, const float t);
-const Vector3 easeInOut(const Vector3& start, const Vector3& end, const float t);

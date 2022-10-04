@@ -176,7 +176,7 @@ Quaternion lerp(const Quaternion& q1, const Quaternion& q2, float t) {
 }
 
 //クォータニオンから回転行列に変換する関数
-Matrix4 rotate(const Quaternion& q) {
+XMMATRIX rotate(const Quaternion& q) {
 	float xx = q.x * q.x * 2.0f;
 	float yy = q.y * q.y * 2.0f;
 	float zz = q.z * q.z * 2.0f;
@@ -196,7 +196,7 @@ Matrix4 rotate(const Quaternion& q) {
 }
 
 //回転行列からクォータニオンを求める関数
-Quaternion quaternion(const Matrix4& m) {
+Quaternion quaternion(const XMMATRIX& m) {
 	Quaternion result;
 	float tr = m.r[0].m128_f32[0] + m.r[1].m128_f32[1] + m.r[2].m128_f32[2] + m.r[3].m128_f32[3];
 

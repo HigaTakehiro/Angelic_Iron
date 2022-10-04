@@ -107,9 +107,9 @@ void Camera::UpdateWorldMatrix()
 	XMMATRIX matRot, matTrans;
 
 	distance = XMFLOAT3(eye.x - target.x, eye.y - target.y, eye.z - target.z);
-	xRot = 0.0f;
+	xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
 	yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
-	zRot = 0.0f;
+	zRot = 0;
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(XMConvertToRadians(zRot));
 	matRot *= XMMatrixRotationX(XMConvertToRadians(xRot));
