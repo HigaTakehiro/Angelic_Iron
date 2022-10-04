@@ -151,7 +151,6 @@
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXCommon.cpp" />
     <ClCompile Include="Base\MatCalc.cpp" />
-    <ClCompile Include="Base\Matrix4.cpp" />
     <ClCompile Include="Base\Quaternion.cpp" />
     <ClCompile Include="Base\Vector3.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
@@ -256,7 +255,6 @@
     <ClInclude Include="Base\DirectXCommon.h" />
     <ClInclude Include="Base\Easing.h" />
     <ClInclude Include="Base\MatCalc.h" />
-    <ClInclude Include="Base\Matrix4.h" />
     <ClInclude Include="Base\Quaternion.h" />
     <ClInclude Include="Base\SafeDelete.h" />
     <ClInclude Include="Base\Vector3.h" />

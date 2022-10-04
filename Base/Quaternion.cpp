@@ -1,5 +1,4 @@
 #include "Quaternion.h"
-#include "Matrix4.h"
 #include <cmath>
 
 //成分を指定して、クォータニオンを作成

@@ -23,7 +23,7 @@ float dot(const Quaternion& q1, const Quaternion& q2);
 float length(const Quaternion& q);
 
 //³‹K‰»‚·‚é
-Quaternion normalize(const Quaternion& q);
+Quaternion Qnormalize(const Quaternion& q);
 
 //‹¤–ğlŒ³”‚ğ‹‚ß‚é
 Quaternion conjugate(const Quaternion& q);

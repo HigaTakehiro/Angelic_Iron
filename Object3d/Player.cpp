@@ -19,7 +19,7 @@ void Player::Initialize(Camera* camera) {
 	player->SetCameraParent(camera);
 	aim3dModel = Model::CreateModel("Block");
 	aim3d = Object3d::Create(aim3dModel);
-	aim3d->SetScale(Vector3(0, 0, 0));
+	aim3d->SetScale(Vector3(3, 3, 3));
 	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(Vector3(0, 0, 0));
 	//aim3d->SetParent(player);
@@ -161,10 +161,15 @@ void Player::AimUpdate() {
 	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
 
 	XMVECTOR mouseDirection = posFar - posNear;
-	mouseDirection = XMVector3Normalize(mouseDirection);
+	float length = sqrtf(mouseDirection.m128_f32[0] * mouseDirection.m128_f32[0] + mouseDirection.m128_f32[1] * mouseDirection.m128_f32[1] + mouseDirection.m128_f32[2] * mouseDirection.m128_f32[2]);
+	if (length != 0) {
+		mouseDirection = mouseDirection / length;
+	}
+
+	//mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 50.0f;
-	aimPos3d = (mouseDirection + posNear) * kDistanceTestObject;
+	aimPos3d = posNear + (mouseDirection * kDistanceTestObject);
 
 	aim3d->SetPosition(aimPos3d);
 

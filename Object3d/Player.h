@@ -11,7 +11,8 @@
 #include "WinApp.h"
 #include "PlayerBullet.h"
 #include <memory>
-#include  "MatCalc.h"
+#include "Vector3.h"
+#include "MatCalc.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -49,6 +50,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>位置</returns>
 	const XMFLOAT3 GetPlayerPos() { return playerWPos; }
+
+	/// <summary>
+	/// 3Dレティクルの位置取得
+	/// </summary>
+	/// <returns></returns>
+	const Vector3 GetAimPos() { return aimPos3d; }
 
 	/// <summary>
 	/// 向き取得
