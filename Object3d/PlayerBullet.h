@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Vector3.h"
 #include "MatCalc.h"
+#include "ModelManager.h"
 
 class PlayerBullet
 {

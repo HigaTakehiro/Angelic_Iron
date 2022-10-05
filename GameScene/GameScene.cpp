@@ -56,6 +56,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	//Object3d‚Ì‰Šú‰»
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
+	ModelManager::GetIns()->Initialize();
 
 	groundModel = Model::CreateModel("ground");
 	ground = Object3d::Create(groundModel);

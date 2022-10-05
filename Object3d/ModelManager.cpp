@@ -1,5 +1,11 @@
 #include "ModelManager.h"
 
+ModelManager* ModelManager::GetIns()
+{
+	static ModelManager instance;
+	return &instance;
+}
+
 void ModelManager::Initialize() {
 	LoadModel(Player, "Player");
 	LoadModel(Enemy, "Enemy");
@@ -14,5 +20,5 @@ void ModelManager::Finalize() {
 void ModelManager::LoadModel(const ModelName modelType, const std::string modelName) {
 	Model* newModel = nullptr;
 	newModel = Model::CreateModel(modelName);
-	model[modelType] = newModel;
+	model.push_back(newModel);
 }
