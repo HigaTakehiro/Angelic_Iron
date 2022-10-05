@@ -137,12 +137,12 @@ private: //ƒƒ“ƒo•Ï”
 	long long elapsedCount = 0;
 
 	Vector3 start = { 50.0f, 1.0f, 300.0f };
-	Vector3 p2 = { 0.0f, -200.0f, -300.0f };
-	Vector3 p3 = { 0.0f, -5.0f, 50.0f };
-	Vector3 end = { -50.0f, 1.0f, -150.0f };
+	Vector3 p2 = { 50.0f, -200.0f, 0.0f };
+	Vector3 p3 = { 50.0f, 1.0f, -300.0f };
+	Vector3 end = { -50.0f, 1.0f, 0.0f };
 	std::vector<Vector3> points{ start, start, p2, p3, end, start, start };
 
-	float maxTime = 5000.0f;
+	float maxTime = 15000.0f; //maxTime / 1000[s]
 	float timeRate;
 	int startIndex = 1;
 	Vector3 cameraPos;
