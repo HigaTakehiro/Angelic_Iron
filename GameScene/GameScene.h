@@ -77,7 +77,7 @@ public: //メンバ関数
 	/// <param name="startIndex">最初の頂点</param>
 	/// <param name="t">時間</param>
 	/// <returns>位置</returns>
-	Vector3 testSpline(const std::vector<Vector3>& points, int startIndex, float t);
+	Vector3 testSpline(const std::vector<Vector3>& points, const int& startIndex, const float& t);
 
 private: //メンバ関数
 

@@ -1,16 +1,17 @@
 #include "RailCamera.h"
 
-void RailCamera::Initialize(Vector3 eye, Vector3 rot, std::vector<Vector3> points, float maxTime) {
+void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, const float& maxTime) {
 	this->eye = eye;
 	this->rot = rot;
 	this->points = points;
+	this->maxTime = maxTime;
 }
 
 void RailCamera::Update() {
 
 }
 
-Vector3 RailCamera::Spline(const std::vector<Vector3> points, int startIndex, float t) {
+Vector3 RailCamera::Spline(const std::vector<Vector3>& points, const int& startIndex, const float& t) {
 	int n = points.size() - 2;
 
 	if (startIndex > n) return points[n];

@@ -347,7 +347,7 @@ void GameScene::EnemyDataUpdate() {
 	}
 }
 
-Vector3 GameScene::testSpline(const std::vector<Vector3>& points, int startIndex, float t) {
+Vector3 GameScene::testSpline(const std::vector<Vector3>& points, const int& startIndex, const float& t) {
 	int n = points.size() - 2;
 
 	if (startIndex > n) return points[n];
