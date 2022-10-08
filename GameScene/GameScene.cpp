@@ -159,8 +159,8 @@ void GameScene::Update() {
 
 		cameraPos = testSpline(points, startIndex, timeRate) * -1.0f;
 
-		camera->SetEye(cameraPos);
-		camera->SetTarget(cameraPos * -1.2f);
+		//camera->SetEye(cameraPos);
+		//camera->SetTarget(cameraPos * -1.2f);
 		//camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
 		char xPos[256];

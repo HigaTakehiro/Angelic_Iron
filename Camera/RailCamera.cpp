@@ -1,14 +1,37 @@
 #include "RailCamera.h"
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <sysinfoapi.h>
 
 void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, const float& maxTime) {
 	this->eye = eye;
 	this->rot = rot;
 	this->points = points;
 	this->maxTime = maxTime;
+	startTime = GetTickCount64();
 }
 
 void RailCamera::Update() {
+	nowCount = GetTickCount64();
+	elapsedCount = nowCount - startTime;
+	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
+	timeRate = elapsedCount / maxTime;
+
+	if (timeRate >= 1.0f) {
+		if (startIndex < points.size() - 3) {
+			startIndex += 1;
+			timeRate -= 1.0f;
+			startTime = GetTickCount64();
+		}
+		else {
+			startIndex = 0;
+			timeRate = 1.0f;
+		}
+	}
+
+	eye = Spline(points, startIndex, timeRate) * -1.0f;
 }
 
 Vector3 RailCamera::Spline(const std::vector<Vector3>& points, const int& startIndex, const float& t) {
