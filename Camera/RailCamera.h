@@ -1,6 +1,7 @@
 #pragma once
 #include "camera.h"
 #include "Vector3.h"
+#include "MatCalc.h"
 #include <DirectXMath.h>
 #include <vector>
 
@@ -27,6 +28,8 @@ public: //メンバ関数
 	/// </summary>
 	void Update();
 
+private: //メンバ関数
+
 	/// <summary>
 	/// スプライン補間
 	/// </summary>
@@ -36,9 +39,20 @@ public: //メンバ関数
 	/// <returns>座標</returns>
 	Vector3 Spline(const std::vector<Vector3>& points, const int& startIndex, const float& t);
 
+	/// <summary>
+	/// スプライン補間の移動
+	/// </summary>
+	void SplineMove();
+
+	/// <summary>
+	/// ワールド行列補間
+	/// </summary>
+	void UpdateMatWorld();
+
 private: //メンバ変数
 	Vector3 eye; //ワールド座標
 	Vector3 rot; //回転角
+	Vector3 target; //ターゲット
 	XMMATRIX matWorld; //ワールド行列
 	std::vector<Vector3> points; //スプライン補間用の各ポイント
 

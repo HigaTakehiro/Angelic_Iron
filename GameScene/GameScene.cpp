@@ -28,8 +28,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(50, 1, -100));
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
+	railCamera = new RailCamera;
 	cameraPos = { 50.0f, 1.0f, -100.0f };
+	cameraRot = { 0.0f, 180.0f, 0.0f };
 	startCount = GetTickCount64();
+	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
 
 	//Sprite & DebugText‚Ì‰Šú‰»
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -116,56 +119,56 @@ void GameScene::Update() {
 
 	if (!isTitle && !isClear && !isDead) {
 
-		if (input->PushKey(DIK_RIGHT)) {
-			camera->CameraMoveEyeVector({ +2.0f, 0.0f, 0.0f });
-		}
-		if (input->PushKey(DIK_LEFT)) {
-			camera->CameraMoveEyeVector({ -2.0f, 0.0f, 0.0f });
-		}
-		if (input->PushKey(DIK_UP)) {
-			camera->CameraMoveEyeVector({ 0.0f, 0.0f, +2.0f });
-		}
-		if (input->PushKey(DIK_DOWN)) {
-			camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
-		}
-		if (input->PushKey(DIK_Q)) {
-			camera->CameraMoveEyeVector({ 0.0f, +2.0f, 0.0f });
-		}
-		if (input->PushKey(DIK_E)) {
-			camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
-		}
-		if (input->PushKey(DIK_R)) {
-			startCount = GetTickCount64();
-			startIndex = 1;
-		}
+		//if (input->PushKey(DIK_RIGHT)) {
+		//	camera->CameraMoveEyeVector({ +2.0f, 0.0f, 0.0f });
+		//}
+		//if (input->PushKey(DIK_LEFT)) {
+		//	camera->CameraMoveEyeVector({ -2.0f, 0.0f, 0.0f });
+		//}
+		//if (input->PushKey(DIK_UP)) {
+		//	camera->CameraMoveEyeVector({ 0.0f, 0.0f, +2.0f });
+		//}
+		//if (input->PushKey(DIK_DOWN)) {
+		//	camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
+		//}
+		//if (input->PushKey(DIK_Q)) {
+		//	camera->CameraMoveEyeVector({ 0.0f, +2.0f, 0.0f });
+		//}
+		//if (input->PushKey(DIK_E)) {
+		//	camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
+		//}
+		//if (input->PushKey(DIK_R)) {
+		//	startCount = GetTickCount64();
+		//	startIndex = 1;
+		//}
 
-		nowCount = GetTickCount64();
-		elapsedCount = nowCount - startCount;
-		float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+		//nowCount = GetTickCount64();
+		//elapsedCount = nowCount - startCount;
+		//float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
-		timeRate = elapsedCount / maxTime;
+		//timeRate = elapsedCount / maxTime;
 
-		if (timeRate >= 1.0f) {
-			if (startIndex < points.size() - 3) {
-				startIndex += 1;
-				timeRate -= 1.0f;
-				startCount = GetTickCount64();
-			}
-			else {
-				startIndex = 0;
-				timeRate = 1.0f;
-			}
-		}
+		//if (timeRate >= 1.0f) {
+		//	if (startIndex < points.size() - 3) {
+		//		startIndex += 1;
+		//		timeRate -= 1.0f;
+		//		startCount = GetTickCount64();
+		//	}
+		//	else {
+		//		startIndex = 0;
+		//		timeRate = 1.0f;
+		//	}
+		//}
 
-		cameraPos = testSpline(points, startIndex, timeRate) * -1.0f;
+		//cameraPos = testSpline(points, startIndex, timeRate);
 
 		//camera->SetEye(cameraPos);
-		//camera->SetTarget(cameraPos * -1.2f);
-		//camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
+		//camera->SetTarget(cameraPos * 1.2f);
+		////camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
 
 		char xPos[256];
 		char yPos[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", player->GetAimPos().x, player->GetAimPos().y, player->GetAimPos().z);
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
@@ -194,6 +197,7 @@ void GameScene::Update() {
 		ground->Update();
 		player->Update();
 		object1->Update();
+		railCamera->Update();
 
 		for (auto object : objects) {
 			object->Update();

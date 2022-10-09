@@ -9,6 +9,7 @@ XMMATRIX Camera::matViewPort{};
 XMFLOAT3 Camera::eye = { 0, 200.0f, -200.0f };
 XMFLOAT3 Camera::target = { 0, 0, 0 };
 XMFLOAT3 Camera::up = { 0, 1, 0 };
+bool Camera::isMatWorldCalc = false;
 
 void Camera::InitializeCamera(int window_width, int window_height)
 {
@@ -44,7 +45,9 @@ void Camera::SetEye(XMFLOAT3 eye)
 
 	UpdateViewMatrix();
 
-	UpdateWorldMatrix();
+	if (isMatWorldCalc) {
+		UpdateWorldMatrix();
+	}
 }
 
 void Camera::SetTarget(XMFLOAT3 target)
@@ -53,7 +56,9 @@ void Camera::SetTarget(XMFLOAT3 target)
 
 	UpdateViewMatrix();
 
-	UpdateWorldMatrix();
+	if (isMatWorldCalc) {
+		UpdateWorldMatrix();
+	}
 }
 
 void Camera::CameraMoveVector(XMFLOAT3 move)
@@ -116,8 +121,19 @@ void Camera::UpdateWorldMatrix()
 	matRot *= XMMatrixRotationY(XMConvertToRadians(yRot));
 	matTrans = XMMatrixTranslation(eye.x, eye.y, eye.z);
 
+	up = XMFLOAT3{ matRot.r[1].m128_f32[0], matRot.r[1].m128_f32[1], matRot.r[1].m128_f32[2] };
+
 	matWorld = XMMatrixIdentity();
 	matWorld *= matRot;
 	matWorld *= matTrans;
 
+}
+
+void Camera::SetUp(XMFLOAT3 up) {
+	Camera::up = up;
+}
+
+void Camera::SetMatWorld(XMMATRIX matWorld) {
+	Camera::matWorld = matWorld;
+	Camera::isMatWorldCalc = true;
 }

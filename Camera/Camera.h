@@ -64,6 +64,18 @@ public: //静的メンバ関数
 	static void SetTarget(XMFLOAT3 target);
 
 	/// <summary>
+	/// 上方ベクトルのセット
+	/// </summary>
+	/// <param name="up">上方ベクトル</param>
+	static void SetUp(XMFLOAT3 up);
+
+	/// <summary>
+	/// ワールド行列のセット
+	/// </summary>
+	/// <param name="matWorld">ワールド行列</param>
+	static void SetMatWorld(XMMATRIX matWorld);
+
+	/// <summary>
 	/// ベクトルによる移動
 	/// </summary>
 	/// <param name="move">移動量</param>
@@ -110,5 +122,7 @@ private: //静的メンバ変数
 	static XMFLOAT3 up;
 	//ビューポート行列
 	static XMMATRIX matViewPort;
+	//ワールド行列設定のフラグ
+	static bool isMatWorldCalc;
 };
 

@@ -18,6 +18,7 @@
 #include "Collision.h"
 #include "PlayerBullet.h"
 #include "ModelManager.h"
+#include "RailCamera.h"
 #include <sstream>
 
 using namespace DirectX;
@@ -94,6 +95,7 @@ private: //メンバ変数
 	Sound* sound = nullptr;
 	Camera* camera = nullptr;
 	MapChip* mapchip = nullptr;
+	RailCamera* railCamera = nullptr;
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr;
@@ -137,7 +139,7 @@ private: //メンバ変数
 	long long elapsedCount = 0;
 
 	Vector3 start = { 50.0f, 1.0f, 300.0f };
-	Vector3 p2 = { 50.0f, -200.0f, 0.0f };
+	Vector3 p2 = { 50.0f, 200.0f, 0.0f };
 	Vector3 p3 = { 50.0f, 1.0f, -300.0f };
 	Vector3 end = { -50.0f, 1.0f, 0.0f };
 	std::vector<Vector3> points{ start, start, p2, p3, end, start, start };
@@ -146,5 +148,6 @@ private: //メンバ変数
 	float timeRate;
 	int startIndex = 1;
 	Vector3 cameraPos;
+	Vector3 cameraRot;
 };
 
