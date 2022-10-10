@@ -181,9 +181,9 @@ void Player::AimUpdate() {
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 20.0f;
-	XMVECTOR offset;
-	offset = MatCalc::GetIns()->VecDivided(mouseDirection + posNear, camera->GetMatWorld());
-	aimPos3d = offset * kDistanceTestObject;
+	mouseDirection = mouseDirection * kDistanceTestObject;
+	mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
+	aimPos3d = posNear + mouseDirection;
 
 	aim3d->SetPosition(aimPos3d);
 

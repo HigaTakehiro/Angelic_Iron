@@ -61,17 +61,17 @@ void RailCamera::SplineMove() {
 		xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
 		yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
 		if (rot.x < xRot) {
-			rot.x += 0.2f;
+			rot.x += 0.1f;
 		}
 		else if (rot.x > xRot) {
-			rot.x -= 0.2f;
+			rot.x -= 0.1f;
 		}
 
 		if (rot.y < yRot) {
-			rot.y += 0.2f;
+			rot.y += 0.1f;
 		}
 		else if (rot.y > yRot) {
-			rot.y -= 0.2f;
+			rot.y -= 0.1f;
 		}
 	}
 
