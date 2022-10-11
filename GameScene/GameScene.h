@@ -71,15 +71,6 @@ public: //メンバ関数
 	/// </summary>
 	void EnemyDataUpdate();
 
-	/// <summary>
-	/// スプライン曲線のテスト
-	/// </summary>
-	/// <param name="points">ベクター型の通るポイント</param>
-	/// <param name="startIndex">最初の頂点</param>
-	/// <param name="t">時間</param>
-	/// <returns>位置</returns>
-	Vector3 testSpline(const std::vector<Vector3>& points, const int& startIndex, const float& t);
-
 private: //メンバ関数
 
 	/// <summary>
@@ -133,20 +124,13 @@ private: //メンバ変数
 	bool isClear;
 	std::stringstream enemyData;
 
-	//
-	long long startCount = 1;
-	long long nowCount = 0;
-	long long elapsedCount = 0;
+	const Vector3 start = { 50.0f, 1.0f, 300.0f };
+	const Vector3 p2 = { 50.0f, 200.0f, 0.0f };
+	const Vector3 p3 = { 50.0f, 1.0f, -300.0f };
+	const Vector3 end = { -50.0f, 1.0f, 0.0f };
+	std::vector<Vector3> points;
 
-	Vector3 start = { 50.0f, 1.0f, 300.0f };
-	Vector3 p2 = { 50.0f, 200.0f, 0.0f };
-	Vector3 p3 = { 50.0f, 1.0f, -300.0f };
-	Vector3 end = { -50.0f, 1.0f, 0.0f };
-	std::vector<Vector3> points{ start, start, p2, p3, end, start, start };
-
-	float maxTime = 15000.0f; //maxTime / 1000[s]
-	float timeRate;
-	int startIndex = 1;
+	const float maxTime = 15000.0f; //maxTime / 1000[s]
 	Vector3 cameraPos;
 	Vector3 cameraRot;
 };

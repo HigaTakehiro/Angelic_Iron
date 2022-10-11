@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "SafeDelete.h"
 #include "Player.h"
+#include "ModelManager.h"
 
 class Enemy
 {
@@ -21,7 +22,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const std::string& modelName, Vector3 pos, Vector3 rot, Vector3 scale);
+	void Initialize(const std::string& modelName, const Vector3& pos, const Vector3& rot, const Vector3& scale);
 
 	/// <summary>
 	/// 更新処理
@@ -50,11 +51,20 @@ public: //メンバ関数
 	/// <returns>敵オブジェクト</returns>
 	Object3d* GetEnemyObj() { return enemy; }
 
+private: //メンバ関数
+	EnemyStyle stringToEnemyStyle(const std::string& type);
+
+	/// <summary>
+	/// 敵の行動
+	/// </summary>
+	void EnemyAction();
+
 private: //メンバ変数
 
-	Model* enemyModel;
 	Object3d* enemy;
 	Vector3 pos;
+	Vector3 oldPos;
+	EnemyStyle type;
 	bool isDead;
 };
 

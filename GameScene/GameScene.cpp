@@ -31,7 +31,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	railCamera = new RailCamera;
 	cameraPos = { 50.0f, 1.0f, -100.0f };
 	cameraRot = { 0.0f, 180.0f, 0.0f };
-	startCount = GetTickCount64();
+	points = { start, start, p2, p3, end, start, start };
 	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
 
 	//Sprite & DebugText‚Ì‰Šú‰»
@@ -118,53 +118,7 @@ void GameScene::Update() {
 	}
 
 	if (!isTitle && !isClear && !isDead) {
-
-		//if (input->PushKey(DIK_RIGHT)) {
-		//	camera->CameraMoveEyeVector({ +2.0f, 0.0f, 0.0f });
-		//}
-		//if (input->PushKey(DIK_LEFT)) {
-		//	camera->CameraMoveEyeVector({ -2.0f, 0.0f, 0.0f });
-		//}
-		//if (input->PushKey(DIK_UP)) {
-		//	camera->CameraMoveEyeVector({ 0.0f, 0.0f, +2.0f });
-		//}
-		//if (input->PushKey(DIK_DOWN)) {
-		//	camera->CameraMoveEyeVector({ 0.0f, 0.0f, -2.0f });
-		//}
-		//if (input->PushKey(DIK_Q)) {
-		//	camera->CameraMoveEyeVector({ 0.0f, +2.0f, 0.0f });
-		//}
-		//if (input->PushKey(DIK_E)) {
-		//	camera->CameraMoveEyeVector({ 0.0f, -2.0f, 0.0f });
-		//}
-		//if (input->PushKey(DIK_R)) {
-		//	startCount = GetTickCount64();
-		//	startIndex = 1;
-		//}
-
-		//nowCount = GetTickCount64();
-		//elapsedCount = nowCount - startCount;
-		//float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
-
-		//timeRate = elapsedCount / maxTime;
-
-		//if (timeRate >= 1.0f) {
-		//	if (startIndex < points.size() - 3) {
-		//		startIndex += 1;
-		//		timeRate -= 1.0f;
-		//		startCount = GetTickCount64();
-		//	}
-		//	else {
-		//		startIndex = 0;
-		//		timeRate = 1.0f;
-		//	}
-		//}
-
-		//cameraPos = testSpline(points, startIndex, timeRate);
-
-		//camera->SetEye(cameraPos);
-		//camera->SetTarget(cameraPos * 1.2f);
-		////camera->CameraMoveVector({ 0.0f, 0.0f, +0.2f });
+		railCamera->Update();
 
 		char xPos[256];
 		char yPos[256];
@@ -197,7 +151,6 @@ void GameScene::Update() {
 		ground->Update();
 		player->Update();
 		object1->Update();
-		railCamera->Update();
 
 		for (auto object : objects) {
 			object->Update();
@@ -266,6 +219,8 @@ void GameScene::Finalize() {
 	objects.shrink_to_fit();
 	objects2.clear();
 	objects2.shrink_to_fit();
+	points.clear();
+	points.shrink_to_fit();
 	safe_delete(mapchip);
 	safe_delete(object1);
 	safe_delete(model1);
@@ -309,9 +264,11 @@ void GameScene::EnemyDataUpdate() {
 	Vector3 pos{};
 	Vector3 rot{};
 	Vector3 scale{};
+	std::string type;
 	bool isPos = false;
 	bool isRot = false;
 	bool isScale = false;
+	bool isStile = false;
 
 	while (getline(enemyData, line)) {
 		std::istringstream line_stream(line);
@@ -322,52 +279,35 @@ void GameScene::EnemyDataUpdate() {
 			continue;
 		}
 		if (word == "Pos") {
-			//Vector3 pos{};
 			line_stream >> pos.x;
 			line_stream >> pos.y;
 			line_stream >> pos.z;
 			isPos = true;
 		}
 		if (word == "Rot") {
-			//Vector3 rot{};
 			line_stream >> rot.x;
 			line_stream >> rot.y;
 			line_stream >> rot.z;
 			isRot = true;
 		}
 		if (word == "Scale") {
-			//Vector3 scale{};
 			line_stream >> scale.x;
 			line_stream >> scale.y;
 			line_stream >> scale.z;
 			isScale = true;
 		}
+		//if (word == "Type") {
+		//	line_stream >> type;
+		//	isStile = true;
+		//}
 
 		if (isPos && isRot && isScale) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 			newEnemy->Initialize("Enemy", pos, rot, scale);
 			enemies.push_back(std::move(newEnemy));
+			isPos = false;
+			isRot = false;
+			isScale = false;
 		}
 	}
-}
-
-Vector3 GameScene::testSpline(const std::vector<Vector3>& points, const int& startIndex, const float& t) {
-	int n = points.size() - 2;
-
-	if (startIndex > n) return points[n];
-	if (startIndex < 1) return points[1];
-
-	Vector3 p0 = points[startIndex - 1];
-	Vector3 p1 = points[startIndex];
-	Vector3 p2 = points[startIndex + 1];
-	Vector3 p3 = points[startIndex + 2];
-
-	Vector3 test1 = (p1 * 2.0f) + (-p0 + p2) * t;
-	Vector3 test2 = ((p0 * 2.0f) - (p1 * 5.0f) + (p2 * 4.0f) - p3) * (t * t);
-	Vector3 test3 = (-p0 + (p1 * 3.0f) - (p2 * 3.0f) + p3) * (t * t * t);
-
-	Vector3 position = (test1 + test2 + test3);
-	position = position / 2.0f;
-
-	return position;
 }

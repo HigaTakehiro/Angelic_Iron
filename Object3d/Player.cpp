@@ -22,7 +22,7 @@ void Player::Initialize(Camera* camera) {
 	aim3d->SetScale(Vector3(3, 3, 3));
 	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(Vector3(0, 0, 0));
-	//aim3d->SetParent(player);
+	aim3d->SetParent(player);
 }
 
 void Player::Finalize() {
@@ -84,45 +84,49 @@ void Player::ObjectDraw() {
 void Player::Move() {
 	const float moveSpeed = 2.0f;
 	const float autoSpeed = 0.2;
+	const float playerAngle = 180.0f;
+	const float stopAngleY = 45.0f;
+	const float stopAngleX = 30.0f;
+	const float stopPosX = 40.0f;
+	const float stopPosY = 20.0f;
 
-	if (KeyInput::GetIns()->PushKey(DIK_W)) {
+	if (KeyInput::GetIns()->PushKey(DIK_W) && playerLPos.y <= stopPosY) {
 		playerLPos.y += moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_S)) {
+	if (KeyInput::GetIns()->PushKey(DIK_S) && playerLPos.y >= -stopPosY) {
 		playerLPos.y -= moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_A)) {
+	if (KeyInput::GetIns()->PushKey(DIK_A) && playerLPos.x <= stopPosX) {
 		playerLPos.x += moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_D)) {
+	if (KeyInput::GetIns()->PushKey(DIK_D) && playerLPos.x >= -stopPosX) {
 		playerLPos.x -= moveSpeed;
 	}
 
-	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+	if (KeyInput::GetIns()->PushKey(DIK_LEFT) && playerRot.y >= playerAngle - stopAngleY) {
 		playerRot.y -= moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+	if (KeyInput::GetIns()->PushKey(DIK_RIGHT) && playerRot.y <= playerAngle + stopAngleY) {
 		playerRot.y += moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+	if (KeyInput::GetIns()->PushKey(DIK_UP) && playerRot.x >= -stopAngleX) {
 		playerRot.x -= moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && playerRot.x <= stopAngleX) {
 		playerRot.x += moveSpeed;
 	}
 
-	//playerPos.z += autoSpeed;
-	//playerWPos = playerLPos * player->GetMatWorld().r->m128_f32[3];
-
 	player->SetPosition(playerLPos);
-	//player->SetRotation(playerRot);
+	player->SetRotation(playerRot);
 }
 
 void Player::Shot() {
-	const float bulletSpeed = 1.0f;
-	XMVECTOR velocity = { 0, 0, bulletSpeed };
+	const float bulletSpeed = 5.0f;
+	XMVECTOR velocity;
+	velocity = { aim3d->GetMatWorld().r[3] - player->GetMatWorld().r[3] };
+	velocity = XMVector3Normalize(velocity) * bulletSpeed;
 
-	velocity = MatCalc::GetIns()->VecDivided(velocity, player->GetMatWorld());
+	//velocity = MatCalc::GetIns()->VecDivided(velocity, player->GetMatWorld());
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos, velocity);
@@ -130,13 +134,6 @@ void Player::Shot() {
 	bullets.push_back(std::move(newBullet));
 
 	isShot = false;
-
-	//shotPos.z += shotSpeed;
-	//shot->SetPosition(shotPos);
-
-	//if (shotPos.z >= playerWPos.z + 100.0f || shotPos.x <= windowOverX_Left || shotPos.x >= windowOverX_Right) {
-	//	isShot = false;
-	//}
 }
 
 void Player::Reset() {
@@ -151,40 +148,36 @@ void Player::Reset() {
 void Player::AimUpdate() {
 
 	//2D¨3D
-	//const float kDistancePlayerTo3DRaticle = 50.0f;
-	//XMVECTOR offset = { 0, 0, 1.0f };
-	//offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
-	//offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
+	const float kDistancePlayerTo3DRaticle = 50.0f;
+	XMVECTOR offset = { 0, 0, 1.0f };
+	offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
+	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
-	//aimPos3d.x = playerWPos.x + offset.m128_f32[0];
-	//aimPos3d.y = playerWPos.y + offset.m128_f32[1];
-	//aimPos3d.z = playerWPos.z + offset.m128_f32[2];
+	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] };
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport);
 
-	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] };
-	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	//raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport);
-
-	//aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
 	//3D¨2D
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
-	XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
+	//XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	//XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
+	//XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
+	//XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
 
-	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
-	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
+	//posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
+	//posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
 
-	XMVECTOR mouseDirection = posFar - posNear;
-	mouseDirection = XMVector3Normalize(mouseDirection);
+	//XMVECTOR mouseDirection = posFar - posNear;
+	//mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 20.0f;
-	mouseDirection = mouseDirection * kDistanceTestObject;
-	mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
-	aimPos3d = posNear + mouseDirection;
+	//const float kDistanceTestObject = 20.0f;
+	//mouseDirection = mouseDirection * kDistanceTestObject;
+	//mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
+	//aimPos3d = posNear + mouseDirection;
 
-	aim3d->SetPosition(aimPos3d);
+	//aim3d->SetPosition(aimPos3d);
 
 }
