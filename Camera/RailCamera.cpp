@@ -3,7 +3,9 @@
 
 void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, const float& maxTime) {
 	this->eye = eye;
+	initPos = eye;
 	this->rot = rot;
+	initRot = rot;
 	this->points = points;
 	this->maxTime = maxTime;
 	startTime = GetTickCount64();
@@ -100,4 +102,11 @@ void RailCamera::UpdateMatWorld() {
 	Camera::SetTarget(target);
 	Camera::SetUp(XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]));
 	Camera::SetMatWorld(matWorld);
+}
+
+void RailCamera::Reset() {
+	eye = initPos;
+	rot = initRot;
+	startIndex = 1;
+	startTime = GetTickCount64();
 }

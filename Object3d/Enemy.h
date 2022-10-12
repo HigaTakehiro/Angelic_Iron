@@ -8,7 +8,7 @@
 
 class Enemy
 {
-	enum EnemyStyle {
+	enum class EnemyStyle {
 		STOP_PTAG,
 		STOP_STR,
 		UDMOVE_PTAG,
@@ -17,12 +17,17 @@ class Enemy
 		LRMOVE_STR
 	};
 
+public: //コンストラクタ&デストラクタ
+	Enemy();
+
+	~Enemy();
+
 public: //メンバ関数
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const std::string& modelName, const Vector3& pos, const Vector3& rot, const Vector3& scale);
+	void Initialize(const std::string& modelName, const Vector3& pos, const Vector3& rot, const Vector3& scale, const std::string& style);
 
 	/// <summary>
 	/// 更新処理
@@ -64,6 +69,7 @@ private: //メンバ変数
 	Object3d* enemy;
 	Vector3 pos;
 	Vector3 oldPos;
+	float moveSpeed;
 	EnemyStyle type;
 	bool isDead;
 };

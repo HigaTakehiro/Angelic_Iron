@@ -13,6 +13,7 @@
 #include <memory>
 #include "Vector3.h"
 #include "MatCalc.h"
+#include "ModelManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

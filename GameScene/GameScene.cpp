@@ -29,7 +29,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	camera->SetEye(XMFLOAT3(50, 1, -100));
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
 	railCamera = new RailCamera;
-	cameraPos = { 50.0f, 1.0f, -100.0f };
+	cameraPos = { 50.0f, 1.0f, 100.0f };
 	cameraRot = { 0.0f, 180.0f, 0.0f };
 	points = { start, start, p2, p3, end, start, start };
 	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
@@ -79,12 +79,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	LoadEnemyData();
 
 	//MapChip‚Ì‰Šú‰»
-	mapchip = new MapChip;
-	mapchip->MapChipInitialize();
-	map1_a = mapchip->MapLoad("test1", 7, 4);
-	map1_b = mapchip->MapLoad("test2", 7, 4);
-	objects = mapchip->MapSet(map1_a, 7, 4, 0);
-	objects2 = mapchip->MapSet(map1_b, 7, 4, 1);
+	//mapchip = new MapChip;
+	//mapchip->MapChipInitialize();
+	//map1_a = mapchip->MapLoad("test1", 7, 4);
+	//map1_b = mapchip->MapLoad("test2", 7, 4);
+	//objects = mapchip->MapSet(map1_a, 7, 4, 0);
+	//objects2 = mapchip->MapSet(map1_b, 7, 4, 1);
 
 	//FBX‚Ì‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
@@ -133,6 +133,7 @@ void GameScene::Update() {
 			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
 				if (Collision::GetIns()->OBJSphereCollision(bullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 					enemy->OnCollision();
+					bullet->OnCollision();
 				}
 			}
 		}
@@ -152,12 +153,6 @@ void GameScene::Update() {
 		player->Update();
 		object1->Update();
 
-		for (auto object : objects) {
-			object->Update();
-		}
-		for (auto object : objects2) {
-			object->Update();
-		}
 	}
 
 	if (isClear) {
@@ -214,22 +209,21 @@ void GameScene::Draw() {
 
 void GameScene::Finalize() {
 	safe_delete(camera);
-	mapchip->MapChipFinalize();
+	//mapchip->MapChipFinalize();
 	objects.clear();
 	objects.shrink_to_fit();
 	objects2.clear();
 	objects2.shrink_to_fit();
 	points.clear();
 	points.shrink_to_fit();
-	safe_delete(mapchip);
+	//safe_delete(mapchip);
 	safe_delete(object1);
 	safe_delete(model1);
 	FbxLoader::GetInstance()->Finalize();
 }
 
 void GameScene::Reset() {
-	camera->SetEye(XMFLOAT3(50, 1, -100));
-	camera->SetTarget(XMFLOAT3(50, 0, 0));
+	railCamera->Reset();
 
 	player->Reset();
 
@@ -268,7 +262,7 @@ void GameScene::EnemyDataUpdate() {
 	bool isPos = false;
 	bool isRot = false;
 	bool isScale = false;
-	bool isStile = false;
+	bool isStyle = false;
 
 	while (getline(enemyData, line)) {
 		std::istringstream line_stream(line);
@@ -296,18 +290,19 @@ void GameScene::EnemyDataUpdate() {
 			line_stream >> scale.z;
 			isScale = true;
 		}
-		//if (word == "Type") {
-		//	line_stream >> type;
-		//	isStile = true;
-		//}
+		if (word == "Type") {
+			line_stream >> type;
+			isStyle = true;
+		}
 
-		if (isPos && isRot && isScale) {
+		if (isPos && isRot && isScale && isStyle) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-			newEnemy->Initialize("Enemy", pos, rot, scale);
+			newEnemy->Initialize("Enemy", pos, rot, scale, type);
 			enemies.push_back(std::move(newEnemy));
 			isPos = false;
 			isRot = false;
 			isScale = false;
+			isStyle = false;
 		}
 	}
 }

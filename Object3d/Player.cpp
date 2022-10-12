@@ -8,8 +8,7 @@ void Player::Initialize(Camera* camera) {
 	aim = Sprite::Create(1, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
 
-	playerModel = Model::CreateModel("Player");
-	player = Object3d::Create(playerModel);
+	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player));
 	playerScale = { 2, 2, 2 };
 	playerLPos = { 0, 0, -50 };
 	playerRot = { 0, 180, 0 };
@@ -17,8 +16,7 @@ void Player::Initialize(Camera* camera) {
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
-	aim3dModel = Model::CreateModel("Block");
-	aim3d = Object3d::Create(aim3dModel);
+	aim3d = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
 	aim3d->SetScale(Vector3(3, 3, 3));
 	aim3d->SetPosition(Vector3(0, 0, 50));
 	aim3d->SetRotation(Vector3(0, 0, 0));
@@ -138,11 +136,13 @@ void Player::Shot() {
 
 void Player::Reset() {
 	playerScale = { 2, 2, 2 };
-	playerLPos = { 0, 0, 50 };
-	playerRot = { 0, 0, 0 };
+	playerLPos = { 0, 0, -50 };
+	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
-	bullets.clear();
+	for (const std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->OnCollision();
+	}
 }
 
 void Player::AimUpdate() {

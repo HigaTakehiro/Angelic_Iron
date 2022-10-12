@@ -1,5 +1,13 @@
 #include "PlayerBullet.h"
 
+PlayerBullet::PlayerBullet() {
+
+}
+
+PlayerBullet::~PlayerBullet() {
+	safe_delete(bullet);
+}
+
 void PlayerBullet::Initialize(Vector3 pos, Vector3 velocity) {
 	const Vector3 bulletSize = { 2, 2, 2 };
 
@@ -8,7 +16,7 @@ void PlayerBullet::Initialize(Vector3 pos, Vector3 velocity) {
 	bullet->SetRotation(Vector3(0, 0, 0));
 	this->pos = pos;
 	this->velocity = velocity;
-	bullet->SetPosition(this->pos);
+	bullet->SetPosition(pos);
 }
 
 void PlayerBullet::Update() {

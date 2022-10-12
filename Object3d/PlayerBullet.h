@@ -4,9 +4,15 @@
 #include "Vector3.h"
 #include "MatCalc.h"
 #include "ModelManager.h"
+#include "safedelete.h"
 
 class PlayerBullet
 {
+public: //コンストラクタ&デストラクタ
+	PlayerBullet();
+
+	~PlayerBullet();
+
 public: //メンバ関数
 
 	/// <summary>
@@ -45,7 +51,6 @@ private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;
 
 private: //メンバ変数
-	Model* bulletModel;
 	Object3d* bullet;
 	Vector3 pos;
 	bool isDead;
