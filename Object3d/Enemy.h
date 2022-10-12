@@ -32,7 +32,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(const XMFLOAT3& playerPos);
 
 	/// <summary>
 	/// 描画処理
@@ -62,14 +62,15 @@ private: //メンバ関数
 	/// <summary>
 	/// 敵の行動
 	/// </summary>
-	void EnemyAction();
+	void EnemyAction(const XMFLOAT3& playerPos);
 
 private: //メンバ変数
 
 	Object3d* enemy;
 	Vector3 pos;
 	Vector3 oldPos;
-	float moveSpeed;
+	float moveSpeedX;
+	float moveSpeedY;
 	EnemyStyle type;
 	bool isDead;
 };

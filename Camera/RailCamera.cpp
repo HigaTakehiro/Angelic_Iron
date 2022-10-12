@@ -12,7 +12,32 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 }
 
 void RailCamera::Update() {
-	SplineMove();
+	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+		if (isStop) {
+			isStop = false;
+		}
+		else {
+			isStop = true;
+		}
+	}
+
+	if (isStop) {
+		SplineMove();
+	}
+	else {
+		if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+			rot.y -= 1.0f;
+		}
+		if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+			rot.y += 1.0f;
+		}
+		if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+			rot.x -= 1.0f;
+		}
+		if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+			rot.x += 1.0f;
+		}
+	}
 	UpdateMatWorld();
 	Camera::SetEye(eye);
 }

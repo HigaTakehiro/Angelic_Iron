@@ -4,6 +4,7 @@
 #include "MatCalc.h"
 #include <DirectXMath.h>
 #include <vector>
+#include "KeyInput.h"
 
 class RailCamera
 {
@@ -72,5 +73,7 @@ private: //ƒƒ“ƒo•Ï”
 
 	Vector3 initPos;
 	Vector3 initRot;
+
+	bool isStop = true;
 };
 

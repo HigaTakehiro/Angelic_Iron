@@ -22,15 +22,16 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
 	type = stringToEnemyStyle(style);
-	moveSpeed = 0.2f;
+	moveSpeedY = 0.2f;
+	moveSpeedX = 0.2f;
 }
 
-void Enemy::Update() {
+void Enemy::Update(const XMFLOAT3& playerPos) {
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
 			pos = oldPos;
 		}
-		EnemyAction();
+		EnemyAction(playerPos);
 		enemy->Update();
 	}
 }
@@ -67,22 +68,28 @@ Enemy::EnemyStyle Enemy::stringToEnemyStyle(const string& type) {
 	return style;
 }
 
-void Enemy::EnemyAction() {
+void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 	const float overPosY = 40.0f;
-	const float overPosX = 10.0f;
+	const float overPosX = 60.0f;
+	Vector3 distance;
+	float xRot, yRot;
+	distance = Vector3(playerPos.x - pos.x, playerPos.y - pos.y, playerPos.z - pos.z);
+	xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
+	yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
 
 	if (type == EnemyStyle::UDMOVE_PTAG || type == EnemyStyle::UDMOVE_STR) {
 		if (pos.y >= oldPos.y + overPosY || pos.y <= oldPos.y - overPosY) {
-			moveSpeed *= -1.0f;
+			moveSpeedY *= -1.0f;
 		}
-		pos.y += moveSpeed;
+		pos.y += moveSpeedY;
 	}
 	if (type == EnemyStyle::LRMOVE_PTAG || type == EnemyStyle::LRMOVE_STR) {
-		if (pos.x >= oldPos.x + overPosX || pos.x <= oldPos.y - overPosY) {
-			moveSpeed * -1.0f;
+		if (pos.x >= oldPos.x + overPosX || pos.x <= oldPos.x - overPosX) {
+			moveSpeedX *= -1.0f;
 		}
-		pos.x += moveSpeed;
+		pos.x += moveSpeedX;
 	}
 
 	enemy->SetPosition(pos);
+	enemy->SetRotation(Vector3(xRot, yRot, 0));
 }

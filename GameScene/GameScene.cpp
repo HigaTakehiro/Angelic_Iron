@@ -145,7 +145,7 @@ void GameScene::Update() {
 		}
 
 		for (std::unique_ptr<Enemy>& enemy : enemies) {
-			enemy->Update();
+			enemy->Update(player->GetPlayerPos());
 		}
 
 		celetialSphere->Update();
