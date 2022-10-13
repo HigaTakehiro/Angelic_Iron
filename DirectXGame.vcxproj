@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -148,6 +148,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationCode\Enemy.cpp" />
+    <ClCompile Include="ApplicationCode\EnemyBullet.cpp" />
+    <ClCompile Include="ApplicationCode\Player.cpp" />
+    <ClCompile Include="ApplicationCode\PlayerBullet.cpp" />
+    <ClCompile Include="ApplicationCode\RailCamera.cpp" />
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXCommon.cpp" />
     <ClCompile Include="Base\MatCalc.cpp" />
@@ -155,9 +160,7 @@
     <ClCompile Include="Base\Vector3.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
-    <ClCompile Include="Camera\RailCamera.cpp" />
     <ClCompile Include="Object3d\Collision.cpp" />
-    <ClCompile Include="Object3d\Enemy.cpp" />
     <ClCompile Include="FBX\FbxLoader.cpp" />
     <ClCompile Include="FBX\FBXModel.cpp" />
     <ClCompile Include="FBX\FBXObject3d.cpp" />
@@ -169,13 +172,10 @@
     <ClCompile Include="Object2D\DebugText.cpp" />
     <ClCompile Include="Object2D\PostEffect.cpp" />
     <ClCompile Include="Object2D\Sprite.cpp" />
-    <ClCompile Include="Object3d\EnemyBullet.cpp" />
     <ClCompile Include="Object3d\MapChip.cpp" />
     <ClCompile Include="Object3d\Model.cpp" />
     <ClCompile Include="Object3d\ModelManager.cpp" />
     <ClCompile Include="Object3d\Object3d.cpp" />
-    <ClCompile Include="Object3d\Player.cpp" />
-    <ClCompile Include="Object3d\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -252,6 +252,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationCode\Enemy.h" />
+    <ClInclude Include="ApplicationCode\EnemyBullet.h" />
+    <ClInclude Include="ApplicationCode\Player.h" />
+    <ClInclude Include="ApplicationCode\PlayerBullet.h" />
+    <ClInclude Include="ApplicationCode\RailCamera.h" />
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXCommon.h" />
     <ClInclude Include="Base\Easing.h" />
@@ -261,9 +266,7 @@
     <ClInclude Include="Base\Vector3.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="Camera\Camera.h" />
-    <ClInclude Include="Camera\RailCamera.h" />
     <ClInclude Include="Object3d\Collision.h" />
-    <ClInclude Include="Object3d\Enemy.h" />
     <ClInclude Include="FBX\FbxLoader.h" />
     <ClInclude Include="FBX\FBXModel.h" />
     <ClInclude Include="FBX\FBXObject3d.h" />
@@ -274,13 +277,10 @@
     <ClInclude Include="Object2D\DebugText.h" />
     <ClInclude Include="Object2D\PostEffect.h" />
     <ClInclude Include="Object2D\Sprite.h" />
-    <ClInclude Include="Object3d\EnemyBullet.h" />
     <ClInclude Include="Object3d\MapChip.h" />
     <ClInclude Include="Object3d\Model.h" />
     <ClInclude Include="Object3d\ModelManager.h" />
     <ClInclude Include="Object3d\Object3d.h" />
-    <ClInclude Include="Object3d\Player.h" />
-    <ClInclude Include="Object3d\PlayerBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXGame.rc" />

@@ -40,6 +40,9 @@
     <Filter Include="ソース ファイル\Object3d">
       <UniqueIdentifier>{ba496a77-61e5-4391-ba80-8710154294fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode">
+      <UniqueIdentifier>{a4d05284-6520-4c60-95a7-2071f58c4703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\Sound.cpp">
@@ -93,26 +96,14 @@
     <ClCompile Include="Input\PadInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d\Player.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\Enemy.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Object3d\Collision.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d\PlayerBullet.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
     <ClCompile Include="Base\MatCalc.cpp">
       <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\EnemyBullet.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Object3d\ModelManager.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
@@ -123,8 +114,20 @@
     <ClCompile Include="Base\Quaternion.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Camera\RailCamera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="ApplicationCode\Enemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\EnemyBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Player.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\PlayerBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\RailCamera.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,26 +234,14 @@
     <ClInclude Include="Input\PadInput.h">
       <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Object3d\Player.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Vector3.h">
       <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\Enemy.h">
-      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Object3d\Collision.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Object3d\PlayerBullet.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
     <ClInclude Include="Base\MatCalc.h">
       <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\EnemyBullet.h">
-      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Base\Easing.h">
       <Filter>ソース ファイル\Base</Filter>
@@ -261,8 +252,20 @@
     <ClInclude Include="Base\Quaternion.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\RailCamera.h">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClInclude Include="ApplicationCode\Enemy.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\EnemyBullet.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Player.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\PlayerBullet.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\RailCamera.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
