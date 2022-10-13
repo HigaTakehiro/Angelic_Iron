@@ -210,7 +210,7 @@
     <ClInclude Include="Engine\Object3d\Object3d.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DirectXGame.rc" />
+    <ResourceCompile Include="IgaEngine.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\shaders\Basic.hlsli" />
