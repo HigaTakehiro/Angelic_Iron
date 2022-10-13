@@ -1,7 +1,8 @@
 ﻿#include "FbxLoader.h"
 
-const std::string FbxLoader::baseDirectory = "Resources/";
-const std::string FbxLoader::defaultTextureFileName = "white1x1.png";
+const std::string FbxLoader::baseDirectory = "Engine/Resources/";
+const std::string FbxLoader::defaultTextureFileName = "Images/white1x1.png";
+const std::string FbxLoader::modelFolder = "3DModels/fbx/";
 using namespace DirectX;
 
 FbxLoader* FbxLoader::GetInstance()
@@ -32,7 +33,7 @@ void FbxLoader::Finalize() {
 
 FBXModel* FbxLoader::LoadModelFromFile(const string& modelName) {
     //モデルと同じ名前のフォルダから読み込む
-    const string directoryPath = baseDirectory + modelName + "/";
+    const string directoryPath = baseDirectory + modelFolder + modelName + "/";
     //拡張子
     const string fileName = modelName + ".fbx";
     //連結する

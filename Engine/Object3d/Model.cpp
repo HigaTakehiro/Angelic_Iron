@@ -99,7 +99,7 @@ void Model::InitializeModel(const std::string& modelname) {
 	//objファイルを開く
 	//const string modelname = "armor";
 	const string filename = modelname + ".obj";
-	const string directoryPath = "Resources/" + modelname + "/";
+	const string directoryPath = "Engine/Resources/3DModels/obj/" + modelname + "/";
 	file.open(directoryPath + filename);
 	//ファイルオープン失敗をチェック
 	if (file.fail()) {

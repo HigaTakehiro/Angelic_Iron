@@ -17,7 +17,7 @@ int** MapChip::MapLoad(const std::string& mapname, int map_width, int map_height
 		map[i] = map[0] + i * map_width;
 	}
 
-	const string& filename = "Resources/map/" + mapname + ".csv";
+	const string& filename = "Engine/Resources/Mapchip/" + mapname + ".csv";
 	const char* mapfile = filename.c_str();
 
 	//ˆês‚¸‚Â“Ç‚İ‚Ş

@@ -37,21 +37,21 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	//Sprite & DebugText‚Ì‰Šú‰»
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 
-	Sprite::LoadTexture(debugTextNumber, L"Resources/debugfont.png");
+	Sprite::LoadTexture(debugTextNumber, L"Engine/Resources/Images/debugfont.png");
 	debugText.Initialize(debugTextNumber);
 
 	//Sprite::LoadTexture(1, L"Resources/Aim.png");
 	//sprite = Sprite::Create(1, { 0, 0 });
-	Sprite::LoadTexture(2, L"Resources/background.png");
+	Sprite::LoadTexture(2, L"Engine/Resources/Images/background.png");
 	background = Sprite::Create(2, { 0, 0 });
 
-	Sprite::LoadTexture(4, L"Resources/Title.png");
+	Sprite::LoadTexture(4, L"Engine/Resources/Images/Title.png");
 	title = Sprite::Create(4, { 0, 0 });
 
-	Sprite::LoadTexture(5, L"Resources/Gameover.png");
+	Sprite::LoadTexture(5, L"Engine/Resources/Images/Gameover.png");
 	gameover = Sprite::Create(5, { 0, 0 });
 
-	Sprite::LoadTexture(6, L"Resources/Clear.png");
+	Sprite::LoadTexture(6, L"Engine/Resources/Images/Clear.png");
 	clear = Sprite::Create(6, { 0, 0 });
 
 	aimPosX = 0;
@@ -242,7 +242,7 @@ void GameScene::LoadEnemyData() {
 	enemies.clear();
 
 	const std::string filename = "EnemySet.aid";
-	const std::string directory = "Resources/";
+	const std::string directory = "Engine/Resources/GameData/";
 	file.open(directory + filename);
 	if (file.fail()) {
 		assert(0);

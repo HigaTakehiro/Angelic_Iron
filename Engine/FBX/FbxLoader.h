@@ -18,6 +18,8 @@ public: //定数
 	static const string baseDirectory;
 	//テクスチャがない場合の標準テクスチャファイル名
 	static const string defaultTextureFileName;
+	//モデル格納フォルダパス
+	static const string modelFolder;
 
 public: //静的メンバ関数
 	/// <summary>

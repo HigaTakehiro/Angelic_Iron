@@ -4,7 +4,7 @@
 void Player::Initialize(Camera* camera) {
 	this->camera = camera;
 
-	Sprite::LoadTexture(1, L"Resources/Aim.png");
+	Sprite::LoadTexture(1, L"Engine/Resources/Images/Aim.png");
 	aim = Sprite::Create(1, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
 
