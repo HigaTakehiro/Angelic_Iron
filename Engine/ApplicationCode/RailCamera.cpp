@@ -1,7 +1,7 @@
 #include "RailCamera.h"
 #include "DirectXCommon.h"
 
-void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, const float& maxTime) {
+void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime) {
 	this->eye = eye;
 	initPos = eye;
 	this->rot = rot;
@@ -42,7 +42,7 @@ void RailCamera::Update() {
 	Camera::SetEye(eye);
 }
 
-Vector3 RailCamera::Spline(const std::vector<Vector3>& points, const int& startIndex, const float& t) {
+Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, float t) {
 	int n = points.size() - 2;
 
 	if (startIndex > n) return points[n];

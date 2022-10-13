@@ -22,7 +22,7 @@ public: //メンバ関数
 	/// <param name="eye">カメラのワールド座標</param>
 	/// <param name="rot">回転角</param>
 	/// <param name="points">スプライン補間時に通る各ポイント</param>
-	void Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, const float& maxTime);
+	void Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime);
 
 	/// <summary>
 	/// 更新処理
@@ -44,7 +44,7 @@ private: //メンバ関数
 	/// <param name="startIndex">ポイントを通った時のカウント</param>
 	/// <param name="t">時間</param>
 	/// <returns>座標</returns>
-	Vector3 Spline(const std::vector<Vector3>& points, const int& startIndex, const float& t);
+	Vector3 Spline(const std::vector<Vector3>& points, int startIndex, float t);
 
 	/// <summary>
 	/// スプライン補間の移動
