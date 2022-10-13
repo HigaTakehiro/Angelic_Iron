@@ -17,7 +17,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const Vector3& pos, const Vector3& velocity, const bool& isHoming = false);
+	void Initialize(const Vector3& pos, const Vector3& velocity, bool isHoming = false);
 
 	/// <summary>
 	/// 更新処理
@@ -53,7 +53,8 @@ private: //静的メンバ変数
 private: //メンバ変数
 	Model* bulletModel;
 	Object3d* enemyBullet;
-	Vector3 Pos;
+	Vector3 pos;
+	Vector3 velocity;
 	bool isDead;
 	int32_t lifeTimer = lifeTime;
 	int32_t homingTimer = homingTime;

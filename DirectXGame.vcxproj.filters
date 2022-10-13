@@ -45,89 +45,89 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Audio\Sound.cpp">
-      <Filter>ソース ファイル\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera\Camera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\DirectXCommon.cpp">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\WinApp.cpp">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Object2D\DebugText.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Object2D\Sprite.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\MapChip.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\Model.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\Object3d.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene\GameScene.cpp">
-      <Filter>ソース ファイル\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="FBX\FbxLoader.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="FBX\FBXModel.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="FBX\FBXObject3d.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="Object2D\PostEffect.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\MouseInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\PadInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d\Collision.cpp">
+    <ClCompile Include="Engine\Audio\Sound.cpp">
+      <Filter>ソース ファイル\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\DirectXCommon.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\MatCalc.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Quaternion.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Vector3.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\WinApp.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FbxLoader.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FBXModel.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FBXObject3d.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameScene\GameScene.cpp">
+      <Filter>ソース ファイル\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\KeyInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\MouseInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\PadInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Enemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Player.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object2d\DebugText.cpp">
+      <Filter>ソース ファイル\Object2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object2d\PostEffect.cpp">
+      <Filter>ソース ファイル\Object2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object2d\Sprite.cpp">
+      <Filter>ソース ファイル\Object2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object3d\Collision.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Base\MatCalc.cpp">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d\ModelManager.cpp">
+    <ClCompile Include="Engine\Object3d\MapChip.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Vector3.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+    <ClCompile Include="Engine\Object3d\Model.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Quaternion.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+    <ClCompile Include="Engine\Object3d\ModelManager.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\EnemyBullet.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\Player.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\PlayerBullet.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\RailCamera.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
+    <ClCompile Include="Engine\Object3d\Object3d.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,92 +180,92 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio\Sound.h">
+    <ClInclude Include="Engine\Audio\Sound.h">
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\Camera.h">
+    <ClInclude Include="Engine\Base\DirectXCommon.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Easing.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\MatCalc.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Quaternion.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\SafeDelete.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Vector3.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\WinApp.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Camera.h">
       <Filter>ソース ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Base\DirectXCommon.h">
-      <Filter>ソース ファイル\Base</Filter>
+    <ClInclude Include="Engine\FBX\FbxLoader.h">
+      <Filter>ソース ファイル\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="Base\WinApp.h">
-      <Filter>ソース ファイル\Base</Filter>
+    <ClInclude Include="Engine\FBX\FBXModel.h">
+      <Filter>ソース ファイル\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="Input\KeyInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+    <ClInclude Include="Engine\FBX\FBXObject3d.h">
+      <Filter>ソース ファイル\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D\DebugText.h">
-      <Filter>ソース ファイル\Object2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Object2D\Sprite.h">
-      <Filter>ソース ファイル\Object2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\MapChip.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\Model.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\Object3d.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\SafeDelete.h">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene\GameScene.h">
+    <ClInclude Include="Engine\GameScene\GameScene.h">
       <Filter>ソース ファイル\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="FBX\FbxLoader.h">
-      <Filter>ソース ファイル\FBX</Filter>
+    <ClInclude Include="Engine\Input\KeyInput.h">
+      <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="FBX\FBXModel.h">
-      <Filter>ソース ファイル\FBX</Filter>
+    <ClInclude Include="Engine\Input\MouseInput.h">
+      <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="FBX\FBXObject3d.h">
-      <Filter>ソース ファイル\FBX</Filter>
+    <ClInclude Include="Engine\Input\PadInput.h">
+      <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D\PostEffect.h">
+    <ClInclude Include="Engine\ApplicationCode\Enemy.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Player.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\RailCamera.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object2d\DebugText.h">
       <Filter>ソース ファイル\Object2d</Filter>
     </ClInclude>
-    <ClInclude Include="Input\MouseInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+    <ClInclude Include="Engine\Object2d\PostEffect.h">
+      <Filter>ソース ファイル\Object2d</Filter>
     </ClInclude>
-    <ClInclude Include="Input\PadInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+    <ClInclude Include="Engine\Object2d\Sprite.h">
+      <Filter>ソース ファイル\Object2d</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Vector3.h">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\Collision.h">
+    <ClInclude Include="Engine\Object3d\Collision.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Base\MatCalc.h">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Easing.h">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d\ModelManager.h">
+    <ClInclude Include="Engine\Object3d\MapChip.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Quaternion.h">
-      <Filter>ソース ファイル\Base</Filter>
+    <ClInclude Include="Engine\Object3d\Model.h">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemy.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
+    <ClInclude Include="Engine\Object3d\ModelManager.h">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\EnemyBullet.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationCode\Player.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationCode\PlayerBullet.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationCode\RailCamera.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
+    <ClInclude Include="Engine\Object3d\Object3d.h">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

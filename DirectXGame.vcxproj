@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\GameScene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Object3d;$(ProjectDir)Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Input;$(ProjectDir)GameScene;$(ProjectDir)FBX;$(ProjectDir)Camera;$(ProjectDir)Base;$(ProjectDir)Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(SolutionDir)DirectXTex;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\GameScene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -148,34 +148,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationCode\Enemy.cpp" />
-    <ClCompile Include="ApplicationCode\EnemyBullet.cpp" />
-    <ClCompile Include="ApplicationCode\Player.cpp" />
-    <ClCompile Include="ApplicationCode\PlayerBullet.cpp" />
-    <ClCompile Include="ApplicationCode\RailCamera.cpp" />
-    <ClCompile Include="Audio\Sound.cpp" />
-    <ClCompile Include="Base\DirectXCommon.cpp" />
-    <ClCompile Include="Base\MatCalc.cpp" />
-    <ClCompile Include="Base\Quaternion.cpp" />
-    <ClCompile Include="Base\Vector3.cpp" />
-    <ClCompile Include="Base\WinApp.cpp" />
-    <ClCompile Include="Camera\Camera.cpp" />
-    <ClCompile Include="Object3d\Collision.cpp" />
-    <ClCompile Include="FBX\FbxLoader.cpp" />
-    <ClCompile Include="FBX\FBXModel.cpp" />
-    <ClCompile Include="FBX\FBXObject3d.cpp" />
-    <ClCompile Include="GameScene\GameScene.cpp" />
-    <ClCompile Include="Input\KeyInput.cpp" />
-    <ClCompile Include="Input\MouseInput.cpp" />
-    <ClCompile Include="Input\PadInput.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Enemy.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Player.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp" />
+    <ClCompile Include="Engine\Audio\Sound.cpp" />
+    <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\Base\MatCalc.cpp" />
+    <ClCompile Include="Engine\Base\Quaternion.cpp" />
+    <ClCompile Include="Engine\Base\Vector3.cpp" />
+    <ClCompile Include="Engine\Base\WinApp.cpp" />
+    <ClCompile Include="Engine\Camera\Camera.cpp" />
+    <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
+    <ClCompile Include="Engine\FBX\FBXModel.cpp" />
+    <ClCompile Include="Engine\FBX\FBXObject3d.cpp" />
+    <ClCompile Include="Engine\GameScene\GameScene.cpp" />
+    <ClCompile Include="Engine\Input\KeyInput.cpp" />
+    <ClCompile Include="Engine\Input\MouseInput.cpp" />
+    <ClCompile Include="Engine\Input\PadInput.cpp" />
+    <ClCompile Include="Engine\Object2d\DebugText.cpp" />
+    <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
+    <ClCompile Include="Engine\Object2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Object3d\Collision.cpp" />
+    <ClCompile Include="Engine\Object3d\MapChip.cpp" />
+    <ClCompile Include="Engine\Object3d\Model.cpp" />
+    <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
+    <ClCompile Include="Engine\Object3d\Object3d.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object2D\DebugText.cpp" />
-    <ClCompile Include="Object2D\PostEffect.cpp" />
-    <ClCompile Include="Object2D\Sprite.cpp" />
-    <ClCompile Include="Object3d\MapChip.cpp" />
-    <ClCompile Include="Object3d\Model.cpp" />
-    <ClCompile Include="Object3d\ModelManager.cpp" />
-    <ClCompile Include="Object3d\Object3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
@@ -252,35 +252,35 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationCode\Enemy.h" />
-    <ClInclude Include="ApplicationCode\EnemyBullet.h" />
-    <ClInclude Include="ApplicationCode\Player.h" />
-    <ClInclude Include="ApplicationCode\PlayerBullet.h" />
-    <ClInclude Include="ApplicationCode\RailCamera.h" />
-    <ClInclude Include="Audio\Sound.h" />
-    <ClInclude Include="Base\DirectXCommon.h" />
-    <ClInclude Include="Base\Easing.h" />
-    <ClInclude Include="Base\MatCalc.h" />
-    <ClInclude Include="Base\Quaternion.h" />
-    <ClInclude Include="Base\SafeDelete.h" />
-    <ClInclude Include="Base\Vector3.h" />
-    <ClInclude Include="Base\WinApp.h" />
-    <ClInclude Include="Camera\Camera.h" />
-    <ClInclude Include="Object3d\Collision.h" />
-    <ClInclude Include="FBX\FbxLoader.h" />
-    <ClInclude Include="FBX\FBXModel.h" />
-    <ClInclude Include="FBX\FBXObject3d.h" />
-    <ClInclude Include="GameScene\GameScene.h" />
-    <ClInclude Include="Input\KeyInput.h" />
-    <ClInclude Include="Input\MouseInput.h" />
-    <ClInclude Include="Input\PadInput.h" />
-    <ClInclude Include="Object2D\DebugText.h" />
-    <ClInclude Include="Object2D\PostEffect.h" />
-    <ClInclude Include="Object2D\Sprite.h" />
-    <ClInclude Include="Object3d\MapChip.h" />
-    <ClInclude Include="Object3d\Model.h" />
-    <ClInclude Include="Object3d\ModelManager.h" />
-    <ClInclude Include="Object3d\Object3d.h" />
+    <ClInclude Include="Engine\ApplicationCode\Enemy.h" />
+    <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\Player.h" />
+    <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\RailCamera.h" />
+    <ClInclude Include="Engine\Audio\Sound.h" />
+    <ClInclude Include="Engine\Base\DirectXCommon.h" />
+    <ClInclude Include="Engine\Base\Easing.h" />
+    <ClInclude Include="Engine\Base\MatCalc.h" />
+    <ClInclude Include="Engine\Base\Quaternion.h" />
+    <ClInclude Include="Engine\Base\SafeDelete.h" />
+    <ClInclude Include="Engine\Base\Vector3.h" />
+    <ClInclude Include="Engine\Base\WinApp.h" />
+    <ClInclude Include="Engine\Camera\Camera.h" />
+    <ClInclude Include="Engine\FBX\FbxLoader.h" />
+    <ClInclude Include="Engine\FBX\FBXModel.h" />
+    <ClInclude Include="Engine\FBX\FBXObject3d.h" />
+    <ClInclude Include="Engine\GameScene\GameScene.h" />
+    <ClInclude Include="Engine\Input\KeyInput.h" />
+    <ClInclude Include="Engine\Input\MouseInput.h" />
+    <ClInclude Include="Engine\Input\PadInput.h" />
+    <ClInclude Include="Engine\Object2d\DebugText.h" />
+    <ClInclude Include="Engine\Object2d\PostEffect.h" />
+    <ClInclude Include="Engine\Object2d\Sprite.h" />
+    <ClInclude Include="Engine\Object3d\Collision.h" />
+    <ClInclude Include="Engine\Object3d\MapChip.h" />
+    <ClInclude Include="Engine\Object3d\Model.h" />
+    <ClInclude Include="Engine\Object3d\ModelManager.h" />
+    <ClInclude Include="Engine\Object3d\Object3d.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXGame.rc" />
