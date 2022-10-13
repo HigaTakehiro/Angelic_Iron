@@ -18,7 +18,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(Vector3 pos, Vector3 velocity);
+	void Initialize(const Vector3& pos, const Vector3& velocity);
 
 	/// <summary>
 	/// XVˆ—

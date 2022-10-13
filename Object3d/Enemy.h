@@ -3,7 +3,6 @@
 #include "Model.h"
 #include "Vector3.h"
 #include "SafeDelete.h"
-#include "Player.h"
 #include "ModelManager.h"
 
 class Enemy

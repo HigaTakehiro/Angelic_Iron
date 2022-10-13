@@ -74,6 +74,6 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 initPos;
 	Vector3 initRot;
 
-	bool isStop = true;
+	bool isStop = false;
 };
 

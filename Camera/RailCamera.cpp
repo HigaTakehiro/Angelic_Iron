@@ -21,7 +21,7 @@ void RailCamera::Update() {
 		}
 	}
 
-	if (isStop) {
+	if (!isStop) {
 		SplineMove();
 	}
 	else {

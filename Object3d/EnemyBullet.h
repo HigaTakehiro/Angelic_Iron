@@ -3,15 +3,21 @@
 #include "Model.h"
 #include "Vector3.h"
 #include "MatCalc.h"
+#include "safedelete.h"
+#include "ModelManager.h"
 
 class EnemyBullet
 {
+public: //コンストラクタ&デストラクタ
+	EnemyBullet();
+	~EnemyBullet();
+
 public: //メンバ関数
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const Vector3& pos, const Vector3& velocity, const bool& isHoming = false);
 
 	/// <summary>
 	/// 更新処理
@@ -42,6 +48,7 @@ public: //メンバ関数
 
 private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;
+	static const int32_t homingTime = 10;
 
 private: //メンバ変数
 	Model* bulletModel;
@@ -49,6 +56,6 @@ private: //メンバ変数
 	Vector3 Pos;
 	bool isDead;
 	int32_t lifeTimer = lifeTime;
-
+	int32_t homingTimer = homingTime;
 };
 

@@ -8,7 +8,7 @@ PlayerBullet::~PlayerBullet() {
 	safe_delete(bullet);
 }
 
-void PlayerBullet::Initialize(Vector3 pos, Vector3 velocity) {
+void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
 	const Vector3 bulletSize = { 2, 2, 2 };
 
 	bullet = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
