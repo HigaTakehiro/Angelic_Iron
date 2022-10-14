@@ -25,7 +25,7 @@ Type UDMOVE_STR
 
 Enemy3
 
-Pos 20.0 20.0 300.0
+Pos 20.0 20.0 -50.0
 Rot 0.0 180.0 0.0
 Scale 5.0 5.0 5.0
 Type LRMOVE_STR

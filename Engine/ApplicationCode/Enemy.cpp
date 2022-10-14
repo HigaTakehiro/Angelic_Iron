@@ -27,17 +27,25 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 }
 
 void Enemy::Update(const XMFLOAT3& playerPos) {
+	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
+
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
 			pos = oldPos;
 		}
 		EnemyAction(playerPos);
+		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			enemyBullet->Update();
+		}
 		enemy->Update();
 	}
 }
 
 void Enemy::Draw() {
 	enemy->Draw();
+	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		enemyBullet->Draw();
+	}
 }
 
 void Enemy::OnCollision() {
@@ -71,8 +79,10 @@ Enemy::EnemyStyle Enemy::stringToEnemyStyle(const string& type) {
 void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 	const float overPosY = 40.0f;
 	const float overPosX = 60.0f;
+	const int32_t shotIntervalTimeover = 0;
 	Vector3 distance;
 	float xRot, yRot;
+
 	distance = Vector3(playerPos.x - pos.x, playerPos.y - pos.y, playerPos.z - pos.z);
 	xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
 	yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
@@ -90,6 +100,23 @@ void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 		pos.x += moveSpeedX;
 	}
 
+	if (--shotIntervalTimer <= shotIntervalTimeover) {
+		Shot();
+		shotIntervalTimer = shotIntervalTime;
+	}
+
 	enemy->SetPosition(pos);
 	enemy->SetRotation(Vector3(xRot, yRot, 0));
+}
+
+void Enemy::Shot() {
+	const float bulletSpeed = 0.001f;
+	XMVECTOR velocity = { 0, 0, 1 };
+
+	velocity = MatCalc::GetIns()->VecDivided(velocity, enemy->GetMatWorld());
+
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
+
+	enemyBullets.push_back(std::move(newBullet));
 }

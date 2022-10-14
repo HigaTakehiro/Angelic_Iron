@@ -78,14 +78,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	LoadEnemyData();
 
-	//MapChip‚Ì‰Šú‰»
-	//mapchip = new MapChip;
-	//mapchip->MapChipInitialize();
-	//map1_a = mapchip->MapLoad("test1", 7, 4);
-	//map1_b = mapchip->MapLoad("test2", 7, 4);
-	//objects = mapchip->MapSet(map1_a, 7, 4, 0);
-	//objects2 = mapchip->MapSet(map1_b, 7, 4, 1);
-
 	//FBX‚Ì‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 	FBXObject3d::SetDevice(dxCommon->GetDev());

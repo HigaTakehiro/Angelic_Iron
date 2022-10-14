@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Object2d">
       <UniqueIdentifier>{517fe389-7a70-4a1c-9782-cc5888d0316c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameScene">
-      <UniqueIdentifier>{27ea8696-4839-4901-b9ee-1a953fcb4757}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\FBX">
       <UniqueIdentifier>{93d44c8d-931c-481a-b184-8fe7a1adda9e}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="ソース ファイル\ApplicationCode">
       <UniqueIdentifier>{a4d05284-6520-4c60-95a7-2071f58c4703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{27ea8696-4839-4901-b9ee-1a953fcb4757}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +79,7 @@
       <Filter>ソース ファイル\FBX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameScene\GameScene.cpp">
-      <Filter>ソース ファイル\GameScene</Filter>
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\KeyInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
@@ -168,7 +168,7 @@
       <Filter>ソース ファイル\FBX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameScene\GameScene.h">
-      <Filter>ソース ファイル\GameScene</Filter>
+      <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\KeyInput.h">
       <Filter>ソース ファイル\Input</Filter>
@@ -220,7 +220,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DirectXGame.rc">
+    <ResourceCompile Include="IgaEngine.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
   </ItemGroup>

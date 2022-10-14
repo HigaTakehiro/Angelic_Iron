@@ -56,6 +56,7 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 pos;
 	Vector3 velocity;
 	bool isDead;
+	bool isHoming;
 	int32_t lifeTimer = lifeTime;
 	int32_t homingTimer = homingTime;
 };

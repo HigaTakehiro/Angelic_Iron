@@ -69,7 +69,7 @@ private: //メンバ変数
 
 	float maxTime; //ポイント間を移動する時間
 	float timeRate; //移動した時間を0~1で評価
-	int startIndex; //移動したポイントをカウント
+	int startIndex = 1; //移動したポイントをカウント
 
 	Vector3 initPos;
 	Vector3 initRot;
