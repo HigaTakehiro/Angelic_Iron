@@ -98,6 +98,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 void GameScene::Update() {
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 
 	// DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
 	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
@@ -139,6 +140,9 @@ void GameScene::Update() {
 		for (std::unique_ptr<Enemy>& enemy : enemies) {
 			enemy->Update(player->GetPlayerPos());
 		}
+		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			enemyBullet->Update();
+		}
 
 		celetialSphere->Update();
 		ground->Update();
@@ -177,6 +181,9 @@ void GameScene::Draw() {
 	}
 	for (std::unique_ptr<Enemy>& enemy : enemies) {
 		enemy->Draw();
+	}
+	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		enemyBullet->Draw();
 	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
@@ -290,6 +297,7 @@ void GameScene::EnemyDataUpdate() {
 		if (isPos && isRot && isScale && isStyle) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 			newEnemy->Initialize("Enemy", pos, rot, scale, type);
+			newEnemy->SetGamaScene(this);
 			enemies.push_back(std::move(newEnemy));
 			isPos = false;
 			isRot = false;
@@ -297,4 +305,8 @@ void GameScene::EnemyDataUpdate() {
 			isStyle = false;
 		}
 	}
+}
+
+void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
+	enemyBullets.push_back(std::move(enemyBullet));
 }

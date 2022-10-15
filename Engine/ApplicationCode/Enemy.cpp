@@ -27,25 +27,25 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 }
 
 void Enemy::Update(const XMFLOAT3& playerPos) {
-	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
+	//enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
 			pos = oldPos;
 		}
 		EnemyAction(playerPos);
-		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			enemyBullet->Update();
-		}
+		//for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		//	enemyBullet->Update();
+		//}
 		enemy->Update();
 	}
 }
 
 void Enemy::Draw() {
 	enemy->Draw();
-	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-		enemyBullet->Draw();
-	}
+	//for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+	//	enemyBullet->Draw();
+	//}
 }
 
 void Enemy::OnCollision() {
@@ -118,5 +118,5 @@ void Enemy::Shot() {
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
 
-	enemyBullets.push_back(std::move(newBullet));
+	gameScene->AddEnemyBullet(std::move(newBullet));
 }

@@ -103,8 +103,6 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 playerRot = { 0, 0, 0 };
 	Vector3 playerScale = { 0, 0, 0 };
 
-	Model* playerModel = nullptr;
-	Model* aim3dModel = nullptr;
 	Object3d* player = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;

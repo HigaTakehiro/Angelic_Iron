@@ -5,8 +5,9 @@
 #include "SafeDelete.h"
 #include "ModelManager.h"
 #include "EnemyBullet.h"
+#include "GameScene.h"
 
-class Player;
+class GameScene;
 
 class Enemy
 {
@@ -69,6 +70,12 @@ public: //メンバ関数
 	/// <returns>敵タイプ</returns>
 	EnemyStyle GetEnemyStyle() { return type; }
 
+	/// <summary>
+	/// ゲームシーンをセットする
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGamaScene(GameScene* gameScene) { this->gameScene = gameScene; }
+
 private: //メンバ関数
 	/// <summary>
 	/// 文字列をエネミータイプに変換する
@@ -89,12 +96,13 @@ private: //メンバ変数
 
 	int32_t shotIntervalTimer = shotIntervalTime;
 	Object3d* enemy;
+	GameScene* gameScene;
 	Vector3 pos;
 	Vector3 oldPos;
 	float moveSpeedX;
 	float moveSpeedY;
 	EnemyStyle type;
 	bool isDead;
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
+	//std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
 };
 

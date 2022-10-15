@@ -25,7 +25,6 @@ void Player::Initialize(Camera* camera) {
 
 void Player::Finalize() {
 	safe_delete(player);
-	safe_delete(playerModel);
 	safe_delete(aim);
 	safe_delete(aim3d);
 }

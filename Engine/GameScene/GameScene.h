@@ -17,12 +17,15 @@
 #include "Enemy.h"
 #include "Collision.h"
 #include "PlayerBullet.h"
+#include "EnemyBullet.h"
 #include "ModelManager.h"
 #include "RailCamera.h"
 #include <sstream>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+class Enemy;
+class EnemyBullet;
 
 class GameScene
 {
@@ -71,6 +74,11 @@ public: //メンバ関数
 	/// </summary>
 	void EnemyDataUpdate();
 
+	/// <summary>
+	/// 敵弾を追加
+	/// </summary>
+	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
+
 private: //メンバ関数
 
 	/// <summary>
@@ -91,6 +99,7 @@ private: //メンバ変数
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr;
 	std::list<std::unique_ptr<Enemy>> enemies;
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
 	Sprite* title = nullptr;
