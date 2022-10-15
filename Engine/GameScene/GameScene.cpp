@@ -107,6 +107,7 @@ void GameScene::Update() {
 	if (isTitle) {
 		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
 			isTitle = false;
+			railCamera->SetStartTime(GetTickCount64());
 		}
 	}
 

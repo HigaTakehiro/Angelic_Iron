@@ -29,11 +29,15 @@ public: //メンバ関数
 	/// </summary>
 	void Update();
 
-
 	/// <summary>
 	/// リセット
 	/// </summary>
 	void Reset();
+
+	/// <summary>
+	/// 開始時間のセット
+	/// </summary>
+	void SetStartTime(long long startTime) { this->startTime = startTime; }
 
 private: //メンバ関数
 
