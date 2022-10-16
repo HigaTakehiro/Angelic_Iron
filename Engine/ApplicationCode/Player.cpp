@@ -18,9 +18,9 @@ void Player::Initialize(Camera* camera) {
 	player->SetCameraParent(camera);
 	aim3d = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
 	aim3d->SetScale(Vector3(3, 3, 3));
-	aim3d->SetPosition(Vector3(0, 0, 50));
+	aim3d->SetPosition(Vector3(0, 0, -100));
 	aim3d->SetRotation(Vector3(0, 0, 0));
-	aim3d->SetParent(player);
+	aim3d->SetCameraParent(camera);
 }
 
 void Player::Finalize() {
@@ -30,8 +30,6 @@ void Player::Finalize() {
 }
 
 void Player::Update() {
-	//bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
-
 	Move();
 
 	playerWPos = player->GetMatWorld().r[3];
@@ -39,11 +37,6 @@ void Player::Update() {
 	AimUpdate();
 
 	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot) {
-		//targetAimPos = Vector3(aimPos.x, aimPos.y, 500.0f);
-		//targetAimPos.normalize();
-		//shotPos = playerWPos;
-		//oldShotPos = shotPos;
-		//shot->SetPosition(shotPos);
 		isShot = true;
 	}
 
@@ -51,15 +44,9 @@ void Player::Update() {
 		Shot();
 	}
 
-	//playerLPos.z = -50.0f;
-	//aim3d->SetPosition(Vector3(aimPos.x, aimPos.y, 50));
-
 	aim->SetPosition(XMFLOAT2(aimPos.x - 50.0f, aimPos.y - 50.0f));
 	aim3d->Update();
 	player->Update();
-	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-	//	bullet->Update();
-	//}
 }
 
 void Player::SpriteDraw() {
@@ -69,13 +56,6 @@ void Player::SpriteDraw() {
 void Player::ObjectDraw() {
 	player->Draw();
 	aim3d->Draw();
-
-	//if (isShot) {
-	//	shot->Draw();
-	//}
-	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-	//	bullet->Draw();
-	//}
 }
 
 void Player::Move() {
@@ -86,6 +66,8 @@ void Player::Move() {
 	const float stopAngleX = 30.0f;
 	const float stopPosX = 40.0f;
 	const float stopPosY = 20.0f;
+
+	aimPos3d.z = -100.0f;
 
 	if (KeyInput::GetIns()->PushKey(DIK_W) && playerLPos.y <= stopPosY) {
 		playerLPos.y += moveSpeed;
@@ -100,21 +82,21 @@ void Player::Move() {
 		playerLPos.x -= moveSpeed;
 	}
 
-	if (KeyInput::GetIns()->PushKey(DIK_LEFT) && playerRot.y >= playerAngle - stopAngleY) {
-		playerRot.y -= moveSpeed;
+	if (KeyInput::GetIns()->PushKey(DIK_LEFT) && aimPos3d.x <= stopPosX * 2) {
+		aimPos3d.x += moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_RIGHT) && playerRot.y <= playerAngle + stopAngleY) {
-		playerRot.y += moveSpeed;
+	if (KeyInput::GetIns()->PushKey(DIK_RIGHT) && aimPos3d.x >= -stopPosX * 2) {
+		aimPos3d.x -= moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_UP) && playerRot.x >= -stopAngleX) {
-		playerRot.x -= moveSpeed;
+	if (KeyInput::GetIns()->PushKey(DIK_UP) && aimPos3d.y <= stopPosY * 2) {
+		aimPos3d.y += moveSpeed;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && playerRot.x <= stopAngleX) {
-		playerRot.x += moveSpeed;
+	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && aimPos3d.y >= -stopPosY * 2) {
+		aimPos3d.y -= moveSpeed;
 	}
 
 	player->SetPosition(playerLPos);
-	player->SetRotation(playerRot);
+	aim3d->SetPosition(aimPos3d);
 }
 
 void Player::Shot() {
@@ -122,8 +104,6 @@ void Player::Shot() {
 	XMVECTOR velocity;
 	velocity = { aim3d->GetMatWorld().r[3] - player->GetMatWorld().r[3] };
 	velocity = XMVector3Normalize(velocity) * bulletSpeed;
-
-	//velocity = MatCalc::GetIns()->VecDivided(velocity, player->GetMatWorld());
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos, velocity);
@@ -139,9 +119,6 @@ void Player::Reset() {
 	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
-	//for (const std::unique_ptr<PlayerBullet>& bullet : bullets) {
-	//	bullet->OnCollision();
-	//}
 }
 
 void Player::AimUpdate() {

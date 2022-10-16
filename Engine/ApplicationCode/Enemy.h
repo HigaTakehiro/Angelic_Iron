@@ -91,10 +91,12 @@ private: //メンバ関数
 
 private: //静的メンバ変数
 	static const int32_t shotIntervalTime = 60;
+	static const int32_t lifeTime = 180;
 
 private: //メンバ変数
 
 	int32_t shotIntervalTimer = shotIntervalTime;
+	int32_t lifeTimer;
 	Object3d* enemy;
 	GameScene* gameScene;
 	Vector3 pos;
@@ -103,6 +105,5 @@ private: //メンバ変数
 	float moveSpeedY;
 	EnemyStyle type;
 	bool isDead;
-	//std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
 };
 

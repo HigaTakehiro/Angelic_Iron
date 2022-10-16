@@ -123,8 +123,6 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		//const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
-
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
@@ -137,7 +135,7 @@ void GameScene::Update() {
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
-			isClear = true;
+			//isClear = true;
 		}
 
 		for (std::unique_ptr<Enemy>& enemy : enemies) {

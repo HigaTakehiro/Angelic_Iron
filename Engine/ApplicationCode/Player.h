@@ -75,12 +75,6 @@ public: //メンバ関数
 	Object3d* GetPlayerObject() { return player; }
 
 	/// <summary>
-	/// 弾のリスト取得
-	/// </summary>
-	/// <returns>弾のリスト</returns>
-	//std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
-
-	/// <summary>
 	/// リセット処理
 	/// </summary>
 	void Reset();
@@ -116,7 +110,6 @@ private: //メンバ変数
 	Object3d* player = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
-	//std::list<std::unique_ptr<PlayerBullet>> bullets;
 
 	bool isShot = false;
 	//ゲームシーン用変数

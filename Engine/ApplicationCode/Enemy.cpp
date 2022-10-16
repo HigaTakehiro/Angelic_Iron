@@ -24,9 +24,16 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 	type = stringToEnemyStyle(style);
 	moveSpeedY = 0.2f;
 	moveSpeedX = 0.2f;
+	lifeTimer = lifeTime;
 }
 
 void Enemy::Update(const XMFLOAT3& playerPos) {
+	const int32_t lifeTimeOver = 0;
+
+	if (--lifeTimer <= lifeTimeOver) {
+		isDead = true;
+	}
+
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
 			pos = oldPos;
