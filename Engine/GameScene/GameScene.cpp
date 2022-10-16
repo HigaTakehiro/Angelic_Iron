@@ -75,6 +75,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	player = new Player();
 	player->Initialize(camera);
+	player->SetGameScene(this);
 
 	LoadEnemyData();
 
@@ -99,6 +100,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 void GameScene::Update() {
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
+	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 
 	// DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
 	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
@@ -121,13 +123,13 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
+		//const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullet();
 
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
-			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-				if (Collision::GetIns()->OBJSphereCollision(bullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 					enemy->OnCollision();
-					bullet->OnCollision();
+					playerBullet->OnCollision();
 				}
 			}
 		}
@@ -143,6 +145,9 @@ void GameScene::Update() {
 		}
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			enemyBullet->Update();
+		}
+		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			playerBullet->Update();
 		}
 
 		celetialSphere->Update();
@@ -185,6 +190,9 @@ void GameScene::Draw() {
 	}
 	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 		enemyBullet->Draw();
+	}
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		playerBullet->Draw();
 	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
@@ -230,6 +238,10 @@ void GameScene::Reset() {
 	isDead = false;
 	isClear = false;
 	isTitle = true;
+
+	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		playerBullet->OnCollision();
+	}
 
 	LoadEnemyData();
 }
@@ -310,4 +322,8 @@ void GameScene::EnemyDataUpdate() {
 
 void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
 	enemyBullets.push_back(std::move(enemyBullet));
+}
+
+void GameScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
+	playerBullets.push_back(std::move(playerBullet));
 }

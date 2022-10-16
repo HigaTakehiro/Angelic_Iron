@@ -30,7 +30,7 @@ void Player::Finalize() {
 }
 
 void Player::Update() {
-	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
+	//bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 
 	Move();
 
@@ -57,9 +57,9 @@ void Player::Update() {
 	aim->SetPosition(XMFLOAT2(aimPos.x - 50.0f, aimPos.y - 50.0f));
 	aim3d->Update();
 	player->Update();
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Update();
-	}
+	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	//	bullet->Update();
+	//}
 }
 
 void Player::SpriteDraw() {
@@ -73,9 +73,9 @@ void Player::ObjectDraw() {
 	//if (isShot) {
 	//	shot->Draw();
 	//}
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Draw();
-	}
+	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	//	bullet->Draw();
+	//}
 }
 
 void Player::Move() {
@@ -128,7 +128,7 @@ void Player::Shot() {
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos, velocity);
 
-	bullets.push_back(std::move(newBullet));
+	gameScene->AddPlayerBullet(std::move(newBullet));
 
 	isShot = false;
 }
@@ -139,9 +139,9 @@ void Player::Reset() {
 	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
-	for (const std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->OnCollision();
-	}
+	//for (const std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	//	bullet->OnCollision();
+	//}
 }
 
 void Player::AimUpdate() {

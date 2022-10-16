@@ -25,7 +25,7 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 class Enemy;
-class EnemyBullet;
+class Player;
 
 class GameScene
 {
@@ -79,6 +79,11 @@ public: //メンバ関数
 	/// </summary>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
 
+	/// <summary>
+	/// プレイヤー弾を追加
+	/// </summary>
+	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
+
 private: //メンバ関数
 
 	/// <summary>
@@ -100,6 +105,7 @@ private: //メンバ変数
 	Player* player = nullptr;
 	std::list<std::unique_ptr<Enemy>> enemies;
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
 	Sprite* sprite = nullptr;
 	Sprite* background = nullptr;
 	Sprite* title = nullptr;

@@ -14,9 +14,13 @@
 #include "Vector3.h"
 #include "MatCalc.h"
 #include "ModelManager.h"
+#include "PlayerBullet.h"
+#include "GameScene.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+
+class GameScene;
 
 class Player
 {
@@ -74,12 +78,18 @@ public: //メンバ関数
 	/// 弾のリスト取得
 	/// </summary>
 	/// <returns>弾のリスト</returns>
-	std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
+	//std::list<std::unique_ptr<PlayerBullet>>& GetBullet() { return bullets; }
 
 	/// <summary>
 	/// リセット処理
 	/// </summary>
 	void Reset();
+
+	/// <summary>
+	/// ゲームシーンをセット
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGameScene(GameScene* gameScene) { this->gameScene = gameScene; }
 
 private: //メンバ関数
 	/// <summary>
@@ -106,7 +116,7 @@ private: //メンバ変数
 	Object3d* player = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
-	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	//std::list<std::unique_ptr<PlayerBullet>> bullets;
 
 	bool isShot = false;
 	//ゲームシーン用変数
@@ -120,5 +130,6 @@ private: //メンバ変数
 
 	Vector3 aimPos3d;
 	Camera* camera;
+	GameScene* gameScene;
 };
 
