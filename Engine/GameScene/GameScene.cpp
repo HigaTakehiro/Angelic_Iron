@@ -132,10 +132,19 @@ void GameScene::Update() {
 			}
 		}
 
+		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
+				player->OnCollision();
+			}
+		}
+
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
 			//isClear = true;
+		}
+		if (player->GetIsDead()) {
+			isDead = true;
 		}
 
 		for (std::unique_ptr<Enemy>& enemy : enemies) {

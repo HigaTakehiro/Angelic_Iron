@@ -75,6 +75,17 @@ public: //メンバ関数
 	Object3d* GetPlayerObject() { return player; }
 
 	/// <summary>
+	/// 死亡フラグ取得
+	/// </summary>
+	/// <returns>死亡フラグ</returns>
+	bool GetIsDead() { return isDead; }
+
+	/// <summary>
+	/// 衝突時コールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
 	/// リセット処理
 	/// </summary>
 	void Reset();
@@ -112,6 +123,7 @@ private: //メンバ変数
 	Sprite* aim = nullptr;
 
 	bool isShot = false;
+	bool isDead = false;
 	//ゲームシーン用変数
 	XMFLOAT2 aimPos;
 	Vector3 oldShotPos;

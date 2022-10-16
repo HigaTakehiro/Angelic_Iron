@@ -119,6 +119,7 @@ void Player::Reset() {
 	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
+	isDead = false;
 }
 
 void Player::AimUpdate() {
@@ -156,4 +157,8 @@ void Player::AimUpdate() {
 
 	//aim3d->SetPosition(aimPos3d);
 
+}
+
+void Player::OnCollision() {
+	isDead = true;
 }
