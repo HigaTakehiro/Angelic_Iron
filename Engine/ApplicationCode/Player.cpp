@@ -7,6 +7,22 @@ void Player::Initialize(Camera* camera) {
 	Sprite::LoadTexture(1, L"Engine/Resources/Images/Aim.png");
 	aim = Sprite::Create(1, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
+	Sprite::LoadTexture(7, L"Engine/Resources/Images/PlayerUI.png");
+	playerUI = Sprite::Create(7, { 1000, 650 });
+	Sprite::LoadTexture(8, L"Engine/Resources/Images/PlayerHP.png");
+	for (int i = 0; i < maxHp; i++) {
+		float hpUiXPos = 1178.0f;
+		hpUiXPos -= (float)(i * 87);
+		hpUI[i] = Sprite::Create(8, { hpUiXPos, 688 });
+	}
+	Sprite::LoadTexture(9, L"Engine/Resources/Images/PlayerBullet.png");
+	for (int i = 0; i < maxBulletCount; i++) {
+		float bulletUiPos = 1242.0f;
+		bulletUiPos -= (float)(i * 16);
+		bulletUI[i] = Sprite::Create(9, { bulletUiPos, 652 });
+	}
+	Sprite::LoadTexture(10, L"Engine/Resources/Images/Reload.png");
+	reloadUI = Sprite::Create(10, { 1065, 652 });
 
 	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player));
 	playerScale = { 2, 2, 2 };
@@ -21,6 +37,11 @@ void Player::Initialize(Camera* camera) {
 	aim3d->SetPosition(Vector3(0, 0, -100));
 	aim3d->SetRotation(Vector3(0, 0, 0));
 	aim3d->SetCameraParent(camera);
+
+	bulletCount = 0;
+	hpCount = maxHp;
+	reloadTimer = reloadTime;
+	shotCoolTimer = 0;
 }
 
 void Player::Finalize() {
@@ -30,13 +51,36 @@ void Player::Finalize() {
 }
 
 void Player::Update() {
+	const int deadHp = 0;
+	const int noneBulletCount = 0;
+	const int reloadTimeOver = 0;
+	const int shotCoolTimeOver = 0;
+
+	if (hpCount <= deadHp) {
+		isDead = true;
+	}
+	if (bulletCount <= noneBulletCount) {
+		isReload = true;
+	}
+	if (isReload) {
+		reloadTimer--;
+	}
+	if (reloadTimer <= reloadTimeOver) {
+		isReload = false;
+		bulletCount = maxBulletCount;
+		reloadTimer = reloadTime;
+	}
+	if (shotCoolTimer > shotCoolTimeOver) {
+		shotCoolTimer--;
+	}
+
 	Move();
 
 	playerWPos = player->GetMatWorld().r[3];
 
 	AimUpdate();
 
-	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot) {
+	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
 		isShot = true;
 	}
 
@@ -51,11 +95,21 @@ void Player::Update() {
 
 void Player::SpriteDraw() {
 	aim->Draw();
+	playerUI->Draw();
+	for (int i = 0; i < hpCount; i++) {
+		hpUI[i]->Draw();
+	}
+	for (int i = 0; i < bulletCount; i++) {
+		bulletUI[i]->Draw();
+	}
+	if (isReload) {
+		reloadUI->Draw();
+	}
 }
 
 void Player::ObjectDraw() {
 	player->Draw();
-	aim3d->Draw();
+	//aim3d->Draw();
 }
 
 void Player::Move() {
@@ -110,6 +164,8 @@ void Player::Shot() {
 
 	gameScene->AddPlayerBullet(std::move(newBullet));
 
+	bulletCount--;
+	shotCoolTimer = shotCoolTime;
 	isShot = false;
 }
 
@@ -119,6 +175,9 @@ void Player::Reset() {
 	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
+	bulletCount = 0;
+	hpCount = maxHp;
+	reloadTimer = reloadTime;
 	isDead = false;
 }
 
@@ -160,5 +219,5 @@ void Player::AimUpdate() {
 }
 
 void Player::OnCollision() {
-	isDead = true;
+	hpCount--;
 }

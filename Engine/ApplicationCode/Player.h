@@ -112,6 +112,17 @@ private: //メンバ関数
 	/// </summary>
 	void AimUpdate();
 
+
+private: //静的メンバ変数
+	//最大残弾数
+	static const int maxBulletCount = 16;
+	//最大HP
+	static const int maxHp = 3;
+	//リロード時間
+	static const int reloadTime = 60;
+	//弾発射クールタイム
+	static const int shotCoolTime = 10;
+
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
 	Vector3 playerWPos = { 0, 0, 0 };
@@ -121,6 +132,10 @@ private: //メンバ変数
 	Object3d* player = nullptr;
 	Object3d* aim3d = nullptr;
 	Sprite* aim = nullptr;
+	Sprite* playerUI = nullptr;
+	Sprite* hpUI[maxHp];
+	Sprite* bulletUI[maxBulletCount];
+	Sprite* reloadUI = nullptr;
 
 	bool isShot = false;
 	bool isDead = false;
@@ -136,5 +151,16 @@ private: //メンバ変数
 	Vector3 aimPos3d;
 	Camera* camera;
 	GameScene* gameScene;
+
+	//残弾数
+	int bulletCount;
+	//HP
+	int hpCount;
+	//リロード時間
+	int reloadTimer;
+	//弾発射クールタイム
+	int shotCoolTimer;
+	//リロードフラグ
+	bool isReload = false;
 };
 

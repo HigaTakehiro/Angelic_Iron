@@ -135,13 +135,14 @@ void GameScene::Update() {
 		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
 				player->OnCollision();
+				enemyBullet->OnCollision();
 			}
 		}
 
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
-			//isClear = true;
+			isClear = true;
 		}
 		if (player->GetIsDead()) {
 			isDead = true;
@@ -216,7 +217,7 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	debugText.DrawAll(dxCommon->GetCmdList());
+	//debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	// ４．描画コマンドここまで

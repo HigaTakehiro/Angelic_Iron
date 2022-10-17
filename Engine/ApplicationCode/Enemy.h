@@ -89,6 +89,16 @@ private: //メンバ関数
 	/// </summary>
 	void EnemyAction(const XMFLOAT3& playerPos);
 
+	/// <summary>
+	/// プレイヤーが射撃範囲にいるかどうか
+	/// </summary>
+	/// <param name="playerPos">プレイヤーの座標</param>
+	/// <param name="enemyPos">エネミーの座標</param>
+	/// <param name="range">射撃範囲</param>
+	/// <param name="playerScale">プレイヤーの大きさ</param>
+	/// <returns></returns>
+	bool IsShotRangeJudge(const Vector3& playerPos, const Vector3& enemyPos, float range, float playerScale);
+
 private: //静的メンバ変数
 	static const int32_t shotIntervalTime = 60;
 	static const int32_t lifeTime = 180;

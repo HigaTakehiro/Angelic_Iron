@@ -19,7 +19,7 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	enemy->SetPosition(pos);
 	oldPos = pos;
-	enemy->SetRotation(rot);
+	enemy->SetRotation({0.0f, 0.0f, 0.0f});
 	enemy->SetScale(scale);
 	type = stringToEnemyStyle(style);
 	moveSpeedY = 0.2f;
@@ -30,9 +30,9 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 void Enemy::Update(const XMFLOAT3& playerPos) {
 	const int32_t lifeTimeOver = 0;
 
-	if (--lifeTimer <= lifeTimeOver) {
-		isDead = true;
-	}
+	//if (--lifeTimer <= lifeTimeOver) {
+	//	isDead = true;
+	//}
 
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
@@ -99,7 +99,7 @@ void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 		pos.x += moveSpeedX;
 	}
 
-	if (--shotIntervalTimer <= shotIntervalTimeover) {
+	if (--shotIntervalTimer <= shotIntervalTimeover && IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)) {
 		Shot();
 		shotIntervalTimer = shotIntervalTime;
 	}
@@ -118,4 +118,18 @@ void Enemy::Shot() {
 	newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
 
 	gameScene->AddEnemyBullet(std::move(newBullet));
+}
+
+bool Enemy::IsShotRangeJudge(const Vector3& playerPos, const Vector3& enemyPos, float range, float playerScale) {
+	Vector3 object1Pos = enemyPos;
+	Vector3 object2Pos = playerPos;
+	float objectPosTotal;
+	float objectScaleTotal;
+
+	objectPosTotal = (object2Pos.x - object1Pos.x) * (object2Pos.x - object1Pos.x) + (object2Pos.y - object1Pos.y) * (object2Pos.y - object1Pos.y) + (object2Pos.z - object1Pos.z) * (object2Pos.z - object1Pos.z);
+	objectScaleTotal = (range + playerScale) * (range + playerScale);
+
+	if (!(objectPosTotal <= objectScaleTotal)) return false;
+
+	return true;
 }
