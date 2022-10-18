@@ -125,9 +125,9 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
+		/*if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
 			Reset();
-		}
+		}*/
 
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
@@ -198,7 +198,7 @@ void GameScene::Draw() {
 	Object3d::PreDraw(dxCommon->GetCmdList());
 	ground->Draw();
 	celetialSphere->Draw();
-	
+
 	if (!isDead) {
 		player->ObjectDraw();
 	}

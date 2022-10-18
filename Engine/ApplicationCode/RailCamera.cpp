@@ -12,14 +12,14 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 }
 
 void RailCamera::Update() {
-	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-		if (isStop) {
-			isStop = false;
-		}
-		else {
-			isStop = true;
-		}
-	}
+	//if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+	//	if (isStop) {
+	//		isStop = false;
+	//	}
+	//	else {
+	//		isStop = true;
+	//	}
+	//}
 
 	if (!isStop) {
 		SplineMove();
