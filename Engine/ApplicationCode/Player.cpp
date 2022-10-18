@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "SafeDelete.h"
 
-void Player::Initialize(Camera* camera) {
+void Player::Initialize(Camera* camera, Sound* sound) {
 	this->camera = camera;
+	this->sound = sound;
 
 	Sprite::LoadTexture(1, L"Engine/Resources/Images/Aim.png");
 	aim = Sprite::Create(1, { 0, 0 });
@@ -41,6 +42,7 @@ void Player::Initialize(Camera* camera) {
 	bulletCount = 0;
 	hpCount = maxHp;
 	reloadTimer = reloadTime;
+	damageEffectTimer = damageEffectTime;
 	shotCoolTimer = 0;
 }
 
@@ -59,8 +61,9 @@ void Player::Update() {
 	if (hpCount <= deadHp) {
 		isDead = true;
 	}
-	if (bulletCount <= noneBulletCount) {
+	if (bulletCount <= noneBulletCount && !isReload) {
 		isReload = true;
+		sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.2f);
 	}
 	if (isReload) {
 		reloadTimer--;
@@ -74,7 +77,12 @@ void Player::Update() {
 		shotCoolTimer--;
 	}
 
-	Move();
+	if (!isDamage) {
+		Move();
+	}
+	else {
+		DamageEffect();
+	}
 
 	playerWPos = player->GetMatWorld().r[3];
 
@@ -82,6 +90,9 @@ void Player::Update() {
 
 	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
 		isShot = true;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_R)) {
+		bulletCount = noneBulletCount;
 	}
 
 	if (isShot) {
@@ -166,6 +177,7 @@ void Player::Shot() {
 
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;
+	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.1f);
 	isShot = false;
 }
 
@@ -179,6 +191,8 @@ void Player::Reset() {
 	hpCount = maxHp;
 	reloadTimer = reloadTime;
 	isDead = false;
+	isDamage = false;
+	damageEffectTimer = damageEffectTime;
 }
 
 void Player::AimUpdate() {
@@ -220,4 +234,29 @@ void Player::AimUpdate() {
 
 void Player::OnCollision() {
 	hpCount--;
+	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.2f);
+	isDamage = true;
+}
+
+void Player::DamageEffect() {
+	const int damageEffectTimeOver = 0;
+	static Vector3 oldPos;
+
+	if (oldPos.x == 0 && oldPos.y == 0 && oldPos.z == 0) {
+		oldPos = playerLPos;
+	}
+
+	damageEffectTimer--;
+
+	if (damageEffectTimer >= damageEffectTimeOver) {
+		playerLPos.x = playerLPos.x + (2 - rand() % 4);
+		playerLPos.y = playerLPos.y + (2 - rand() % 4);
+		playerLPos.z = playerLPos.z + (2 - rand() % 4);
+	}
+	else {
+		isDamage = false;
+		damageEffectTimer = damageEffectTime;
+		playerLPos = oldPos;
+		oldPos = { 0, 0, 0 };
+	}
 }

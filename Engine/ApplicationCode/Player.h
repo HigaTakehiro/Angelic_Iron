@@ -16,6 +16,7 @@
 #include "ModelManager.h"
 #include "PlayerBullet.h"
 #include "GameScene.h"
+#include "Sound.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -28,7 +29,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Initialize(Camera* camera);
+	void Initialize(Camera* camera, Sound* sound);
 
 	/// <summary>
 	/// 更新処理
@@ -96,6 +97,12 @@ public: //メンバ関数
 	/// <param name="gameScene">ゲームシーン</param>
 	void SetGameScene(GameScene* gameScene) { this->gameScene = gameScene; }
 
+	/// <summary>
+	/// ダメージフラグ取得
+	/// </summary>
+	/// <returns>ダメージフラグ</returns>
+	bool GetIsDamage() { return isDamage; }
+
 private: //メンバ関数
 	/// <summary>
 	/// 移動処理
@@ -112,6 +119,11 @@ private: //メンバ関数
 	/// </summary>
 	void AimUpdate();
 
+	/// <summary>
+	/// ダメージエフェクト
+	/// </summary>
+	void DamageEffect();
+
 
 private: //静的メンバ変数
 	//最大残弾数
@@ -122,6 +134,8 @@ private: //静的メンバ変数
 	static const int reloadTime = 60;
 	//弾発射クールタイム
 	static const int shotCoolTime = 10;
+	//ダメージエフェクト発生時間
+	static const int damageEffectTime = 20;
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
@@ -151,6 +165,7 @@ private: //メンバ変数
 	Vector3 aimPos3d;
 	Camera* camera;
 	GameScene* gameScene;
+	Sound* sound;
 
 	//残弾数
 	int bulletCount;
@@ -162,5 +177,9 @@ private: //メンバ変数
 	int shotCoolTimer;
 	//リロードフラグ
 	bool isReload = false;
+	//ダメージエフェクト時間
+	int damageEffectTimer;
+	//ダメージエフェクト用フラグ
+	bool isDamage = false;
 };
 

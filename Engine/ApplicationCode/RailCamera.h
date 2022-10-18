@@ -39,6 +39,11 @@ public: //メンバ関数
 	/// </summary>
 	void SetStartTime(long long startTime) { this->startTime = startTime; }
 
+	/// <summary>
+	/// ダメージエフェクト発生用フラグを立てる
+	/// </summary>
+	void SetIsDamage() { isDamage = true; }
+
 private: //メンバ関数
 
 	/// <summary>
@@ -66,7 +71,8 @@ private: //メンバ関数
 	void DamageCameraEffect();
 
 private: //静的メンバ変数
-	static const int damageEffectTime = 10;
+	//ダメージエフェクト発生時間
+	static const int damageEffectTime = 20;
 
 private: //メンバ変数
 	Vector3 eye; //ワールド座標
@@ -87,6 +93,7 @@ private: //メンバ変数
 	Vector3 initRot; //初期回転
 
 	bool isStop = false; //デバッグ用カメラ停止フラグ
+	bool isDamage = false; //ダメージを受けたかのフラグ
 
 	int  damageEffectTimer; //ダメージ演出用タイマー
 };

@@ -24,6 +24,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	this->sound = sound;
 	input = KeyInput::GetIns();
 
+	this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
+
 	//ƒJƒƒ‰‰Šú‰»
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(50, 1, -100));
@@ -45,7 +47,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Sprite::LoadTexture(2, L"Engine/Resources/Images/background.png");
 	background = Sprite::Create(2, { 0, 0 });
 
-	Sprite::LoadTexture(4, L"Engine/Resources/Images/Title.png");
+	Sprite::LoadTexture(4, L"Engine/Resources/Images/AlphaTitle.png");
 	title = Sprite::Create(4, { 0, 0 });
 
 	Sprite::LoadTexture(5, L"Engine/Resources/Images/Gameover.png");
@@ -74,7 +76,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	celetialSphere->SetScale(sphereScale);
 
 	player = new Player();
-	player->Initialize(camera);
+	player->Initialize(camera, sound);
 	player->SetGameScene(this);
 
 	LoadEnemyData();
@@ -123,7 +125,7 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		if (input->GetIns()->TriggerKey(DIK_R)) {
+		if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
 			Reset();
 		}
 
@@ -138,8 +140,11 @@ void GameScene::Update() {
 
 		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-				player->OnCollision();
+				if (!player->GetIsDamage()) {
+					player->OnCollision();
+				}
 				enemyBullet->OnCollision();
+				railCamera->SetIsDamage();
 			}
 		}
 

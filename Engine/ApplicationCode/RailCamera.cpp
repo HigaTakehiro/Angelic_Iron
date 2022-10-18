@@ -38,6 +38,11 @@ void RailCamera::Update() {
 			rot.x += 1.0f;
 		}
 	}
+	
+	if (isDamage) {
+		DamageCameraEffect();
+	}
+
 	UpdateMatWorld();
 	Camera::SetEye(eye);
 }
@@ -87,14 +92,15 @@ void RailCamera::SplineMove() {
 		distance = Vector3(points[startIndex + 1].x - eye.x, points[startIndex + 1].y - eye.y, points[startIndex + 1].z - eye.z);
 		xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
 		yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
+		xRot = roundf(xRot * 10.0f) / 10.0f;
+		yRot = roundf(yRot * 10.0f) / 10.0f;
+		rot.x = roundf(rot.x * 10.0f) / 10.0f;
+		rot.y = roundf(rot.y * 10.0f) / 10.0f;
 		if (rot.x < xRot) {
 			rot.x += 0.1f;
 		}
 		else if (rot.x > xRot) {
 			rot.x -= 0.1f;
-		}
-		if (rot.x >= xRot && rot.x <= xRot) {
-			rot.x = rot.x;
 		}
 
 		if (rot.y < yRot) {
@@ -103,10 +109,9 @@ void RailCamera::SplineMove() {
 		else if (rot.y > yRot) {
 			rot.y -= 0.1f;
 		}
-		if (rot.y >= yRot && rot.y <= yRot) {
-			rot.y = rot.y;
-		}
 	}
+	rot.x = roundf(rot.x * 10.0f) / 10.0f;
+	rot.y = roundf(rot.y * 10.0f) / 10.0f;
 
 	eye = Spline(points, startIndex, timeRate);
 }
@@ -140,4 +145,29 @@ void RailCamera::Reset() {
 	rot = initRot;
 	startIndex = 1;
 	startTime = GetTickCount64();
+	isDamage = false;
+	damageEffectTimer = damageEffectTime;
+}
+
+void RailCamera::DamageCameraEffect() {
+	const int damageEffectTimeOver = 0;
+	static Vector3 oldPos;
+
+	if (oldPos.x == 0 && oldPos.y == 0 && oldPos.z == 0) {
+		oldPos = eye;
+	}
+
+	damageEffectTimer--;
+
+	if (damageEffectTimer >= damageEffectTimeOver) {
+		eye.x = eye.x + (2 - rand() % 4);
+		eye.y = eye.y + (2 - rand() % 4);
+		eye.z = eye.z + (2 - rand() % 4);
+	}
+	else {
+		isDamage = false;
+		damageEffectTimer = damageEffectTime;
+		eye = oldPos;
+		oldPos = { 0, 0, 0 };
+	}
 }
