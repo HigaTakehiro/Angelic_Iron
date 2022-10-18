@@ -29,3 +29,24 @@ Pos 20.0 20.0 -50.0
 Rot 0.0 180.0 0.0
 Scale 5.0 5.0 5.0
 Type LRMOVE_STR
+
+Enemy4
+
+Pos 80.0 200.0 -150.0
+Rot 0.0 180.0 0.0
+Scale 5.0 5.0 5.0
+Type UDMOVE_STR
+
+Enemy5
+
+Pos -20.0 200.0 -100.0
+Rot 0.0 180.0 0.0
+Scale 5.0 5.0 5.0
+Type LRMOVE_STR
+
+Enemy6
+
+Pos 0.0 -10.0 -150.0
+Rot 0.0 180.0 0.0
+Scale 5.0 5.0 5.0
+Type STOP_STR

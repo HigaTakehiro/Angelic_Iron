@@ -141,7 +141,9 @@ private: //ƒƒ“ƒo•Ï”
 
 	const Vector3 start = { 50.0f, 1.0f, 300.0f };
 	const Vector3 p2 = { 50.0f, 200.0f, 0.0f };
-	const Vector3 p3 = { 50.0f, 1.0f, -300.0f };
+	const Vector3 p3 = { 50.0f, 200.0f, -300.0f };
+	const Vector3 p4 = { -50.0f, 150.0f, -250.0f };
+	const Vector3 p5 = { 0.0f, 5.0f, 50.0f };
 	const Vector3 end = { -50.0f, 1.0f, 0.0f };
 	std::vector<Vector3> points;
 

@@ -60,6 +60,14 @@ private: //メンバ関数
 	/// </summary>
 	void UpdateMatWorld();
 
+	/// <summary>
+    /// ダメージを受けた時のカメラ演出
+    /// </summary>
+	void DamageCameraEffect();
+
+private: //静的メンバ変数
+	static const int damageEffectTime = 10;
+
 private: //メンバ変数
 	Vector3 eye; //ワールド座標
 	Vector3 rot; //回転角
@@ -75,9 +83,11 @@ private: //メンバ変数
 	float timeRate; //移動した時間を0~1で評価
 	int startIndex = 1; //移動したポイントをカウント
 
-	Vector3 initPos;
-	Vector3 initRot;
+	Vector3 initPos; //初期座標
+	Vector3 initRot; //初期回転
 
-	bool isStop = false;
+	bool isStop = false; //デバッグ用カメラ停止フラグ
+
+	int  damageEffectTimer; //ダメージ演出用タイマー
 };
 

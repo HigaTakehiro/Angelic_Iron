@@ -31,7 +31,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	railCamera = new RailCamera;
 	cameraPos = { 50.0f, 1.0f, 100.0f };
 	cameraRot = { 0.0f, 180.0f, 0.0f };
-	points = { start, start, p2, p3, end, start, start };
+	points = { start, start, p2, p3, p4, p5, end, start, start };
 	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
 
 	//Sprite & DebugText‚Ì‰Šú‰»
@@ -122,6 +122,10 @@ void GameScene::Update() {
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
+
+		if (input->GetIns()->TriggerKey(DIK_R)) {
+			Reset();
+		}
 
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {

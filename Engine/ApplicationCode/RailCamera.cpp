@@ -93,12 +93,18 @@ void RailCamera::SplineMove() {
 		else if (rot.x > xRot) {
 			rot.x -= 0.1f;
 		}
+		if (rot.x >= xRot && rot.x <= xRot) {
+			rot.x = rot.x;
+		}
 
 		if (rot.y < yRot) {
 			rot.y += 0.1f;
 		}
 		else if (rot.y > yRot) {
 			rot.y -= 0.1f;
+		}
+		if (rot.y >= yRot && rot.y <= yRot) {
+			rot.y = rot.y;
 		}
 	}
 
