@@ -8,7 +8,6 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-	safe_delete(sprite);
 	player->Finalize();
 	safe_delete(player);
 	safe_delete(map1_a);
@@ -24,7 +23,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	this->sound = sound;
 	input = KeyInput::GetIns();
 
-	this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
+	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -55,9 +54,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	Sprite::LoadTexture(6, L"Engine/Resources/Images/Clear.png");
 	clear = Sprite::Create(6, { 0, 0 });
-
-	aimPosX = 0;
-	aimPosY = 0;
 
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -96,6 +92,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	isDead = false;
 	isClear = false;
 	isTitle = true;
+	isWait = false;
 
 }
 
@@ -105,9 +102,6 @@ void GameScene::Update() {
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 
 	// DirectX毎フレーム処理　ここから
-	aimPosX = MouseInput::GetIns()->GetMousePoint().x;
-	aimPosY = MouseInput::GetIns()->GetMousePoint().y;
-
 	if (isTitle) {
 		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
 			isTitle = false;
@@ -125,9 +119,9 @@ void GameScene::Update() {
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
 
-		/*if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
+		if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
 			Reset();
-		}*/
+		}
 
 		for (const std::unique_ptr<Enemy>& enemy : enemies) {
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
@@ -151,7 +145,7 @@ void GameScene::Update() {
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
-			isClear = true;
+			//isClear = true;
 		}
 		if (player->GetIsDead()) {
 			isDead = true;
@@ -289,9 +283,16 @@ void GameScene::EnemyDataUpdate() {
 	Vector3 scale{};
 	std::string type;
 	bool isPos = false;
-	bool isRot = false;
 	bool isScale = false;
 	bool isStyle = false;
+
+	if (isWait) {
+		waitTimer--;
+		if (waitTimer <= 0) {
+			isWait = false;
+		}
+		return;
+	}
 
 	while (getline(enemyData, line)) {
 		std::istringstream line_stream(line);
@@ -307,12 +308,6 @@ void GameScene::EnemyDataUpdate() {
 			line_stream >> pos.z;
 			isPos = true;
 		}
-		if (word == "Rot") {
-			line_stream >> rot.x;
-			line_stream >> rot.y;
-			line_stream >> rot.z;
-			isRot = true;
-		}
 		if (word == "Scale") {
 			line_stream >> scale.x;
 			line_stream >> scale.y;
@@ -323,14 +318,19 @@ void GameScene::EnemyDataUpdate() {
 			line_stream >> type;
 			isStyle = true;
 		}
+		if (word == "Wait") {
+			isWait = true;
+			line_stream >> waitTimer;
 
-		if (isPos && isRot && isScale && isStyle) {
+			break;
+		}
+
+		if (isPos && isScale && isStyle) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-			newEnemy->Initialize("Enemy", pos, rot, scale, type);
+			newEnemy->Initialize("Enemy", pos, scale, type);
 			newEnemy->SetGamaScene(this);
 			enemies.push_back(std::move(newEnemy));
 			isPos = false;
-			isRot = false;
 			isScale = false;
 			isStyle = false;
 		}

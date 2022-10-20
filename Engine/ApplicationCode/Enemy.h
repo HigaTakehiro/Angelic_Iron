@@ -30,7 +30,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(const std::string& modelName, const Vector3& pos, const Vector3& rot, const Vector3& scale, const std::string& style);
+	void Initialize(const std::string& modelName, const Vector3& pos, const Vector3& scale, const std::string& style);
 
 	/// <summary>
 	/// XVˆ—

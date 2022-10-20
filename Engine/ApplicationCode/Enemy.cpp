@@ -15,7 +15,7 @@ Enemy::~Enemy() {
 	delete enemy;
 }
 
-void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector3& rot, const Vector3& scale, const string& style) {
+void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector3& scale, const string& style) {
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	enemy->SetPosition(pos);
 	oldPos = pos;
@@ -30,9 +30,9 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 void Enemy::Update(const XMFLOAT3& playerPos) {
 	const int32_t lifeTimeOver = 0;
 
-	//if (--lifeTimer <= lifeTimeOver) {
-	//	isDead = true;
-	//}
+	if (--lifeTimer <= lifeTimeOver) {
+		isDead = true;
+	}
 
 	if (enemy != nullptr) {
 		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {

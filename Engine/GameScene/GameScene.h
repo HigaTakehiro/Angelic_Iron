@@ -92,63 +92,62 @@ private: //メンバ関数
 	void Reset();
 
 private: //メンバ変数
-	DirectXCommon* dxCommon = nullptr;
-	KeyInput* input = nullptr;
-	WinApp* winApp = nullptr;
-	DebugText debugText;
-	Sound* sound = nullptr;
-	Camera* camera = nullptr;
-	MapChip* mapchip = nullptr;
-	RailCamera* railCamera = nullptr;
+	DirectXCommon* dxCommon = nullptr; //DirectX初期設定クラス
+	KeyInput* input = nullptr; //キーボード入力クラス
+	WinApp* winApp = nullptr; //ウィンドウ設定クラス
+	DebugText debugText; //デバッグテキスト表示用クラス
+	Sound* sound = nullptr; //サウンドクラス
+	Camera* camera = nullptr; //カメラクラス
+	MapChip* mapchip = nullptr; //マップチップクラス
+	RailCamera* railCamera = nullptr; //レールカメラクラス
 
 	//ゲームオブジェクト & スプライト
-	Player* player = nullptr;
-	std::list<std::unique_ptr<Enemy>> enemies;
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
-	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
-	Sprite* sprite = nullptr;
-	Sprite* background = nullptr;
-	Sprite* title = nullptr;
-	Sprite* gameover = nullptr;
-	Sprite* clear = nullptr;
+	Player* player = nullptr; //プレイヤークラス
+	std::list<std::unique_ptr<Enemy>> enemies; //エネミーリスト
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets; //エネミーの弾リスト
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
+	Sprite* background = nullptr; //背景画像
+	Sprite* title = nullptr; //タイトル画面画像
+	Sprite* gameover = nullptr; //ゲームオーバー画面画像
+	Sprite* clear = nullptr; //クリア画面画像
 
-	Model* celestialSphereModel = nullptr;
-	Model* groundModel = nullptr;
-	Object3d* celetialSphere = nullptr;
-	Object3d* ground = nullptr;
-	Vector3 groundPos = { 0, 0, 0 };
-	Vector3 groundScale = { 1, 1, 1 };
-	Vector3 spherePos = { 0, 0, 0 };
-	Vector3 sphereScale = { 10, 10, 10 };
+	Model* celestialSphereModel = nullptr; //天球モデル
+	Model* groundModel = nullptr; //地面モデル
+	Object3d* celetialSphere = nullptr; //天球オブジェクト
+	Object3d* ground = nullptr; //地面オブジェクト
+	Vector3 groundPos = { 0, 0, 0 }; //地面座標
+	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
+	Vector3 spherePos = { 0, 0, 0 }; //天球座標
+	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
 
 	//マップチップ用変数
-	int** map1_a = nullptr;
-	int** map1_b = nullptr;
-	std::vector<Object3d*> objects;
-	std::vector<Object3d*> objects2;
+	int** map1_a = nullptr; //マップチップのcsv保存用変数
+	int** map1_b = nullptr; //マップチップのcsv保存用変数
+	std::vector<Object3d*> objects; //マップチップオブジェクト格納コンテナ
+	std::vector<Object3d*> objects2; //マップチップオブジェクト格納コンテナ
 
 	//FBX用変数
-	FBXModel* model1 = nullptr;
-	FBXObject3d* object1 = nullptr;
+	FBXModel* model1 = nullptr; //FBXテストモデル
+	FBXObject3d* object1 = nullptr; //FBXテストオブジェクト
 
 	//ゲームシーン用変数
-	float aimPosX;
-	float aimPosY;
-	bool isDead;
-	bool isTitle;
-	bool isClear;
-	std::stringstream enemyData;
+	bool isDead; //プレイヤー死亡フラグ
+	bool isTitle; //タイトルシーンフラグ
+	bool isClear; //クリアシーンフラグ
+	bool isWait; //エネミー読み込み待機フラグ
+	int32_t waitTimer; //エネミー読み込み待機時間
+	std::stringstream enemyData; //エネミーデータ格納用文字列
 
-	const Vector3 start = { 50.0f, 1.0f, 300.0f };
-	const Vector3 p2 = { 250.0f, 200.0f, 0.0f };
-	const Vector3 p3 = { 50.0f, 200.0f, -300.0f };
-	const Vector3 p4 = { -250.0f, 150.0f, -250.0f };
-	const Vector3 p5 = { 0.0f, 5.0f, 50.0f };
-	const Vector3 end = { -50.0f, 1.0f, 0.0f };
-	std::vector<Vector3> points;
+	const Vector3 start = { 50.0f, 1.0f, 300.0f }; //レールカメラ用スプライン指定点
+	const Vector3 p2 = { 250.0f, 200.0f, 0.0f }; //レールカメラ用スプライン指定点
+	const Vector3 p3 = { 50.0f, 200.0f, -300.0f }; //レールカメラ用スプライン指定点
+	const Vector3 p4 = { -250.0f, 150.0f, -250.0f }; //レールカメラ用スプライン指定点
+	const Vector3 p5 = { 0.0f, 5.0f, 50.0f };  //レールカメラ用スプライン指定点
+	const Vector3 end = { -50.0f, 1.0f, 0.0f }; //レールカメラ用スプライン指定点
+	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 
-	const float maxTime = 15000.0f; //maxTime / 1000[s]
-	Vector3 cameraPos;
-	Vector3 cameraRot;
+	const float maxTime = 15000.0f; //スプライン間補間時間 maxTime / 1000[s]
+	Vector3 cameraPos; //カメラ座標
+	Vector3 cameraRot; //カメラ回転角
 };
 
