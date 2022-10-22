@@ -39,7 +39,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ƒ‚ƒfƒ‹’Ç‰Á
 	/// </summary>
-	void LoadModel(const ModelName modelType, const std::string modelName);
+	void LoadModel(const std::string modelName);
 
 	/// <summary>
 	/// ƒ‚ƒfƒ‹æ“¾

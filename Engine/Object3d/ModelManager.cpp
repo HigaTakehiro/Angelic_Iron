@@ -7,9 +7,9 @@ ModelManager* ModelManager::GetIns()
 }
 
 void ModelManager::Initialize() {
-	LoadModel(Player, "Player");
-	LoadModel(Enemy, "Enemy");
-	LoadModel(Shot, "Block");
+	LoadModel("Player");
+	LoadModel("Enemy");
+	LoadModel("Block");
 }
 
 void ModelManager::Finalize() {
@@ -17,7 +17,7 @@ void ModelManager::Finalize() {
 	model.shrink_to_fit();
 }
 
-void ModelManager::LoadModel(const ModelName modelType, const std::string modelName) {
+void ModelManager::LoadModel(const std::string modelName) {
 	Model* newModel = nullptr;
 	newModel = Model::CreateModel(modelName);
 	model.push_back(newModel);
