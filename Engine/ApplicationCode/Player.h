@@ -17,6 +17,7 @@
 #include "PlayerBullet.h"
 #include "GameScene.h"
 #include "Sound.h"
+#include "ImageManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

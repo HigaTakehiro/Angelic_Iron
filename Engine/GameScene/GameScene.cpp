@@ -41,19 +41,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Sprite::LoadTexture(debugTextNumber, L"Engine/Resources/Images/debugfont.png");
 	debugText.Initialize(debugTextNumber);
 
-	//Sprite::LoadTexture(1, L"Resources/Aim.png");
-	//sprite = Sprite::Create(1, { 0, 0 });
-	Sprite::LoadTexture(2, L"Engine/Resources/Images/background.png");
-	background = Sprite::Create(2, { 0, 0 });
+	ImageManager::GetIns()->Initialize();
 
-	Sprite::LoadTexture(4, L"Engine/Resources/Images/AlphaTitle.png");
-	title = Sprite::Create(4, { 0, 0 });
-
-	Sprite::LoadTexture(5, L"Engine/Resources/Images/Gameover.png");
-	gameover = Sprite::Create(5, { 0, 0 });
-
-	Sprite::LoadTexture(6, L"Engine/Resources/Images/Clear.png");
-	clear = Sprite::Create(6, { 0, 0 });
+	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
+	title = Sprite::Create(ImageManager::ImageName::title, { 0, 0 });
+	gameover = Sprite::Create(ImageManager::ImageName::gameover, { 0, 0 });
+	clear = Sprite::Create(ImageManager::ImageName::clear, { 0, 0 });
 
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -103,7 +96,7 @@ void GameScene::Update() {
 
 	// DirectX毎フレーム処理　ここから
 	if (isTitle) {
-		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+		if (input->GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
 			isTitle = false;
 			railCamera->SetStartTime(GetTickCount64());
 		}
@@ -114,7 +107,7 @@ void GameScene::Update() {
 
 		char xPos[256];
 		char yPos[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", player->GetAimPos().x, player->GetAimPos().y, player->GetAimPos().z);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
@@ -220,7 +213,7 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	//debugText.DrawAll(dxCommon->GetCmdList());
+	debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	// ４．描画コマンドここまで

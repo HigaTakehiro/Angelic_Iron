@@ -101,7 +101,7 @@ private: //メンバ関数
 
 private: //静的メンバ変数
 	static const int32_t shotIntervalTime = 60;
-	static const int32_t lifeTime = 180;
+	static const int32_t lifeTime = 240;
 
 private: //メンバ変数
 

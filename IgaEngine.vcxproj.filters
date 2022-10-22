@@ -129,6 +129,9 @@
     <ClCompile Include="Engine\Object3d\Object3d.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object2d\ImageManager.cpp">
+      <Filter>ソース ファイル\Object2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Object3d.h">
       <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object2d\ImageManager.h">
+      <Filter>ソース ファイル\Object2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

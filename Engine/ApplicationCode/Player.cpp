@@ -5,25 +5,20 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	this->camera = camera;
 	this->sound = sound;
 
-	Sprite::LoadTexture(1, L"Engine/Resources/Images/Aim.png");
-	aim = Sprite::Create(1, { 0, 0 });
+	aim = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
-	Sprite::LoadTexture(7, L"Engine/Resources/Images/PlayerUI.png");
-	playerUI = Sprite::Create(7, { 1000, 650 });
-	Sprite::LoadTexture(8, L"Engine/Resources/Images/PlayerHP.png");
+	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
 		hpUiXPos -= (float)(i * 87);
-		hpUI[i] = Sprite::Create(8, { hpUiXPos, 688 });
+		hpUI[i] = Sprite::Create(ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
 	}
-	Sprite::LoadTexture(9, L"Engine/Resources/Images/PlayerBullet.png");
 	for (int i = 0; i < maxBulletCount; i++) {
 		float bulletUiPos = 1242.0f;
 		bulletUiPos -= (float)(i * 16);
-		bulletUI[i] = Sprite::Create(9, { bulletUiPos, 652 });
+		bulletUI[i] = Sprite::Create(ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
 	}
-	Sprite::LoadTexture(10, L"Engine/Resources/Images/Reload.png");
-	reloadUI = Sprite::Create(10, { 1065, 652 });
+	reloadUI = Sprite::Create(ImageManager::ImageName::reload, { 1065, 652 });
 
 	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player));
 	playerScale = { 2, 2, 2 };
@@ -88,7 +83,7 @@ void Player::Update() {
 
 	AimUpdate();
 
-	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
+	if (MouseInput::GetIns()->PushClick(MouseInput::GetIns()->LEFT_CLICK) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
 		isShot = true;
 	}
 	if (KeyInput::GetIns()->TriggerKey(DIK_R)) {
@@ -120,7 +115,7 @@ void Player::SpriteDraw() {
 
 void Player::ObjectDraw() {
 	player->Draw();
-	//aim3d->Draw();
+	aim3d->Draw();
 }
 
 void Player::Move() {
@@ -198,42 +193,42 @@ void Player::Reset() {
 void Player::AimUpdate() {
 
 	//2D¨3D
-	const float kDistancePlayerTo3DRaticle = 50.0f;
-	XMVECTOR offset = { 0, 0, 1.0f };
-	offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
-	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
+	//const float kDistancePlayerTo3DRaticle = 50.0f;
+	//XMVECTOR offset = { 0, 0, 1.0f };
+	//offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
+	//offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
-	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] };
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport);
+	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] };
+	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	//raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport);
 
-	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	//aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
 	//3D¨2D
-	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	//XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	//XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	//XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
-	//XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
+	XMVECTOR posNear = { (float)aimPos.x, (float)aimPos.y, 0 };
+	XMVECTOR posFar = { (float)aimPos.x, (float)aimPos.y, 1 };
 
-	//posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
-	//posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
+	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
+	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
 
-	//XMVECTOR mouseDirection = posFar - posNear;
-	//mouseDirection = XMVector3Normalize(mouseDirection);
+	XMVECTOR mouseDirection = posFar - posNear;
+	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	//const float kDistanceTestObject = 20.0f;
-	//mouseDirection = mouseDirection * kDistanceTestObject;
-	//mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
-	//aimPos3d = posNear + mouseDirection;
+	const float kDistanceTestObject = 200.0f;
+	mouseDirection = mouseDirection * kDistanceTestObject;
+	mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
+	aimPos3d = mouseDirection + posNear;
 
-	//aim3d->SetPosition(aimPos3d);
+	aim3d->SetPosition(aimPos3d);
 
 }
 
 void Player::OnCollision() {
-	hpCount--;
+	//hpCount--;
 	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.2f);
 	isDamage = true;
 }

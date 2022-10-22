@@ -19,7 +19,6 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	enemy->SetPosition(pos);
 	oldPos = pos;
-	enemy->SetRotation({0.0f, 0.0f, 0.0f});
 	enemy->SetScale(scale);
 	type = stringToEnemyStyle(style);
 	moveSpeedY = 0.2f;
@@ -99,7 +98,7 @@ void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 		pos.x += moveSpeedX;
 	}
 
-	if (--shotIntervalTimer <= shotIntervalTimeover && IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)) {
+	if (--shotIntervalTimer <= shotIntervalTimeover /*&& IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)*/) {
 		Shot();
 		shotIntervalTimer = shotIntervalTime;
 	}

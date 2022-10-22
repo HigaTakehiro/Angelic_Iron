@@ -20,6 +20,7 @@
 #include "EnemyBullet.h"
 #include "ModelManager.h"
 #include "RailCamera.h"
+#include "ImageManager.h"
 #include <sstream>
 
 using namespace DirectX;
