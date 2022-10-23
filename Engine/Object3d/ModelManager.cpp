@@ -1,5 +1,12 @@
 #include "ModelManager.h"
 
+ModelManager::~ModelManager() {
+	for (Model* model : models) {
+		delete model;
+	}
+	models.clear();
+}
+
 ModelManager* ModelManager::GetIns()
 {
 	static ModelManager instance;
@@ -10,15 +17,14 @@ void ModelManager::Initialize() {
 	LoadModel("Player");
 	LoadModel("Enemy");
 	LoadModel("Block");
-}
-
-void ModelManager::Finalize() {
-	model.clear();
-	model.shrink_to_fit();
+	LoadModel("ground");
+	LoadModel("CelestialSphere");
 }
 
 void ModelManager::LoadModel(const std::string modelName) {
 	Model* newModel = nullptr;
 	newModel = Model::CreateModel(modelName);
-	model.push_back(newModel);
+	models.push_back(newModel);
+	newModel = nullptr;
+	delete newModel;
 }

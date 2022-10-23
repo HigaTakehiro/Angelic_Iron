@@ -6,7 +6,7 @@ class ModelManager
 {
 private:
 	ModelManager() = default;
-	~ModelManager() = default;
+	~ModelManager();
 	ModelManager(const ModelManager & obj) = delete;
 	ModelManager& operator=(const ModelManager & obj) = delete;
 
@@ -21,7 +21,9 @@ public: //モデル名
 	enum ModelName {
 		Player,
 		Enemy,
-		Shot
+		Shot,
+		Ground,
+		CelestialSphere
 	};
 
 public: //メンバ関数
@@ -30,11 +32,6 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	void Initialize();
-
-	/// <summary>
-	/// 終了処理
-	/// </summary>
-	void Finalize();
 
 	/// <summary>
 	/// モデル追加
@@ -46,9 +43,9 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <returns>モデル</returns>
-	Model* GetModel(const ModelName modelName) { return model[modelName]; }
+	Model* GetModel(const ModelName modelName) { return models[modelName]; }
 
 private: //メンバ変数
-	std::vector<Model*> model;
+	std::vector<Model*> models;
 };
 

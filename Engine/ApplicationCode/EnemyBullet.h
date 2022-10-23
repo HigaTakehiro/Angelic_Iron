@@ -51,7 +51,6 @@ private: //Ã“Iƒƒ“ƒo•Ï”
 	static const int32_t homingTime = 10;
 
 private: //ƒƒ“ƒo•Ï”
-	Model* bulletModel;
 	Object3d* enemyBullet;
 	Vector3 pos;
 	Vector3 velocity;

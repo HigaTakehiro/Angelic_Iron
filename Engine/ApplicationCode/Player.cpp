@@ -45,6 +45,14 @@ void Player::Finalize() {
 	safe_delete(player);
 	safe_delete(aim);
 	safe_delete(aim3d);
+	safe_delete(playerUI);
+	for (int i = 0; i < maxHp; i++) {
+		safe_delete(hpUI[i]);
+	}
+	for (int i = 0; i < maxBulletCount; i++) {
+		safe_delete(bulletUI[i]);
+	}
+	safe_delete(reloadUI);
 }
 
 void Player::Update() {

@@ -112,8 +112,6 @@ private: //メンバ変数
 	Sprite* gameover = nullptr; //ゲームオーバー画面画像
 	Sprite* clear = nullptr; //クリア画面画像
 
-	Model* celestialSphereModel = nullptr; //天球モデル
-	Model* groundModel = nullptr; //地面モデル
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト
 	Vector3 groundPos = { 0, 0, 0 }; //地面座標
@@ -122,10 +120,6 @@ private: //メンバ変数
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
 
 	//マップチップ用変数
-	int** map1_a = nullptr; //マップチップのcsv保存用変数
-	int** map1_b = nullptr; //マップチップのcsv保存用変数
-	std::vector<Object3d*> objects; //マップチップオブジェクト格納コンテナ
-	std::vector<Object3d*> objects2; //マップチップオブジェクト格納コンテナ
 
 	//FBX用変数
 	FBXModel* model1 = nullptr; //FBXテストモデル

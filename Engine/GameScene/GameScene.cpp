@@ -8,11 +8,7 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-	player->Finalize();
-	safe_delete(player);
-	safe_delete(map1_a);
-	safe_delete(map1_b);
-	safe_delete(ground);
+
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
@@ -52,15 +48,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 	ModelManager::GetIns()->Initialize();
 
-	groundModel = Model::CreateModel("ground");
-	ground = Object3d::Create(groundModel);
+	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
-	celestialSphereModel = Model::CreateModel("CelestialSphere");
-	celetialSphere = Object3d::Create(celestialSphereModel);
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
@@ -220,17 +214,19 @@ void GameScene::Draw() {
 }
 
 void GameScene::Finalize() {
+	player->Finalize();
+	safe_delete(player);
+	safe_delete(ground);
+	safe_delete(background);
+	safe_delete(title);
+	safe_delete(gameover);
+	safe_delete(clear);
+	safe_delete(celetialSphere);
 	safe_delete(camera);
-	//mapchip->MapChipFinalize();
-	objects.clear();
-	objects.shrink_to_fit();
-	objects2.clear();
-	objects2.shrink_to_fit();
-	points.clear();
-	points.shrink_to_fit();
-	//safe_delete(mapchip);
 	safe_delete(object1);
 	safe_delete(model1);
+	safe_delete(mapchip);
+	safe_delete(railCamera);
 	FbxLoader::GetInstance()->Finalize();
 }
 
