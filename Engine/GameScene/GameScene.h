@@ -38,12 +38,12 @@ public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	GameScene();
+	GameScene() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameScene();
+	~GameScene() = default;
 
 	/// <summary>
 	/// 初期化

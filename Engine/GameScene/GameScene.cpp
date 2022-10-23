@@ -3,14 +3,6 @@
 #include <algorithm>
 #include <fstream>
 
-GameScene::GameScene() {
-
-}
-
-GameScene::~GameScene() {
-
-}
-
 void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	assert(dxCommon);
 	assert(sound);
@@ -101,7 +93,7 @@ void GameScene::Update() {
 
 		char xPos[256];
 		char yPos[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %d, ZPoint : %f", player->GetAimPos().x, player->GetAimPos().y, player->GetAimPos().z);
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetAimPos().x, player->GetAimPos().y, player->GetAimPos().z);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
