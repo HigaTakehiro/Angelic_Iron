@@ -12,17 +12,28 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 }
 
 void RailCamera::Update() {
-	//if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-	//	if (isStop) {
-	//		isStop = false;
-	//	}
-	//	else {
-	//		isStop = true;
-	//	}
-	//}
+	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+		if (isStop) {
+			isStop = false;
+		}
+		else {
+			isStop = true;
+			
+		}
+	}
 
 	if (!isStop) {
 		SplineMove();
+
+		if (rot.x >= 360.0f || rot.x <= -360.0f) {
+			rot.x = 0.0f;
+		}
+		if (rot.y >= 360.0f || rot.y <= -360.0f) {
+			rot.y = 0.0f;
+		}
+		if (rot.z >= 360.0f || rot.z <= -360.0f) {
+			rot.z = 0.0f;
+		}
 	}
 	else {
 		if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
@@ -40,7 +51,7 @@ void RailCamera::Update() {
 	}
 	
 	if (isDamage) {
-		DamageCameraEffect();
+		//DamageCameraEffect();
 	}
 
 	UpdateMatWorld();

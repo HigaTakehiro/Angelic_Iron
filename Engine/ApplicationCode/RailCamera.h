@@ -44,6 +44,12 @@ public: //メンバ関数
 	/// </summary>
 	void SetIsDamage() { isDamage = true; }
 
+	/// <summary>
+	/// ワールド行列取得
+	/// </summary>
+	/// <returns></returns>
+	XMMATRIX GetMatWorld() { return matWorld; }
+
 private: //メンバ関数
 
 	/// <summary>

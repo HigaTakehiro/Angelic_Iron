@@ -131,6 +131,8 @@ void Camera::UpdateWorldMatrix()
 
 void Camera::SetUp(XMFLOAT3 up) {
 	Camera::up = up;
+
+	UpdateViewMatrix();
 }
 
 void Camera::SetMatWorld(XMMATRIX matWorld) {

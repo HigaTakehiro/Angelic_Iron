@@ -7,6 +7,7 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 
 	aim = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
+	aim->SetAnchorPoint({ 0.5f, 0.5f });
 	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
@@ -108,7 +109,6 @@ void Player::Update() {
 }
 
 void Player::SpriteDraw() {
-	aim->Draw();
 	playerUI->Draw();
 	for (int i = 0; i < hpCount; i++) {
 		hpUI[i]->Draw();
@@ -119,6 +119,7 @@ void Player::SpriteDraw() {
 	if (isReload) {
 		reloadUI->Draw();
 	}
+	aim->Draw();
 }
 
 void Player::ObjectDraw() {
@@ -206,42 +207,39 @@ void Player::AimUpdate() {
 	//offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
 	//offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
-	//aimPos3d.x = playerWPos.x + offset.m128_f32[0];
-	//aimPos3d.y = playerWPos.y + offset.m128_f32[1];
-	//aimPos3d.z = playerWPos.z + offset.m128_f32[2];
+	//aimPos3d = playerWPos + offset;
 
-	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] };
-	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	//raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport);
+	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
+	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	//raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 	//aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
 	//2D→3D
 	Vector3 cameraWPos = camera->GetMatWorld().r[3];
+	cameraWPos.x = camera->GetEye().x;
+	cameraWPos.y = camera->GetEye().y;
+	cameraWPos.z = camera->GetEye().z;
 
 	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV);
-	XMVECTOR posNear = { MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 0};
-	XMVECTOR posFar = { MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y, 1 };
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
+	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //正規化デバイス座標
+	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //正規化デバイス座標
 
-	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV);
-	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV);
+	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV); //ワールド座標
+	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV); //ワールド座標
 
-	XMVECTOR mouseDirection = posFar - posNear;
+	XMVECTOR mouseDirection = posFar + posNear; //線分(ベクトル)
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 50.0f;
+	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
 	//mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
-	aimPos3d.x = (mouseDirection.m128_f32[0] * kDistanceTestObject * posNear.m128_f32[0]) * cameraWPos.x;
-	aimPos3d.y = (mouseDirection.m128_f32[1] * kDistanceTestObject * posNear.m128_f32[1]) * cameraWPos.y;
-	aimPos3d.z = (mouseDirection.m128_f32[2] * kDistanceTestObject * posNear.m128_f32[2]) * cameraWPos.z;
+	aimPos3d = (posNear + mouseDirection * kDistanceTestObject) - cameraWPos;
 
-	//aimPos3dの前方ベクトル計算しニアクリップ上から一定距離進んだところに3Dレティクルを配置(レールカメラクラスとプレイヤーの弾方向の計算をやってみる)
-
-	aim->SetPosition(XMFLOAT2(aimPos.x - 50.0f, aimPos.y - 50.0f));
-	aim3d->SetPosition(aimPos3d);
+	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
+	aim3d->SetPosition(-aimPos3d);
 
 }
 

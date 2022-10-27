@@ -51,5 +51,12 @@ public: //メンバ関数
 	/// <returns>計算結果</returns>
 	XMVECTOR VecDivided(const XMVECTOR& vec, const XMMATRIX& mat);
 
+	/// <summary>
+	/// 行列から逆行列を求める
+	/// </summary>
+	/// <param name="mat">行列</param>
+	/// <returns>逆行列</returns>
+	XMMATRIX InverseMatrix(const XMMATRIX& mat);
+
 };
 
