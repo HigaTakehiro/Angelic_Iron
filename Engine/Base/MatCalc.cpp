@@ -36,14 +36,14 @@ XMVECTOR MatCalc::VecDivided(const XMVECTOR& vec, const XMMATRIX& mat) {
 XMMATRIX MatCalc::InverseMatrix(const XMMATRIX& mat) {
 	XMMATRIX invMat;
 	//1列目1行目
-	invMat.r[0].m128_f32[0] = (mat.r[1].m128_f32[1] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[3]) 
-		+ (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[1]) 
-		+ (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[2]) 
-		- (mat.r[1].m128_f32[1] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[2]) 
-		- (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[1]);
+	invMat.r[0].m128_f32[0] = (mat.r[1].m128_f32[1] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[3]) //a22 * a33 * a44
+		+ (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[1]) //a23 * a34 * a42
+		+ (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[2]) //a24 * a32 * a43
+		- (mat.r[1].m128_f32[1] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[2]) //a22 * a34 * a43
+		- (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3]) //a23 * a32 * a44
+		- (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[1]); //a24 * a33 * a42
 	//1列目2行目
-	invMat.r[0].m128_f32[1] = (mat.r[0].m128_f32[1] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[2])
+	invMat.r[0].m128_f32[1] = (mat.r[0].m128_f32[1] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[2]) 
 		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
 		+ (mat.r[0].m128_f32[3] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[1])
 		- (mat.r[0].m128_f32[1] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[2])
@@ -51,25 +51,25 @@ XMMATRIX MatCalc::InverseMatrix(const XMMATRIX& mat) {
 		- (mat.r[0].m128_f32[3] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[2]);
 	//1列目3行目
 	invMat.r[0].m128_f32[2] = (mat.r[0].m128_f32[1] * mat.r[1].m128_f32[2] * mat.r[3].m128_f32[3])
-		+ (mat.r[0].m128_f32[2] * mat.r[1].m128_f32[3] * mat.r[3].m128_f32[1])//←
-		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3]);
+		+ (mat.r[0].m128_f32[2] * mat.r[1].m128_f32[3] * mat.r[3].m128_f32[1])
+		+ (mat.r[0].m128_f32[3] * mat.r[1].m128_f32[1] * mat.r[3].m128_f32[2])
+		- (mat.r[0].m128_f32[1] * mat.r[1].m128_f32[3] * mat.r[3].m128_f32[2])
+		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[1])
+		- (mat.r[0].m128_f32[3] * mat.r[1].m128_f32[2] * mat.r[3].m128_f32[1]);
 	//1列目4行目
-	invMat.r[0].m128_f32[3] = (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3]);
+	invMat.r[0].m128_f32[3] = (mat.r[0].m128_f32[1] * mat.r[1].m128_f32[3] * mat.r[2].m128_f32[2])
+		+ (mat.r[0].m128_f32[2] * mat.r[1].m128_f32[1] * mat.r[2].m128_f32[3])
+		+ (mat.r[0].m128_f32[3] * mat.r[1].m128_f32[2] * mat.r[2].m128_f32[1])
+		- (mat.r[0].m128_f32[1] * mat.r[1].m128_f32[2] * mat.r[2].m128_f32[3])
+		- (mat.r[0].m128_f32[2] * mat.r[1].m128_f32[3] * mat.r[2].m128_f32[1])
+		- (mat.r[0].m128_f32[3] * mat.r[1].m128_f32[1] * mat.r[2].m128_f32[2]);
 	//2列目1行目
-	invMat.r[1].m128_f32[0] = (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
-		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3]);
+	invMat.r[1].m128_f32[0] = (mat.r[1].m128_f32[0] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[2])
+		+ (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[0] * mat.r[3].m128_f32[3])
+		+ (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[0])
+		- (mat.r[1].m128_f32[0] * mat.r[2].m128_f32[2] * mat.r[3].m128_f32[3])
+		- (mat.r[1].m128_f32[2] * mat.r[2].m128_f32[3] * mat.r[3].m128_f32[0])
+		- (mat.r[1].m128_f32[3] * mat.r[2].m128_f32[0] * mat.r[3].m128_f32[2]);//
 	//2列目2行目
 	invMat.r[1].m128_f32[1] = (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
 		+ (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
@@ -147,4 +147,6 @@ XMMATRIX MatCalc::InverseMatrix(const XMMATRIX& mat) {
 		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
 		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3])
 		- (mat.r[0].m128_f32[2] * mat.r[2].m128_f32[1] * mat.r[3].m128_f32[3]);
+
+	return invMat;
 }
