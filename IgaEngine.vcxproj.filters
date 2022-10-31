@@ -243,7 +243,7 @@
     <None Include="Engine\Resources\shaders\OBJShaderHeader.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Engine\Resources\shaders\PostEffectTest.hlsli">
+    <None Include="Engine\Resources\shaders\PostEffect.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Engine\Resources\shaders\Sprite.hlsli">
@@ -272,7 +272,7 @@
     <FxCompile Include="Engine\Resources\shaders\PostEffectTestPS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\PostEffectTestVS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\PostEffectVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\SpritePS.hlsl">
