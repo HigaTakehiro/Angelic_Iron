@@ -15,6 +15,8 @@ void RailCamera::Update() {
 	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
 		if (isStop) {
 			isStop = false;
+			startTime = GetTickCount64();
+			nowCount = GetTickCount64();
 		}
 		else {
 			isStop = true;

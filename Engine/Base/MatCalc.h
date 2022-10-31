@@ -41,7 +41,7 @@ public: //メンバ関数
 	/// <param name="vec">座標</param>
 	/// <param name="mat">行列</param>
 	/// <returns>計算結果</returns>
-	XMVECTOR Wdivided(const XMVECTOR& vec, const XMMATRIX& mat);
+	XMVECTOR WDivided(const XMVECTOR& vec, const XMMATRIX& mat);
 
 	/// <summary>
 	/// ベクトルと行列の掛け算

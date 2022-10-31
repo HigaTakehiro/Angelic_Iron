@@ -6,18 +6,20 @@ MatCalc* MatCalc::GetIns()
 	return &instance;
 }
 
-XMVECTOR MatCalc::Wdivided(const XMVECTOR& vec, const XMMATRIX& mat) {
+XMVECTOR MatCalc::WDivided(const XMVECTOR& vec, const XMMATRIX& mat) {
 	float x, y, z, w;
 
 	x = (vec.m128_f32[0] * mat.r[0].m128_f32[0]) + (vec.m128_f32[1] * mat.r[1].m128_f32[0]) + (vec.m128_f32[2] * mat.r[2].m128_f32[0]) + (1.0f * mat.r[3].m128_f32[0]);
 	y = (vec.m128_f32[0] * mat.r[0].m128_f32[1]) + (vec.m128_f32[1] * mat.r[1].m128_f32[1]) + (vec.m128_f32[2] * mat.r[2].m128_f32[1]) + (1.0f * mat.r[3].m128_f32[1]);
 	z = (vec.m128_f32[0] * mat.r[0].m128_f32[2]) + (vec.m128_f32[1] * mat.r[1].m128_f32[2]) + (vec.m128_f32[2] * mat.r[2].m128_f32[2]) + (1.0f * mat.r[3].m128_f32[2]);
+
 	w = 1.0f;
 
 	w = z;
 	x = x / w;
 	y = y / w;
 	z = z / w;
+	w = w / w;
 
 	return XMVECTOR{ x, y, z, w };
 }
