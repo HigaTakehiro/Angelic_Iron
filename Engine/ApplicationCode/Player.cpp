@@ -228,18 +228,21 @@ void Player::AimUpdate() {
 	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //正規化デバイス座標
 	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //正規化デバイス座標
 
-	posNear = MatCalc::GetIns()->Wdivided(posNear, matInverseVPV); //ワールド座標
-	posFar = MatCalc::GetIns()->Wdivided(posFar, matInverseVPV); //ワールド座標
+	posNear = MatCalc::GetIns()->WDivided(posNear, matInverseVPV); //ワールド座標
+	posFar = MatCalc::GetIns()->WDivided(posFar, matInverseVPV); //ワールド座標
 
 	XMVECTOR mouseDirection = posFar + posNear; //線分(ベクトル)
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
 	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
 	//mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
-	aimPos3d = (posNear + mouseDirection * kDistanceTestObject) - cameraWPos;
+	XMVECTOR raticle3D;
+	raticle3D = mouseDirection * kDistanceTestObject;
+	aimPos3d = raticle3D;
+	aimPos3d *= -1;
 
 	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
-	aim3d->SetPosition(-aimPos3d);
+	aim3d->SetPosition(aimPos3d);
 
 }
 
