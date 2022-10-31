@@ -269,7 +269,7 @@
     <FxCompile Include="Engine\Resources\shaders\OBJVertexShader.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\PostEffectTestPS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\PostEffectNormal.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffectVS.hlsl">
