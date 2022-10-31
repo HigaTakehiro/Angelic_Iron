@@ -16,4 +16,5 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(playerHP, L"Engine/Resources/Images/PlayerHP.png");
 	Sprite::LoadTexture(playerBullet, L"Engine/Resources/Images/PlayerBullet.png");
 	Sprite::LoadTexture(reload, L"Engine/Resources/Images/Reload.png");
+	Sprite::LoadTexture(postEffect, L"Engine/Resources/Images/white1x1.png");
 }

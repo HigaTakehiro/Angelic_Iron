@@ -21,6 +21,7 @@
 #include "ModelManager.h"
 #include "RailCamera.h"
 #include "ImageManager.h"
+#include "PostEffect.h"
 #include <sstream>
 
 using namespace DirectX;
@@ -101,6 +102,7 @@ private: //メンバ変数
 	Camera* camera = nullptr; //カメラクラス
 	MapChip* mapchip = nullptr; //マップチップクラス
 	RailCamera* railCamera = nullptr; //レールカメラクラス
+	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr; //プレイヤークラス

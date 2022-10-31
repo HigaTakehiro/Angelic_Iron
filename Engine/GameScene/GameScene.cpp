@@ -68,6 +68,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	object1->SetScale({ 5.0f, 5.0f, 5.0f });
 	object1->PlayAnimation();
 
+	//PostEffect‚Ì‰Šú‰»
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
+	//ƒQ[ƒ€ƒV[ƒ“—p•Ï”‚Ì‰Šú‰»
 	isDead = false;
 	isClear = false;
 	isTitle = true;
@@ -161,6 +166,10 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
+	//”wŒiF
+	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
+
+	postEffect->PreDrawScene(dxCommon->GetCmdList());
 
 	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(”wŒi)
 	Sprite::PreDraw(dxCommon->GetCmdList());
@@ -202,7 +211,11 @@ void GameScene::Draw() {
 	debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
-	// ‚SD•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
+	postEffect->PostDrawScene(dxCommon->GetCmdList());
+
+	dxCommon->PreDraw(backColor);
+	postEffect->Draw(dxCommon->GetCmdList());
+	dxCommon->PostDraw();
 }
 
 void GameScene::Finalize() {
@@ -219,6 +232,7 @@ void GameScene::Finalize() {
 	safe_delete(model1);
 	safe_delete(mapchip);
 	safe_delete(railCamera);
+	safe_delete(postEffect);
 	FbxLoader::GetInstance()->Finalize();
 }
 

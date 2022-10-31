@@ -12,15 +12,13 @@ using namespace Microsoft::WRL;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	//背景色
-	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
+	
 
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxCommon = nullptr;
 	GameScene* gameScene = nullptr;
 	Sound* sound = nullptr;
-	PostEffect* postEffect = nullptr;
 
 	//WindowsAPIの初期化
 	winApp = new WinApp();
@@ -48,11 +46,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gameScene = new GameScene();
 	gameScene->Initialize(dxCommon, sound);
 
-	//PostEffectの初期化
-	//Sprite::LoadTexture(100, L"Resources/white1x1.png");
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-
 	// DirectX初期化処理　ここまで
 
 	while (true)  // ゲームループ
@@ -72,15 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// DirectX毎フレーム処理　ここまで
 		// ４．描画コマンドここから
-		postEffect->PreDrawScene(dxCommon->GetCmdList());
 		gameScene->Draw();
-		postEffect->PostDrawScene(dxCommon->GetCmdList());
-
-		dxCommon->PreDraw(backColor);
-
-		postEffect->Draw(dxCommon->GetCmdList());
-
-		dxCommon->PostDraw();
 
 	}
 
@@ -94,7 +79,5 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	safe_delete(dxCommon);
 	//sound解放
 	safe_delete(sound);
-	//PostEffect解放
-	safe_delete(postEffect);
 	return 0;
 }
