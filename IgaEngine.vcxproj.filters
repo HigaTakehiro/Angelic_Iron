@@ -284,5 +284,11 @@
     <FxCompile Include="Engine\Resources\shaders\Vignette.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\RGBShift.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\WhiteNoise.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -249,6 +249,7 @@ void Player::AimUpdate() {
 void Player::OnCollision() {
 	//hpCount--;
 	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.2f);
+	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.2f);
 	isDamage = true;
 }
 

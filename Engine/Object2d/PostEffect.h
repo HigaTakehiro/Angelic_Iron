@@ -18,7 +18,7 @@ public: //メンバ関数
 	/// 描画コマンド
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo = 0);
 
 	/// <summary>
 	/// シーン描画前処理
@@ -39,7 +39,7 @@ public: //メンバ関数
 
 public: //メンバ変数
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texBuff[2];
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 	//深度バッファ
@@ -49,13 +49,16 @@ public: //メンバ変数
 	//DSV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 	//グラフィックスパイプライン
-	ComPtr<ID3D12PipelineState> pipelineState;
+	ComPtr<ID3D12PipelineState> pipelineState[2];
 	//ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 
 private: //静的メンバ変数
 	//画面クリアカラー
 	static const float clearColor[4];
+
+private: //メンバ変数
+	int nowPipelineNo = 0;
 
 private: //メンバ関数
 	/// <summary>

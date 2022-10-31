@@ -168,6 +168,14 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
+	static int postEffectNo = 0;
+
+	if (player->GetIsDamage()) {
+		postEffectNo = 1;
+	}
+	else {
+		postEffectNo = 0;
+	}
 
 	postEffect->PreDrawScene(dxCommon->GetCmdList());
 
@@ -214,7 +222,7 @@ void GameScene::Draw() {
 	postEffect->PostDrawScene(dxCommon->GetCmdList());
 
 	dxCommon->PreDraw(backColor);
-	postEffect->Draw(dxCommon->GetCmdList());
+	postEffect->Draw(dxCommon->GetCmdList(), postEffectNo);
 	dxCommon->PostDraw();
 }
 
