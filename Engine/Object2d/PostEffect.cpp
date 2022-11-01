@@ -23,9 +23,6 @@ PostEffect::PostEffect() : Sprite(
 void PostEffect::Initialize() {
 	HRESULT result;
 
-	//基底クラスの初期化
-	//Sprite::Initialize();
-
 	//nullチェック
 	assert(device);
 

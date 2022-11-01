@@ -27,7 +27,6 @@ public: //‰æ‘œ–¼
 		playerHP,
 		playerBullet,
 		reload,
-		postEffect = 100
 	};
 
 public: //ƒƒ“ƒoŠÖ”
