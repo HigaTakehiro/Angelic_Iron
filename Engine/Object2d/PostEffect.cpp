@@ -103,7 +103,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	color.x++;
+	color.x += 0.1;
 	if (color.x >= 120.0f) {
 		color.x = 0.0f;
 	}
@@ -217,7 +217,7 @@ void PostEffect::CreateGraphicsPipelineState() {
 		if (i == 0) {
 			// ピクセルシェーダの読み込みとコンパイル
 			result = D3DCompileFromFile(
-				L"Engine/Resources/shaders/PostEffectNormal.hlsl",   // シェーダファイル名
+				L"Engine/Resources/shaders/Vignette.hlsl",   // シェーダファイル名
 				nullptr,
 				D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 				"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定

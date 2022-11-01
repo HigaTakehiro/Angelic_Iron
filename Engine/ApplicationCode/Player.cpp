@@ -202,44 +202,44 @@ void Player::Reset() {
 void Player::AimUpdate() {
 
 	//3D→2D
-	//const float kDistancePlayerTo3DRaticle = 50.0f;
-	//XMVECTOR offset = { 0, 0, 1.0f };
-	//offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
-	//offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
+	const float kDistancePlayerTo3DRaticle = 50.0f;
+	XMVECTOR offset = { 0, 0, 1.0f };
+	offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
+	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
-	//aimPos3d = playerWPos + offset;
+	aimPos3d = playerWPos + offset;
 
-	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
-	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	//raticle2D = MatCalc::GetIns()->Wdivided(raticle2D, matViewProjectionViewport); //スクリーン座標
+	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
 
-	//aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
 	//2D→3D
-	Vector3 cameraWPos = camera->GetMatWorld().r[3];
-	cameraWPos.x = camera->GetEye().x;
-	cameraWPos.y = camera->GetEye().y;
-	cameraWPos.z = camera->GetEye().z;
+	//Vector3 cameraWPos = camera->GetMatWorld().r[3];
+	//cameraWPos.x = camera->GetEye().x;
+	//cameraWPos.y = camera->GetEye().y;
+	//cameraWPos.z = camera->GetEye().z;
 
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
-	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //正規化デバイス座標
-	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //正規化デバイス座標
+	//XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	//XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
+	//XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //正規化デバイス座標
+	//XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //正規化デバイス座標
 
-	posNear = MatCalc::GetIns()->WDivided(posNear, matInverseVPV); //ワールド座標
-	posFar = MatCalc::GetIns()->WDivided(posFar, matInverseVPV); //ワールド座標
+	//posNear = MatCalc::GetIns()->WDivided(posNear, matInverseVPV); //ワールド座標
+	//posFar = MatCalc::GetIns()->WDivided(posFar, matInverseVPV); //ワールド座標
 
-	XMVECTOR mouseDirection = posFar + posNear; //線分(ベクトル)
-	mouseDirection = XMVector3Normalize(mouseDirection);
+	//XMVECTOR mouseDirection = posFar + posNear; //線分(ベクトル)
+	//mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
-	//mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
-	XMVECTOR raticle3D;
-	raticle3D = mouseDirection * kDistanceTestObject;
-	aimPos3d = raticle3D;
-	aimPos3d *= -1;
+	//const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
+	////mouseDirection = MatCalc::GetIns()->VecDivided(mouseDirection, camera->GetMatWorld());
+	//XMVECTOR raticle3D;
+	//raticle3D = mouseDirection * kDistanceTestObject;
+	//aimPos3d = raticle3D;
+	//aimPos3d *= -1;
 
 	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
 	aim3d->SetPosition(aimPos3d);

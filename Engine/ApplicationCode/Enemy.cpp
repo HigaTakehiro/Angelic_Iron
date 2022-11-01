@@ -13,11 +13,15 @@ Enemy::Enemy() {
 
 Enemy::~Enemy() {
 	delete enemy;
+	delete test;
 }
 
 void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector3& scale, const string& style) {
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	enemy->SetPosition(pos);
+	test = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
+	test->SetSize(XMFLOAT2(100.0f, 100.0f));
+	test->SetAnchorPoint({ 0.5f, 0.5f });
 	oldPos = pos;
 	enemy->SetScale(scale);
 	type = stringToEnemyStyle(style);
@@ -29,8 +33,17 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 void Enemy::Update(const XMFLOAT3& playerPos) {
 	const int32_t lifeTimeOver = 0;
 
+	//XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
+	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	//raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
+
+	//DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+
+	//test->SetPosition(spritePos);
+
 	if (--lifeTimer <= lifeTimeOver) {
-		isDead = true;
+		//isDead = true;
+		lifeTimer = 0;
 	}
 
 	if (enemy != nullptr) {
@@ -44,6 +57,10 @@ void Enemy::Update(const XMFLOAT3& playerPos) {
 
 void Enemy::Draw() {
 	enemy->Draw();
+}
+
+void Enemy::SpriteDraw() {
+	//test->Draw();
 }
 
 void Enemy::OnCollision() {

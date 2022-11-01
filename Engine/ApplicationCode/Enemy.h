@@ -6,6 +6,7 @@
 #include "ModelManager.h"
 #include "EnemyBullet.h"
 #include "GameScene.h"
+#include "Sprite.h"
 
 class GameScene;
 
@@ -41,6 +42,11 @@ public: //メンバ関数
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 画像描画処理
+	/// </summary>
+	void SpriteDraw();
 
 	/// <summary>
 	/// 衝突時コールバック関数
@@ -108,6 +114,7 @@ private: //メンバ変数
 	int32_t shotIntervalTimer = shotIntervalTime;
 	int32_t lifeTimer;
 	Object3d* enemy;
+	Sprite* test;
 	GameScene* gameScene;
 	Vector3 pos;
 	Vector3 oldPos;

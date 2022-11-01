@@ -207,6 +207,9 @@ void GameScene::Draw() {
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(dxCommon->GetCmdList());
 	player->SpriteDraw();
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->SpriteDraw();
+	}
 	if (isTitle) {
 		title->Draw();
 	}
