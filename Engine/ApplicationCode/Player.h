@@ -136,7 +136,7 @@ private: //静的メンバ変数
 	//弾発射クールタイム
 	static const int shotCoolTime = 10;
 	//ダメージエフェクト発生時間
-	static const int damageEffectTime = 20;
+	static const int damageEffectTime = 30;
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };

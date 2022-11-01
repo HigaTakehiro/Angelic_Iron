@@ -66,6 +66,13 @@ void PostEffect::Initialize() {
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuff));
 
+	result = device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
+		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+		IID_PPV_ARGS(&constBuffB0));
+
 	assert(SUCCEEDED(result));
 
 	this->color = XMFLOAT4(1, 1, 1, 1); // 色指定（RGBA）
@@ -103,9 +110,15 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	color.x += 0.1;
-	if (color.x >= 120.0f) {
-		color.x = 0.0f;
+	//color.x += 0.1;
+	//if (color.x >= 120.0f) {
+	//	color.x = 0.0f;
+	//}
+
+	static float timer = 0;
+	timer++;
+	if (timer >= 60.0f) {
+		timer = 0.0f;
 	}
 
 	// 定数バッファに転送
@@ -117,12 +130,13 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 		this->constBuff->Unmap(0, nullptr);
 	}
 
-	static float timer = 0;
-	timer++;
-	if (timer >= 60.0f) {
-		timer = 0.0f;
+	ConstBuffDataB0* constMapB0 = nullptr;
+	result = constBuffB0->Map(0, nullptr, (void**)&constMapB0);
+	if (SUCCEEDED(result)) {
+		constMapB0->time = timer;
+		constBuffB0->Unmap(0, nullptr);
 	}
-
+	
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelineState[nowPipelineNo].Get());
 	//ルートシグネチャの設定
@@ -137,6 +151,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	// 定数バッファをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuff->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 	//描画

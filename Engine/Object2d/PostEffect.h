@@ -3,6 +3,11 @@
 
 class PostEffect : public Sprite
 {
+public: //構造体
+	struct ConstBuffDataB0 {
+		float time;
+	};
+
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -59,6 +64,8 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	int nowPipelineNo = 0;
+	//定数バッファ転送用
+	ComPtr<ID3D12Resource> constBuffB0;
 
 private: //メンバ関数
 	/// <summary>

@@ -12,13 +12,18 @@ float4 main(VSOutput input) : SV_TARGET
 {
     float2 uvPoint = input.uv;
     float4 texcolor = tex0.Sample(smp, input.uv);
+    float timer = time;
     float noise = WhiteNoise(input.uv * time) - 0.5f;
-    uvPoint.x += 0.01f;
-    //texcolor.rgb += float3(noise, noise, noise);
+    float vignette = length(float2(0.5, 0.5) - input.uv);
+    if (timer % 2 == 1)
+    {
+        timer *= -1;
+    }
+    
+    uvPoint.x += 0.01 * timer * 0.01;
     texcolor.r = tex0.Sample(smp, uvPoint).r;
     
-    float vignette = length(float2(0.5, 0.5) - input.uv);
-    vignette = clamp(vignette - 0.1 - time, 0, 1);
+    vignette = clamp(vignette - (0.01 + (time * 0.01)), 0, 1);
     texcolor.r += vignette;
     
     return float4(texcolor.rgb, 1);
