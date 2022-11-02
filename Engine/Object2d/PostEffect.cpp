@@ -117,13 +117,6 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	//color.x += 0.1;
-	//if (color.x >= 120.0f) {
-	//	color.x = 0.0f;
-	//}
-
-	
-
 	// 定数バッファに転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
