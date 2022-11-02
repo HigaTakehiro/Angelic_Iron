@@ -82,12 +82,10 @@ void Player::Update() {
 		shotCoolTimer--;
 	}
 
-	if (!isDamage) {
-		Move();
-	}
-	else {
+	if (isDamage) {
 		DamageEffect();
 	}
+	Move();
 
 	playerWPos = player->GetMatWorld().r[3];
 
@@ -255,23 +253,9 @@ void Player::OnCollision() {
 
 void Player::DamageEffect() {
 	const int damageEffectTimeOver = 0;
-	static Vector3 oldPos;
 
-	if (oldPos.x == 0 && oldPos.y == 0 && oldPos.z == 0) {
-		oldPos = playerLPos;
-	}
-
-	damageEffectTimer--;
-
-	if (damageEffectTimer >= damageEffectTimeOver) {
-		playerLPos.x = playerLPos.x + (2 - rand() % 4);
-		playerLPos.y = playerLPos.y + (2 - rand() % 4);
-		playerLPos.z = playerLPos.z + (2 - rand() % 4);
-	}
-	else {
+	if (--damageEffectTimer <= damageEffectTimeOver) {
 		isDamage = false;
 		damageEffectTimer = damageEffectTime;
-		playerLPos = oldPos;
-		oldPos = { 0, 0, 0 };
 	}
 }

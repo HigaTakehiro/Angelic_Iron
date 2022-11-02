@@ -98,9 +98,16 @@ void PostEffect::Initialize() {
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
+	static float timer = 0;
+	timer++;
+	if (timer >= 60.0f) {
+		timer = 0.0f;
+	}
+
 	if (nowPipelineNo != pipelineNo) {
 		SRVCreate();
 		nowPipelineNo = pipelineNo;
+		timer = 0;
 	}
 
 	// ワールド行列の更新
@@ -115,11 +122,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo) {
 	//	color.x = 0.0f;
 	//}
 
-	static float timer = 0;
-	timer++;
-	if (timer >= 60.0f) {
-		timer = 0.0f;
-	}
+	
 
 	// 定数バッファに転送
 	ConstBufferData* constMap = nullptr;
@@ -257,7 +260,7 @@ void PostEffect::CreateGraphicsPipelineState() {
 		else if (i == 1) {
 			// ピクセルシェーダの読み込みとコンパイル
 			result = D3DCompileFromFile(
-				L"Engine/Resources/shaders/WhiteNoise.hlsl",   // シェーダファイル名
+				L"Engine/Resources/shaders/DamageEffect.hlsl",   // シェーダファイル名
 				nullptr,
 				D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 				"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
