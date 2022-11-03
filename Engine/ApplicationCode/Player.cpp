@@ -68,7 +68,7 @@ void Player::Update() {
 	}
 	if (bulletCount <= noneBulletCount && !isReload) {
 		isReload = true;
-		sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.2f);
+		sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
 	}
 	if (isReload) {
 		reloadTimer--;
@@ -179,7 +179,7 @@ void Player::Shot() {
 
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;
-	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.1f);
+	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
 	isShot = false;
 }
 
@@ -251,8 +251,8 @@ void Player::AimUpdate() {
 
 void Player::OnCollision() {
 	//hpCount--;
-	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.2f);
-	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.2f);
+	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
 	isDamage = true;
 }
 

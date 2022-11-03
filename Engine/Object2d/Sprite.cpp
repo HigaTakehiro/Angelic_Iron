@@ -266,21 +266,18 @@ void Sprite::PostDraw() {
 	Sprite::cmdList = nullptr;
 }
 
-Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY) {
-	XMFLOAT2 texsize = { 100.0f, 100.0f };
+Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY) {
+	XMFLOAT2 size = { 100.0f, 100.0f };
 
 	if (texBuff[texNumber]) {
 		//テクスチャ情報取得
 		D3D12_RESOURCE_DESC resDesc = texBuff[texNumber]->GetDesc();
 		//スプライトのサイズをテクスチャのサイズに設定
-		texsize = { (float)resDesc.Width, (float)resDesc.Height };
-		if (size.x != 0.0f && size.y != 0.0f) {
-			texsize = size;
-		}
+		size = { (float)resDesc.Width, (float)resDesc.Height };
 	}
 
 	//Spriteのインスタンスを生成
-	Sprite* sprite = new Sprite(texNumber, position, texsize, color, anchorpoint, isFlipX, isFlipY);
+	Sprite* sprite = new Sprite(texNumber, position, size, color, anchorpoint, isFlipX, isFlipY);
 	if (sprite == nullptr) {
 		return nullptr;
 	}
