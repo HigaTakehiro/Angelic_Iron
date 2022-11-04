@@ -22,6 +22,7 @@
 #include "RailCamera.h"
 #include "ImageManager.h"
 #include "PostEffect.h"
+#include "Particle2d.h"
 #include <sstream>
 
 using namespace DirectX;
@@ -109,6 +110,7 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Enemy>> enemies; //エネミーリスト
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets; //エネミーの弾リスト
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
+	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	Sprite* background = nullptr; //背景画像
 	Sprite* title = nullptr; //タイトル画面画像
 	Sprite* gameover = nullptr; //ゲームオーバー画面画像

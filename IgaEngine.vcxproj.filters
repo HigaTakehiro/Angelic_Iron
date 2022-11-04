@@ -132,6 +132,9 @@
     <ClCompile Include="Engine\Object2d\ImageManager.cpp">
       <Filter>ソース ファイル\Object2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object2d\ImageManager.h">
       <Filter>ソース ファイル\Object2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Particle2d.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

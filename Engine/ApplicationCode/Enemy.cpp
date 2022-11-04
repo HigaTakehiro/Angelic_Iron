@@ -34,13 +34,13 @@ void Enemy::Update(const XMFLOAT3& playerPos) {
 	const int32_t lifeTimeOver = 0;
 
 	//テスト用スプライト配置
-	XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
+	//XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
+	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	//raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
 
-	DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	//DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
-	test->SetPosition(spritePos);
+	//test->SetPosition(spritePos);
 
 	if (--lifeTimer <= lifeTimeOver) {
 		//isDead = true;

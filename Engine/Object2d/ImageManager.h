@@ -27,6 +27,7 @@ public: //‰æ‘œ–¼
 		playerHP,
 		playerBullet,
 		reload,
+		enemyDead
 	};
 
 public: //ƒƒ“ƒoŠÖ”

@@ -84,6 +84,7 @@ void GameScene::Update() {
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
+	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 
 	// DirectX毎フレーム処理　ここから
 	if (isTitle) {
@@ -126,6 +127,20 @@ void GameScene::Update() {
 			}
 		}
 
+		for (std::unique_ptr<Enemy>& enemy : enemies) {
+			if (enemy->IsDead()) {
+				XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+				XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV); //スクリーン座標
+
+				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
+
+				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+				new2DParticle->Initialize(enemy2dPos, { 1, 1 }, 30, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+				particles2d.push_back(std::move(new2DParticle));
+			}
+		}
+
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
@@ -143,6 +158,9 @@ void GameScene::Update() {
 		}
 		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 			playerBullet->Update();
+		}
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+			particle2d->Update();
 		}
 
 		celetialSphere->Update();
@@ -209,6 +227,9 @@ void GameScene::Draw() {
 	player->SpriteDraw();
 	for (std::unique_ptr<Enemy>& enemy : enemies) {
 		enemy->SpriteDraw();
+	}
+	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+		particle2d->Draw();
 	}
 	if (isTitle) {
 		title->Draw();

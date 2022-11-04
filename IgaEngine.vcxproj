@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\ApplicationCode\Enemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Player.cpp" />
     <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp" />
@@ -182,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\ApplicationCode\Enemy.h" />
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\Particle2d.h" />
     <ClInclude Include="Engine\ApplicationCode\Player.h" />
     <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\RailCamera.h" />
