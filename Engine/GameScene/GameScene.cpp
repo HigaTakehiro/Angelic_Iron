@@ -133,10 +133,10 @@ void GameScene::Update() {
 				XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV); //スクリーン座標
 
-				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
+				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
 
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-				new2DParticle->Initialize(enemy2dPos, { 1, 1 }, 30, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 16, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
 				particles2d.push_back(std::move(new2DParticle));
 			}
 		}

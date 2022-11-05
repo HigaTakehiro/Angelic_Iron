@@ -33,10 +33,11 @@ void Particle2d::Update() {
 	}
 	if (nowTime >= drawTime * (nowImage + 1) && imageNo != 0) {
 		nowImage++;
-		texUpperLeft.x = texUpperLeft.x * (nowImage + 1);
-		texLowerRight.x = texLowerRight.x * (nowImage + 1);
+		texUpperLeft.x = texLowerRight.x;
+		texUpperLeft.x = texUpperLeft.x * (nowImage);
+		//texLowerRight.x = texLowerRight.x * (nowImage + 1);
 		particle->SetTextureRect(texUpperLeft, texLowerRight);
-		pos.x = texUpperLeft.x;
+		//pos.x = texUpperLeft.x;
 		particle->SetPosition(pos);
 	}
 }
