@@ -136,7 +136,7 @@ void GameScene::Update() {
 				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
 
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 16, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
 				particles2d.push_back(std::move(new2DParticle));
 			}
 		}
