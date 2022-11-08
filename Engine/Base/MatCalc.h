@@ -41,7 +41,14 @@ public: //メンバ関数
 	/// <param name="vec">座標</param>
 	/// <param name="mat">行列</param>
 	/// <returns>計算結果</returns>
-	XMVECTOR WDivided(const XMVECTOR& vec, const XMMATRIX& mat);
+	XMVECTOR WDivided(const XMVECTOR& pos, const XMMATRIX& mat);
+
+	/// <summary>
+	/// 座標をw除算する
+	/// </summary>
+	/// <param name="pos">座標</param>
+	/// <returns>計算結果</returns>
+	XMVECTOR WDivision(const XMVECTOR& pos);
 
 	/// <summary>
 	/// ベクトルと行列の掛け算
@@ -56,8 +63,9 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="pos">座標</param>
 	/// <param name="mat">行列</param>
+	/// <param name="isWSlide">zの値をwにずらすか</param>
 	/// <returns>計算結果</returns>
-	XMVECTOR PosDivided(const XMVECTOR& pos, const XMMATRIX& mat);
+	XMVECTOR PosDivided(const XMVECTOR& pos, const XMMATRIX& mat, const bool isWSlide = false);
 
 	/// <summary>
 	/// 行列から逆行列を求める

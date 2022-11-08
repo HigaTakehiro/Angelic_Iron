@@ -209,24 +209,28 @@ void Player::AimUpdate() {
 
 	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
 	raticle2D = MatCalc::GetIns()->PosDivided(raticle2D, Camera::GetMatView());
-	raticle2D = MatCalc::GetIns()->PosDivided(raticle2D, Camera::GetMatProjection());
-	raticle2D = { aim3d->GetMatWorld().r[3] };
-	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, Camera::GetMatView() * Camera::GetMatProjection());
+	raticle2D = MatCalc::GetIns()->PosDivided(raticle2D, Camera::GetMatProjection(), true);
+	raticle2D = MatCalc::GetIns()->WDivision(raticle2D);
 	raticle2D = MatCalc::GetIns()->PosDivided(raticle2D, Camera::GetMatViewPort());
+	//raticle2D = MatCalc::GetIns()->PosDivided(raticle2D, Camera::GetMatViewPort());
 	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 	//raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
-	XMVECTOR testPosNear = { aimPos.x, aimPos.y, 0 };
-	XMVECTOR testPosFar = { aimPos.x, aimPos.y, 1 };
+	XMVECTOR testPosNear = raticle2D;
+	XMVECTOR testPosFar = raticle2D;
+	testPosNear.m128_f32[2] = 0;
+	testPosFar.m128_f32[2] = 1;
 
 	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatViewPort()));
-	testPosNear = MatCalc::GetIns()->WDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatProjection()));
+	testPosNear = MatCalc::GetIns()->WDivision(testPosNear);
+	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatProjection()), true);
 	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatView()));
 
 	testPosFar = MatCalc::GetIns()->PosDivided(testPosFar, XMMatrixInverse(nullptr, Camera::GetMatViewPort()));
-	testPosFar = MatCalc::GetIns()->WDivided(testPosFar, XMMatrixInverse(nullptr, Camera::GetMatProjection()));
+	testPosFar = MatCalc::GetIns()->WDivision(testPosFar);
+	testPosFar = MatCalc::GetIns()->PosDivided(testPosFar, XMMatrixInverse(nullptr, Camera::GetMatProjection()), true);
 	testPosFar = MatCalc::GetIns()->PosDivided(testPosFar, XMMatrixInverse(nullptr, Camera::GetMatView()));
 
 	//2D→3D

@@ -42,6 +42,11 @@ public: //メンバ関数
 	/// </summary>
 	void CreateGraphicsPipelineState();
 
+	/// <summary>
+	/// ピクセルシェーダー読み込み
+	/// </summary>
+	void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
+
 public: //メンバ変数
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff[2];

@@ -227,53 +227,11 @@ void PostEffect::CreateGraphicsPipelineState() {
 
 		if (i == 0) {
 			// ピクセルシェーダの読み込みとコンパイル
-			result = D3DCompileFromFile(
-				L"Engine/Resources/shaders/Vignette.hlsl",   // シェーダファイル名
-				nullptr,
-				D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-				"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-				D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-				0,
-				&psBlob, &errorBlob);
-
-			if (FAILED(result)) {
-				// errorBlobからエラー内容をstring型にコピー
-				std::string errstr;
-				errstr.resize(errorBlob->GetBufferSize());
-
-				std::copy_n((char*)errorBlob->GetBufferPointer(),
-					errorBlob->GetBufferSize(),
-					errstr.begin());
-				errstr += "\n";
-				// エラー内容を出力ウィンドウに表示
-				OutputDebugStringA(errstr.c_str());
-				assert(0);
-			}
+			LoadPS(L"Engine/Resources/shaders/Vignette.hlsl", psBlob);
 		}
 		else if (i == 1) {
 			// ピクセルシェーダの読み込みとコンパイル
-			result = D3DCompileFromFile(
-				L"Engine/Resources/shaders/DamageEffect.hlsl",   // シェーダファイル名
-				nullptr,
-				D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-				"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-				D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-				0,
-				&psBlob, &errorBlob);
-
-			if (FAILED(result)) {
-				// errorBlobからエラー内容をstring型にコピー
-				std::string errstr;
-				errstr.resize(errorBlob->GetBufferSize());
-
-				std::copy_n((char*)errorBlob->GetBufferPointer(),
-					errorBlob->GetBufferSize(),
-					errstr.begin());
-				errstr += "\n";
-				// エラー内容を出力ウィンドウに表示
-				OutputDebugStringA(errstr.c_str());
-				assert(0);
-			}
+			LoadPS(L"Engine/Resources/shaders/DamageEffect.hlsl", psBlob);
 		}
 		
 
@@ -475,4 +433,32 @@ void PostEffect::DSVCreate() {
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+}
+
+void PostEffect::LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob) {
+	HRESULT result = S_FALSE;
+	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+
+	result = D3DCompileFromFile(
+		psName,   // シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+		0,
+		&psBlob, &errorBlob);
+
+	if (FAILED(result)) {
+		// errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		// エラー内容を出力ウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		assert(0);
+	}
 }
