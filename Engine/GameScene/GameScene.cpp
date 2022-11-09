@@ -131,7 +131,7 @@ void GameScene::Update() {
 			if (enemy->IsDead()) {
 				XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
 				XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV); //スクリーン座標
+				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV, true); //スクリーン座標
 
 				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
 

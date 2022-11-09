@@ -225,7 +225,7 @@ void Player::AimUpdate() {
 
 	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatViewPort()));
 	testPosNear = MatCalc::GetIns()->WDivision(testPosNear);
-	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatProjection()), true);
+	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatProjection()));
 	testPosNear = MatCalc::GetIns()->PosDivided(testPosNear, XMMatrixInverse(nullptr, Camera::GetMatView()));
 
 	testPosFar = MatCalc::GetIns()->PosDivided(testPosFar, XMMatrixInverse(nullptr, Camera::GetMatViewPort()));

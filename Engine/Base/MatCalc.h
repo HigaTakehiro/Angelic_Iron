@@ -41,14 +41,14 @@ public: //メンバ関数
 	/// <param name="vec">座標</param>
 	/// <param name="mat">行列</param>
 	/// <returns>計算結果</returns>
-	XMVECTOR WDivided(const XMVECTOR& pos, const XMMATRIX& mat);
+	XMVECTOR WDivided(const XMVECTOR& pos, const XMMATRIX& mat, const bool isWSlide = false);
 
 	/// <summary>
 	/// 座標をw除算する
 	/// </summary>
 	/// <param name="pos">座標</param>
 	/// <returns>計算結果</returns>
-	XMVECTOR WDivision(const XMVECTOR& pos);
+	XMVECTOR WDivision(const XMVECTOR& pos, const bool isWSlide = false);
 
 	/// <summary>
 	/// ベクトルと行列の掛け算
