@@ -24,12 +24,22 @@ void WinApp::Initialize() {
 	RECT wrc = { 0, 0, window_width, window_height };
 	AdjustWindowRect(&wrc, windowStyle, false); // 自動でサイズ補正
 
+	int display_width = GetSystemMetrics(SM_CXSCREEN);
+	int display_height = GetSystemMetrics(SM_CYSCREEN);
+
+	if (display_width == 0) {
+		display_width = GetSystemMetrics(CW_USEDEFAULT);
+	}
+	if (display_height == 0) {
+		display_height = GetSystemMetrics(CW_USEDEFAULT);
+	}
+
 	// ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(w.lpszClassName, // クラス名
 		L"AngelicIron",         // タイトルバーの文字
 		windowStyle,        // 標準的なウィンドウスタイル
-		CW_USEDEFAULT,              // 表示X座標（OSに任せる）
-		CW_USEDEFAULT,              // 表示Y座標（OSに任せる）
+		display_width / 6,              // 表示X座標（OSに任せる）
+		display_height / 6,              // 表示Y座標（OSに任せる）
 		wrc.right - wrc.left,       // ウィンドウ横幅
 		wrc.bottom - wrc.top,   // ウィンドウ縦幅
 		nullptr,                // 親ウィンドウハンドル

@@ -78,6 +78,11 @@ public: //メンバ関数
 	void EnemyDataUpdate();
 
 	/// <summary>
+	/// レールカメラ指定点を外部ファイルから読み込み
+	/// </summary>
+	void LoadRailPoint();
+
+	/// <summary>
 	/// 敵弾を追加
 	/// </summary>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
@@ -136,6 +141,7 @@ private: //メンバ変数
 	bool isWait; //エネミー読み込み待機フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
+	std::stringstream railcameraPointsData;
 
 	const Vector3 start = { 50.0f, 1.0f, 300.0f }; //レールカメラ用スプライン指定点
 	const Vector3 p2 = { 250.0f, 200.0f, 0.0f }; //レールカメラ用スプライン指定点

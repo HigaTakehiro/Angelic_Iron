@@ -20,7 +20,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	railCamera = new RailCamera;
 	cameraPos = { 50.0f, 1.0f, 100.0f };
 	cameraRot = { 0.0f, 180.0f, 0.0f };
-	points = { start, start, p2, p3, p4, p5, end, start, start };
+
+	LoadRailPoint();
 	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
 
 	//Sprite & DebugTextの初期化
@@ -269,7 +270,8 @@ void GameScene::Finalize() {
 }
 
 void GameScene::Reset() {
-	railCamera->Reset();
+	LoadRailPoint();
+	railCamera->Reset(points);
 
 	player->Reset();
 
@@ -370,4 +372,89 @@ void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
 
 void GameScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
 	playerBullets.push_back(std::move(playerBullet));
+}
+
+void GameScene::LoadRailPoint() {
+	//ファイルストリーム
+	std::ifstream file;
+	railcameraPointsData.str("");
+	railcameraPointsData.clear(std::stringstream::goodbit);
+	points.clear();	
+	
+	const std::string filename = "RailCameraPoints.aid";
+	const std::string directory = "Engine/Resources/GameData/";
+	file.open(directory + filename);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	railcameraPointsData << file.rdbuf();
+
+	file.close();
+
+	std::string line;
+	Vector3 pos{};
+	Vector3 startPos{};
+	bool isStart = false;
+	bool isEnd = false;
+	bool isRoop = false;
+	bool isPoint = false;
+
+	while (getline(railcameraPointsData, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		//半角区切りで文字列を取得
+		getline(line_stream, word, ' ');
+		if (word == "#") {
+			continue;
+		}
+		if (word == "Start") {
+			line_stream >> startPos.x;
+			line_stream >> startPos.y;
+			line_stream >> startPos.z;
+			isStart = true;
+		}
+
+		if (word == "Pos") {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			line_stream >> pos.z;
+			isPoint = true;
+		}
+
+		if (word == "End") {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			line_stream >> pos.z;
+			isEnd = true;
+		}
+
+		if (word == "Roop") {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			line_stream >> pos.z;
+			isRoop = true;
+		}
+
+		if (isStart) {
+			points.push_back(startPos);
+			points.push_back(startPos);
+			isStart = false;
+		}
+		else if (isEnd) {
+			points.push_back(pos);
+			points.push_back(pos);
+			isEnd = false;
+		}
+		else if (isRoop) {
+			points.push_back(pos);
+			points.push_back(startPos);
+			points.push_back(startPos);
+			isRoop = false;
+		}
+		else if (isPoint) {
+			points.push_back(pos);
+		}
+
+	}
 }

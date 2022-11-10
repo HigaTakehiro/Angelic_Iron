@@ -153,9 +153,11 @@ void RailCamera::UpdateMatWorld() {
 	Camera::SetMatWorld(matWorld);
 }
 
-void RailCamera::Reset() {
+void RailCamera::Reset(std::vector<Vector3>& points) {
 	eye = initPos;
 	rot = initRot;
+	this->points.clear();
+	this->points = points;
 	startIndex = 1;
 	startTime = GetTickCount64();
 	isDamage = false;

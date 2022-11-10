@@ -32,7 +32,7 @@ public: //メンバ関数
 	/// <summary>
 	/// リセット
 	/// </summary>
-	void Reset();
+	void Reset(std::vector<Vector3>& points);
 
 	/// <summary>
 	/// 開始時間のセット
