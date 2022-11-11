@@ -14,7 +14,9 @@ ModelManager* ModelManager::GetIns()
 }
 
 void ModelManager::Initialize() {
-	LoadModel("Player");
+	LoadModel("Player_Normal");
+	LoadModel("Player_Stand");
+	LoadModel("Gun");
 	LoadModel("Enemy");
 	LoadModel("Block");
 	LoadModel("ground");

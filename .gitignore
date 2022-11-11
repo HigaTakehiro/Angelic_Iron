@@ -76,8 +76,6 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
-*.wav
 *.iobj
 *.pch
 *.pdb

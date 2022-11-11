@@ -146,6 +146,7 @@ private: //ƒƒ“ƒo•Ï”
 
 	Object3d* player = nullptr;
 	Object3d* aim3d = nullptr;
+	Object3d* gun = nullptr;
 	Sprite* aim = nullptr;
 	Sprite* playerUI = nullptr;
 	Sprite* hpUI[maxHp];

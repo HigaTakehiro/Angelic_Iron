@@ -19,7 +19,9 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 
 public: //ƒ‚ƒfƒ‹–¼
 	enum ModelName {
-		Player,
+		Player_Normal,
+		Player_Stand,
+		Gun,
 		Enemy,
 		Shot,
 		Ground,

@@ -21,7 +21,7 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	}
 	reloadUI = Sprite::Create(ImageManager::ImageName::reload, { 1065, 652 });
 
-	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player));
+	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	playerScale = { 2, 2, 2 };
 	playerLPos = { 0, 0, -50 };
 	playerRot = { 0, 180, 0 };
@@ -29,12 +29,17 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
+
 	aim3d = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
 	aim3d->SetScale(Vector3(3, 3, 3));
 	aim3d->SetPosition(Vector3(0, 0, -100));
 	aim3d->SetRotation(Vector3(0, 0, 0));
 	//aim3d->SetParent(player);
 	//aim3d->SetCameraParent(camera);
+
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun->SetPosition(Vector3(1, 0.6, 1.1));
+	gun->SetParent(player);
 
 	bulletCount = 0;
 	hpCount = maxHp;
@@ -45,6 +50,7 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 
 void Player::Finalize() {
 	safe_delete(player);
+	safe_delete(gun);
 	safe_delete(aim);
 	safe_delete(aim3d);
 	safe_delete(playerUI);
@@ -104,6 +110,7 @@ void Player::Update() {
 
 	aim3d->Update();
 	player->Update();
+	gun->Update();
 }
 
 void Player::SpriteDraw() {
@@ -123,6 +130,7 @@ void Player::SpriteDraw() {
 void Player::ObjectDraw() {
 	player->Draw();
 	aim3d->Draw();
+	gun->Draw();
 }
 
 void Player::Move() {

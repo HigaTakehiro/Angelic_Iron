@@ -143,7 +143,5 @@ private: //メンバ変数
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
-
-	const float maxTime = 15000.0f; //スプライン間補間時間 maxTime / 1000[s]
 };
 
