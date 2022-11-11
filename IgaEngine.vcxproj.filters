@@ -135,6 +135,9 @@
     <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\Particle2d.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\MotionMath.h">
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

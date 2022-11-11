@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "SafeDelete.h"
+#include "MotionMath.h"
 
 void Player::Initialize(Camera* camera, Sound* sound) {
 	this->camera = camera;
@@ -68,6 +69,16 @@ void Player::Update() {
 	const int noneBulletCount = 0;
 	const int reloadTimeOver = 0;
 	const int shotCoolTimeOver = 0;
+	static float angle = 0.0f;
+	Vector3 gunPos = { 0.0f, 0.0f, 0.0f };
+
+	angle++;
+	if (angle >= 360.0f) {
+		angle = 0;
+	}
+
+	gunPos = MotionMath::GetIns()->CircularMotion(playerWPos, gunPos, angle, 10.0f, MotionMath::Y);
+	gun->SetPosition(gunPos);
 
 	if (hpCount <= deadHp) {
 		isDead = true;
@@ -257,9 +268,9 @@ void Player::AimUpdate() {
 
 void Player::OnCollision() {
 	//hpCount--;
-	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
-	isDamage = true;
+	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+	//isDamage = true;
 }
 
 void Player::DamageEffect() {
