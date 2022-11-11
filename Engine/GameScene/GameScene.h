@@ -141,18 +141,9 @@ private: //メンバ変数
 	bool isWait; //エネミー読み込み待機フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
-	std::stringstream railcameraPointsData;
 
-	const Vector3 start = { 50.0f, 1.0f, 300.0f }; //レールカメラ用スプライン指定点
-	const Vector3 p2 = { 250.0f, 200.0f, 0.0f }; //レールカメラ用スプライン指定点
-	const Vector3 p3 = { 50.0f, 200.0f, -300.0f }; //レールカメラ用スプライン指定点
-	const Vector3 p4 = { -250.0f, 150.0f, -250.0f }; //レールカメラ用スプライン指定点
-	const Vector3 p5 = { 0.0f, 5.0f, 50.0f };  //レールカメラ用スプライン指定点
-	const Vector3 end = { -50.0f, 1.0f, 0.0f }; //レールカメラ用スプライン指定点
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 
 	const float maxTime = 15000.0f; //スプライン間補間時間 maxTime / 1000[s]
-	Vector3 cameraPos; //カメラ座標
-	Vector3 cameraRot; //カメラ回転角
 };
 

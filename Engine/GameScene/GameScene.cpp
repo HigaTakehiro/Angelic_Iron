@@ -18,11 +18,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	camera->SetEye(XMFLOAT3(50, 1, -100));
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
 	railCamera = new RailCamera;
-	cameraPos = { 50.0f, 1.0f, 100.0f };
-	cameraRot = { 0.0f, 180.0f, 0.0f };
 
 	LoadRailPoint();
-	railCamera->Initialize(cameraPos, cameraRot, points, maxTime);
 
 	//Sprite & DebugTextの初期化
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
@@ -377,6 +374,7 @@ void GameScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
 void GameScene::LoadRailPoint() {
 	//ファイルストリーム
 	std::ifstream file;
+	std::stringstream railcameraPointsData;
 	railcameraPointsData.str("");
 	railcameraPointsData.clear(std::stringstream::goodbit);
 	points.clear();	
@@ -394,11 +392,17 @@ void GameScene::LoadRailPoint() {
 
 	std::string line;
 	Vector3 pos{};
+	Vector3 rot{};
+	rot = { 0, 0, 0 };
 	Vector3 startPos{};
 	bool isStart = false;
 	bool isEnd = false;
 	bool isRoop = false;
+	bool isCameraRoop = false;
 	bool isPoint = false;
+	bool isTime = false;
+	bool isRot = false;
+	float splineTime = 0;
 
 	while (getline(railcameraPointsData, line)) {
 		std::istringstream line_stream(line);
@@ -436,6 +440,18 @@ void GameScene::LoadRailPoint() {
 			isRoop = true;
 		}
 
+		if (word == "Time") {
+			line_stream >> splineTime;
+			isTime = true;
+		}
+
+		if (word == "Rot") {
+			line_stream >> rot.x;
+			line_stream >> rot.y;
+			line_stream >> rot.z;
+			isRot = true;
+		}
+
 		if (isStart) {
 			points.push_back(startPos);
 			points.push_back(startPos);
@@ -451,10 +467,20 @@ void GameScene::LoadRailPoint() {
 			points.push_back(startPos);
 			points.push_back(startPos);
 			isRoop = false;
+			isCameraRoop = true;
+		}
+		else if (isTime) {
+			splineTime *= 1000;
+			isTime = false;
 		}
 		else if (isPoint) {
 			points.push_back(pos);
 		}
+		
 
 	}
+
+	assert(splineTime != 0);
+	railCamera->Initialize(startPos, rot, points, splineTime, isCameraRoop);
+
 }

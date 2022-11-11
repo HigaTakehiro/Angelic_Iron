@@ -1,13 +1,14 @@
 #include "RailCamera.h"
 #include "DirectXCommon.h"
 
-void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime) {
+void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime, bool isRoop) {
 	this->eye = eye;
 	initPos = eye;
 	this->rot = rot;
 	initRot = rot;
 	this->points = points;
 	this->maxTime = maxTime;
+	this->isRoop = isRoop;
 	startTime = GetTickCount64();
 }
 
@@ -95,7 +96,9 @@ void RailCamera::SplineMove() {
 			startTime = GetTickCount64();
 		}
 		else {
-			startIndex = 0;
+			if (isRoop) {
+				startIndex = 0;
+			}
 			timeRate = 1.0f;
 		}
 	}

@@ -22,7 +22,7 @@ public: //メンバ関数
 	/// <param name="eye">カメラのワールド座標</param>
 	/// <param name="rot">回転角</param>
 	/// <param name="points">スプライン補間時に通る各ポイント</param>
-	void Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime);
+	void Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime, bool isRoop = false);
 
 	/// <summary>
 	/// 更新処理
@@ -100,6 +100,7 @@ private: //メンバ変数
 
 	bool isStop = true; //デバッグ用カメラ停止フラグ
 	bool isDamage = false; //ダメージを受けたかのフラグ
+	bool isRoop = false;
 
 	int  damageEffectTimer; //ダメージ演出用タイマー
 };
