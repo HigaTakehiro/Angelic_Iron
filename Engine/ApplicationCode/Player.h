@@ -77,6 +77,12 @@ public: //メンバ関数
 	Object3d* GetPlayerObject() { return player; }
 
 	/// <summary>
+	/// 残りHP取得
+	/// </summary>
+	/// <returns></returns>
+	int GetHPCount() { return hpCount; }
+
+	/// <summary>
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
@@ -124,6 +130,11 @@ private: //メンバ関数
 	/// ダメージエフェクト
 	/// </summary>
 	void DamageEffect();
+
+	/// <summary>
+	/// 死亡演出
+	/// </summary>
+	void DeadPerformance();
 
 
 private: //静的メンバ変数

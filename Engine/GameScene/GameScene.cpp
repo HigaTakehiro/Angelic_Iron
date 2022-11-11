@@ -93,7 +93,9 @@ void GameScene::Update() {
 	}
 
 	if (!isTitle && !isClear && !isDead) {
-		railCamera->Update();
+		if (player->GetHPCount() > 0) {
+			railCamera->Update();
+		}
 
 		char xPos[256];
 		char yPos[256];

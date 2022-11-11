@@ -77,11 +77,11 @@ void Player::Update() {
 		angle = 0;
 	}
 
-	gunPos = MotionMath::GetIns()->CircularMotion(playerWPos, gunPos, angle, 10.0f, MotionMath::Y);
-	gun->SetPosition(gunPos);
+	gunPos = MotionMath::GetIns()->CircularMotion(playerWPos, gunPos, angle, 10.0f, MotionMath::Z);
+	//gun->SetPosition(gunPos);
 
 	if (hpCount <= deadHp) {
-		isDead = true;
+		DeadPerformance();
 	}
 	if (bulletCount <= noneBulletCount && !isReload) {
 		isReload = true;
@@ -267,10 +267,10 @@ void Player::AimUpdate() {
 }
 
 void Player::OnCollision() {
-	//hpCount--;
-	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
-	//isDamage = true;
+	hpCount--;
+	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+	isDamage = true;
 }
 
 void Player::DamageEffect() {
@@ -279,5 +279,20 @@ void Player::DamageEffect() {
 	if (--damageEffectTimer <= damageEffectTimeOver) {
 		isDamage = false;
 		damageEffectTimer = damageEffectTime;
+	}
+}
+
+void Player::DeadPerformance() {
+	const int32_t deadTimeOver = 0.0f;
+	static int32_t deadTime = 60.0f;
+
+	if (deadTime <= deadTimeOver) {
+		deadTime = 60.0f;
+	}
+
+	deadTime--;
+
+	if (deadTime <= deadTimeOver) {
+		isDead = true;
 	}
 }
