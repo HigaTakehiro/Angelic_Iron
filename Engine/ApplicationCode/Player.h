@@ -148,6 +148,8 @@ private: //静的メンバ変数
 	static const int shotCoolTime = 10;
 	//ダメージエフェクト発生時間
 	static const int damageEffectTime = 40;
+	//死亡時演出用時間
+	static const int32_t deadTime = 120;
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
@@ -194,5 +196,7 @@ private: //メンバ変数
 	int damageEffectTimer;
 	//ダメージエフェクト用フラグ
 	bool isDamage = false;
+	//死亡時演出用時間
+	int32_t deadTimer;
 };
 

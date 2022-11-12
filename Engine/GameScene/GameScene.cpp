@@ -79,12 +79,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 }
 
 void GameScene::Update() {
+	// DirectX毎フレーム処理　ここから
+	const int32_t noneHP = 0;
+
 	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 
-	// DirectX毎フレーム処理　ここから
+
 	if (isTitle) {
 		if (input->GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
 			isTitle = false;
@@ -93,9 +96,6 @@ void GameScene::Update() {
 	}
 
 	if (!isTitle && !isClear && !isDead) {
-		if (player->GetHPCount() > 0) {
-			railCamera->Update();
-		}
 
 		char xPos[256];
 		char yPos[256];
@@ -119,7 +119,7 @@ void GameScene::Update() {
 
 		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-				if (!player->GetIsDamage()) {
+				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
 					player->OnCollision();
 				}
 				enemyBullet->OnCollision();
@@ -133,7 +133,7 @@ void GameScene::Update() {
 				XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV, true); //スクリーン座標
 
-				DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
+				XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
 
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
@@ -146,13 +146,30 @@ void GameScene::Update() {
 		if (enemies.empty()) {
 			//isClear = true;
 		}
+
+		if (player->GetHPCount() <= noneHP && !isPlayerDead) {
+			XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
+			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+			playerPos = MatCalc::GetIns()->WDivided(playerPos, matVPV, true);
+
+			XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 100.0f, playerPos.m128_f32[1] - 90.0f };
+			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+			new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+			particles2d.push_back(std::move(new2DParticle));
+			isPlayerDead = true;
+		}
+
 		if (player->GetIsDead()) {
 			isDead = true;
 		}
 
-		for (std::unique_ptr<Enemy>& enemy : enemies) {
-			enemy->Update(player->GetPlayerPos());
+		if (player->GetHPCount() > 0) {
+			railCamera->Update();
+			for (std::unique_ptr<Enemy>& enemy : enemies) {
+				enemy->Update(player->GetPlayerPos());
+			}
 		}
+
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			enemyBullet->Update();
 		}
@@ -272,15 +289,17 @@ void GameScene::Reset() {
 	LoadRailPoint();
 	railCamera->Reset(points);
 
-	player->Reset();
 
 	isDead = false;
 	isClear = false;
 	isTitle = true;
+	isPlayerDead = false;
 
 	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 		playerBullet->OnCollision();
 	}
+
+	player->Reset();
 
 	LoadEnemyData();
 }

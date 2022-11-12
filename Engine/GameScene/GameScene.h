@@ -139,6 +139,7 @@ private: //メンバ変数
 	bool isTitle; //タイトルシーンフラグ
 	bool isClear; //クリアシーンフラグ
 	bool isWait; //エネミー読み込み待機フラグ
+	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 

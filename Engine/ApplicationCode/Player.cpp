@@ -47,6 +47,8 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	reloadTimer = reloadTime;
 	damageEffectTimer = damageEffectTime;
 	shotCoolTimer = 0;
+
+	deadTimer = deadTime;
 }
 
 void Player::Finalize() {
@@ -69,16 +71,6 @@ void Player::Update() {
 	const int noneBulletCount = 0;
 	const int reloadTimeOver = 0;
 	const int shotCoolTimeOver = 0;
-	static float angle = 0.0f;
-	Vector3 gunPos = { 0.0f, 0.0f, 0.0f };
-
-	angle++;
-	if (angle >= 360.0f) {
-		angle = 0;
-	}
-
-	gunPos = MotionMath::GetIns()->CircularMotion(playerWPos, gunPos, angle, 10.0f, MotionMath::Z);
-	//gun->SetPosition(gunPos);
 
 	if (hpCount <= deadHp) {
 		DeadPerformance();
@@ -102,7 +94,9 @@ void Player::Update() {
 	if (isDamage) {
 		DamageEffect();
 	}
-	Move();
+	if (hpCount > deadHp) {	
+		Move();
+	}
 
 	playerWPos = player->GetMatWorld().r[3];
 
@@ -139,17 +133,16 @@ void Player::SpriteDraw() {
 }
 
 void Player::ObjectDraw() {
-	player->Draw();
+	const int32_t liveTime = deadTime / 1.2;
+	if (deadTimer >= liveTime) {
+		player->Draw();
+		gun->Draw();
+	}
 	aim3d->Draw();
-	gun->Draw();
 }
 
 void Player::Move() {
 	const float moveSpeed = 2.0f;
-	const float autoSpeed = 0.2;
-	const float playerAngle = 180.0f;
-	const float stopAngleY = 45.0f;
-	const float stopAngleX = 30.0f;
 	const float stopPosX = 40.0f;
 	const float stopPosY = 20.0f;
 
@@ -208,12 +201,14 @@ void Player::Reset() {
 	playerRot = { 0, 180, 0 };
 
 	player->SetPosition(playerLPos);
+	player->SetRotation(playerRot);
 	bulletCount = 0;
 	hpCount = maxHp;
 	reloadTimer = reloadTime;
 	isDead = false;
 	isDamage = false;
 	damageEffectTimer = damageEffectTime;
+	deadTimer = deadTime;
 }
 
 void Player::AimUpdate() {
@@ -284,15 +279,13 @@ void Player::DamageEffect() {
 
 void Player::DeadPerformance() {
 	const int32_t deadTimeOver = 0.0f;
-	static int32_t deadTime = 60.0f;
 
-	if (deadTime <= deadTimeOver) {
-		deadTime = 60.0f;
-	}
+	deadTimer--;
 
-	deadTime--;
-
-	if (deadTime <= deadTimeOver) {
+	if (deadTimer <= deadTimeOver) {
 		isDead = true;
 	}
+
+	playerRot.z += 2.0f;
+	player->SetRotation(playerRot);
 }
