@@ -33,11 +33,9 @@ public: //ƒƒ“ƒoŠÖ”
 		maxPos -= nowPos;
 		time /= maxTime;
 
-		if (time / 2.0f < 1.0f) return maxTime / 2.0f * time * time + nowPos;
+		if (maxTime / 2.0f < time) return maxTime / 2.0f * time * time + nowPos;
 
-		--time;
-
-		return -maxTime * (time * (time - 2.0f) - 1.0f) + nowPos;
+		return -maxPos * time * (time - 2.0f) + nowPos;
 	}
 };
 

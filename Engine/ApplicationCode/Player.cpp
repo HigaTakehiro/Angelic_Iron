@@ -50,7 +50,7 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	shotCoolTimer = 0;
 
 	deadTimer = deadTime;
-
+	returnTimer = 0;
 	for (int i = 0; i < 4; i++) {
 		holdTimer[i] = 0;
 	}
@@ -154,48 +154,67 @@ void Player::Move() {
 	const float stopRotY = 50.0f;
 	const Vector3 initRot = { 0, 180, 0 };
 	const float timeOver = 100.0f;
+	const float initTime = 0.0f;
 
 	if (KeyInput::GetIns()->HoldKey(DIK_W)) {
-		holdTimer[0]++;
+		if (holdTimer[0] <= timeOver) {
+			holdTimer[0]++;
+		}
 		if (playerLPos.y <= stopPosY) {
 			playerLPos.y += moveSpeed;
 		}
 		playerRot.x = Easing::GetIns()->easeOut(holdTimer[0], timeOver, initRot.x - stopRotX, playerRot.x);
 	}
 	else {
-		holdTimer[0] = 0.0f;
+		holdTimer[0] = initTime;
 	}
 	if (KeyInput::GetIns()->HoldKey(DIK_S)) {
-		holdTimer[1]++;
+		if (holdTimer[1] <= timeOver) {
+			holdTimer[1]++;
+		}
 		if (playerLPos.y >= -stopPosY) {
 			playerLPos.y -= moveSpeed;
 		}
 		playerRot.x = Easing::GetIns()->easeOut(holdTimer[1], timeOver, initRot.x + stopRotX, playerRot.x);
 	}
 	else {
-		holdTimer[1] = 0.0f;
+		holdTimer[1] = initTime;
 	}
 	if (KeyInput::GetIns()->HoldKey(DIK_A)) {
-		holdTimer[2]++;
+		if (holdTimer[2] <= timeOver) {
+			holdTimer[2]++;
+		}
 		if (playerLPos.x <= stopPosX) {
 			playerLPos.x += moveSpeed;
 		}
 		playerRot.y = Easing::GetIns()->easeOut(holdTimer[2], timeOver, initRot.y - stopRotY, playerRot.y);
 	}
 	else {
-		holdTimer[2] = 0.0f;
+		holdTimer[2] = initTime;
 	}
 	if (KeyInput::GetIns()->HoldKey(DIK_D)) {
-		holdTimer[3]++;
+		if (holdTimer[3] <= timeOver) {
+			holdTimer[3]++;
+		}
 		if (playerLPos.x >= -stopPosX) {
 			playerLPos.x -= moveSpeed;
 		}
 		playerRot.y = Easing::GetIns()->easeOut(holdTimer[3], timeOver, initRot.y + stopRotX, playerRot.y);
 	}
 	else {
-		holdTimer[3] = 0.0f;
+		holdTimer[3] = initTime;
 	}
 
+	if (!KeyInput::GetIns()->HoldKey(DIK_W) && !KeyInput::GetIns()->HoldKey(DIK_S) && !KeyInput::GetIns()->HoldKey(DIK_A) && !KeyInput::GetIns()->HoldKey(DIK_D)) {
+		if (returnTimer <= timeOver * 2) {
+			returnTimer++;
+		}
+		playerRot.x = Easing::GetIns()->easeInOut(returnTimer, timeOver * 2, initRot.x, playerRot.x);
+		playerRot.y = Easing::GetIns()->easeInOut(returnTimer, timeOver * 2, initRot.y, playerRot.y);
+	}
+	else {
+		returnTimer = initTime;
+	}
 	//if (KeyInput::GetIns()->PushKey(DIK_LEFT) && aimPos3d.x <= stopPosX * 2) {
 	//	aimPos3d.x += moveSpeed;
 	//}
@@ -215,7 +234,7 @@ void Player::Move() {
 }
 
 void Player::Shot() {
-	const float bulletSpeed = 5.0f;
+	const float bulletSpeed = 10.0f;
 	XMVECTOR velocity;
 	velocity = { aim3d->GetMatWorld().r[3] - player->GetMatWorld().r[3] };
 	velocity = XMVector3Normalize(velocity) * bulletSpeed;

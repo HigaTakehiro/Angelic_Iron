@@ -200,5 +200,7 @@ private: //メンバ変数
 	int32_t deadTimer;
 	//イージング時間計測用配列
 	float holdTimer[4];
+	//イージング用時間計測
+	float returnTimer;
 };
 
