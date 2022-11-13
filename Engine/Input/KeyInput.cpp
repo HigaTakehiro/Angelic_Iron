@@ -35,6 +35,13 @@ bool KeyInput::PushKey(BYTE keyNumber) {
 	return false;
 }
 
+bool KeyInput::HoldKey(BYTE keyNumber) {
+	if (keyPre[keyNumber] && key[keyNumber]) {
+		return true;
+	}
+	return false;
+}
+
 bool KeyInput::TriggerKey(BYTE keyNumber) {
 	//‘O‰ñ‚Í‰Ÿ‚µ‚Ä‚¢‚È‚­‚ÄA¡‰ñ‚Í‰Ÿ‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
 	if (!keyPre[keyNumber] && key[keyNumber]) {

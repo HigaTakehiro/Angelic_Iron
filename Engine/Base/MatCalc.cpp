@@ -21,6 +21,7 @@ XMVECTOR MatCalc::WDivided(const XMVECTOR& pos, const XMMATRIX& mat, const bool 
 	x = x / w;
 	y = y / w;
 	z = z / w;
+	w = w / w;
 
 	return XMVECTOR{ x, y, z, w };
 }
@@ -39,6 +40,7 @@ XMVECTOR MatCalc::WDivision(const XMVECTOR& pos, const bool isWSlide) {
 	x = x / w;
 	y = y / w;
 	z = z / w;
+	w = w / w;
 
 	return XMVECTOR{ x, y, z, w };
 }

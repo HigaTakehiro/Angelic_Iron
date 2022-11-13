@@ -53,6 +53,12 @@ public: //メンバ関数
 	/// <returns>キーが押されているか</returns>
 	bool PushKey(BYTE keyNumber);
 	/// <summary>
+	/// キーが押しっぱなしかどうかをチェック
+	/// </summary>
+	/// <param name="keyNumber">キー番号</param>
+	/// <returns>キーが押しっぱなしかどうか</returns>
+	bool HoldKey(BYTE keyNumber);
+	/// <summary>
 	/// キーのトリガーをチェック
 	/// </summary>
 	/// <param name="keyNumber">キー番号</param>

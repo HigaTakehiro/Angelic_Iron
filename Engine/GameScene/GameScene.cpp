@@ -144,7 +144,7 @@ void GameScene::Update() {
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
-			//isClear = true;
+			isClear = true;
 		}
 
 		if (player->GetHPCount() <= noneHP && !isPlayerDead) {

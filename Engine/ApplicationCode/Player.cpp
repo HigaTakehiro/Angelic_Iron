@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "SafeDelete.h"
 #include "MotionMath.h"
+#include "Easing.h"
 
 void Player::Initialize(Camera* camera, Sound* sound) {
 	this->camera = camera;
@@ -49,6 +50,10 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	shotCoolTimer = 0;
 
 	deadTimer = deadTime;
+
+	for (int i = 0; i < 4; i++) {
+		holdTimer[i] = 0;
+	}
 }
 
 void Player::Finalize() {
@@ -102,7 +107,7 @@ void Player::Update() {
 
 	AimUpdate();
 
-	if (MouseInput::GetIns()->PushClick(MouseInput::GetIns()->LEFT_CLICK) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
+	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
 		isShot = true;
 	}
 	if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
@@ -142,23 +147,53 @@ void Player::ObjectDraw() {
 }
 
 void Player::Move() {
-	const float moveSpeed = 2.0f;
+	const float moveSpeed = 1.0f;
 	const float stopPosX = 40.0f;
 	const float stopPosY = 20.0f;
+	const float stopRotX = 30.0f;
+	const float stopRotY = 50.0f;
+	const Vector3 initRot = { 0, 180, 0 };
+	const float timeOver = 100.0f;
 
-	//aimPos3d.z = -100.0f;
-
-	if (KeyInput::GetIns()->PushKey(DIK_W) && playerLPos.y <= stopPosY) {
-		playerLPos.y += moveSpeed;
+	if (KeyInput::GetIns()->HoldKey(DIK_W)) {
+		holdTimer[0]++;
+		if (playerLPos.y <= stopPosY) {
+			playerLPos.y += moveSpeed;
+		}
+		playerRot.x = Easing::GetIns()->easeOut(holdTimer[0], timeOver, initRot.x - stopRotX, playerRot.x);
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_S) && playerLPos.y >= -stopPosY) {
-		playerLPos.y -= moveSpeed;
+	else {
+		holdTimer[0] = 0.0f;
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_A) && playerLPos.x <= stopPosX) {
-		playerLPos.x += moveSpeed;
+	if (KeyInput::GetIns()->HoldKey(DIK_S)) {
+		holdTimer[1]++;
+		if (playerLPos.y >= -stopPosY) {
+			playerLPos.y -= moveSpeed;
+		}
+		playerRot.x = Easing::GetIns()->easeOut(holdTimer[1], timeOver, initRot.x + stopRotX, playerRot.x);
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_D) && playerLPos.x >= -stopPosX) {
-		playerLPos.x -= moveSpeed;
+	else {
+		holdTimer[1] = 0.0f;
+	}
+	if (KeyInput::GetIns()->HoldKey(DIK_A)) {
+		holdTimer[2]++;
+		if (playerLPos.x <= stopPosX) {
+			playerLPos.x += moveSpeed;
+		}
+		playerRot.y = Easing::GetIns()->easeOut(holdTimer[2], timeOver, initRot.y - stopRotY, playerRot.y);
+	}
+	else {
+		holdTimer[2] = 0.0f;
+	}
+	if (KeyInput::GetIns()->HoldKey(DIK_D)) {
+		holdTimer[3]++;
+		if (playerLPos.x >= -stopPosX) {
+			playerLPos.x -= moveSpeed;
+		}
+		playerRot.y = Easing::GetIns()->easeOut(holdTimer[3], timeOver, initRot.y + stopRotX, playerRot.y);
+	}
+	else {
+		holdTimer[3] = 0.0f;
 	}
 
 	//if (KeyInput::GetIns()->PushKey(DIK_LEFT) && aimPos3d.x <= stopPosX * 2) {
@@ -175,6 +210,7 @@ void Player::Move() {
 	//}
 
 	player->SetPosition(playerLPos);
+	player->SetRotation(playerRot);
 	//aim3d->SetPosition(aimPos3d);
 }
 
@@ -214,47 +250,41 @@ void Player::Reset() {
 void Player::AimUpdate() {
 
 	//3D→2D
-	//const float kDistancePlayerTo3DRaticle = 50.0f;
-	//XMVECTOR offset = { 0, 0, 1.0f };
-	//offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
-	//offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
+	const float kDistancePlayerTo3DRaticle = 50.0f;
+	XMVECTOR offset = { 0, 0, 1.0f };
+	offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
+	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
 
-	//aimPos3d = playerWPos + offset;
+	aimPos3d = playerWPos + offset;
 
-	//XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
-	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	//raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
+	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport, true); //スクリーン座標
 
-	//aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
 	//2D→3D
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
-	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //スクリーン座標
-	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //スクリーン座標
+	//XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	//XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
+	//XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //スクリーン座標
+	//XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //スクリーン座標
 
-	posNear = MatCalc::GetIns()->PosDivided(posNear, XMMatrixInverse(nullptr, camera->GetMatViewPort())); //正規化デバイス座標
-	posNear = MatCalc::GetIns()->PosDivided(posNear, XMMatrixInverse(nullptr, camera->GetMatProjection())); //プロジェクション座標
-	posNear = MatCalc::GetIns()->WDivision(posNear, true);
-	posNear = MatCalc::GetIns()->PosDivided(posNear, XMMatrixInverse(nullptr, camera->GetMatView()));
-	posNear.m128_f32[2] = 0;
+	//posNear = MatCalc::GetIns()->WDivided(posNear, matInverseVPV, true);
+	//posNear.m128_f32[2] = 0;
 
-	posFar = MatCalc::GetIns()->PosDivided(posFar, XMMatrixInverse(nullptr, camera->GetMatViewPort()));
-	posFar = MatCalc::GetIns()->PosDivided(posFar, XMMatrixInverse(nullptr, camera->GetMatProjection())); //正規化デバイス座標
-	posFar = MatCalc::GetIns()->WDivision(posFar, true);
-	posFar = MatCalc::GetIns()->PosDivided(posFar, XMMatrixInverse(nullptr, camera->GetMatView()));
+	//posFar = MatCalc::GetIns()->WDivided(posFar, matInverseVPV, true);
+	//posFar.m128_f32[2] = 1;
 
-	XMVECTOR mouseDirection = posFar - posNear; //ベクトル
-	mouseDirection = XMVector3Normalize(mouseDirection);
+	//XMVECTOR mouseDirection = posFar - posNear; //ベクトル
+	//mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
+	//const float kDistanceTestObject = 50.0f; //ベクトルの方向にいくら進ませるか
 
-	XMVECTOR raticle3D;
-	raticle3D = posNear - mouseDirection * kDistanceTestObject;
-	//raticle3D = MatCalc::GetIns()->PosDivided(raticle3D, player->GetMatWorld());
-	aimPos3d = raticle3D;
+	//XMVECTOR raticle3D;
+	//raticle3D = posNear + mouseDirection * kDistanceTestObject;
+	//aimPos3d = -raticle3D;
 
 	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
 	aim3d->SetPosition(aimPos3d);

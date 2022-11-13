@@ -143,7 +143,7 @@ private: //静的メンバ変数
 	//最大HP
 	static const int maxHp = 3;
 	//リロード時間
-	static const int reloadTime = 60;
+	static const int reloadTime = 20;
 	//弾発射クールタイム
 	static const int shotCoolTime = 10;
 	//ダメージエフェクト発生時間
@@ -198,5 +198,7 @@ private: //メンバ変数
 	bool isDamage = false;
 	//死亡時演出用時間
 	int32_t deadTimer;
+	//イージング時間計測用配列
+	float holdTimer[4];
 };
 
