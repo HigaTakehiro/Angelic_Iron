@@ -3,7 +3,7 @@
 #include "MotionMath.h"
 #include "Easing.h"
 
-void Player::Initialize(Camera* camera, Sound* sound) {
+void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	this->camera = camera;
 	this->sound = sound;
 
@@ -49,6 +49,8 @@ void Player::Initialize(Camera* camera, Sound* sound) {
 	damageEffectTimer = damageEffectTime;
 	shotCoolTimer = 0;
 
+	this->clearTime = clearTime;
+	clearTimer = this->clearTime;
 	deadTimer = deadTime;
 	returnTimer = 0;
 	for (int i = 0; i < 4; i++) {
@@ -71,52 +73,58 @@ void Player::Finalize() {
 	safe_delete(reloadUI);
 }
 
-void Player::Update() {
+void Player::Update(bool isClear) {
 	const int deadHp = 0;
 	const int noneBulletCount = 0;
 	const int reloadTimeOver = 0;
 	const int shotCoolTimeOver = 0;
 
-	if (hpCount <= deadHp) {
-		DeadPerformance();
-	}
-	if (bulletCount <= noneBulletCount && !isReload) {
-		isReload = true;
-		sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
-	}
-	if (isReload) {
-		reloadTimer--;
-	}
-	if (reloadTimer <= reloadTimeOver) {
-		isReload = false;
-		bulletCount = maxBulletCount;
-		reloadTimer = reloadTime;
-	}
-	if (shotCoolTimer > shotCoolTimeOver) {
-		shotCoolTimer--;
-	}
+	if (!isClear) {
+		if (hpCount <= deadHp) {
+			DeadPerformance();
+		}
+		if (bulletCount <= noneBulletCount && !isReload) {
+			isReload = true;
+			sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
+		}
+		if (isReload) {
+			reloadTimer--;
+		}
+		if (reloadTimer <= reloadTimeOver) {
+			isReload = false;
+			bulletCount = maxBulletCount;
+			reloadTimer = reloadTime;
+		}
+		if (shotCoolTimer > shotCoolTimeOver) {
+			shotCoolTimer--;
+		}
 
-	if (isDamage) {
-		DamageEffect();
-	}
-	if (hpCount > deadHp) {	
-		Move();
-	}
+		if (isDamage) {
+			DamageEffect();
+		}
+		if (hpCount > deadHp) {
+			Move();
+		}
 
-	playerWPos = player->GetMatWorld().r[3];
+		playerWPos = player->GetMatWorld().r[3];
+
+
+		if ((KeyInput::GetIns()->PushKey(DIK_SPACE) || MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
+			isShot = true;
+		}
+		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
+			bulletCount = noneBulletCount;
+		}
+
+		if (isShot) {
+			Shot();
+		}
+	}
+	else {
+		ClearPerformance();
+	}
 
 	AimUpdate();
-
-	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
-		isShot = true;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
-		bulletCount = noneBulletCount;
-	}
-
-	if (isShot) {
-		Shot();
-	}
 
 	aim3d->Update();
 	player->Update();
@@ -255,6 +263,9 @@ void Player::Reset() {
 	playerLPos = { 0, 0, -50 };
 	playerRot = { 0, 180, 0 };
 
+	if (player->GetCameraParent() == nullptr) {
+		player->SetCameraParent(camera);
+	}
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
 	bulletCount = 0;
@@ -264,46 +275,32 @@ void Player::Reset() {
 	isDamage = false;
 	damageEffectTimer = damageEffectTime;
 	deadTimer = deadTime;
+	clearTimer = clearTime;
 }
 
 void Player::AimUpdate() {
 
-	//3D→2D
-	const float kDistancePlayerTo3DRaticle = 50.0f;
-	XMVECTOR offset = { 0, 0, 1.0f };
-	offset = MatCalc::GetIns()->VecDivided(offset, player->GetMatWorld());
-	offset = XMVector3Normalize(offset) * kDistancePlayerTo3DRaticle;
-
-	aimPos3d = playerWPos + offset;
-
-	XMVECTOR raticle2D = { aim3d->GetMatWorld().r[3] }; //ワールド座標
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport, true); //スクリーン座標
-
-	aimPos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-
 	//2D→3D
-	//aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 
-	//XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	//XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
-	//XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //スクリーン座標
-	//XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //スクリーン座標
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
+	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //スクリーン座標
+	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //スクリーン座標
 
-	//posNear = MatCalc::GetIns()->WDivided(posNear, matInverseVPV, true);
-	//posNear.m128_f32[2] = 0;
+	XMMATRIX proj = Camera::GetMatProjection();
 
-	//posFar = MatCalc::GetIns()->WDivided(posFar, matInverseVPV, true);
-	//posFar.m128_f32[2] = 1;
+	posNear = XMVector3TransformCoord(posNear, matInverseVPV);	
+	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
 
-	//XMVECTOR mouseDirection = posFar - posNear; //ベクトル
-	//mouseDirection = XMVector3Normalize(mouseDirection);
+	XMVECTOR mouseDirection = posFar - posNear; //ベクトル
+	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	//const float kDistanceTestObject = 50.0f; //ベクトルの方向にいくら進ませるか
+	const float kDistanceTestObject = 1000.0f; //ベクトルの方向にいくら進ませるか
 
-	//XMVECTOR raticle3D;
-	//raticle3D = posNear + mouseDirection * kDistanceTestObject;
-	//aimPos3d = -raticle3D;
+	XMVECTOR raticle3D;
+	raticle3D = posNear + mouseDirection * kDistanceTestObject;
+	aimPos3d = raticle3D;
 
 	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
 	aim3d->SetPosition(aimPos3d);
@@ -337,4 +334,14 @@ void Player::DeadPerformance() {
 
 	playerRot.z += 2.0f;
 	player->SetRotation(playerRot);
+}
+
+void Player::ClearPerformance() {
+	const Vector3 endPos = { 0.0f, -40.0f, 0.0f };
+	clearTimer--;
+	playerWPos.y = Easing::GetIns()->easeOutBack(clearTimer, clearTime, playerWPos.y, endPos.y);
+	player->SetCameraParent(nullptr);
+	player->SetPosition(playerWPos);
+	player->SetRotation(playerRot);
+	camera->SetTarget(playerWPos);
 }

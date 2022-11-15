@@ -98,7 +98,7 @@ private: //メンバ変数
 	Vector3 initPos; //初期座標
 	Vector3 initRot; //初期回転
 
-	bool isStop = true; //デバッグ用カメラ停止フラグ
+	bool isStop = false; //デバッグ用カメラ停止フラグ
 	bool isDamage = false; //ダメージを受けたかのフラグ
 	bool isRoop = false;
 

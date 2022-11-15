@@ -30,12 +30,15 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Initialize(Camera* camera, Sound* sound);
+	void Initialize(Camera* camera, Sound* sound, float clearTime);
 
 	/// <summary>
-	/// 更新処理
+	/// プレイヤー
 	/// </summary>
-	void Update();
+	/// <param name="isClear">クリアフラグ</param>
+	/// <param name="clearTimer">経過時間</param>
+	/// <param name="clearTime">クリア演出時間</param>
+	void Update(bool isClear);
 
 	/// <summary>
 	/// 終了処理
@@ -136,6 +139,13 @@ private: //メンバ関数
 	/// </summary>
 	void DeadPerformance();
 
+	/// <summary>
+	/// クリア演出
+	/// </summary>
+	/// <param name="clearTimer">クリア演出経過時間</param>
+	/// <param name="clearTime">クリア演出時間</param>
+	void ClearPerformance();
+
 
 private: //静的メンバ変数
 	//最大残弾数
@@ -202,5 +212,9 @@ private: //メンバ変数
 	float holdTimer[4];
 	//イージング用時間計測
 	float returnTimer;
+	//クリア演出用時間計測
+	float clearTimer;
+	//クリア時間
+	float clearTime;
 };
 

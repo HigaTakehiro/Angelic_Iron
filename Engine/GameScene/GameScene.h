@@ -99,6 +99,9 @@ private: //メンバ関数
 	/// </summary>
 	void Reset();
 
+private: //静的メンバ変数
+	static const int32_t clearTime = 120;
+
 private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr; //DirectX初期設定クラス
 	KeyInput* input = nullptr; //キーボード入力クラス
@@ -141,6 +144,7 @@ private: //メンバ変数
 	bool isWait; //エネミー読み込み待機フラグ
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
+	int32_t clearTimer; //クリア演出用時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ

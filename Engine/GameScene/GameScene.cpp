@@ -49,7 +49,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	celetialSphere->SetScale(sphereScale);
 
 	player = new Player();
-	player->Initialize(camera, sound);
+	player->Initialize(camera, sound, clearTime);
 	player->SetGameScene(this);
 
 	LoadEnemyData();
@@ -75,6 +75,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 	isClear = false;
 	isTitle = true;
 	isWait = false;
+
+	clearTimer = clearTime;
 
 }
 
@@ -144,6 +146,9 @@ void GameScene::Update() {
 		EnemyDataUpdate();
 
 		if (enemies.empty()) {
+			clearTimer--;
+		}
+		if (clearTimer <= 0) {
 			isClear = true;
 		}
 
@@ -164,7 +169,9 @@ void GameScene::Update() {
 		}
 
 		if (player->GetHPCount() > 0) {
-			railCamera->Update();
+			if (!enemies.empty()) {
+				railCamera->Update();
+			}
 			for (std::unique_ptr<Enemy>& enemy : enemies) {
 				enemy->Update(player->GetPlayerPos());
 			}
@@ -182,7 +189,7 @@ void GameScene::Update() {
 
 		celetialSphere->Update();
 		ground->Update();
-		player->Update();
+		player->Update(enemies.empty());
 		object1->Update();
 
 	}
@@ -257,7 +264,7 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	debugText.DrawAll(dxCommon->GetCmdList());
+	//debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(dxCommon->GetCmdList());
@@ -289,7 +296,7 @@ void GameScene::Reset() {
 	LoadRailPoint();
 	railCamera->Reset(points);
 
-
+	clearTimer = clearTime;
 	isDead = false;
 	isClear = false;
 	isTitle = true;

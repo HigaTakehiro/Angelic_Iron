@@ -116,7 +116,7 @@ void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 		pos.x += moveSpeedX;
 	}
 
-	if (--shotIntervalTimer <= shotIntervalTimeover /*&& IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)*/) {
+	if (--shotIntervalTimer <= shotIntervalTimeover && IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)) {
 		Shot();
 		shotIntervalTimer = shotIntervalTime;
 	}

@@ -148,6 +148,12 @@ public: // メンバ関数
 	/// <returns>親オブジェクト</returns>
 	Object3d* GetParent() { return parent; }
 
+	/// <summary>
+	/// 親オブジェクト(カメラ)取得
+	/// </summary>
+	/// <returns>親オブジェクト(カメラ)</returns>
+	Camera* GetCameraParent() { return cameraParent; }
+
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
