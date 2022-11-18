@@ -1,5 +1,7 @@
 ﻿#include "WinApp.h"
 
+#pragma comment(lib, "winmm.lib")
+
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	//メッセージで分岐
 	switch (msg) {
@@ -49,6 +51,8 @@ void WinApp::Initialize() {
 
 	// ウィンドウ表示
 	ShowWindow(hwnd, SW_SHOW);
+
+	timeBeginPeriod(1);
 }
 
 bool WinApp::ProcessMessage() {

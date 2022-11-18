@@ -12,6 +12,8 @@ void DirectXCommon::Initialize(WinApp* winApp) {
 	//メンバ変数に保存
 	this->winApp = winApp;
 
+	//FPS固定初期化処理
+	InitializeFixFPS();
 	//デバイスの生成
 	InitializeDev();
 	//コマンド関連の初期化
@@ -73,6 +75,9 @@ void DirectXCommon::PostDraw() {
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+
+	//FPS固定
+	UpdateFixFPS();
 
 	cmdAllocator->Reset(); // キューをクリア
 	cmdList->Reset(cmdAllocator.Get(), nullptr);  // 再びコマンドリストを貯める準備
@@ -261,4 +266,27 @@ void DirectXCommon::InitializeFence() {
 	HRESULT result = S_FALSE;
 
 	result = dev->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+}
+
+void DirectXCommon::InitializeFixFPS() {
+	reference = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::UpdateFixFPS() {
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+
+	//現在時間の取得
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+	//経過時間の取得
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference);
+
+	if (elapsed < kMinCheckTime) {
+		while (std::chrono::steady_clock::now() - reference < kMinTime) {
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}
+
+	reference = std::chrono::steady_clock::now();
 }

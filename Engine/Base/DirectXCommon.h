@@ -7,6 +7,8 @@
 #include <d3dx12.h>
 #include <cstdlib>
 #include <DirectXMath.h>
+#include <chrono>
+#include <thread>
 
 #include "WinApp.h"
 
@@ -56,6 +58,8 @@ private: //メンバ変数
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
+	//FPS固定用記録時間
+	std::chrono::steady_clock::time_point reference;
 
 private: //メンバ関数
 	/// <summary>
@@ -82,5 +86,13 @@ private: //メンバ関数
 	/// フェンスの初期化
 	/// </summary>
 	void InitializeFence();
+	/// <summary>
+	/// FPS固定初期化
+	/// </summary>
+	void InitializeFixFPS();
+	/// <summary>
+	/// FPS固定更新
+	/// </summary>
+	void UpdateFixFPS();
 };
 

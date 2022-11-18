@@ -99,6 +99,10 @@ void Player::Update(bool isClear) {
 			shotCoolTimer--;
 		}
 
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+			isBomb = !isBomb;
+		}
+
 		if (isDamage) {
 			DamageEffect();
 		}
@@ -223,22 +227,9 @@ void Player::Move() {
 	else {
 		returnTimer = initTime;
 	}
-	//if (KeyInput::GetIns()->PushKey(DIK_LEFT) && aimPos3d.x <= stopPosX * 2) {
-	//	aimPos3d.x += moveSpeed;
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_RIGHT) && aimPos3d.x >= -stopPosX * 2) {
-	//	aimPos3d.x -= moveSpeed;
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_UP) && aimPos3d.y <= stopPosY * 2) {
-	//	aimPos3d.y += moveSpeed;
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_DOWN) && aimPos3d.y >= -stopPosY * 2) {
-	//	aimPos3d.y -= moveSpeed;
-	//}
 
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
-	//aim3d->SetPosition(aimPos3d);
 }
 
 void Player::Shot() {

@@ -113,6 +113,12 @@ public: //メンバ関数
 	/// <returns>ダメージフラグ</returns>
 	bool GetIsDamage() { return isDamage; }
 
+	/// <summary>
+	/// ボムフラグ取得
+	/// </summary>
+	/// <returns>ボムフラグ</returns>
+	bool GetIsBomb() { return isBomb; }
+
 private: //メンバ関数
 	/// <summary>
 	/// 移動処理
@@ -216,5 +222,7 @@ private: //メンバ変数
 	float clearTimer;
 	//クリア時間
 	float clearTime;
+	//ボムフラグ
+	bool isBomb;
 };
 
