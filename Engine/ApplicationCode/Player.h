@@ -65,13 +65,13 @@ public: //メンバ関数
 	/// 3Dレティクルの位置取得
 	/// </summary>
 	/// <returns></returns>
-	const Vector3 GetAimPos() { return aimPos3d; }
+	const Vector3 Get3dAimPos() { return aimPos3d; }
 
 	/// <summary>
-	/// 向き取得
+	/// レティクル位置取得
 	/// </summary>
 	/// <returns>向き</returns>
-	const XMFLOAT2 GetPlayerRot() { return aimPos; }
+	const XMFLOAT2 GetAimPos() { return aimPos; }
 
 	/// <summary>
 	/// プレイヤーオブジェクトの取得

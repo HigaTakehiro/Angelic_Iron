@@ -78,6 +78,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
 
 	clearTimer = clearTime;
 
+	referenceCount = std::chrono::steady_clock::now();
 }
 
 void GameScene::Update() {
@@ -101,10 +102,18 @@ void GameScene::Update() {
 
 		char xPos[256];
 		char yPos[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %f, ZPoint : %f", player->GetAimPos().x, player->GetAimPos().y, player->GetAimPos().z);
+		char isSlowCheck[256];
+		sprintf_s(xPos, "Xpoint : %f, YPoint : %f", player->GetAimPos().x, player->GetAimPos().y);
 		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+		if (!player->GetIsBomb()) {
+			sprintf_s(isSlowCheck, "false");
+		}
+		else {
+			sprintf_s(isSlowCheck, "true");
+		}
 		debugText.Print(xPos, 0, 0, 2.0f);
 		debugText.Print(yPos, 0, 50, 2.0f);
+		debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
 		if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
 			Reset();
@@ -130,13 +139,19 @@ void GameScene::Update() {
 		}
 
 		for (std::unique_ptr<Enemy>& enemy : enemies) {
+			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+			enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV, true); //スクリーン座標
+
+			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
+
+			XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
+
+			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
+				enemy->SetTarget(true);
+			}
+
 			if (enemy->IsDead()) {
-				XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-				XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-				enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV, true); //スクリーン座標
-
-				XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
-
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
 				particles2d.push_back(std::move(new2DParticle));
@@ -155,7 +170,7 @@ void GameScene::Update() {
 		if (player->GetHPCount() <= noneHP && !isPlayerDead) {
 			XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
 			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-			playerPos = MatCalc::GetIns()->WDivided(playerPos, matVPV, true);
+			playerPos = XMVector3TransformCoord(playerPos, matVPV);
 
 			XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 100.0f, playerPos.m128_f32[1] - 90.0f };
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
@@ -168,28 +183,35 @@ void GameScene::Update() {
 			isDead = true;
 		}
 
+		celetialSphere->Update();
+		ground->Update();
+		player->Update(enemies.empty());
+
+		float delayCount = 0.0f;
+
+		if (player->GetIsBomb()) {
+			delayCount = 3.0f;
+		}
+
 		if (player->GetHPCount() > 0) {
 			if (!enemies.empty()) {
-				railCamera->Update();
+				railCamera->Update(delayCount);
 			}
 			for (std::unique_ptr<Enemy>& enemy : enemies) {
-				enemy->Update(player->GetPlayerPos());
+				enemy->Update(player->GetPlayerPos(), delayCount);
 			}
 		}
 
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			enemyBullet->Update();
+			enemyBullet->Update(delayCount);
 		}
 		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			playerBullet->Update();
+			playerBullet->Update(delayCount);
 		}
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
 		}
 
-		celetialSphere->Update();
-		ground->Update();
-		player->Update(enemies.empty());
 		object1->Update();
 
 	}
@@ -264,7 +286,7 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	//debugText.DrawAll(dxCommon->GetCmdList());
+	debugText.DrawAll(dxCommon->GetCmdList());
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(dxCommon->GetCmdList());
@@ -511,4 +533,8 @@ void GameScene::LoadRailPoint() {
 	assert(splineTime != 0);
 	railCamera->Initialize(startPos, rot, points, splineTime, isCameraRoop);
 
+}
+
+bool GameScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
+	return (enemyPos.x >= aimPos.x - 10.0f && enemyPos.x <= aimPos.x + 10.0f && enemyPos.y >= aimPos.y - 10.0f && enemyPos.y <= aimPos.y + 10.0f);
 }

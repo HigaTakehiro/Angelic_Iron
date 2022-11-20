@@ -113,7 +113,7 @@ void Player::Update(bool isClear) {
 		playerWPos = player->GetMatWorld().r[3];
 
 
-		if ((KeyInput::GetIns()->PushKey(DIK_SPACE) || MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver) {
+		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver && !isBomb) {
 			isShot = true;
 		}
 		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {

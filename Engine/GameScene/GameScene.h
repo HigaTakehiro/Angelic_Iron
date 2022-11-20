@@ -24,6 +24,8 @@
 #include "PostEffect.h"
 #include "Particle2d.h"
 #include <sstream>
+#include <chrono>
+#include <thread>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -99,6 +101,14 @@ private: //メンバ関数
 	/// </summary>
 	void Reset();
 
+	/// <summary>
+	/// ロックオン距離か判定
+	/// </summary>
+	/// <param name="enemyPos">敵の画面上の位置</param>
+	/// <param name="aimPos">マウスカーソルの位置</param>
+	/// <returns>敵の位置にカーソルがあるかどうか</returns>
+	bool IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos);
+
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 
@@ -148,5 +158,7 @@ private: //メンバ変数
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
+
+	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 };
 

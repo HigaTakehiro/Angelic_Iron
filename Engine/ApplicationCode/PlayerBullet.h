@@ -23,7 +23,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(const float delayTime);
 
 	/// <summary>
 	/// 描画処理
@@ -56,5 +56,6 @@ private: //メンバ変数
 	bool isDead;
 	int32_t lifeTimer = lifeTime;
 	Vector3 velocity;
+	float delayCount;
 };
 

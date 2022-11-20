@@ -28,32 +28,45 @@ void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector
 	moveSpeedY = 0.2f;
 	moveSpeedX = 0.2f;
 	lifeTimer = lifeTime;
+	delayCount = 0.0f;
 }
 
-void Enemy::Update(const XMFLOAT3& playerPos) {
+void Enemy::Update(const XMFLOAT3& playerPos, float delayTime) {
 	const int32_t lifeTimeOver = 0;
 
-	//テスト用スプライト配置
-	//XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
-	//XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	//raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
+	delayCount++;
 
-	//DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	if (isTarget) {
 
-	//test->SetPosition(spritePos);
-
-	if (--lifeTimer <= lifeTimeOver) {
-		//isDead = true;
-		lifeTimer = 0;
 	}
+	XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
 
-	if (enemy != nullptr) {
-		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
-			pos = oldPos;
+	DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+
+	test->SetPosition(spritePos);
+
+	if (delayCount >= delayTime) {
+		//テスト用スプライト配置
+
+
+		if (--lifeTimer <= lifeTimeOver) {
+			//isDead = true;
+			lifeTimer = 0;
 		}
-		EnemyAction(playerPos);
+
+		if (enemy != nullptr) {
+			if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
+				pos = oldPos;
+			}
+			EnemyAction(playerPos);
+		}
+
 		enemy->Update();
+		delayCount = 0;
 	}
+
 }
 
 void Enemy::Draw() {
@@ -61,7 +74,7 @@ void Enemy::Draw() {
 }
 
 void Enemy::SpriteDraw() {
-	//test->Draw();
+	test->Draw();
 }
 
 void Enemy::OnCollision() {
@@ -116,7 +129,7 @@ void Enemy::EnemyAction(const XMFLOAT3& playerPos) {
 		pos.x += moveSpeedX;
 	}
 
-	if (--shotIntervalTimer <= shotIntervalTimeover && IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)) {
+	if (--shotIntervalTimer <= shotIntervalTimeover /*&& IsShotRangeJudge(Vector3{playerPos.x, playerPos.y, playerPos.z}, pos, 150.0f, 2.0f)*/) {
 		Shot();
 		shotIntervalTimer = shotIntervalTime;
 	}

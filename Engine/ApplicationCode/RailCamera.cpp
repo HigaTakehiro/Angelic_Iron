@@ -8,57 +8,63 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 	initRot = rot;
 	this->points = points;
 	this->maxTime = maxTime;
+	preMaxTime = maxTime;
 	this->isRoop = isRoop;
 	startTime = GetTickCount64();
 }
 
-void RailCamera::Update() {
-	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-		if (isStop) {
-			isStop = false;
-			startTime = GetTickCount64();
-			nowCount = GetTickCount64();
+void RailCamera::Update(float delayCount) {
+	this->delayCount++;
+	if (this->delayCount >= delayCount) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+			if (isStop) {
+				isStop = false;
+				startTime = GetTickCount64();
+				nowCount = GetTickCount64();
+			}
+			else {
+				isStop = true;
+
+			}
+		}
+
+		if (!isStop) {
+			SplineMove();
+
+			if (rot.x >= 360.0f || rot.x <= -360.0f) {
+				rot.x = 0.0f;
+			}
+			if (rot.y >= 360.0f || rot.y <= -360.0f) {
+				rot.y = 0.0f;
+			}
+			if (rot.z >= 360.0f || rot.z <= -360.0f) {
+				rot.z = 0.0f;
+			}
 		}
 		else {
-			isStop = true;
-			
+			if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+				rot.y -= 1.0f;
+			}
+			if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+				rot.y += 1.0f;
+			}
+			if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+				rot.x -= 1.0f;
+			}
+			if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+				rot.x += 1.0f;
+			}
 		}
-	}
 
-	if (!isStop) {
-		SplineMove();
+		if (isDamage) {
+			//DamageCameraEffect();
+		}
 
-		if (rot.x >= 360.0f || rot.x <= -360.0f) {
-			rot.x = 0.0f;
-		}
-		if (rot.y >= 360.0f || rot.y <= -360.0f) {
-			rot.y = 0.0f;
-		}
-		if (rot.z >= 360.0f || rot.z <= -360.0f) {
-			rot.z = 0.0f;
-		}
-	}
-	else {
-		if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-			rot.y -= 1.0f;
-		}
-		if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-			rot.y += 1.0f;
-		}
-		if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-			rot.x -= 1.0f;
-		}
-		if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-			rot.x += 1.0f;
-		}
+		UpdateMatWorld();
+		Camera::SetEye(eye);
+		this->delayCount = 0;
 	}
 	
-	if (isDamage) {
-		//DamageCameraEffect();
-	}
-
-	UpdateMatWorld();
-	Camera::SetEye(eye);
 }
 
 Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, float t) {
@@ -85,6 +91,7 @@ Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, f
 void RailCamera::SplineMove() {
 	nowCount = GetTickCount64();
 	elapsedCount = nowCount - startTime;
+
 	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
 	timeRate = elapsedCount / maxTime;

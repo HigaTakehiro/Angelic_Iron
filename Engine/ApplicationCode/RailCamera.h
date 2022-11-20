@@ -5,6 +5,8 @@
 #include <DirectXMath.h>
 #include <vector>
 #include "KeyInput.h"
+#include <chrono>
+#include <thread>
 
 class RailCamera
 {
@@ -27,7 +29,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(float delayCount = 60.0f);
 
 	/// <summary>
 	/// リセット
@@ -90,17 +92,20 @@ private: //メンバ変数
 	long long startTime; //開始時間
 	long long nowCount; //現在時間
 	long long elapsedCount; //経過時間 
+	std::chrono::steady_clock::time_point reference;
 
 	float maxTime; //ポイント間を移動する時間
+	float preMaxTime; //スロー演出用ポイント間を移動する時間保存
 	float timeRate; //移動した時間を0~1で評価
 	int startIndex = 1; //移動したポイントをカウント
 
 	Vector3 initPos; //初期座標
 	Vector3 initRot; //初期回転
 
-	bool isStop = false; //デバッグ用カメラ停止フラグ
+	bool isStop = true; //デバッグ用カメラ停止フラグ
 	bool isDamage = false; //ダメージを受けたかのフラグ
 	bool isRoop = false;
+	float delayCount = 0;
 
 	int  damageEffectTimer; //ダメージ演出用タイマー
 };

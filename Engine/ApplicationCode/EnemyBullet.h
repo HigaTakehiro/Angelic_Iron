@@ -22,7 +22,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(float delayTime);
 
 	/// <summary>
 	/// 描画処理
@@ -54,9 +54,11 @@ private: //メンバ変数
 	Object3d* enemyBullet;
 	Vector3 pos;
 	Vector3 velocity;
+	Vector3 initVelocity;
 	bool isDead;
 	bool isHoming;
 	int32_t lifeTimer = lifeTime;
 	int32_t homingTimer = homingTime;
+	float delayCount;
 };
 

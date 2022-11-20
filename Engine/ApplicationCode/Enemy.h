@@ -36,7 +36,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(const XMFLOAT3& playerPos);
+	void Update(const XMFLOAT3& playerPos, float delayTime);
 
 	/// <summary>
 	/// 描画処理
@@ -77,10 +77,22 @@ public: //メンバ関数
 	EnemyStyle GetEnemyStyle() { return type; }
 
 	/// <summary>
+	/// ロックオンフラグを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsTarget() { return isTarget; }
+
+	/// <summary>
 	/// ゲームシーンをセットする
 	/// </summary>
 	/// <param name="gameScene">ゲームシーン</param>
 	void SetGamaScene(GameScene* gameScene) { this->gameScene = gameScene; }
+
+	/// <summary>
+	/// ロックオンフラグをたてる
+	/// </summary>
+	/// <param name="isTarget"></param>
+	void SetTarget(bool isTarget) { this->isTarget = isTarget; }
 
 private: //メンバ関数
 	/// <summary>
@@ -122,5 +134,7 @@ private: //メンバ変数
 	float moveSpeedY;
 	EnemyStyle type;
 	bool isDead;
+	float delayCount;
+	bool isTarget;
 };
 

@@ -17,22 +17,29 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
 	this->pos = pos;
 	this->velocity = velocity;
 	bullet->SetPosition(pos);
+	delayCount = 0;
 }
 
-void PlayerBullet::Update() {
+void PlayerBullet::Update(const float delayTime) {
 	const int timeOver = 0;
+	delayCount++;
 
-	if (--lifeTimer <= timeOver) {
-		isDead = true;
-	}
-	else {
-		pos += velocity;
-	}
+	if (delayCount >= delayTime) {
+		if (--lifeTimer <= timeOver) {
+			isDead = true;
+		}
+		else {
+			pos += velocity;
+		}
 
-	if (bullet != nullptr) {
-		bullet->SetPosition(pos);
-		bullet->Update();
+		if (bullet != nullptr) {
+			bullet->SetPosition(pos);
+			bullet->Update();
+		}
+
+		delayCount = 0;
 	}
+	
 }
 
 void PlayerBullet::Draw() {
