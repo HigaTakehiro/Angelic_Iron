@@ -89,7 +89,7 @@ void GameScene::Update() {
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
-
+	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
 	if (isTitle) {
 		if (input->GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
@@ -138,6 +138,15 @@ void GameScene::Update() {
 			}
 		}
 
+		for (const std::unique_ptr<Enemy>& enemy : enemies) {
+			for (const std::unique_ptr<Bomb>& bomb : bombs) {
+				if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
+					enemy->OnCollision();
+					bomb->OnCollision();
+				}
+			}
+		}
+
 		for (std::unique_ptr<Enemy>& enemy : enemies) {
 			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
 			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
@@ -151,7 +160,7 @@ void GameScene::Update() {
 				enemy->SetTarget(true);
 			}
 			else if (!player->GetIsBomb()) {
-				enemy->SetTarget(false);
+				//enemy->SetTarget(false);
 			}
 
 			if (enemy->IsDead()) {
@@ -214,9 +223,16 @@ void GameScene::Update() {
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
 		}
+		for (std::unique_ptr<Bomb>& bomb : bombs) {
+			for (std::unique_ptr<Enemy>& enemy : enemies) {
+				Vector3 enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
+				if (enemy->GetIsTarget()) {
+					bomb->Update();
+				}
+			}
+		}
 
 		object1->Update();
-
 	}
 
 	if (isClear) {
@@ -267,6 +283,9 @@ void GameScene::Draw() {
 	}
 	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 		playerBullet->Draw();
+	}
+	for (std::unique_ptr<Bomb>& bomb : bombs) {
+		bomb->Draw();
 	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();
@@ -424,6 +443,10 @@ void GameScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
 	playerBullets.push_back(std::move(playerBullet));
 }
 
+void GameScene::AddBomb(std::unique_ptr<Bomb> bomb) {
+	bombs.push_back(std::move(bomb));
+}
+
 void GameScene::LoadRailPoint() {
 	//ファイルストリーム
 	std::ifstream file;
@@ -541,4 +564,15 @@ void GameScene::LoadRailPoint() {
 bool GameScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	const float aimPosCorrection = 20.0f;
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
+}
+
+int GameScene::GetBombTarget() {
+	int enemyTargetCount = 0;
+	for (const std::unique_ptr<Enemy>& enemy : enemies) {
+		if (enemy->GetIsTarget()) {
+			enemyTargetCount++;
+		}
+	}
+
+	return enemyTargetCount;
 }

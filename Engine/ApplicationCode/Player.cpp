@@ -99,9 +99,24 @@ void Player::Update(bool isClear) {
 			shotCoolTimer--;
 		}
 
+		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver && !isBomb) {
+			isShot = true;
+		}
+		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
+			bulletCount = noneBulletCount;
+		}
+
+		if (isShot) {
+			Shot();
+		}
+
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
 			isBomb = !isBomb;
 		}
+		if (isBomb && MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			BombShot();
+		}
+
 
 		if (isDamage) {
 			DamageEffect();
@@ -113,16 +128,6 @@ void Player::Update(bool isClear) {
 		playerWPos = player->GetMatWorld().r[3];
 
 
-		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver && !isBomb) {
-			isShot = true;
-		}
-		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
-			bulletCount = noneBulletCount;
-		}
-
-		if (isShot) {
-			Shot();
-		}
 	}
 	else {
 		ClearPerformance();
@@ -247,6 +252,19 @@ void Player::Shot() {
 	shotCoolTimer = shotCoolTime;
 	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
 	isShot = false;
+}
+
+void Player::BombShot() {
+	for (std::unique_ptr<Enemy>& enemy : gameScene->GetTargetEnemyObj()) {
+		if (enemy->GetIsTarget()) {
+			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
+			newBomb->Initialize(playerWPos, enemy->GetEnemyObj());
+
+			gameScene->AddBomb(std::move(newBomb));
+		}
+	}
+	
+	isBomb = false;
 }
 
 void Player::Reset() {

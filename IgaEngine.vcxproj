@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\ApplicationCode\Bomb.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Enemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\ApplicationCode\Bomb.h" />
     <ClInclude Include="Engine\ApplicationCode\Enemy.h" />
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\MotionMath.h" />

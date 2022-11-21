@@ -138,6 +138,9 @@
     <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Bomb.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\MotionMath.h">
       <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Bomb.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

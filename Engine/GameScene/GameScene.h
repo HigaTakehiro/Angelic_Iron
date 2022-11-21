@@ -23,6 +23,7 @@
 #include "ImageManager.h"
 #include "PostEffect.h"
 #include "Particle2d.h"
+#include "Bomb.h"
 #include <sstream>
 #include <chrono>
 #include <thread>
@@ -94,6 +95,23 @@ public: //メンバ関数
 	/// </summary>
 	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
 
+	/// <summary>
+	/// ボムの弾を追加
+	/// </summary>
+	/// <param name="bomb"></param>
+	void AddBomb(std::unique_ptr<Bomb> bomb);
+
+	/// <summary>
+	/// ターゲットされている敵の数取得
+	/// </summary>
+	int GetBombTarget();
+
+	/// <summary>
+	/// ターゲットされている敵オブジェクト取得
+	/// </summary>
+	/// <returns></returns>
+	std::list<std::unique_ptr<Enemy>>& GetTargetEnemyObj() { return enemies; }
+
 private: //メンバ関数
 
 	/// <summary>
@@ -129,6 +147,7 @@ private: //メンバ変数
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets; //エネミーの弾リスト
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
+	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
 	Sprite* background = nullptr; //背景画像
 	Sprite* title = nullptr; //タイトル画面画像
 	Sprite* gameover = nullptr; //ゲームオーバー画面画像

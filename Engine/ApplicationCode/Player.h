@@ -18,6 +18,8 @@
 #include "GameScene.h"
 #include "Sound.h"
 #include "ImageManager.h"
+#include "Bomb.h"
+#include "Enemy.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -129,6 +131,11 @@ private: //メンバ関数
 	/// 通常攻撃処理
 	/// </summary>
 	void Shot();
+
+	/// <summary>
+	/// ボム攻撃処理
+	/// </summary>
+	void BombShot();
 
 	/// <summary>
 	/// 3dレティクル更新処理
