@@ -37,15 +37,14 @@ void Enemy::Update(const XMFLOAT3& playerPos, float delayTime) {
 	delayCount++;
 
 	if (isTarget) {
+		XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
+		XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
+		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+
+		test->SetPosition(spritePos);
 	}
-	XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	raticle2D = MatCalc::GetIns()->WDivided(raticle2D, matViewProjectionViewport); //スクリーン座標
-
-	DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-
-	test->SetPosition(spritePos);
 
 	if (delayCount >= delayTime) {
 		//テスト用スプライト配置
@@ -74,7 +73,9 @@ void Enemy::Draw() {
 }
 
 void Enemy::SpriteDraw() {
-	test->Draw();
+	if (isTarget) {
+		test->Draw();
+	}
 }
 
 void Enemy::OnCollision() {

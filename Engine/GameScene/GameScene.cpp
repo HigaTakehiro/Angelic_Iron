@@ -141,14 +141,17 @@ void GameScene::Update() {
 		for (std::unique_ptr<Enemy>& enemy : enemies) {
 			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
 			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-			enemy3dPos = MatCalc::GetIns()->WDivided(enemy3dPos, matVPV, true); //スクリーン座標
+			enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
 
-			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0] - 18.0f, enemy3dPos.m128_f32[1] - 18.0f };
+			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
 
 			XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
 
 			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
 				enemy->SetTarget(true);
+			}
+			else if (!player->GetIsBomb()) {
+				enemy->SetTarget(false);
 			}
 
 			if (enemy->IsDead()) {
@@ -536,5 +539,6 @@ void GameScene::LoadRailPoint() {
 }
 
 bool GameScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
-	return (enemyPos.x >= aimPos.x - 10.0f && enemyPos.x <= aimPos.x + 10.0f && enemyPos.y >= aimPos.y - 10.0f && enemyPos.y <= aimPos.y + 10.0f);
+	const float aimPosCorrection = 20.0f;
+	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
 }
