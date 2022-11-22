@@ -159,9 +159,6 @@ void GameScene::Update() {
 			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
 				enemy->SetTarget(true);
 			}
-			else if (!player->GetIsBomb()) {
-				//enemy->SetTarget(false);
-			}
 
 			if (enemy->IsDead()) {
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
@@ -212,6 +209,9 @@ void GameScene::Update() {
 			for (std::unique_ptr<Enemy>& enemy : enemies) {
 				enemy->Update(player->GetPlayerPos(), delayCount);
 			}
+			for (std::unique_ptr<Bomb>& bomb : bombs) {
+				bomb->Update();
+			}
 		}
 
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
@@ -223,14 +223,7 @@ void GameScene::Update() {
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
 		}
-		for (std::unique_ptr<Bomb>& bomb : bombs) {
-			for (std::unique_ptr<Enemy>& enemy : enemies) {
-				Vector3 enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
-				if (enemy->GetIsTarget()) {
-					bomb->Update();
-				}
-			}
-		}
+
 
 		object1->Update();
 	}
@@ -349,6 +342,9 @@ void GameScene::Reset() {
 	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 		playerBullet->OnCollision();
 	}
+	for (const std::unique_ptr<Bomb>& bomb : bombs) {
+		bomb->OnCollision();
+	}
 
 	player->Reset();
 
@@ -453,8 +449,8 @@ void GameScene::LoadRailPoint() {
 	std::stringstream railcameraPointsData;
 	railcameraPointsData.str("");
 	railcameraPointsData.clear(std::stringstream::goodbit);
-	points.clear();	
-	
+	points.clear();
+
 	const std::string filename = "RailCameraPoints.aid";
 	const std::string directory = "Engine/Resources/GameData/";
 	file.open(directory + filename);
@@ -552,7 +548,7 @@ void GameScene::LoadRailPoint() {
 		else if (isPoint) {
 			points.push_back(pos);
 		}
-		
+
 
 	}
 

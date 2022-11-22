@@ -23,7 +23,7 @@ void Bomb::Initialize(const Vector3& playerPos, Object3d* target) {
 }
 
 void Bomb::Update() {
-	const float bulletSpeed = 2.0f;
+	const float bulletSpeed = 5.0f;
 	Vector3 enemyPos = targetEnemy->GetMatWorld().r[3];
 
 	XMVECTOR velocity = {0, 1, 0};
