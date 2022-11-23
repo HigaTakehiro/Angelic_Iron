@@ -112,6 +112,9 @@ void Player::Update(bool isClear) {
 
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
 			isBomb = !isBomb;
+			for (std::unique_ptr<Enemy>& enemy : gameScene->GetEnemyObj()) {
+				enemy->SetTarget(false);
+			}
 		}
 		if (isBomb && MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			BombShot();
@@ -255,7 +258,7 @@ void Player::Shot() {
 }
 
 void Player::BombShot() {
-	for (std::unique_ptr<Enemy>& enemy : gameScene->GetTargetEnemyObj()) {
+	for (std::unique_ptr<Enemy>& enemy : gameScene->GetEnemyObj()) {
 		if (enemy->GetIsTarget()) {
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
 			newBomb->Initialize(playerWPos, enemy->GetEnemyObj());
@@ -296,8 +299,6 @@ void Player::AimUpdate() {
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
 	XMVECTOR posNear = { aimPos.x, aimPos.y, 0}; //スクリーン座標
 	XMVECTOR posFar = { aimPos.x, aimPos.y, 1 }; //スクリーン座標
-
-	XMMATRIX proj = Camera::GetMatProjection();
 
 	posNear = XMVector3TransformCoord(posNear, matInverseVPV);	
 	posFar = XMVector3TransformCoord(posFar, matInverseVPV);

@@ -25,6 +25,7 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 
 class GameScene;
+class Enemy;
 
 class Player
 {
@@ -108,6 +109,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="gameScene">ゲームシーン</param>
 	void SetGameScene(GameScene* gameScene) { this->gameScene = gameScene; }
+
+	///// <summary>
+	///// エネミーリストをセット
+	///// </summary>
+	///// <param name="enemies"></param>
+	//void SetEnemies(std::list<std::unique_ptr<Enemy>> enemies) { this->enemies; }
 
 	/// <summary>
 	/// ダメージフラグ取得
@@ -204,6 +211,7 @@ private: //メンバ変数
 	Camera* camera;
 	GameScene* gameScene;
 	Sound* sound;
+	//std::list<std::unique_ptr<Enemy>> enemies;
 
 	//残弾数
 	int bulletCount;

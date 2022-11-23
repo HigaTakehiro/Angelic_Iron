@@ -13,15 +13,15 @@ Enemy::Enemy() {
 
 Enemy::~Enemy() {
 	delete enemy;
-	delete test;
+	delete target;
 }
 
 void Enemy::Initialize(const string& modelName, const Vector3& pos, const Vector3& scale, const string& style) {
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	enemy->SetPosition(pos);
-	test = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
-	test->SetSize(XMFLOAT2(100.0f, 100.0f));
-	test->SetAnchorPoint({ 0.5f, 0.5f });
+	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
+	target->SetSize(XMFLOAT2(100.0f, 100.0f));
+	target->SetAnchorPoint({ 0.5f, 0.5f });
 	oldPos = pos;
 	enemy->SetScale(scale);
 	type = stringToEnemyStyle(style);
@@ -37,13 +37,23 @@ void Enemy::Update(const XMFLOAT3& playerPos, float delayTime) {
 	delayCount++;
 
 	if (isTarget) {
+		int spriteRot = 0;
+		const float maxSpriteRot = 360.0f;
+		if (rotationTime >= rotationTimer) {
+			rotationTimer++;
+		}
 		XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
 		XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+		spriteRot = Easing::GetIns()->easeOutBack(rotationTimer, rotationTime, maxSpriteRot, spriteRot);
 
-		test->SetPosition(spritePos);
+		target->SetPosition(spritePos);
+		target->SetRotation(spriteRot);
+	}
+	else {
+		rotationTimer = 0;
 	}
 
 	if (delayCount >= delayTime) {
@@ -74,7 +84,7 @@ void Enemy::Draw() {
 
 void Enemy::SpriteDraw() {
 	if (isTarget) {
-		test->Draw();
+		target->Draw();
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "EnemyBullet.h"
 #include "GameScene.h"
 #include "Sprite.h"
+#include "Easing.h"
 
 class GameScene;
 
@@ -120,13 +121,14 @@ private: //メンバ関数
 private: //静的メンバ変数
 	static const int32_t shotIntervalTime = 60;
 	static const int32_t lifeTime = 240;
+	const float rotationTime = 60.0f;
 
 private: //メンバ変数
 
 	int32_t shotIntervalTimer = shotIntervalTime;
 	int32_t lifeTimer;
 	Object3d* enemy;
-	Sprite* test;
+	Sprite* target;
 	GameScene* gameScene;
 	Vector3 pos;
 	Vector3 oldPos;
@@ -135,6 +137,7 @@ private: //メンバ変数
 	EnemyStyle type;
 	bool isDead;
 	float delayCount;
+	float rotationTimer;
 	bool isTarget;
 };
 

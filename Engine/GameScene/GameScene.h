@@ -107,10 +107,10 @@ public: //メンバ関数
 	int GetBombTarget();
 
 	/// <summary>
-	/// ターゲットされている敵オブジェクト取得
+	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	std::list<std::unique_ptr<Enemy>>& GetTargetEnemyObj() { return enemies; }
+	std::list<std::unique_ptr<Enemy>>& GetEnemyObj() { return enemies; }
 
 private: //メンバ関数
 

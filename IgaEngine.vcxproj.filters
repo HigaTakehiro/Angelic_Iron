@@ -141,6 +141,9 @@
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\GameScene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\Bomb.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameScene\SceneManager.h">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -168,6 +168,7 @@
     <ClCompile Include="Engine\FBX\FBXModel.cpp" />
     <ClCompile Include="Engine\FBX\FBXObject3d.cpp" />
     <ClCompile Include="Engine\GameScene\GameScene.cpp" />
+    <ClCompile Include="Engine\GameScene\SceneManager.cpp" />
     <ClCompile Include="Engine\Input\KeyInput.cpp" />
     <ClCompile Include="Engine\Input\MouseInput.cpp" />
     <ClCompile Include="Engine\Input\PadInput.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Engine\FBX\FBXModel.h" />
     <ClInclude Include="Engine\FBX\FBXObject3d.h" />
     <ClInclude Include="Engine\GameScene\GameScene.h" />
+    <ClInclude Include="Engine\GameScene\SceneManager.h" />
     <ClInclude Include="Engine\Input\KeyInput.h" />
     <ClInclude Include="Engine\Input\MouseInput.h" />
     <ClInclude Include="Engine\Input\PadInput.h" />

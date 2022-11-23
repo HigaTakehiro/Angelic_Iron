@@ -224,6 +224,7 @@ void GameScene::Update() {
 			particle2d->Update();
 		}
 
+		//player->SetEnemies(enemies);
 
 		object1->Update();
 	}
