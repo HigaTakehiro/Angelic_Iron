@@ -78,9 +78,6 @@
     <ClCompile Include="Engine\FBX\FBXObject3d.cpp">
       <Filter>ソース ファイル\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameScene\GameScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Input\KeyInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
@@ -141,7 +138,10 @@
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameScene\SceneManager.cpp">
+    <ClCompile Include="Engine\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -181,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="Engine\FBX\FBXObject3d.h">
       <Filter>ソース ファイル\FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameScene\GameScene.h">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\KeyInput.h">
       <Filter>ソース ファイル\Input</Filter>
@@ -245,7 +242,13 @@
     <ClInclude Include="Engine\ApplicationCode\Bomb.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameScene\SceneManager.h">
+    <ClInclude Include="Engine\Scene\GameScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneManager.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\BaseScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>

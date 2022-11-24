@@ -6,6 +6,7 @@
 #include "PostEffect.h"
 #include "MouseInput.h"
 #include "PadInput.h"
+#include "BaseScene.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -30,7 +31,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon->Initialize(winApp);
 
 	//入力の初期化
-	//input = new Input();
 	KeyInput::GetIns()->Initialize(winApp);
 	MouseInput::GetIns()->Initialize(winApp);
 	PadInput::GetIns()->Initialize(winApp);
