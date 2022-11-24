@@ -6,14 +6,15 @@ class SceneManager
 {
 public:
 	SceneManager() = default;
-	~SceneManager();
+	~SceneManager() = default;
 
 public: //シーン管理番号
 	enum SceneName {
 		Title,
 		Stage1_Rail,
 		Stage1_Boss,
-		Result
+		Result,
+		None
 	};
 
 public: //メンバ関数
@@ -47,6 +48,6 @@ private: //メンバ変数
 	GameScene* gameScene;
 
 	int nowSceneNo = Title;
-	int nextSceneNo = Title;
+	int nextSceneNo = None;
 };
 
