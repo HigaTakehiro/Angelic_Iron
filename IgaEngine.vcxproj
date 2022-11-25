@@ -180,7 +180,9 @@
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
     <ClCompile Include="Engine\Scene\GameScene.cpp" />
+    <ClCompile Include="Engine\Scene\ResultScene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +220,9 @@
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\GameScene.h" />
+    <ClInclude Include="Engine\Scene\ResultScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc" />

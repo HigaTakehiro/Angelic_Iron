@@ -7,6 +7,7 @@
 #include "MouseInput.h"
 #include "PadInput.h"
 #include "BaseScene.h"
+#include "SceneManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -18,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxCommon = nullptr;
-	GameScene* gameScene = nullptr;
+	SceneManager* gameScene = nullptr;
 	Sound* sound = nullptr;
 
 	//WindowsAPIの初期化
@@ -42,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		return 1;
 	}
 	
-	gameScene = new GameScene();
+	gameScene = new SceneManager();
 	gameScene->Initialize(dxCommon, sound);
 
 	// DirectX初期化処理　ここまで

@@ -144,6 +144,12 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Scene\TitleScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\ResultScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -249,6 +255,12 @@
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\BaseScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\TitleScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\ResultScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,6 @@
 #pragma once
+#include "DirectXCommon.h"
+#include "Sound.h"
 
 class BaseScene
 {
@@ -6,7 +8,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(DirectXCommon* dxCommon, Sound* sound) = 0;
 	/// <summary>
 	/// XVˆ—
 	/// </summary>

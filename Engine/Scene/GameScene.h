@@ -27,13 +27,14 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include "BaseScene.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 class Enemy;
 class Player;
 
-class GameScene
+class GameScene : public BaseScene
 {
 private: //静的メンバ変数
 	//デバックテキスト用テクスチャ番号

@@ -1,6 +1,12 @@
 #pragma once
 #include "GameScene.h"
+#include "BaseScene.h"
+#include "TitleScene.h"
+#include "ResultScene.h"
 #include "DirectXCommon.h"
+#include "Sound.h"
+#include "KeyInput.h"
+#include "SafeDelete.h"
 
 class SceneManager
 {
@@ -11,8 +17,7 @@ public:
 public: //シーン管理番号
 	enum SceneName {
 		Title,
-		Stage1_Rail,
-		Stage1_Boss,
+		Game,
 		Result,
 		None
 	};
@@ -21,33 +26,34 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
-
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update();
+	void Initialize(DirectXCommon* dxCommon, Sound* sound);
 
 	/// <summary>
 	/// 終了処理
 	/// </summary>
 	void Finalize();
 
+public: //静的メンバ関数
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	static void Update();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	static void Draw();
 
 	/// <summary>
 	/// シーン切り替え
 	/// </summary>
-	void SceneChange(SceneName sceneName);
+	static void SceneChange(SceneName scene);
 
-private: //メンバ変数
-	DirectXCommon* dxCommon;
-	GameScene* gameScene;
-
-	int nowSceneNo = Title;
-	int nextSceneNo = None;
+private: //静的メンバ変数
+	static BaseScene* nowScene;
+	static DirectXCommon* dxCommon;
+	static Sound* sound;
+	static int nextScene;
 };
 
