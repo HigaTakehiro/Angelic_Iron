@@ -4,20 +4,7 @@
 #include <fstream>
 
 GameScene::~GameScene() {
-	player->Finalize();
-	safe_delete(player);
-	safe_delete(ground);
-	safe_delete(background);
-	safe_delete(title);
-	safe_delete(gameover);
-	safe_delete(clear);
-	safe_delete(celetialSphere);
-	safe_delete(camera);
-	safe_delete(object1);
-	safe_delete(model1);
-	safe_delete(mapchip);
-	safe_delete(railCamera);
-	safe_delete(postEffect);
+
 }
 
 void GameScene::Initialize() {
@@ -313,20 +300,20 @@ void GameScene::Draw() {
 }
 
 void GameScene::Finalize() {
-	//player->Finalize();
-	//safe_delete(player);
-	//safe_delete(ground);
-	//safe_delete(background);
-	//safe_delete(title);
-	//safe_delete(gameover);
-	//safe_delete(clear);
-	//safe_delete(celetialSphere);
-	//safe_delete(camera);
-	//safe_delete(object1);
-	//safe_delete(model1);
-	//safe_delete(mapchip);
-	//safe_delete(railCamera);
-	//safe_delete(postEffect);
+	player->Finalize();
+	safe_delete(player);
+	safe_delete(ground);
+	safe_delete(background);
+	safe_delete(title);
+	safe_delete(gameover);
+	safe_delete(clear);
+	safe_delete(celetialSphere);
+	safe_delete(camera);
+	safe_delete(object1);
+	safe_delete(model1);
+	safe_delete(mapchip);
+	safe_delete(railCamera);
+	safe_delete(postEffect);
 	//FbxLoader::GetInstance()->Finalize();
 }
 
