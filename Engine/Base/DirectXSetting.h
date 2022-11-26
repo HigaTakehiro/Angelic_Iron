@@ -12,8 +12,34 @@
 
 #include "WinApp.h"
 
-class DirectXCommon
+class DirectXSetting final
 {
+private:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	DirectXSetting() = default;
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~DirectXSetting() = default;
+	/// <summary>
+    /// コピーコンストラクタを禁止
+    /// </summary>
+	DirectXSetting(const DirectXSetting& obj) = delete;
+
+	/// <summary>
+	/// 代入演算子を禁止
+	/// </summary>
+	DirectXSetting& operator=(const DirectXSetting& obj) = delete;
+
+public: //静的メンバ関数
+	/// <summary>
+	/// インスタンスを取得
+	/// </summary>
+	/// <returns>インスタンス</returns>
+	static DirectXSetting* GetIns();
+
 private: //エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略

@@ -9,7 +9,7 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	/// <param name="dxCommon"></param>
-	void Initialize(DirectXCommon* dxCommon, Sound* sound);
+	void Initialize();
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -24,7 +24,6 @@ public: //メンバ関数
 	void Finalize();
 
 private: //メンバ変数
-	DirectXCommon* dxCommon;
-	Sound* sound;
+
 };
 

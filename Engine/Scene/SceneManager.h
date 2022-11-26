@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include "TitleScene.h"
 #include "ResultScene.h"
-#include "DirectXCommon.h"
+#include "DirectXSetting.h"
 #include "Sound.h"
 #include "KeyInput.h"
 #include "SafeDelete.h"
@@ -26,7 +26,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Sound* sound);
+	void Initialize();
 
 	/// <summary>
 	/// 終了処理
@@ -52,8 +52,6 @@ public: //静的メンバ関数
 
 private: //静的メンバ変数
 	static BaseScene* nowScene;
-	static DirectXCommon* dxCommon;
-	static Sound* sound;
 	static int nextScene;
 };
 

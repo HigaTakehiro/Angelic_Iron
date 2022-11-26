@@ -51,7 +51,7 @@
     <ClCompile Include="Engine\Audio\Sound.cpp">
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\DirectXCommon.cpp">
+    <ClCompile Include="Engine\Base\DirectXSetting.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\MatCalc.cpp">
@@ -155,7 +155,7 @@
     <ClInclude Include="Engine\Audio\Sound.h">
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\DirectXCommon.h">
+    <ClInclude Include="Engine\Base\DirectXSetting.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Easing.h">

@@ -158,7 +158,7 @@
     <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
-    <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
     <ClCompile Include="Engine\Base\MatCalc.cpp" />
     <ClCompile Include="Engine\Base\Quaternion.cpp" />
     <ClCompile Include="Engine\Base\Vector3.cpp" />
@@ -195,7 +195,7 @@
     <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\RailCamera.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
-    <ClInclude Include="Engine\Base\DirectXCommon.h" />
+    <ClInclude Include="Engine\Base\DirectXSetting.h" />
     <ClInclude Include="Engine\Base\Easing.h" />
     <ClInclude Include="Engine\Base\MatCalc.h" />
     <ClInclude Include="Engine\Base\Quaternion.h" />

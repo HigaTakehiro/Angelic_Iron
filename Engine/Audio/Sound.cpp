@@ -4,6 +4,11 @@
 
 #pragma comment(lib,"xaudio2.lib")
 
+Sound* Sound::GetIns() {
+	static Sound sound;
+	return &sound;
+}
+
 bool Sound::Initialize() {
 	HRESULT result;
 

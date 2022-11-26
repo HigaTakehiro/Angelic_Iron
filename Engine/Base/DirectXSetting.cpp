@@ -1,4 +1,4 @@
-#include "DirectXCommon.h"
+#include "DirectXSetting.h"
 #include <cassert>
 
 #pragma comment(lib, "d3d12.lib")
@@ -6,7 +6,12 @@
 
 using namespace Microsoft::WRL;
 
-void DirectXCommon::Initialize(WinApp* winApp) {
+DirectXSetting* DirectXSetting::GetIns() {
+	static DirectXSetting instance;
+	return &instance;
+}
+
+void DirectXSetting::Initialize(WinApp* winApp) {
 	//nullチェック
 	assert(winApp);
 	//メンバ変数に保存
@@ -28,7 +33,7 @@ void DirectXCommon::Initialize(WinApp* winApp) {
 	InitializeFence();
 }
 
-void DirectXCommon::PreDraw(XMFLOAT4 color) {
+void DirectXSetting::PreDraw(XMFLOAT4 color) {
 	// バックバッファの番号を取得（2つなので0番か1番）
 	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
 
@@ -53,7 +58,7 @@ void DirectXCommon::PreDraw(XMFLOAT4 color) {
 	cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
 }
 
-void DirectXCommon::PostDraw() {
+void DirectXSetting::PostDraw() {
 	// バックバッファの番号を取得（2つなので0番か1番）
 	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers[bbIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
@@ -83,7 +88,7 @@ void DirectXCommon::PostDraw() {
 	cmdList->Reset(cmdAllocator.Get(), nullptr);  // 再びコマンドリストを貯める準備
 }
 
-void DirectXCommon::InitializeDev() {
+void DirectXSetting::InitializeDev() {
 	HRESULT result = S_FALSE;
 
 	//デバッグレイヤーをオンに
@@ -150,7 +155,7 @@ void DirectXCommon::InitializeDev() {
 	}
 }
 
-void DirectXCommon::InitializeCmd() {
+void DirectXSetting::InitializeCmd() {
 	HRESULT result = S_FALSE;
 
 	// コマンドアロケータを生成
@@ -170,7 +175,7 @@ void DirectXCommon::InitializeCmd() {
 	result = dev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue));
 }
 
-void DirectXCommon::InitializeSwapChain() {
+void DirectXSetting::InitializeSwapChain() {
 	// 各種設定をしてスワップチェーンを生成
 	DXGI_SWAP_CHAIN_DESC1 swapchainDesc{};
 	swapchainDesc.Width = 1280;
@@ -197,7 +202,7 @@ void DirectXCommon::InitializeSwapChain() {
 	swapchain1.As(&swapchain);
 }
 
-void DirectXCommon::InitializeRenderTarget() {
+void DirectXSetting::InitializeRenderTarget() {
 	HRESULT result = S_FALSE;
 
 	// 各種設定をしてデスクリプタヒープを生成
@@ -225,7 +230,7 @@ void DirectXCommon::InitializeRenderTarget() {
 	}
 }
 
-void DirectXCommon::InitializeDepthBuffer() {
+void DirectXSetting::InitializeDepthBuffer() {
 	HRESULT result = S_FALSE;
 
 	// 深度バッファリソース設定
@@ -262,17 +267,17 @@ void DirectXCommon::InitializeDepthBuffer() {
 		dsvHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
-void DirectXCommon::InitializeFence() {
+void DirectXSetting::InitializeFence() {
 	HRESULT result = S_FALSE;
 
 	result = dev->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
-void DirectXCommon::InitializeFixFPS() {
+void DirectXSetting::InitializeFixFPS() {
 	reference = std::chrono::steady_clock::now();
 }
 
-void DirectXCommon::UpdateFixFPS() {
+void DirectXSetting::UpdateFixFPS() {
 	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
 	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
 

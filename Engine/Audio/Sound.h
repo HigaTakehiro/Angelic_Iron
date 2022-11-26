@@ -33,8 +33,34 @@ public:
 /// <summary>
 /// オーディオ
 /// </summary>
-class Sound
+class Sound final
 {
+private:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Sound() = default;
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Sound() = default;
+	/// <summary>
+    /// コピーコンストラクタを禁止
+    /// </summary>
+	Sound(const Sound& obj) = delete;
+
+	/// <summary>
+	/// 代入演算子を禁止
+	/// </summary>
+	Sound& operator=(const Sound& obj) = delete;
+
+public: //静的メンバ関数
+	/// <summary>
+	/// インスタンスを取得
+	/// </summary>
+	/// <returns>インスタンス</returns>
+	static Sound* GetIns();
+
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;

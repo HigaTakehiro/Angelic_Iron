@@ -1,6 +1,6 @@
 #pragma once
 #include "KeyInput.h"//
-#include "DirectXCommon.h"//
+#include "DirectXSetting.h"//
 #include "Object3d.h"
 #include "Model.h"
 #include "Sprite.h"
@@ -54,7 +54,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Sound* sound);
+	void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -132,7 +132,7 @@ private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 
 private: //メンバ変数
-	DirectXCommon* dxCommon = nullptr; //DirectX初期設定クラス
+	DirectXSetting* dxCommon = nullptr; //DirectX初期設定クラス
 	KeyInput* input = nullptr; //キーボード入力クラス
 	WinApp* winApp = nullptr; //ウィンドウ設定クラス
 	DebugText debugText; //デバッグテキスト表示用クラス

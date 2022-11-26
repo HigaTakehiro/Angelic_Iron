@@ -1,13 +1,9 @@
 #include "SceneManager.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
-DirectXCommon* SceneManager::dxCommon = nullptr;
-Sound* SceneManager::sound = nullptr;
 int SceneManager::nextScene = Game;
 
-void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* sound) {
-	this->dxCommon = dxCommon;
-	this->sound = sound;
+void SceneManager::Initialize() {
 	nextScene = Game;
 	SceneChange(Title);
 }
@@ -38,17 +34,17 @@ void SceneManager::SceneChange(SceneName scene) {
 	switch (scene) {
 	case Title:
 		nowScene = new TitleScene();
-		nowScene->Initialize(dxCommon, sound);
+		nowScene->Initialize();
 		break;
 
 	case Game:
 		nowScene = new GameScene();
-		nowScene->Initialize(dxCommon, sound);
+		nowScene->Initialize();
 		break;
 
 	case Result:
 		nowScene = new ResultScene();
-		nowScene->Initialize(dxCommon, sound);
+		nowScene->Initialize();
 		break;
 	default:
 		break;

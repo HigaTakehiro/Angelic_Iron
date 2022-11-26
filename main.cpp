@@ -1,6 +1,6 @@
 ﻿#include "KeyInput.h"
 #include "WinApp.h"
-#include "DirectXCommon.h"
+#include "DirectXSetting.h"
 #include "Sound.h"
 #include "GameScene.h"
 #include "PostEffect.h"
@@ -15,12 +15,11 @@ using namespace Microsoft::WRL;
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	
-
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
-	DirectXCommon* dxCommon = nullptr;
+	DirectXSetting* dxCommon = DirectXSetting::GetIns();
 	SceneManager* gameScene = nullptr;
-	Sound* sound = nullptr;
+	Sound* sound = Sound::GetIns();
 
 	//WindowsAPIの初期化
 	winApp = new WinApp();
@@ -28,7 +27,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	winApp->Initialize();
 
 	//DirectXの初期化
-	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
 	//入力の初期化
@@ -37,14 +35,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	PadInput::GetIns()->Initialize(winApp);
 
 	//Soundの初期化
-	sound = new Sound();
 	if (!sound->Initialize()) {
 		assert(0);
 		return 1;
 	}
 	
 	gameScene = new SceneManager();
-	gameScene->Initialize(dxCommon, sound);
+	gameScene->Initialize();
 
 	// DirectX初期化処理　ここまで
 
@@ -75,9 +72,5 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//WindowsAPI解放
 	winApp->Finalize();
 	safe_delete(winApp);
-	//DirectX解放
-	safe_delete(dxCommon);
-	//sound解放
-	safe_delete(sound);
 	return 0;
 }

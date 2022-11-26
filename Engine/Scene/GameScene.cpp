@@ -3,12 +3,9 @@
 #include <algorithm>
 #include <fstream>
 
-void GameScene::Initialize(DirectXCommon* dxCommon, Sound* sound) {
-	assert(dxCommon);
-	assert(sound);
-
-	this->dxCommon = dxCommon;
-	this->sound = sound;
+void GameScene::Initialize() {
+	dxCommon = DirectXSetting::GetIns();
+	sound = Sound::GetIns();
 	input = KeyInput::GetIns();
 
 	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);

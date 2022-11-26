@@ -1,9 +1,7 @@
 #include "TitleScene.h"
 
-void TitleScene::Initialize(DirectXCommon* dxCommon, Sound* sound)
+void TitleScene::Initialize()
 {
-	this->dxCommon = dxCommon;
-	this->sound = sound;
 	//test->Create(ImageManager::aim, { 640, 360 });
 }
 
@@ -22,8 +20,5 @@ void TitleScene::Draw()
 
 void TitleScene::Finalize()
 {
-	delete dxCommon;
-	dxCommon = nullptr;
-	delete sound;
-	sound = nullptr;
+
 }
