@@ -3,6 +3,10 @@
 class BaseScene
 {
 public:
+	//デストラクタ
+	virtual ~BaseScene() {}
+
+public:
 	/// <summary>
 	/// 初期化
 	/// </summary>

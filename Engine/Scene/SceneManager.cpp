@@ -1,10 +1,10 @@
 #include "SceneManager.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
-int SceneManager::nextScene = Game;
+int SceneManager::nextScene = Title;
 
 void SceneManager::Initialize() {
-	nextScene = Game;
+	nextScene = Title;
 	SceneChange(Title);
 }
 
@@ -27,7 +27,7 @@ void SceneManager::Finalize() {
 
 void SceneManager::SceneChange(SceneName scene) {
 	if (nowScene != nullptr) {
-		//nowScene->Finalize();
+		nowScene->Finalize();
 		safe_delete(nowScene);
 	}
 

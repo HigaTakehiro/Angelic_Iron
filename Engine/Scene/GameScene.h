@@ -49,7 +49,7 @@ public: //メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameScene() = default;
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -132,11 +132,8 @@ private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 
 private: //メンバ変数
-	DirectXSetting* dxCommon = nullptr; //DirectX初期設定クラス
-	KeyInput* input = nullptr; //キーボード入力クラス
 	WinApp* winApp = nullptr; //ウィンドウ設定クラス
 	DebugText debugText; //デバッグテキスト表示用クラス
-	Sound* sound = nullptr; //サウンドクラス
 	Camera* camera = nullptr; //カメラクラス
 	MapChip* mapchip = nullptr; //マップチップクラス
 	RailCamera* railCamera = nullptr; //レールカメラクラス

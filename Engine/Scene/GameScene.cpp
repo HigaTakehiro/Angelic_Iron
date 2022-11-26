@@ -3,10 +3,24 @@
 #include <algorithm>
 #include <fstream>
 
+GameScene::~GameScene() {
+	player->Finalize();
+	safe_delete(player);
+	safe_delete(ground);
+	safe_delete(background);
+	safe_delete(title);
+	safe_delete(gameover);
+	safe_delete(clear);
+	safe_delete(celetialSphere);
+	safe_delete(camera);
+	safe_delete(object1);
+	safe_delete(model1);
+	safe_delete(mapchip);
+	safe_delete(railCamera);
+	safe_delete(postEffect);
+}
+
 void GameScene::Initialize() {
-	dxCommon = DirectXSetting::GetIns();
-	sound = Sound::GetIns();
-	input = KeyInput::GetIns();
 
 	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
 
@@ -17,23 +31,12 @@ void GameScene::Initialize() {
 	railCamera = new RailCamera;
 
 	LoadRailPoint();
-
-	//Sprite & DebugTextの初期化
-	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
-
-	Sprite::LoadTexture(debugTextNumber, L"Engine/Resources/Images/debugfont.png");
 	debugText.Initialize(debugTextNumber);
-
-	ImageManager::GetIns()->Initialize();
 
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
 	title = Sprite::Create(ImageManager::ImageName::title, { 0, 0 });
 	gameover = Sprite::Create(ImageManager::ImageName::gameover, { 0, 0 });
 	clear = Sprite::Create(ImageManager::ImageName::clear, { 0, 0 });
-
-	//Object3dの初期化
-	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
-	ModelManager::GetIns()->Initialize();
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -46,13 +49,13 @@ void GameScene::Initialize() {
 	celetialSphere->SetScale(sphereScale);
 
 	player = new Player();
-	player->Initialize(camera, sound, clearTime);
+	player->Initialize(camera, Sound::GetIns(), clearTime);
 	player->SetGameScene(this);
 
 	LoadEnemyData();
 
 	//FBXの初期化
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
+	/*FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
 	FBXObject3d::SetDevice(dxCommon->GetDev());
 	FBXObject3d::SetCamera(camera);
 	FBXObject3d::CreateGraphicsPipeline();
@@ -61,7 +64,7 @@ void GameScene::Initialize() {
 	object1->Initialize();
 	object1->SetModel(model1);
 	object1->SetScale({ 5.0f, 5.0f, 5.0f });
-	object1->PlayAnimation();
+	object1->PlayAnimation();*/
 
 	//PostEffectの初期化
 	postEffect = new PostEffect();
@@ -89,7 +92,7 @@ void GameScene::Update() {
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
 	if (isTitle) {
-		if (input->GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
 			isTitle = false;
 			railCamera->SetStartTime(GetTickCount64());
 		}
@@ -112,7 +115,7 @@ void GameScene::Update() {
 		debugText.Print(yPos, 0, 50, 2.0f);
 		debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
-		if (input->GetIns()->TriggerKey(DIK_R) && input->GetIns()->PushKey(DIK_LSHIFT)) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
 			Reset();
 		}
 
@@ -223,17 +226,17 @@ void GameScene::Update() {
 
 		//player->SetEnemies(enemies);
 
-		object1->Update();
+		//object1->Update();
 	}
 
 	if (isClear) {
-		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE)) {
 			Reset();
 		}
 	}
 
 	if (isDead) {
-		if (input->GetIns()->TriggerKey(DIK_SPACE)) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE)) {
 			Reset();
 		}
 	}
@@ -251,15 +254,15 @@ void GameScene::Draw() {
 		postEffectNo = 0;
 	}
 
-	postEffect->PreDrawScene(dxCommon->GetCmdList());
+	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
-	Sprite::PreDraw(dxCommon->GetCmdList());
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	//background->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
-	Object3d::PreDraw(dxCommon->GetCmdList());
+	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	ground->Draw();
 	celetialSphere->Draw();
 
@@ -282,7 +285,7 @@ void GameScene::Draw() {
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
-	Sprite::PreDraw(dxCommon->GetCmdList());
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	player->SpriteDraw();
 	for (std::unique_ptr<Enemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -299,32 +302,32 @@ void GameScene::Draw() {
 	if (isClear) {
 		clear->Draw();
 	}
-	debugText.DrawAll(dxCommon->GetCmdList());
+	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
-	postEffect->PostDrawScene(dxCommon->GetCmdList());
+	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
-	dxCommon->PreDraw(backColor);
-	postEffect->Draw(dxCommon->GetCmdList(), postEffectNo);
-	dxCommon->PostDraw();
+	DirectXSetting::GetIns()->PreDraw(backColor);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectNo);
+	DirectXSetting::GetIns()->PostDraw();
 }
 
 void GameScene::Finalize() {
-	player->Finalize();
-	safe_delete(player);
-	safe_delete(ground);
-	safe_delete(background);
-	safe_delete(title);
-	safe_delete(gameover);
-	safe_delete(clear);
-	safe_delete(celetialSphere);
-	safe_delete(camera);
-	safe_delete(object1);
-	safe_delete(model1);
-	safe_delete(mapchip);
-	safe_delete(railCamera);
-	safe_delete(postEffect);
-	FbxLoader::GetInstance()->Finalize();
+	//player->Finalize();
+	//safe_delete(player);
+	//safe_delete(ground);
+	//safe_delete(background);
+	//safe_delete(title);
+	//safe_delete(gameover);
+	//safe_delete(clear);
+	//safe_delete(celetialSphere);
+	//safe_delete(camera);
+	//safe_delete(object1);
+	//safe_delete(model1);
+	//safe_delete(mapchip);
+	//safe_delete(railCamera);
+	//safe_delete(postEffect);
+	//FbxLoader::GetInstance()->Finalize();
 }
 
 void GameScene::Reset() {

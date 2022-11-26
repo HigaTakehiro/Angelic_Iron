@@ -14,7 +14,8 @@ using namespace Microsoft::WRL;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	
+	const int debugTextNumber = 0;
+
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
 	DirectXSetting* dxCommon = DirectXSetting::GetIns();
@@ -39,6 +40,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		assert(0);
 		return 1;
 	}
+
+	//Sprite & DebugTextの初期化
+	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
+
+	Sprite::LoadTexture(debugTextNumber, L"Engine/Resources/Images/debugfont.png");
+	DebugText debugText; //デバッグテキスト表示用クラス
+	debugText.Initialize(debugTextNumber);
+
+	ImageManager::GetIns()->Initialize();
+
+	//Object3dの初期化
+	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
+	ModelManager::GetIns()->Initialize();
 	
 	gameScene = new SceneManager();
 	gameScene->Initialize();
