@@ -3,10 +3,6 @@
 #include <algorithm>
 #include <fstream>
 
-GameScene::~GameScene() {
-
-}
-
 void GameScene::Initialize() {
 
 	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
@@ -21,9 +17,6 @@ void GameScene::Initialize() {
 	debugText.Initialize(debugTextNumber);
 
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
-	title = Sprite::Create(ImageManager::ImageName::title, { 0, 0 });
-	gameover = Sprite::Create(ImageManager::ImageName::gameover, { 0, 0 });
-	clear = Sprite::Create(ImageManager::ImageName::clear, { 0, 0 });
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -53,6 +46,8 @@ void GameScene::Initialize() {
 	object1->SetScale({ 5.0f, 5.0f, 5.0f });
 	object1->PlayAnimation();*/
 
+	railCamera->SetStartTime(GetTickCount64());
+
 	//PostEffectの初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -60,7 +55,6 @@ void GameScene::Initialize() {
 	//ゲームシーン用変数の初期化
 	isDead = false;
 	isClear = false;
-	isTitle = true;
 	isWait = false;
 
 	clearTimer = clearTime;
@@ -78,155 +72,145 @@ void GameScene::Update() {
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
-	if (isTitle) {
-		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::GetIns()->LEFT_CLICK)) {
-			isTitle = false;
-			railCamera->SetStartTime(GetTickCount64());
+	char xPos[256];
+	char yPos[256];
+	char isSlowCheck[256];
+	sprintf_s(xPos, "Xpoint : %f, YPoint : %f", player->GetAimPos().x, player->GetAimPos().y);
+	sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	if (!player->GetIsBomb()) {
+		sprintf_s(isSlowCheck, "false");
+	}
+	else {
+		sprintf_s(isSlowCheck, "true");
+	}
+	debugText.Print(xPos, 0, 0, 2.0f);
+	debugText.Print(yPos, 0, 50, 2.0f);
+	debugText.Print(isSlowCheck, 0, 100, 2.0f);
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
+		Reset();
+	}
+
+	for (const std::unique_ptr<Enemy>& enemy : enemies) {
+		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+				enemy->OnCollision();
+				playerBullet->OnCollision();
+			}
 		}
 	}
 
-	if (!isTitle && !isClear && !isDead) {
-
-		char xPos[256];
-		char yPos[256];
-		char isSlowCheck[256];
-		sprintf_s(xPos, "Xpoint : %f, YPoint : %f", player->GetAimPos().x, player->GetAimPos().y);
-		sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
-		if (!player->GetIsBomb()) {
-			sprintf_s(isSlowCheck, "false");
+	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
+			if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+				player->OnCollision();
+			}
+			enemyBullet->OnCollision();
+			railCamera->SetIsDamage();
 		}
-		else {
-			sprintf_s(isSlowCheck, "true");
-		}
-		debugText.Print(xPos, 0, 0, 2.0f);
-		debugText.Print(yPos, 0, 50, 2.0f);
-		debugText.Print(isSlowCheck, 0, 100, 2.0f);
+	}
 
-		if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-			Reset();
-		}
-
-		for (const std::unique_ptr<Enemy>& enemy : enemies) {
-			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
-					enemy->OnCollision();
-					playerBullet->OnCollision();
-				}
+	for (const std::unique_ptr<Enemy>& enemy : enemies) {
+		for (const std::unique_ptr<Bomb>& bomb : bombs) {
+			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
+				enemy->OnCollision();
+				bomb->OnCollision();
 			}
 		}
+	}
 
-		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
-				}
-				enemyBullet->OnCollision();
-				railCamera->SetIsDamage();
-			}
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+		enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
+
+		XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
+
+		XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
+
+		if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
+			enemy->SetTarget(true);
 		}
 
-		for (const std::unique_ptr<Enemy>& enemy : enemies) {
-			for (const std::unique_ptr<Bomb>& bomb : bombs) {
-				if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
-					enemy->OnCollision();
-					bomb->OnCollision();
-				}
-			}
-		}
-
-		for (std::unique_ptr<Enemy>& enemy : enemies) {
-			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-			enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
-
-			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
-
-			XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
-
-			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
-				enemy->SetTarget(true);
-			}
-
-			if (enemy->IsDead()) {
-				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
-				particles2d.push_back(std::move(new2DParticle));
-			}
-		}
-
-		EnemyDataUpdate();
-
-		if (enemies.empty()) {
-			clearTimer--;
-		}
-		if (clearTimer <= 0) {
-			isClear = true;
-		}
-
-		if (player->GetHPCount() <= noneHP && !isPlayerDead) {
-			XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
-			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-			playerPos = XMVector3TransformCoord(playerPos, matVPV);
-
-			XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 100.0f, playerPos.m128_f32[1] - 90.0f };
+		if (enemy->IsDead()) {
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-			new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+			new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
-			isPlayerDead = true;
-		}
-
-		if (player->GetIsDead()) {
-			isDead = true;
-		}
-
-		celetialSphere->Update();
-		ground->Update();
-		player->Update(enemies.empty());
-
-		float delayCount = 0.0f;
-
-		if (player->GetIsBomb()) {
-			delayCount = 3.0f;
-		}
-
-		if (player->GetHPCount() > 0) {
-			if (!enemies.empty()) {
-				railCamera->Update(delayCount);
-			}
-			for (std::unique_ptr<Enemy>& enemy : enemies) {
-				enemy->Update(player->GetPlayerPos(), delayCount);
-			}
-			for (std::unique_ptr<Bomb>& bomb : bombs) {
-				bomb->Update();
-			}
-		}
-
-		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			enemyBullet->Update(delayCount);
-		}
-		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			playerBullet->Update(delayCount);
-		}
-		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
-			particle2d->Update();
-		}
-
-		//player->SetEnemies(enemies);
-
-		//object1->Update();
-	}
-
-	if (isClear) {
-		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE)) {
-			Reset();
 		}
 	}
 
+	EnemyDataUpdate();
+
+	if (enemies.empty()) {
+		clearTimer--;
+	}
+	if (clearTimer <= 0) {
+		isClear = true;
+	}
+
+	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
+		XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
+		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+		playerPos = XMVector3TransformCoord(playerPos, matVPV);
+
+		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 100.0f, playerPos.m128_f32[1] - 90.0f };
+		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+		particles2d.push_back(std::move(new2DParticle));
+		isPlayerDead = true;
+	}
+
+	if (player->GetIsDead()) {
+		isDead = true;
+	}
+
+	celetialSphere->Update();
+	ground->Update();
+	player->Update(enemies.empty());
+
+	float delayCount = 0.0f;
+
+	if (player->GetIsBomb()) {
+		delayCount = 3.0f;
+	}
+
+	if (player->GetHPCount() > 0) {
+		if (!enemies.empty()) {
+			railCamera->Update(delayCount);
+		}
+		for (std::unique_ptr<Enemy>& enemy : enemies) {
+			enemy->Update(player->GetPlayerPos(), delayCount);
+		}
+		for (std::unique_ptr<Bomb>& bomb : bombs) {
+			bomb->Update();
+		}
+	}
+
+	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		enemyBullet->Update(delayCount);
+	}
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		playerBullet->Update(delayCount);
+	}
+	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+		particle2d->Update();
+	}
+
+	//シーン切り替え
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::SceneChange(SceneManager::Result);
+	}
 	if (isDead) {
-		if (KeyInput::GetIns()->TriggerKey(DIK_SPACE)) {
-			Reset();
-		}
+		SceneManager::SceneChange(SceneManager::GameOver);
 	}
+	if (isClear) {
+		SceneManager::SceneChange(SceneManager::Result);
+	}
+
+	//player->SetEnemies(enemies);
+
+	//object1->Update();
+
 }
 
 void GameScene::Draw() {
@@ -280,15 +264,6 @@ void GameScene::Draw() {
 	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 		particle2d->Draw();
 	}
-	if (isTitle) {
-		title->Draw();
-	}
-	if (isDead) {
-		gameover->Draw();
-	}
-	if (isClear) {
-		clear->Draw();
-	}
 	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
@@ -304,9 +279,6 @@ void GameScene::Finalize() {
 	safe_delete(player);
 	safe_delete(ground);
 	safe_delete(background);
-	safe_delete(title);
-	safe_delete(gameover);
-	safe_delete(clear);
 	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(object1);
@@ -324,7 +296,6 @@ void GameScene::Reset() {
 	clearTimer = clearTime;
 	isDead = false;
 	isClear = false;
-	isTitle = true;
 	isPlayerDead = false;
 
 	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {

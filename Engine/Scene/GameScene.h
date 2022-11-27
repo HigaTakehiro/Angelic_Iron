@@ -28,6 +28,7 @@
 #include <chrono>
 #include <thread>
 #include "BaseScene.h"
+#include "SceneManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -49,7 +50,7 @@ public: //メンバ関数
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameScene();
+	~GameScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -147,9 +148,6 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
 	Sprite* background = nullptr; //背景画像
-	Sprite* title = nullptr; //タイトル画面画像
-	Sprite* gameover = nullptr; //ゲームオーバー画面画像
-	Sprite* clear = nullptr; //クリア画面画像
 
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト
@@ -166,16 +164,13 @@ private: //メンバ変数
 
 	//ゲームシーン用変数
 	bool isDead; //プレイヤー死亡フラグ
-	bool isTitle; //タイトルシーンフラグ
 	bool isClear; //クリアシーンフラグ
 	bool isWait; //エネミー読み込み待機フラグ
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
-
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
-
 	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 };
 

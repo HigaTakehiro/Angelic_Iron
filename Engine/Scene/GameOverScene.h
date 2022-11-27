@@ -1,26 +1,26 @@
 #pragma once
 #include "BaseScene.h"
 #include "SceneManager.h"
-#include "KeyInput.h"
-#include "MouseInput.h"
-#include "PostEffect.h"
-#include "SafeDelete.h"
 #include "Sprite.h"
 #include "ImageManager.h"
+#include "KeyInput.h"
+#include "PostEffect.h"
+#include "SafeDelete.h"
+#include "MouseInput.h"
 
-class ResultScene : public BaseScene
+class GameOverScene : public BaseScene
 {
-public: //メンバ関数
+public: //メンバ変数
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="dxCommon"></param>
 	void Initialize();
 	/// <summary>
-	/// 更新処理
+    /// 更新処理
 	/// </summary>
 	void Update();
+
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -31,8 +31,7 @@ public: //メンバ関数
 	void Finalize();
 
 private: //メンバ変数
-	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
-	Sprite* clear = nullptr; //クリア画面画像
-
+	PostEffect* postEffect = nullptr;
+	Sprite* gameover = nullptr; //ゲームオーバー画面画像
 };
 

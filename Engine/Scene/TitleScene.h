@@ -2,6 +2,11 @@
 #include "BaseScene.h"
 #include "Sprite.h"
 #include "ImageManager.h"
+#include "SceneManager.h"
+#include "KeyInput.h"
+#include "PostEffect.h"
+#include "SafeDelete.h"
+#include "MouseInput.h"
 
 class TitleScene : public BaseScene
 {
@@ -25,6 +30,7 @@ public: //ƒƒ“ƒoŠÖ”
 	void Finalize();
 
 private: //ƒƒ“ƒo•Ï”
-	Sprite* test;
+	Sprite* title = nullptr;
+	PostEffect* postEffect = nullptr;
 };
 

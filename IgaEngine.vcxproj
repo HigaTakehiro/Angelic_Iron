@@ -179,6 +179,7 @@
     <ClCompile Include="Engine\Object3d\Model.cpp" />
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
+    <ClCompile Include="Engine\Scene\GameOverScene.cpp" />
     <ClCompile Include="Engine\Scene\GameScene.cpp" />
     <ClCompile Include="Engine\Scene\ResultScene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
+    <ClInclude Include="Engine\Scene\GameOverScene.h" />
     <ClInclude Include="Engine\Scene\GameScene.h" />
     <ClInclude Include="Engine\Scene\ResultScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />

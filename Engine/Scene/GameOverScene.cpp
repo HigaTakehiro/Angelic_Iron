@@ -1,21 +1,22 @@
-#include "TitleScene.h"
+#include "GameOverScene.h"
 
-void TitleScene::Initialize()
+void GameOverScene::Initialize()
 {
-	title = Sprite::Create(ImageManager::ImageName::title, { 0, 0 });
+	gameover = Sprite::Create(ImageManager::ImageName::gameover, { 0, 0 });
 
+	//PostEffect‚Ì‰Šú‰»
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 }
 
-void TitleScene::Update()
+void GameOverScene::Update()
 {
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::Game);
+		SceneManager::SceneChange(SceneManager::Title);
 	}
 }
 
-void TitleScene::Draw()
+void GameOverScene::Draw()
 {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
@@ -35,7 +36,7 @@ void TitleScene::Draw()
 
 	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(UI“™)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	title->Draw();
+	gameover->Draw();
 
 	Sprite::PostDraw();
 
@@ -44,11 +45,10 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectNo);
 	DirectXSetting::GetIns()->PostDraw();
-
 }
 
-void TitleScene::Finalize()
+void GameOverScene::Finalize()
 {
 	safe_delete(postEffect);
-	safe_delete(title);
+	safe_delete(gameover);
 }

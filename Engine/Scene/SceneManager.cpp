@@ -10,10 +10,6 @@ void SceneManager::Initialize() {
 
 void SceneManager::Update() {
 	nowScene->Update();
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		nextScene = (nextScene + 1) % 3;
-		SceneChange((SceneName)nextScene);
-	}
 }
 
 void SceneManager::Draw() {
@@ -46,6 +42,9 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene = new ResultScene();
 		nowScene->Initialize();
 		break;
+	case GameOver:
+		nowScene = new GameOverScene();
+		nowScene->Initialize();
 	default:
 		break;
 	}
