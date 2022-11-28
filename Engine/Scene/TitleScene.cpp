@@ -11,7 +11,7 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::Game);
+		SceneManager::SceneChange(SceneManager::Stage1_Rail);
 	}
 }
 

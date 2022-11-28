@@ -13,7 +13,6 @@ void GameScene::Initialize() {
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
 	railCamera = new RailCamera;
 
-	LoadRailPoint();
 	debugText.Initialize(debugTextNumber);
 
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
@@ -32,7 +31,16 @@ void GameScene::Initialize() {
 	player->Initialize(camera, Sound::GetIns(), clearTime);
 	player->SetGameScene(this);
 
-	LoadEnemyData();
+	int stageNo;
+	stageNo = SceneManager::GetStageNo();
+	if (stageNo == 1) {
+		LoadRailPoint("Stage1RailPoints.aid");
+		LoadEnemyData("Stage1EnemyData.aid");
+	}
+	else if (stageNo == 2) {
+		LoadRailPoint("Stage2RailPoints.aid");
+		LoadEnemyData("Stage2EnemyData.aid");
+	}
 
 	//FBXの初期化
 	/*FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
@@ -88,7 +96,7 @@ void GameScene::Update() {
 	debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		Reset();
+		//Reset();
 	}
 
 	for (const std::unique_ptr<Enemy>& enemy : enemies) {
@@ -197,14 +205,20 @@ void GameScene::Update() {
 	}
 
 	//シーン切り替え
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::SceneChange(SceneManager::Result);
-	}
 	if (isDead) {
 		SceneManager::SceneChange(SceneManager::GameOver);
 	}
 	if (isClear) {
 		SceneManager::SceneChange(SceneManager::Result);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		int stageNo = SceneManager::GetStageNo();
+		if (stageNo == 1) {
+			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		}
+		else if (stageNo == 2) {
+			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		}
 	}
 
 	//player->SetEnemies(enemies);
@@ -289,35 +303,34 @@ void GameScene::Finalize() {
 	//FbxLoader::GetInstance()->Finalize();
 }
 
-void GameScene::Reset() {
-	LoadRailPoint();
-	railCamera->Reset(points);
+//void GameScene::Reset() {
+//	LoadRailPoint();
+//	railCamera->Reset(points);
+//
+//	clearTimer = clearTime;
+//	isDead = false;
+//	isClear = false;
+//	isPlayerDead = false;
+//
+//	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+//		playerBullet->OnCollision();
+//	}
+//	for (const std::unique_ptr<Bomb>& bomb : bombs) {
+//		bomb->OnCollision();
+//	}
+//
+//	player->Reset();
+//
+//	LoadEnemyData();
+//}
 
-	clearTimer = clearTime;
-	isDead = false;
-	isClear = false;
-	isPlayerDead = false;
-
-	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-		playerBullet->OnCollision();
-	}
-	for (const std::unique_ptr<Bomb>& bomb : bombs) {
-		bomb->OnCollision();
-	}
-
-	player->Reset();
-
-	LoadEnemyData();
-}
-
-void GameScene::LoadEnemyData() {
+void GameScene::LoadEnemyData(const std::string filename) {
 	//ファイルストリーム
 	std::ifstream file;
 	enemyData.str("");
 	enemyData.clear(std::stringstream::goodbit);
 	enemies.clear();
 
-	const std::string filename = "EnemySet.aid";
 	const std::string directory = "Engine/Resources/GameData/";
 	file.open(directory + filename);
 	if (file.fail()) {
@@ -402,7 +415,7 @@ void GameScene::AddBomb(std::unique_ptr<Bomb> bomb) {
 	bombs.push_back(std::move(bomb));
 }
 
-void GameScene::LoadRailPoint() {
+void GameScene::LoadRailPoint(const std::string filename) {
 	//ファイルストリーム
 	std::ifstream file;
 	std::stringstream railcameraPointsData;
@@ -410,7 +423,6 @@ void GameScene::LoadRailPoint() {
 	railcameraPointsData.clear(std::stringstream::goodbit);
 	points.clear();
 
-	const std::string filename = "RailCameraPoints.aid";
 	const std::string directory = "Engine/Resources/GameData/";
 	file.open(directory + filename);
 	if (file.fail()) {

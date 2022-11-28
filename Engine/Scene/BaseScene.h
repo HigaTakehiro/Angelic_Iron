@@ -24,4 +24,3 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 };
-

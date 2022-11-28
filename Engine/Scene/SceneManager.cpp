@@ -1,10 +1,9 @@
 #include "SceneManager.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
-int SceneManager::nextScene = Title;
+int SceneManager::stageNo = 1;
 
 void SceneManager::Initialize() {
-	nextScene = Title;
 	SceneChange(Title);
 }
 
@@ -33,11 +32,25 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene->Initialize();
 		break;
 
-	case Game:
+	case Stage1_Rail:
+		stageNo = 1;
 		nowScene = new GameScene();
 		nowScene->Initialize();
 		break;
 
+	case Stage1_Boss:
+		nowScene = new GameScene();
+		nowScene->Initialize();
+		break;
+	case Stage2_Rail:
+		stageNo = 2;
+		nowScene = new GameScene();
+		nowScene->Initialize();
+		break;
+	case Stage2_Boss:
+		nowScene = new GameScene();
+		nowScene->Initialize();
+		break;
 	case Result:
 		nowScene = new ResultScene();
 		nowScene->Initialize();

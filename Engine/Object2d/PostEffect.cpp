@@ -231,7 +231,7 @@ void PostEffect::CreateGraphicsPipelineState() {
 		}
 		else if (i == 1) {
 			// ピクセルシェーダの読み込みとコンパイル
-			LoadPS(L"Engine/Resources/shaders/DamageEffect.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/Fadeout.hlsl", psBlob);
 		}
 		
 

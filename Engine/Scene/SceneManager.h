@@ -18,7 +18,10 @@ public:
 public: //シーン管理番号
 	enum SceneName {
 		Title,
-		Game,
+		Stage1_Rail,
+		Stage1_Boss,
+		Stage2_Rail,
+		Stage2_Boss,
 		Result,
 		GameOver,
 		None
@@ -52,8 +55,13 @@ public: //静的メンバ関数
 	/// </summary>
 	static void SceneChange(SceneName scene);
 
+	/// <summary>
+	/// ステージ番号取得
+	/// </summary>
+	/// <returns></returns>
+	static int GetStageNo() { return stageNo; }
+
 private: //静的メンバ変数
 	static BaseScene* nowScene;
-	static int nextScene;
+	static int stageNo;
 };
-

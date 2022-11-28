@@ -75,7 +75,7 @@ public: //メンバ関数
 	/// <summary>
 	/// エネミーデータの読み込み
 	/// </summary>
-	void LoadEnemyData();
+	void LoadEnemyData(const std::string filename);
 
 	/// <summary>
 	/// 読み込んだエネミーデータの更新
@@ -85,7 +85,7 @@ public: //メンバ関数
 	/// <summary>
 	/// レールカメラ指定点を外部ファイルから読み込み
 	/// </summary>
-	void LoadRailPoint();
+	void LoadRailPoint(const std::string filename);
 
 	/// <summary>
 	/// 敵弾を追加
@@ -116,10 +116,10 @@ public: //メンバ関数
 
 private: //メンバ関数
 
-	/// <summary>
-	/// リセット処理
-	/// </summary>
-	void Reset();
+	///// <summary>
+	///// リセット処理
+	///// </summary>
+	//void Reset();
 
 	/// <summary>
 	/// ロックオン距離か判定

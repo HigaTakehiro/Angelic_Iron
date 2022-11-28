@@ -1,0 +1,59 @@
+#Pos 0.0 0.0 0.0 ←座標
+#Scale 0.0 0.0 0.0 ←大きさ
+#Type ←敵の行動タイプ
+#Wait ←敵のポップ待機時間
+#STOP_PTAG ←静止していて、自機狙い弾を撃つ
+#STOP_STR ←静止していて、直進弾を撃つ
+#UDMOVE_PTAG ←上下移動し、自機狙い弾を撃つ
+#UDMOVE_STR ←上下移動し、直進弾を撃つ
+#LRMOVE_PTAG ←左右移動し、自機狙い弾を撃つ
+#LRMOVE_STR ←左右移動し、直進弾を撃つ
+
+Enemy1
+
+Pos 30.0 0.0 50.0
+Scale 5.0 5.0 5.0
+Type STOP_PTAG
+Wait 180
+
+Enemy2
+
+Pos 80.0 -10.0 150.0
+Scale 5.0 5.0 5.0
+Type UDMOVE_STR
+Wait 0
+
+Enemy3
+
+Pos 0.0 200.0 -150.0
+Scale 5.0 5.0 5.0
+Type LRMOVE_STR
+Wait 0
+
+Enemy4
+
+Pos 80.0 200.0 -150.0
+Scale 5.0 5.0 5.0
+Type UDMOVE_STR
+Wait 30
+
+Enemy5
+
+Pos 300.0 200.0 50.0
+Scale 5.0 5.0 5.0
+Type LRMOVE_STR
+Wait 20
+
+Enemy6
+
+Pos 280.0 200.0 -150.0
+Scale 5.0 5.0 5.0
+Type STOP_STR
+Wait 10
+
+Enemy7
+
+Pos -100.0 20.0 100.0
+Scale 5.0 5.0 5.0
+Type UDMOVE_STR
+Wait 40
