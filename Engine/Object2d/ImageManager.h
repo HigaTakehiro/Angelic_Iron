@@ -27,7 +27,13 @@ public: //‰æ‘œ–¼
 		playerHP,
 		playerBullet,
 		reload,
-		enemyDead
+		enemyDead,
+		StartButton,
+		Stage1,
+		Stage2,
+		ManualButton,
+		Manual,
+		Close
 	};
 
 public: //ƒƒ“ƒoŠÖ”
