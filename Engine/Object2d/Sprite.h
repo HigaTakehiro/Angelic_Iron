@@ -97,7 +97,16 @@ public: //メンバ関数
 	/// <param name="isFlipX">左右反転</param>
 	/// <param name="isFlipY">上下反転</param>
 	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	/// <summary>
+	/// 位置取得
+	/// </summary>
+	/// <returns>位置</returns>
 	const XMFLOAT2& GetPosition() { return position; }
+	/// <summary>
+	/// 大きさ取得
+	/// </summary>
+	/// <returns>大きさ</returns>
+	const XMFLOAT2& GetSize() { return size; }
 	/// <summary>
 	/// 初期化
 	/// </summary>

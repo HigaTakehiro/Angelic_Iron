@@ -47,7 +47,7 @@ void Enemy::Update(const XMFLOAT3& playerPos, float delayTime) {
 		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-		spriteRot = Easing::GetIns()->easeOutBack(rotationTimer, rotationTime, maxSpriteRot, spriteRot);
+		spriteRot = Easing::GetIns()->easeOutBack(rotationTimer, rotationTime, maxSpriteRot, spriteRot, 1);
 
 		target->SetPosition(spritePos);
 		target->SetRotation(spriteRot);

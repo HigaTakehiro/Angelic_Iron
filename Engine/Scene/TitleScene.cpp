@@ -6,30 +6,36 @@ void TitleScene::Initialize()
 	camera->SetEye(XMFLOAT3(-50, 0, 100));
 	camera->SetTarget(XMFLOAT3(0, 1, 0));
 
-	titlePos = { 0, 0 };
+	titlePos = { 300, 200 };
 	startButtonPos = { 640, 550 };
-	stage1Pos = { 200, 100 };
-	stage2Pos = { 200, 300 };
-	manualButtonPos = { 200, 500 };
+	stage1Pos = { -300, 100 };
+	stage2Pos = { -300, 300 };
+	manualButtonPos = { -300, 500 };
 	closePos = { 640, 550 };
 
-	startButtonSize = initSize;
-	stage1Size = initSize;
-	stage2Size = initSize;
-	manualButtonSize = initSize;
-	manualSize = initSize;
-	closeSize = initSize;
-
+	const XMFLOAT2 spriteCenter = { 0.5f, 0.5f };
 	title = Sprite::Create(ImageManager::ImageName::title, titlePos);
+	title->SetAnchorPoint(spriteCenter);
 	startButton = Sprite::Create(ImageManager::ImageName::StartButton, startButtonPos);
-	startButton->SetAnchorPoint({ 0.5f, 0.5f });
+	startButton->SetAnchorPoint(spriteCenter);
 	stage1 = Sprite::Create(ImageManager::ImageName::Stage1, stage1Pos);
+	stage1->SetAnchorPoint(spriteCenter);
 	stage2 = Sprite::Create(ImageManager::ImageName::Stage2, stage2Pos);
+	stage2->SetAnchorPoint(spriteCenter);
 	manualButton = Sprite::Create(ImageManager::ImageName::ManualButton, manualButtonPos);
+	manualButton->SetAnchorPoint(spriteCenter);
 	manual = Sprite::Create(ImageManager::ImageName::Manual, { 640, 300 });
-	manual->SetAnchorPoint({ 0.5f, 0.5f });
+	manual->SetAnchorPoint(spriteCenter);
 	close = Sprite::Create(ImageManager::ImageName::Close, closePos);
-	close->SetAnchorPoint({ 0.5f, 0.5f });
+	close->SetAnchorPoint(spriteCenter);
+
+	startButtonSize = startButton->GetSize();
+	stage1Size = stage1->GetSize();
+	stage2Size = stage2->GetSize();
+	manualButtonSize = manualButton->GetSize();
+	manualSize = { 0, 0 };
+	manualMaxSize = manual->GetSize();
+	closeSize = close->GetSize();
 
 	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
 	playerScale = { 20, 20, 20 };
@@ -45,18 +51,137 @@ void TitleScene::Initialize()
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
+	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+	stageSelectTimer = 0;
+
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 }
 
 void TitleScene::Update()
 {
+	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+
 	titlePlayer->Update();
 	ground->Update();
 
+	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
+		XMFLOAT2 spriteSize = startButtonSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		startButton->SetSize(spriteSize);
+		startButton->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isStageSelect = true;
+		}
+	}
+	else {
+		startButton->SetSize(startButtonSize);
+		startButton->SetAlpha(initAlpha);
+	}
+
+	if (IsMouseHitSprite(mousePos, stage1Pos, 270, 128)) {
+		XMFLOAT2 spriteSize = stage1Size;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		stage1->SetSize(spriteSize);
+		stage1->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isStage1 = true;
+		}
+	}
+	else {
+		stage1->SetSize(stage1Size);
+		stage1->SetAlpha(initAlpha);
+	}
+
+	if (IsMouseHitSprite(mousePos, stage2Pos, 300, 128)) {
+		XMFLOAT2 spriteSize = stage2Size;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		stage2->SetSize(spriteSize);
+		stage2->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isStage2 = true;
+		}
+	}
+	else {
+		stage2->SetSize(stage2Size);
+		stage2->SetAlpha(initAlpha);
+	}
+	
+	if (IsMouseHitSprite(mousePos, manualButtonPos, 300, 128)) {
+		XMFLOAT2 spriteSize = manualButtonSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		manualButton->SetSize(spriteSize);
+		manualButton->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isManual = true;
+		}
+	}
+	else {
+		manualButton->SetSize(manualButtonSize);
+		manualButton->SetAlpha(initAlpha);
+	}
+
+	if (IsMouseHitSprite(mousePos, closePos, 270, 128)) {
+		XMFLOAT2 spriteSize = closeSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		close->SetSize(spriteSize);
+		close->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isManual = false;
+		}
+	}
+	else {
+		close->SetSize(closeSize);
+		close->SetAlpha(initAlpha);
+	}
+
+	if (isStageSelect) {
+		const float outPos = -300;
+		const float comePos = 200;
+		stageSelectTimer++;
+		if (stageSelectTimer >= manualComeTime) {
+			stageSelectTimer = manualComeTime;
+		}
+		titlePos.x = Easing::GetIns()->easeInBack(stageSelectTimer, titleOutTime, outPos, titlePos.x, 1);
+		stage1Pos.x = Easing::GetIns()->easeIn(stageSelectTimer, stage1ComeTime, comePos, stage1Pos.x);
+		stage2Pos.x = Easing::GetIns()->easeIn(stageSelectTimer, stage2ComeTime, comePos, stage2Pos.x);
+		manualButtonPos.x = Easing::GetIns()->easeIn(stageSelectTimer, manualComeTime, comePos, manualButtonPos.x);
+
+		title->SetPosition(titlePos);
+		stage1->SetPosition(stage1Pos);
+		stage2->SetPosition(stage2Pos);
+		manualButton->SetPosition(manualButtonPos);
+	}
+
+	if (isManual) {
+		const float openWidth = manualMaxSize.x;
+		const float openHeight = manualMaxSize.y;
+
+		manualTimer++;
+		if (manualTimer >= manualOpenTime) {
+			manualTimer = manualOpenTime;
+		}
+		manualSize.x = Easing::GetIns()->easeOut(manualTimer, manualOpenTime, openWidth, manualSize.x);
+		manualSize.y = Easing::GetIns()->easeOut(manualTimer, manualOpenTime, openHeight, manualSize.y);
+
+		manual->SetSize(manualSize);
+	}
+	else {
+		manualTimer = 0;
+		manualSize = { 0.0f, 0.0f };
+	}
+
 	//シーン切り替え
-	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+	if (isStage1) {
 		SceneManager::SceneChange(SceneManager::Stage1_Rail);
+	}
+	else if (isStage2) {
+		SceneManager::SceneChange(SceneManager::Stage2_Rail);
 	}
 }
 
@@ -81,13 +206,21 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	manual->Draw();
+	if (isManual) {
+		manual->Draw();
+		close->Draw();
+	}
+
+	if (isStageSelect && !isManual) {
+		stage1->Draw();
+		stage2->Draw();
+		manualButton->Draw();
+	}
+
+	if (!isStageSelect) {
+		startButton->Draw();
+	}
 	title->Draw();
-	startButton->Draw();
-	stage1->Draw();
-	stage2->Draw();
-	manualButton->Draw();
-	//close->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -111,4 +244,15 @@ void TitleScene::Finalize()
 	safe_delete(manualButton);
 	safe_delete(manual);
 	safe_delete(close);
+}
+
+bool TitleScene::IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight)
+{
+	float spriteSizeX = spriteWidth / 2.0f;
+	float spriteSizeY = spriteHeight / 2.0f;
+
+	XMFLOAT2 spriteUpperLeft = { spritePos.x - spriteSizeX, spritePos.y - spriteSizeY };
+	XMFLOAT2 spriteLowerRight = { spritePos.x + spriteSizeX, spritePos.y + spriteSizeY };
+
+	return spriteUpperLeft.x <= mousePos.x && spriteLowerRight.x >= mousePos.x && spriteUpperLeft.y <= mousePos.y && spriteLowerRight.y >= mousePos.y;
 }
