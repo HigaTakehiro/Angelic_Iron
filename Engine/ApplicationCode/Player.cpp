@@ -10,6 +10,7 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	aim = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
 	aim->SetAnchorPoint({ 0.5f, 0.5f });
+	aim->SetAlpha(0.5f);
 	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;

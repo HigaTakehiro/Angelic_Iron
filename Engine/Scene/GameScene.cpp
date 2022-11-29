@@ -61,9 +61,9 @@ void GameScene::Initialize() {
 	postEffect->Initialize();
 
 	//ゲームシーン用変数の初期化
-	isDead = false;
-	isClear = false;
-	isWait = false;
+	//isDead = false;
+	//isClear = false;
+	//isWait = false;
 
 	clearTimer = clearTime;
 
@@ -83,8 +83,8 @@ void GameScene::Update() {
 	char xPos[256];
 	char yPos[256];
 	char isSlowCheck[256];
-	sprintf_s(xPos, "Xpoint : %f, YPoint : %f", player->GetAimPos().x, player->GetAimPos().y);
-	sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	sprintf_s(xPos, "StageNo : %d", SceneManager::GetStageNo());
+	//sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
 	if (!player->GetIsBomb()) {
 		sprintf_s(isSlowCheck, "false");
 	}
@@ -92,7 +92,7 @@ void GameScene::Update() {
 		sprintf_s(isSlowCheck, "true");
 	}
 	debugText.Print(xPos, 0, 0, 2.0f);
-	debugText.Print(yPos, 0, 50, 2.0f);
+	//debugText.Print(yPos, 0, 50, 2.0f);
 	debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
@@ -205,12 +205,13 @@ void GameScene::Update() {
 	}
 
 	//シーン切り替え
-	if (isDead) {
+	if (isDead && !isClear) {
 		SceneManager::SceneChange(SceneManager::GameOver);
 	}
-	if (isClear) {
+	else if (isClear && !isDead) {
 		SceneManager::SceneChange(SceneManager::Result);
 	}
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 		int stageNo = SceneManager::GetStageNo();
 		if (stageNo == 1) {

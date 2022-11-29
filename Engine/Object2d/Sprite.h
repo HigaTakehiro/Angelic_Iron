@@ -134,6 +134,11 @@ public: //メンバ関数
 	/// <param name="isFlipY">上下反転</param>
 	void SetIsFlipY(bool isFlipY);
 	/// <summary>
+	/// アルファ値の設定
+	/// </summary>
+	/// <param name="alpha"></param>
+	void SetAlpha(float alpha) { this->alpha = alpha; }
+	/// <summary>
 	/// テクスチャ範囲設定
 	/// </summary>
 	/// <param name="texBase">テクスチャ左上座標</param>
@@ -159,6 +164,8 @@ protected: //メンバ変数
 	XMMATRIX matWorld;
 	// 色(RGBA)
 	XMFLOAT4 color = { 1, 1, 1, 1 };
+	//アルファ値
+	float alpha = 1.0f;
 	// テクスチャ番号
 	UINT texNumber = 0;
 	// 大きさ

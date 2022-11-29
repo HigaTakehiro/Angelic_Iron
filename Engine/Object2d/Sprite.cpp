@@ -413,6 +413,7 @@ void Sprite::Draw() {
 	// 定数バッファに転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap);
+	color.w = alpha;
 	if (SUCCEEDED(result)) {
 		constMap->mat = matWorld * matProjection;
 		constMap->color = color;
