@@ -166,6 +166,10 @@ private: //メンバ関数
 	/// <param name="clearTime">クリア演出時間</param>
 	void ClearPerformance();
 
+	/// <summary>
+	/// スタート演出
+	/// </summary>
+	void StartPerformance();
 
 private: //静的メンバ変数
 	//最大残弾数
@@ -180,6 +184,8 @@ private: //静的メンバ変数
 	static const int damageEffectTime = 40;
 	//死亡時演出用時間
 	static const int32_t deadTime = 120;
+	//開始時演出用時間
+	static const int32_t startTime = 60;
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
@@ -237,6 +243,10 @@ private: //メンバ変数
 	float clearTimer;
 	//クリア時間
 	float clearTime;
+	//スタート演出用時間計測
+	int32_t startTimer;
+	//スタートフラグ
+	bool isStart;
 	//ボムフラグ
 	bool isBomb;
 };

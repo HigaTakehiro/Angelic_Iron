@@ -25,8 +25,8 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 
 	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	playerScale = { 2, 2, 2 };
-	playerLPos = { 0, 0, -50 };
-	playerRot = { 0, 180, 0 };
+	playerLPos = { 0, 200, -50 };
+	playerRot = { 90, 180, 0 };
 	player->SetScale(playerScale);
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
@@ -52,6 +52,7 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	this->clearTime = clearTime;
 	clearTimer = this->clearTime;
 	deadTimer = deadTime;
+	startTimer = 0;
 	returnTimer = 0;
 	for (int i = 0; i < 4; i++) {
 		holdTimer[i] = 0;
@@ -78,6 +79,16 @@ void Player::Update(bool isClear) {
 	const int noneBulletCount = 0;
 	const int reloadTimeOver = 0;
 	const int shotCoolTimeOver = 0;
+
+	startTimer++;
+	if (startTimer >= startTime) {
+		startTimer = startTime;
+		isStart = true;
+	}
+	if (!isStart) {
+		playerLPos.y = Easing::GetIns()->easeIn(startTimer, startTime, 0, playerLPos.y);
+		playerRot.x = Easing::GetIns()->easeIn(startTimer, startTime * 2, 0, playerRot.x);
+	}
 
 	if (!isClear) {
 		if (hpCount <= deadHp) {
@@ -106,7 +117,7 @@ void Player::Update(bool isClear) {
 			bulletCount = noneBulletCount;
 		}
 
-		if (isShot) {
+		if (isShot && isStart && hpCount > deadHp) {
 			Shot();
 		}
 
@@ -120,24 +131,23 @@ void Player::Update(bool isClear) {
 			BombShot();
 		}
 
-
 		if (isDamage) {
 			DamageEffect();
 		}
-		if (hpCount > deadHp) {
+		if (hpCount > deadHp && isStart) {
 			Move();
 		}
 
 		playerWPos = player->GetMatWorld().r[3];
 
-
+		player->SetPosition(playerLPos);
+		player->SetRotation(playerRot);
 	}
 	else {
 		ClearPerformance();
 	}
 
 	AimUpdate();
-
 	aim3d->Update();
 	player->Update();
 	gun->Update();
@@ -236,8 +246,6 @@ void Player::Move() {
 		returnTimer = initTime;
 	}
 
-	player->SetPosition(playerLPos);
-	player->SetRotation(playerRot);
 }
 
 void Player::Shot() {

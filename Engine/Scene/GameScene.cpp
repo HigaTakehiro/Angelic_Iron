@@ -16,12 +16,12 @@ void GameScene::Initialize() {
 	debugText.Initialize(debugTextNumber);
 
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
-	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 200 });
+	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
 	pause->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 400 });
+	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
 	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBackSize = titleBack->GetSize();
-	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 600 });
+	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 500 });
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
 
