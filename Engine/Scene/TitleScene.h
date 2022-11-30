@@ -49,9 +49,10 @@ private: //メンバ関数
 private: //静的メンバ変数
 	static const int32_t titleOutTime = 40;
 	static const int32_t stage1ComeTime = 150;
-	static const int32_t stage2ComeTime = 155;
-	static const int32_t manualComeTime = 160;
+	static const int32_t stage2ComeTime = 160;
+	static const int32_t manualComeTime = 170;
 	static const int32_t manualOpenTime = 60;
+	static const int32_t startTime = 60;
 
 private: //メンバ変数
 	const float selectAlpha = 0.5f;
@@ -82,10 +83,12 @@ private: //メンバ変数
 
 	int32_t stageSelectTimer;
 	int32_t manualTimer;
+	int32_t startTimer;
 
 	PostEffect* postEffect = nullptr;
 	Object3d* titlePlayer = nullptr;
 	Object3d* ground = nullptr;
+	Object3d* celetialSphere = nullptr;
 	Camera* camera = nullptr;
 
 	Vector3 playerRot;
@@ -94,6 +97,9 @@ private: //メンバ変数
 
 	Vector3 groundPos;
 	Vector3 groundScale;
+
+	Vector3 cameraPos;
+	Vector3 cameraTargetPos;
 
 	bool isStageSelect;
 	bool isManual;

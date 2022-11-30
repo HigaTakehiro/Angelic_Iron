@@ -16,6 +16,14 @@ void GameScene::Initialize() {
 	debugText.Initialize(debugTextNumber);
 
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
+	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 200 });
+	pause->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 400 });
+	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBackSize = titleBack->GetSize();
+	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 600 });
+	back->SetAnchorPoint({ 0.5f, 0.5f });
+	backSize = back->GetSize();
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -60,6 +68,8 @@ void GameScene::Initialize() {
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
+	postEffectNo = PostEffect::NORMAL;
+
 	//ゲームシーン用変数の初期化
 	//isDead = false;
 	//isClear = false;
@@ -95,8 +105,8 @@ void GameScene::Update() {
 	//debugText.Print(yPos, 0, 50, 2.0f);
 	debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_R) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		//Reset();
+	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
+		isPause = !isPause;
 	}
 
 	for (const std::unique_ptr<Enemy>& enemy : enemies) {
@@ -172,36 +182,69 @@ void GameScene::Update() {
 		isDead = true;
 	}
 
-	celetialSphere->Update();
-	ground->Update();
-	player->Update(enemies.empty());
-
 	float delayCount = 0.0f;
 
 	if (player->GetIsBomb()) {
 		delayCount = 3.0f;
 	}
 
-	if (player->GetHPCount() > 0) {
-		if (!enemies.empty()) {
-			railCamera->Update(delayCount);
-		}
-		for (std::unique_ptr<Enemy>& enemy : enemies) {
-			enemy->Update(player->GetPlayerPos(), delayCount);
-		}
-		for (std::unique_ptr<Bomb>& bomb : bombs) {
-			bomb->Update();
-		}
-	}
+	if (!isPause) {
+		celetialSphere->Update();
+		ground->Update();
+		player->Update(enemies.empty());
 
-	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-		enemyBullet->Update(delayCount);
+		if (player->GetHPCount() > 0) {
+			if (!enemies.empty()) {
+				railCamera->Update(delayCount);
+			}
+			for (std::unique_ptr<Enemy>& enemy : enemies) {
+				enemy->Update(player->GetPlayerPos(), delayCount);
+			}
+			for (std::unique_ptr<Bomb>& bomb : bombs) {
+				bomb->Update();
+			}
+		}
+
+		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			enemyBullet->Update(delayCount);
+		}
+		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			playerBullet->Update(delayCount);
+		}
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+			particle2d->Update();
+		}
 	}
-	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-		playerBullet->Update(delayCount);
-	}
-	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
-		particle2d->Update();
+	else {
+		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+		const float selectAlpha = 0.5f;
+		const float normalAlpha = 1.0f;
+		XMFLOAT2 selectSize;
+		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+			selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
+			titleBack->SetSize(selectSize);
+			titleBack->SetAlpha(selectAlpha);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				isTitleBack = true;
+			}
+		}
+		else {
+			titleBack->SetSize(titleBackSize);
+			titleBack->SetAlpha(normalAlpha);
+		}
+
+		if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
+			selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
+			back->SetSize(selectSize);
+			back->SetAlpha(selectAlpha);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				isPause = !isPause;
+			}
+		}
+		else {
+			back->SetSize(backSize);
+			back->SetAlpha(normalAlpha);
+		}
 	}
 
 	//シーン切り替え
@@ -210,6 +253,9 @@ void GameScene::Update() {
 	}
 	else if (isClear && !isDead) {
 		SceneManager::SceneChange(SceneManager::Result);
+	}
+	else if (isTitleBack) {
+		SceneManager::SceneChange(SceneManager::Title);
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
@@ -231,13 +277,14 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
-	static int postEffectNo = 0;
+	bool isRoop = false;
 
 	if (player->GetIsDamage()) {
-		postEffectNo = 1;
+		postEffectNo = PostEffect::DAMAGE;
 	}
 	else {
-		postEffectNo = 0;
+		postEffectNo = PostEffect::NORMAL;
+		isRoop = true;
 	}
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -279,13 +326,18 @@ void GameScene::Draw() {
 	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 		particle2d->Draw();
 	}
+	if (isPause) {
+		pause->Draw();
+		titleBack->Draw();
+		back->Draw();
+	}
 	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectNo);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
@@ -301,6 +353,9 @@ void GameScene::Finalize() {
 	safe_delete(mapchip);
 	safe_delete(railCamera);
 	safe_delete(postEffect);
+	safe_delete(pause);
+	safe_delete(titleBack);
+	safe_delete(back);
 	//FbxLoader::GetInstance()->Finalize();
 }
 
@@ -532,6 +587,17 @@ void GameScene::LoadRailPoint(const std::string filename) {
 bool GameScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	const float aimPosCorrection = 20.0f;
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
+}
+
+bool GameScene::IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight)
+{
+	float spriteSizeX = spriteWidth / 2.0f;
+	float spriteSizeY = spriteHeight / 2.0f;
+
+	XMFLOAT2 spriteUpperLeft = { spritePos.x - spriteSizeX, spritePos.y - spriteSizeY };
+	XMFLOAT2 spriteLowerRight = { spritePos.x + spriteSizeX, spritePos.y + spriteSizeY };
+
+	return spriteUpperLeft.x <= mousePos.x && spriteLowerRight.x >= mousePos.x && spriteUpperLeft.y <= mousePos.y && spriteLowerRight.y >= mousePos.y;
 }
 
 int GameScene::GetBombTarget() {

@@ -33,7 +33,10 @@ public: //‰æ‘œ–¼
 		Stage2,
 		ManualButton,
 		Manual,
-		Close
+		Close,
+		Pause,
+		TitleBack,
+		Back
 	};
 
 public: //ƒƒ“ƒoŠÖ”

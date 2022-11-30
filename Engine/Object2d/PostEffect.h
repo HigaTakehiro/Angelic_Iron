@@ -8,6 +8,13 @@ public: //構造体
 		float time;
 	};
 
+	enum PostEffectNo {
+		NONE,
+		FADEOUT,
+		NORMAL,
+		DAMAGE,
+	};
+
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -23,7 +30,7 @@ public: //メンバ関数
 	/// 描画コマンド
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList, int pipelineNo = 0);
+	void Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, PostEffectNo pipelineNo = NONE, bool isRoop = false);
 
 	/// <summary>
 	/// シーン描画前処理
@@ -47,9 +54,12 @@ public: //メンバ関数
 	/// </summary>
 	void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
 
+private: //静的メンバ変数
+	static const int texSize = 4;
+
 public: //メンバ変数
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff[2];
+	ComPtr<ID3D12Resource> texBuff[texSize];
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 	//深度バッファ
@@ -59,7 +69,7 @@ public: //メンバ変数
 	//DSV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 	//グラフィックスパイプライン
-	ComPtr<ID3D12PipelineState> pipelineState[2];
+	ComPtr<ID3D12PipelineState> pipelineState[texSize];
 	//ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 
@@ -69,6 +79,7 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	int nowPipelineNo = 0;
+	float timer = 0.0f;
 	//定数バッファ転送用
 	ComPtr<ID3D12Resource> constBuffB0;
 

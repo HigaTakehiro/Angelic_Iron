@@ -23,4 +23,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(ManualButton, L"Engine/Resources/Images/ManualButton.png");
 	Sprite::LoadTexture(Manual, L"Engine/Resources/Images/Manual.png");
 	Sprite::LoadTexture(Close, L"Engine/Resources/Images/Close.png");
+	Sprite::LoadTexture(Pause, L"Engine/Resources/Images/Pause.png");
+	Sprite::LoadTexture(TitleBack, L"Engine/Resources/Images/TitleBack.png");
+	Sprite::LoadTexture(Back, L"Engine/Resources/Images/Back.png");
 }

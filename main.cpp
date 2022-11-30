@@ -65,9 +65,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 
-		if (KeyInput::GetIns()->PushKey(DIK_ESCAPE)) {
-			break;
-		}
+		//if (KeyInput::GetIns()->PushKey(DIK_ESCAPE)) {
+		//	break;
+		//}
 
 		KeyInput::GetIns()->Update();
 		MouseInput::GetIns()->Update();

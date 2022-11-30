@@ -2,9 +2,12 @@
 
 void TitleScene::Initialize()
 {
+	cameraPos = { -50, 0, 100 };
+	cameraTargetPos = { 0, 500, 0 };
+
 	camera = new Camera;
-	camera->SetEye(XMFLOAT3(-50, 0, 100));
-	camera->SetTarget(XMFLOAT3(0, 1, 0));
+	camera->SetEye(cameraPos);
+	camera->SetTarget(cameraTargetPos);
 
 	titlePos = { 300, 200 };
 	startButtonPos = { 640, 550 };
@@ -36,6 +39,7 @@ void TitleScene::Initialize()
 	manualSize = { 0, 0 };
 	manualMaxSize = manual->GetSize();
 	closeSize = close->GetSize();
+	startTimer = 0;
 
 	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
 	playerScale = { 20, 20, 20 };
@@ -51,6 +55,9 @@ void TitleScene::Initialize()
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere->SetScale({ 15, 15, 15 });
+
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	stageSelectTimer = 0;
 
@@ -64,6 +71,7 @@ void TitleScene::Update()
 
 	titlePlayer->Update();
 	ground->Update();
+	celetialSphere->Update();
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
@@ -147,11 +155,13 @@ void TitleScene::Update()
 		if (stageSelectTimer >= manualComeTime) {
 			stageSelectTimer = manualComeTime;
 		}
+		cameraTargetPos.y = Easing::GetIns()->easeOut(stageSelectTimer, stage1ComeTime, 1, cameraTargetPos.y);
 		titlePos.x = Easing::GetIns()->easeInBack(stageSelectTimer, titleOutTime, outPos, titlePos.x, 1);
 		stage1Pos.x = Easing::GetIns()->easeIn(stageSelectTimer, stage1ComeTime, comePos, stage1Pos.x);
 		stage2Pos.x = Easing::GetIns()->easeIn(stageSelectTimer, stage2ComeTime, comePos, stage2Pos.x);
 		manualButtonPos.x = Easing::GetIns()->easeIn(stageSelectTimer, manualComeTime, comePos, manualButtonPos.x);
 
+		camera->SetTarget(cameraTargetPos);
 		title->SetPosition(titlePos);
 		stage1->SetPosition(stage1Pos);
 		stage2->SetPosition(stage2Pos);
@@ -161,6 +171,12 @@ void TitleScene::Update()
 	if (isManual) {
 		const float openWidth = manualMaxSize.x;
 		const float openHeight = manualMaxSize.y;
+		const float outPos = -300;
+
+		stageSelectTimer = titleOutTime;
+		stage1Pos.x = outPos;
+		stage2Pos.x = outPos;
+		manualButtonPos.x = outPos;
 
 		manualTimer++;
 		if (manualTimer >= manualOpenTime) {
@@ -178,10 +194,20 @@ void TitleScene::Update()
 
 	//シーン切り替え
 	if (isStage1) {
-		SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		startTimer++;
+		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
+		titlePlayer->SetPosition(playerPos);
+		if (startTimer >= startTime) {
+			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		}
 	}
 	else if (isStage2) {
-		SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		startTimer++;
+		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
+		titlePlayer->SetPosition(playerPos);
+		if (startTimer >= startTime) {
+			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		}
 	}
 }
 
@@ -202,6 +228,7 @@ void TitleScene::Draw()
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	titlePlayer->Draw();
 	ground->Draw();
+	celetialSphere->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -226,7 +253,7 @@ void TitleScene::Draw()
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectNo);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 10.0f, PostEffect::NONE);
 	DirectXSetting::GetIns()->PostDraw();
 
 }
@@ -243,6 +270,7 @@ void TitleScene::Finalize()
 	safe_delete(stage2);
 	safe_delete(manualButton);
 	safe_delete(manual);
+	safe_delete(celetialSphere);
 	safe_delete(close);
 }
 

@@ -153,6 +153,9 @@
     <ClCompile Include="Engine\Scene\GameOverScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\JsonLoader.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -268,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Scene\GameOverScene.h">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\JsonLoader.h">
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

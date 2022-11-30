@@ -129,6 +129,16 @@ private: //メンバ関数
 	/// <returns>敵の位置にカーソルがあるかどうか</returns>
 	bool IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos);
 
+	/// <summary>
+	/// マウスがスプライトに触れているか
+	/// </summary>
+	/// <param name="mousePos">マウスの位置</param>
+	/// <param name="spritePos">スプライトの位置</param>
+	/// <param name="spriteWidth">スプライト横幅</param>
+	/// <param name="spriteHeight">スプライト縦幅</param>
+	/// <returns>マウスがスプライトを触れている</returns>
+	bool IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight);
+
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 
@@ -148,6 +158,11 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
 	Sprite* background = nullptr; //背景画像
+	Sprite* pause = nullptr;
+	Sprite* titleBack = nullptr;
+	Sprite* back = nullptr;
+	XMFLOAT2 titleBackSize;
+	XMFLOAT2 backSize;
 
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト
@@ -167,10 +182,14 @@ private: //メンバ変数
 	bool isClear; //クリアシーンフラグ
 	bool isWait; //エネミー読み込み待機フラグ
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
+	bool isPause; //ポーズフラグ
+	bool isTitleBack; //タイトル画面変更フラグ
 	int32_t waitTimer; //エネミー読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
+
+	PostEffect::PostEffectNo postEffectNo;
 };
 
