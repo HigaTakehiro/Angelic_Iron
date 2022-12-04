@@ -170,7 +170,5 @@ bool Enemy::IsShotRangeJudge(const Vector3& playerPos, const Vector3& enemyPos, 
 	objectPosTotal = (object2Pos.x - object1Pos.x) * (object2Pos.x - object1Pos.x) + (object2Pos.y - object1Pos.y) * (object2Pos.y - object1Pos.y) + (object2Pos.z - object1Pos.z) * (object2Pos.z - object1Pos.z);
 	objectScaleTotal = (range + playerScale) * (range + playerScale);
 
-	if (!(objectPosTotal <= objectScaleTotal)) return false;
-
-	return true;
+	return objectPosTotal <= objectScaleTotal;
 }

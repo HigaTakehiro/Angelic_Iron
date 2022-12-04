@@ -7,9 +7,24 @@
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ImageManager.h"
+#include "Easing.h"
 
 class ResultScene : public BaseScene
 {
+public:
+	enum ScoreNumber {
+		zero = 64 * 0,
+		one = 64 * 1,
+		two = 64 * 2,
+		three = 64 * 3,
+		four = 64 * 4,
+		five = 64 * 5,
+		six = 64 * 6,
+		seven = 64 * 7,
+		eight = 64 * 8,
+		nine = 64 * 9
+	};
+
 public: //メンバ関数
 
 	/// <summary>
@@ -30,9 +45,42 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+private: //メンバ関数
+	/// <summary>
+	/// nの位の数字を判定する
+	/// </summary>
+	/// <param name="score">判定したいスコア</param>
+	/// <param name="place">判定したいスコアの位</param>
+	/// <returns></returns>
+	ScoreNumber JudgeDigitNumber(int score, int digit);
+
+private: //静的メンバ変数
+	static float scoreRollTime;
+	static float fallTime;
+
 private: //メンバ変数
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
-	Sprite* clear = nullptr; //クリア画面画像
+	Sprite* score = nullptr; //スコア画像
+	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
 
+	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
+
+	float scoreRollTimer;
+	XMFLOAT2 scoreRollPos[6] = {};
+
+	Object3d* resultPlayer = nullptr;
+	Object3d* ground = nullptr;
+	Object3d* celetialSphere = nullptr;
+	Camera* camera = nullptr;
+
+	Vector3 playerRot;
+	Vector3 playerPos;
+	Vector3 playerScale;
+
+	Vector3 groundPos;
+	Vector3 groundScale;
+
+	Vector3 cameraPos;
+	Vector3 cameraTargetPos;
 };
 

@@ -10,8 +10,8 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(aim, L"Engine/Resources/Images/Aim.png");
 	Sprite::LoadTexture(background, L"Engine/Resources/Images/background.png");
 	Sprite::LoadTexture(title, L"Engine/Resources/Images/TitleLogo.png");
-	Sprite::LoadTexture(gameover, L"Engine/Resources/Images/Gameover.png");
-	Sprite::LoadTexture(clear, L"Engine/Resources/Images/Clear.png");
+	Sprite::LoadTexture(score, L"Engine/Resources/Images/Score.png");
+	Sprite::LoadTexture(scoreNumbers, L"Engine/Resources/Images/ScoreNumbers.png");
 	Sprite::LoadTexture(playerUI, L"Engine/Resources/Images/PlayerUI.png");
 	Sprite::LoadTexture(playerHP, L"Engine/Resources/Images/PlayerHP.png");
 	Sprite::LoadTexture(playerBullet, L"Engine/Resources/Images/PlayerBullet.png");

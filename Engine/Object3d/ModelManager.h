@@ -21,6 +21,7 @@ public: //ƒ‚ƒfƒ‹–¼
 	enum ModelName {
 		Player_Normal,
 		Player_Stand,
+		Player_Down,
 		Gun,
 		Enemy,
 		Shot,

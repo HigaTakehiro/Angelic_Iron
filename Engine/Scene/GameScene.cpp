@@ -259,13 +259,7 @@ void GameScene::Update() {
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		int stageNo = SceneManager::GetStageNo();
-		if (stageNo == 1) {
-			SceneManager::SceneChange(SceneManager::Stage2_Rail);
-		}
-		else if (stageNo == 2) {
-			SceneManager::SceneChange(SceneManager::Stage1_Rail);
-		}
+		SceneManager::SceneChange(SceneManager::Result);
 	}
 
 	//player->SetEnemies(enemies);

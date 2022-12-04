@@ -31,7 +31,9 @@ public: //メンバ変数
 	void Finalize();
 
 private: //メンバ変数
-	PostEffect* postEffect = nullptr;
+	PostEffect* postEffect = nullptr; //ポストエフェクト
 	Sprite* gameover = nullptr; //ゲームオーバー画面画像
+
+	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
 };
 

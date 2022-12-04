@@ -2,11 +2,12 @@
 
 void GameOverScene::Initialize()
 {
-	gameover = Sprite::Create(ImageManager::ImageName::gameover, { 0, 0 });
+	gameover = Sprite::Create(ImageManager::ImageName::score, { 0, 0 });
 
 	//PostEffect‚Ì‰Šú‰»
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+	postEffectNo = PostEffect::NONE;
 }
 
 void GameOverScene::Update()
@@ -20,7 +21,6 @@ void GameOverScene::Draw()
 {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
-	static int postEffectNo = 0;
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
