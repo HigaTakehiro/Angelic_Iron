@@ -15,6 +15,14 @@ void GameOverScene::Initialize()
 		scoreNumbers[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers[i]->SetSize({ 64, 64 });
 	}
+	titleBack = Sprite::Create(ImageManager::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	titleBackAlpha = 1.0f;
+	titleBackSize = titleBack->GetSize();
+	restart = Sprite::Create(ImageManager::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	restartAlpha = 1.0f;
+	restartSize = restart->GetSize();
+	restartSize.x /= 2;
+	restartSize.y /= 2;
 
 	scoreRollTimer = 0;
 	for (int i = 0; i < 6; i++) {
@@ -50,6 +58,7 @@ void GameOverScene::Update()
 	const float endPoint = 0;
 	const float scoreRollTime = 240;
 	const float fallTime = 120;
+	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
 	scoreRollTimer++;
 	if (scoreRollTimer >= scoreRollTime) {
@@ -73,8 +82,35 @@ void GameOverScene::Update()
 	celetialSphere->Update();
 	ground->Update();
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::Title);
+	titleBack->SetAlpha(titleBackAlpha);
+	titleBack->SetSize(titleBackSize);
+	restart->SetAlpha(restartAlpha);
+	restart->SetSize(restartSize);
+	titleBackAlpha = 1.0f;
+	restartAlpha = 1.0f;
+
+	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+		titleBackAlpha = 0.5f;
+		XMFLOAT2 spriteSize = titleBackSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		titleBack->SetSize(spriteSize);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
+	}
+	else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
+		restartAlpha = 0.5f;
+		XMFLOAT2 spriteSize = restartSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		restart->SetSize(spriteSize);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 1) {
+			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		}
+		else if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 2) {
+			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		}
 	}
 }
 
@@ -103,6 +139,8 @@ void GameOverScene::Draw()
 	for (int i = 0; i < 6; i++) {
 		scoreNumbers[i]->Draw();
 	}
+	titleBack->Draw();
+	restart->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -119,6 +157,8 @@ void GameOverScene::Finalize()
 	safe_delete(resultPlayer);
 	safe_delete(celetialSphere);
 	safe_delete(ground);
+	safe_delete(titleBack);
+	safe_delete(restart);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}

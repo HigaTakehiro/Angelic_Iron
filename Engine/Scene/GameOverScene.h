@@ -58,11 +58,18 @@ private: //メンバ変数
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
 	Sprite* score = nullptr; //スコア画像
 	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
+	Sprite* titleBack = nullptr;
+	Sprite* restart = nullptr;
 
 	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
 
 	float scoreRollTimer;
 	XMFLOAT2 scoreRollPos[6] = {};
+	XMFLOAT2 titleBackSize;
+	XMFLOAT2 restartSize;
+	XMFLOAT2 mousePos;
+	float titleBackAlpha;
+	float restartAlpha;
 
 	Object3d* resultPlayer = nullptr;
 	Object3d* ground = nullptr;

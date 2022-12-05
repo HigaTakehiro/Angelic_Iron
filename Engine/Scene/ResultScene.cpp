@@ -15,6 +15,9 @@ void ResultScene::Initialize()
 		scoreNumbers[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers[i]->SetSize({ 64, 64 });
 	}
+	titleBack = Sprite::Create(ImageManager::TitleBack, { 640, 600 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	titleBackSize = titleBack->GetSize();
+	titleBackAlpha = 1.0f;
 
 	scoreRollTimer = 0;
 	for (int i = 0; i < 6; i++) {
@@ -55,6 +58,8 @@ void ResultScene::Update()
 	const XMFLOAT2 scoreSize = { 64, 64 };
 	const float endPoint = 0;
 
+	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+
 	scoreRollTimer++;
 	if (scoreRollTimer >= scoreRollTime) {
 		scoreRollTimer = scoreRollTime;
@@ -78,8 +83,19 @@ void ResultScene::Update()
 	ground->Update();
 	gun->Update();
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::Title);
+	titleBack->SetAlpha(titleBackAlpha);
+	titleBack->SetSize(titleBackSize);
+	titleBackAlpha = 1.0f;
+
+	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+		titleBackAlpha = 0.5f;
+		XMFLOAT2 spriteSize = titleBackSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		titleBack->SetSize(spriteSize);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
 	}
 }
 
@@ -109,6 +125,7 @@ void ResultScene::Draw()
 	for (int i = 0; i < 6; i++) {
 		scoreNumbers[i]->Draw();
 	}
+	titleBack->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -126,6 +143,7 @@ void ResultScene::Finalize()
 	safe_delete(celetialSphere);
 	safe_delete(ground);
 	safe_delete(gun);
+	safe_delete(titleBack);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}

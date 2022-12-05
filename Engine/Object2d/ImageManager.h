@@ -36,7 +36,8 @@ public: //‰æ‘œ–¼
 		Close,
 		Pause,
 		TitleBack,
-		Back
+		Back,
+		Restart
 	};
 
 public: //ƒƒ“ƒoŠÖ”

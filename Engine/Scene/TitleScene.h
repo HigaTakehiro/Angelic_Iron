@@ -36,15 +36,6 @@ public: //メンバ関数
 	void Finalize();
 
 private: //メンバ関数
-	/// <summary>
-	/// マウスがスプライトに触れているか
-	/// </summary>
-	/// <param name="mousePos">マウスの位置</param>
-	/// <param name="spritePos">スプライトの位置</param>
-	/// <param name="spriteWidth">スプライト横幅</param>
-	/// <param name="spriteHeight">スプライト縦幅</param>
-	/// <returns>マウスがスプライトを触れている</returns>
-	bool IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight);
 
 private: //静的メンバ変数
 	static const int32_t titleOutTime = 40;

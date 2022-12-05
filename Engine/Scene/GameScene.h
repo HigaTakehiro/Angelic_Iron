@@ -129,16 +129,6 @@ private: //メンバ関数
 	/// <returns>敵の位置にカーソルがあるかどうか</returns>
 	bool IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos);
 
-	/// <summary>
-	/// マウスがスプライトに触れているか
-	/// </summary>
-	/// <param name="mousePos">マウスの位置</param>
-	/// <param name="spritePos">スプライトの位置</param>
-	/// <param name="spriteWidth">スプライト横幅</param>
-	/// <param name="spriteHeight">スプライト縦幅</param>
-	/// <returns>マウスがスプライトを触れている</returns>
-	bool IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight);
-
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 

@@ -273,14 +273,3 @@ void TitleScene::Finalize()
 	safe_delete(celetialSphere);
 	safe_delete(close);
 }
-
-bool TitleScene::IsMouseHitSprite(XMFLOAT2 mousePos, XMFLOAT2 spritePos, float spriteWidth, float spriteHeight)
-{
-	float spriteSizeX = spriteWidth / 2.0f;
-	float spriteSizeY = spriteHeight / 2.0f;
-
-	XMFLOAT2 spriteUpperLeft = { spritePos.x - spriteSizeX, spritePos.y - spriteSizeY };
-	XMFLOAT2 spriteLowerRight = { spritePos.x + spriteSizeX, spritePos.y + spriteSizeY };
-
-	return spriteUpperLeft.x <= mousePos.x && spriteLowerRight.x >= mousePos.x && spriteUpperLeft.y <= mousePos.y && spriteLowerRight.y >= mousePos.y;
-}

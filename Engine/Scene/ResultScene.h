@@ -59,6 +59,11 @@ private: //メンバ変数
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
 	Sprite* score = nullptr; //スコア画像
 	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
+	Sprite* titleBack = nullptr;
+
+	XMFLOAT2 mousePos;
+	XMFLOAT2 titleBackSize;
+	float titleBackAlpha;
 
 	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
 
