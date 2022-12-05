@@ -56,12 +56,25 @@ public: //静的メンバ関数
 	static void SceneChange(SceneName scene);
 
 	/// <summary>
+	/// スコアをセット
+	/// </summary>
+	/// <param name="score">スコア</param>
+	static void SetScore(const int score);
+
+	/// <summary>
 	/// ステージ番号取得
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>ステージ番号</returns>
 	static int GetStageNo() { return stageNo; }
+
+	/// <summary>
+	/// スコア取得
+	/// </summary>
+	/// <returns>スコア</returns>
+	static int GetScore() { return score; }
 
 private: //静的メンバ変数
 	static BaseScene* nowScene;
 	static int stageNo;
+	static int score;
 };

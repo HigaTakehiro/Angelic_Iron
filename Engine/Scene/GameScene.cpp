@@ -70,6 +70,8 @@ void GameScene::Initialize() {
 
 	postEffectNo = PostEffect::NORMAL;
 
+	score = 0;
+
 	//ゲームシーン用変数の初期化
 	//isDead = false;
 	//isClear = false;
@@ -151,6 +153,7 @@ void GameScene::Update() {
 		}
 
 		if (enemy->IsDead()) {
+			score += 100;
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 			new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
@@ -249,9 +252,11 @@ void GameScene::Update() {
 
 	//シーン切り替え
 	if (isDead && !isClear) {
+		SceneManager::SetScore(score);
 		SceneManager::SceneChange(SceneManager::GameOver);
 	}
 	else if (isClear && !isDead) {
+		SceneManager::SetScore(score);
 		SceneManager::SceneChange(SceneManager::Result);
 	}
 	else if (isTitleBack) {
@@ -259,6 +264,7 @@ void GameScene::Update() {
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::SetScore(score);
 		SceneManager::SceneChange(SceneManager::Result);
 	}
 

@@ -190,6 +190,8 @@ private: //メンバ変数
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 
+	int score;
+
 	PostEffect::PostEffectNo postEffectNo;
 };
 

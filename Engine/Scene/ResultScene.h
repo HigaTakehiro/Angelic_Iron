@@ -54,11 +54,8 @@ private: //メンバ関数
 	/// <returns></returns>
 	ScoreNumber JudgeDigitNumber(int score, int digit);
 
-private: //静的メンバ変数
-	static float scoreRollTime;
-	static float fallTime;
-
 private: //メンバ変数
+
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
 	Sprite* score = nullptr; //スコア画像
 	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
@@ -71,6 +68,7 @@ private: //メンバ変数
 	Object3d* resultPlayer = nullptr;
 	Object3d* ground = nullptr;
 	Object3d* celetialSphere = nullptr;
+	Object3d* gun = nullptr;
 	Camera* camera = nullptr;
 
 	Vector3 playerRot;

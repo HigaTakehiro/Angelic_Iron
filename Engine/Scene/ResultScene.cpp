@@ -1,12 +1,9 @@
 #include "ResultScene.h"
 
-float ResultScene::scoreRollTime = 240.0f;
-float ResultScene::fallTime = 120.0f;
-
 void ResultScene::Initialize()
 {
 	cameraPos = { -50, 0, 100 };
-	cameraTargetPos = { 0, 1500, 0 };
+	cameraTargetPos = { 0, 0, 0 };
 
 	camera = new Camera;
 	camera->SetEye(cameraPos);
@@ -24,13 +21,17 @@ void ResultScene::Initialize()
 		scoreRollPos[i] = { -640, 0 };
 	}
 
-	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Down));
+	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	playerScale = { 20, 20, 20 };
-	playerPos = { -30, 1500, 0 };
+	playerPos = { -30, 0, -500 };
 	playerRot = { 0, 0, 0 };
 	resultPlayer->SetScale(playerScale);
 	resultPlayer->SetPosition(playerPos);
 	resultPlayer->SetRotation(playerRot);
+
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun->SetPosition(Vector3(0.9, 0.6, 1.2));
+	gun->SetParent(resultPlayer);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -44,28 +45,29 @@ void ResultScene::Initialize()
 	//PostEffectの初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	postEffectNo = PostEffect::DAMAGE;
+	postEffectNo = PostEffect::NORMAL;
 }
 
 void ResultScene::Update()
 {
+	const float scoreRollTime = 240.0f;
+	const float fallTime = 120.0f;
 	const XMFLOAT2 scoreSize = { 64, 64 };
-	const float lastY = 0;
-	const int testScore = 853906;
+	const float endPoint = 0;
 
 	scoreRollTimer++;
 	if (scoreRollTimer >= scoreRollTime) {
 		scoreRollTimer = scoreRollTime;
 	}
 
-	cameraTargetPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, lastY, cameraTargetPos.y);
-	playerPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, lastY, playerPos.y);
+	//cameraTargetPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, lastY, cameraTargetPos.y);
+	playerPos.z = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, endPoint, playerPos.z);
 
 	camera->SetTarget(cameraTargetPos);
 	resultPlayer->SetPosition(playerPos);
 
 	for (int i = 0; i < 6; i++) {
-		scoreRollPos[i].x = Easing::GetIns()->easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(testScore, i), scoreRollPos[i].x);
+		scoreRollPos[i].x = Easing::GetIns()->easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
 	}
 	for (int i = 0; i < 6; i++) {
 		scoreNumbers[i]->SetTextureRect(scoreRollPos[i], scoreSize);
@@ -74,6 +76,7 @@ void ResultScene::Update()
 	resultPlayer->Update();
 	celetialSphere->Update();
 	ground->Update();
+	gun->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 		SceneManager::SceneChange(SceneManager::Title);
@@ -97,6 +100,7 @@ void ResultScene::Draw()
 	resultPlayer->Draw();
 	celetialSphere->Draw();
 	ground->Draw();
+	gun->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -110,7 +114,7 @@ void ResultScene::Draw()
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 0, postEffectNo);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60, postEffectNo, true);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
@@ -121,6 +125,7 @@ void ResultScene::Finalize()
 	safe_delete(resultPlayer);
 	safe_delete(celetialSphere);
 	safe_delete(ground);
+	safe_delete(gun);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}

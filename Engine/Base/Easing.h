@@ -47,7 +47,8 @@ public: //ÉÅÉìÉoä÷êî
 
 	inline float easeOutBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
 		maxPos -= nowPos;
-		time = time / maxTime - 1;
+		time /= maxTime;
+		time -= 1;
 
 		return maxPos * (time * time * ((back + 1) * time + back) + 1) + nowPos;
 	}

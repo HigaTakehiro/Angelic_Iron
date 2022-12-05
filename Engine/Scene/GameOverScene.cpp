@@ -2,16 +2,77 @@
 
 void GameOverScene::Initialize()
 {
-	gameover = Sprite::Create(ImageManager::ImageName::score, { 0, 0 });
+	cameraPos = { -50, 0, 100 };
+	cameraTargetPos = { 0, 500, 0 };
+
+	camera = new Camera;
+	camera->SetEye(cameraPos);
+	camera->SetTarget(cameraTargetPos);
+
+	score = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	for (int i = 0; i < 6; i++) {
+		scoreNumbers[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+		scoreNumbers[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
+		scoreNumbers[i]->SetSize({ 64, 64 });
+	}
+
+	scoreRollTimer = 0;
+	for (int i = 0; i < 6; i++) {
+		scoreRollPos[i] = { -640, 0 };
+	}
+
+	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Down));
+	playerScale = { 20, 20, 20 };
+	playerPos = { -30, 500, 0 };
+	playerRot = { 0, 0, 0 };
+	resultPlayer->SetScale(playerScale);
+	resultPlayer->SetPosition(playerPos);
+	resultPlayer->SetRotation(playerRot);
+
+	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	groundPos = { 0, -50, 0 };
+	ground->SetPosition(groundPos);
+	groundScale = { 10, 10, 10 };
+	ground->SetScale(groundScale);
+
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere->SetScale({ 15, 15, 15 });
 
 	//PostEffectの初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	postEffectNo = PostEffect::NONE;
+	postEffectNo = PostEffect::DAMAGE;
 }
 
 void GameOverScene::Update()
 {
+	const XMFLOAT2 scoreSize = { 64, 64 };
+	const float endPoint = 0;
+	const float scoreRollTime = 240;
+	const float fallTime = 120;
+
+	scoreRollTimer++;
+	if (scoreRollTimer >= scoreRollTime) {
+		scoreRollTimer = scoreRollTime;
+	}
+
+	cameraTargetPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, endPoint, cameraTargetPos.y);
+	playerPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, endPoint, playerPos.y);
+
+	camera->SetTarget(cameraTargetPos);
+	resultPlayer->SetPosition(playerPos);
+
+	for (int i = 0; i < 6; i++) {
+		scoreRollPos[i].x = Easing::GetIns()->easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
+	}
+	for (int i = 0; i < 6; i++) {
+		scoreNumbers[i]->SetTextureRect(scoreRollPos[i], scoreSize);
+	}
+
+	resultPlayer->Update();
+	celetialSphere->Update();
+	ground->Update();
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) || MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 		SceneManager::SceneChange(SceneManager::Title);
 	}
@@ -31,24 +92,44 @@ void GameOverScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-
+	resultPlayer->Draw();
+	celetialSphere->Draw();
+	ground->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	gameover->Draw();
-
+	score->Draw();
+	for (int i = 0; i < 6; i++) {
+		scoreNumbers[i]->Draw();
+	}
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectNo);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 0, postEffectNo);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
 void GameOverScene::Finalize()
 {
 	safe_delete(postEffect);
-	safe_delete(gameover);
+	safe_delete(score);
+	safe_delete(resultPlayer);
+	safe_delete(celetialSphere);
+	safe_delete(ground);
+	for (int i = 0; i < 6; i++) {
+		safe_delete(scoreNumbers[i]);
+	}
+}
+
+GameOverScene::ScoreNumber GameOverScene::JudgeDigitNumber(int score, int digit) {
+	if (score >= 1000000) {
+		return nine;
+	}
+
+	int num = (score / (int)pow(10, digit)) % 10;
+
+	return (ScoreNumber)(64 * num);
 }
