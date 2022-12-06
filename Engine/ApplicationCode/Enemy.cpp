@@ -61,7 +61,7 @@ void Enemy::Update(const XMFLOAT3& playerPos, float delayTime) {
 
 
 		if (--lifeTimer <= lifeTimeOver) {
-			//isDead = true;
+			isDead = true;
 			lifeTimer = 0;
 		}
 

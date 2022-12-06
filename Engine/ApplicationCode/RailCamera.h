@@ -52,6 +52,12 @@ public: //メンバ関数
 	/// <returns></returns>
 	XMMATRIX GetMatWorld() { return matWorld; }
 
+	/// <summary>
+	/// 終点フラグ取得
+	/// </summary>
+	/// <returns>終点フラグ</returns>
+	bool GetIsEnd() { return isEnd; }
+
 private: //メンバ関数
 
 	/// <summary>
@@ -102,9 +108,10 @@ private: //メンバ変数
 	Vector3 initPos; //初期座標
 	Vector3 initRot; //初期回転
 
-	bool isStop = true; //デバッグ用カメラ停止フラグ
+	bool isStop = false; //デバッグ用カメラ停止フラグ
 	bool isDamage = false; //ダメージを受けたかのフラグ
-	bool isRoop = false;
+	bool isRoop = false; //ループ用フラグ
+	bool isEnd = false; //終点フラグ
 	float delayCount = 0;
 
 	int  damageEffectTimer; //ダメージ演出用タイマー

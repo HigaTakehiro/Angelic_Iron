@@ -60,9 +60,9 @@ void RailCamera::Update(float delayCount) {
 			//DamageCameraEffect();
 		}
 
-		UpdateMatWorld();
-		Camera::SetEye(eye);
 		this->delayCount = 0;
+		UpdateMatWorld();
+
 	}
 	
 }
@@ -106,6 +106,7 @@ void RailCamera::SplineMove() {
 			if (isRoop) {
 				startIndex = 0;
 			}
+			isEnd = true;
 			timeRate = 1.0f;
 		}
 	}
@@ -137,6 +138,8 @@ void RailCamera::SplineMove() {
 	rot.y = roundf(rot.y * 10.0f) / 10.0f;
 
 	eye = Spline(points, startIndex, timeRate);
+	Camera::SetEye(eye);
+
 }
 
 void RailCamera::UpdateMatWorld() {

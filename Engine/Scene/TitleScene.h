@@ -56,6 +56,7 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* manualButton = nullptr;
 	Sprite* manual = nullptr;
 	Sprite* close = nullptr;
+	Sprite* aim = nullptr;
 
 	XMFLOAT2 titlePos;
 	XMFLOAT2 startButtonPos;

@@ -25,8 +25,8 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 
 	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	playerScale = { 2, 2, 2 };
-	playerLPos = { 0, 200, -50 };
-	playerRot = { 90, 180, 0 };
+	playerLPos = { 0, 200, 50 };
+	playerRot = { 90, 0, 0 };
 	player->SetScale(playerScale);
 	player->SetPosition(playerLPos);
 	player->SetRotation(playerRot);
@@ -182,7 +182,7 @@ void Player::Move() {
 	const float stopPosY = 20.0f;
 	const float stopRotX = 30.0f;
 	const float stopRotY = 50.0f;
-	const Vector3 initRot = { 0, 180, 0 };
+	const Vector3 initRot = { 0, 0, 0 };
 	const float timeOver = 100.0f;
 	const float initTime = 0.0f;
 
@@ -214,8 +214,8 @@ void Player::Move() {
 		if (holdTimer[2] <= timeOver) {
 			holdTimer[2]++;
 		}
-		if (playerLPos.x <= stopPosX) {
-			playerLPos.x += moveSpeed;
+		if (playerLPos.x >= -stopPosX) {
+			playerLPos.x -= moveSpeed;
 		}
 		playerRot.y = Easing::GetIns()->easeOut(holdTimer[2], timeOver, initRot.y - stopRotY, playerRot.y);
 	}
@@ -226,8 +226,8 @@ void Player::Move() {
 		if (holdTimer[3] <= timeOver) {
 			holdTimer[3]++;
 		}
-		if (playerLPos.x >= -stopPosX) {
-			playerLPos.x -= moveSpeed;
+		if (playerLPos.x <= stopPosX) {
+			playerLPos.x += moveSpeed;
 		}
 		playerRot.y = Easing::GetIns()->easeOut(holdTimer[3], timeOver, initRot.y + stopRotX, playerRot.y);
 	}
@@ -249,9 +249,9 @@ void Player::Move() {
 }
 
 void Player::Shot() {
-	const float bulletSpeed = 10.0f;
+	const float bulletSpeed = 5.0f;
 	XMVECTOR velocity;
-	velocity = { aim3d->GetMatWorld().r[3] - player->GetMatWorld().r[3] };
+	velocity = { aimPos3d.x - playerWPos.x, aimPos3d.y - playerWPos.y, aimPos3d.z - playerWPos.z };
 	velocity = XMVector3Normalize(velocity) * bulletSpeed;
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -314,7 +314,7 @@ void Player::AimUpdate() {
 	XMVECTOR mouseDirection = posFar - posNear; //ベクトル
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 1000.0f; //ベクトルの方向にいくら進ませるか
+	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
 
 	XMVECTOR raticle3D;
 	raticle3D = posNear + mouseDirection * kDistanceTestObject;

@@ -31,6 +31,9 @@ void TitleScene::Initialize()
 	manual->SetAnchorPoint(spriteCenter);
 	close = Sprite::Create(ImageManager::ImageName::Close, closePos);
 	close->SetAnchorPoint(spriteCenter);
+	aim = Sprite::Create(ImageManager::aim, { 0, 0 });
+	aim->SetAnchorPoint({ 0.5f, 0.5f });
+	aim->SetSize({ aim->GetSize().x / 2, aim->GetSize().y / 2 });
 
 	startButtonSize = startButton->GetSize();
 	stage1Size = stage1->GetSize();
@@ -68,6 +71,7 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+	aim->SetPosition(mousePos);
 
 	titlePlayer->Update();
 	ground->Update();
@@ -248,6 +252,7 @@ void TitleScene::Draw()
 		startButton->Draw();
 	}
 	title->Draw();
+	aim->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -272,4 +277,5 @@ void TitleScene::Finalize()
 	safe_delete(manual);
 	safe_delete(celetialSphere);
 	safe_delete(close);
+	safe_delete(aim);
 }

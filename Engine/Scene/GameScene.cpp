@@ -95,8 +95,8 @@ void GameScene::Update() {
 	char xPos[256];
 	char yPos[256];
 	char isSlowCheck[256];
-	sprintf_s(xPos, "StageNo : %d", SceneManager::GetStageNo());
-	//sprintf_s(yPos, "Xpoint : %d, YPoint : %d", MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	sprintf_s(xPos, "PlayerWPos = (x : %f, y : %f, z : %f)", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
+	sprintf_s(yPos, "aim3DPos = (x : %f, y : %f, z : %f)", player->Get3dAimPos().x, player->Get3dAimPos().y, player->Get3dAimPos().z);
 	if (!player->GetIsBomb()) {
 		sprintf_s(isSlowCheck, "false");
 	}
@@ -104,7 +104,7 @@ void GameScene::Update() {
 		sprintf_s(isSlowCheck, "true");
 	}
 	debugText.Print(xPos, 0, 0, 2.0f);
-	//debugText.Print(yPos, 0, 50, 2.0f);
+	debugText.Print(yPos, 0, 50, 2.0f);
 	debugText.Print(isSlowCheck, 0, 100, 2.0f);
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
@@ -162,7 +162,7 @@ void GameScene::Update() {
 
 	EnemyDataUpdate();
 
-	if (enemies.empty()) {
+	if (railCamera->GetIsEnd()) {
 		clearTimer--;
 	}
 	if (clearTimer <= 0) {
@@ -194,10 +194,9 @@ void GameScene::Update() {
 	if (!isPause) {
 		celetialSphere->Update();
 		ground->Update();
-		player->Update(enemies.empty());
 
 		if (player->GetHPCount() > 0) {
-			if (!enemies.empty()) {
+			if (!railCamera->GetIsEnd()) {
 				railCamera->Update(delayCount);
 			}
 			for (std::unique_ptr<Enemy>& enemy : enemies) {
@@ -217,6 +216,8 @@ void GameScene::Update() {
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
 		}
+
+		player->Update(railCamera->GetIsEnd());
 	}
 	else {
 		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
