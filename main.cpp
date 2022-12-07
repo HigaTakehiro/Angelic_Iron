@@ -2,7 +2,7 @@
 #include "WinApp.h"
 #include "DirectXSetting.h"
 #include "Sound.h"
-#include "GameScene.h"
+#include "RailScene.h"
 #include "PostEffect.h"
 #include "MouseInput.h"
 #include "PadInput.h"
@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
 	DirectXSetting* dxCommon = DirectXSetting::GetIns();
-	SceneManager* gameScene = nullptr;
+	SceneManager* RailScene = nullptr;
 	Sound* sound = Sound::GetIns();
 
 	//WindowsAPIの初期化
@@ -54,8 +54,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 	ModelManager::GetIns()->Initialize();
 	
-	gameScene = new SceneManager();
-	gameScene->Initialize();
+	RailScene = new SceneManager();
+	RailScene->Initialize();
 
 	// DirectX初期化処理　ここまで
 
@@ -72,17 +72,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		KeyInput::GetIns()->Update();
 		MouseInput::GetIns()->Update();
 		PadInput::GetIns()->Update();
-		gameScene->Update();
+		RailScene->Update();
 
 		// DirectX毎フレーム処理　ここまで
 		// ４．描画コマンドここから
-		gameScene->Draw();
+		RailScene->Draw();
 
 	}
 
-	//GameScene解放
-	gameScene->Finalize();
-	safe_delete(gameScene);
+	//RailScene解放
+	RailScene->Finalize();
+	safe_delete(RailScene);
 	//WindowsAPI解放
 	winApp->Finalize();
 	safe_delete(winApp);

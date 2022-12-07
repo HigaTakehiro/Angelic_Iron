@@ -24,7 +24,7 @@ public:
 		nine = 64 * 9
 	};
 
-public: //ƒƒ“ƒo•Ï”
+public: //ƒƒ“ƒoŠÖ”
 
 	/// <summary>
 	/// ‰Šú‰»

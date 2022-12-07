@@ -158,7 +158,7 @@ void Enemy::Shot() {
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
 
-	gameScene->AddEnemyBullet(std::move(newBullet));
+	railScene->AddEnemyBullet(std::move(newBullet));
 }
 
 bool Enemy::IsShotRangeJudge(const Vector3& playerPos, const Vector3& enemyPos, float range, float playerScale) {

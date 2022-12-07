@@ -40,22 +40,22 @@ void SceneManager::SceneChange(SceneName scene) {
 	case Stage1_Rail:
 		stageNo = 1;
 		score = 0;
-		nowScene = new GameScene();
+		nowScene = new RailScene();
 		nowScene->Initialize();
 		break;
 
 	case Stage1_Boss:
-		nowScene = new GameScene();
+		nowScene = new RailScene();
 		nowScene->Initialize();
 		break;
 	case Stage2_Rail:
 		stageNo = 2;
 		score = 0;
-		nowScene = new GameScene();
+		nowScene = new RailScene();
 		nowScene->Initialize();
 		break;
 	case Stage2_Boss:
-		nowScene = new GameScene();
+		nowScene = new RailScene();
 		nowScene->Initialize();
 		break;
 	case Result:

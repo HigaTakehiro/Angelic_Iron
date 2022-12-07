@@ -15,7 +15,7 @@
 #include "MatCalc.h"
 #include "ModelManager.h"
 #include "PlayerBullet.h"
-#include "GameScene.h"
+#include "RailScene.h"
 #include "Sound.h"
 #include "ImageManager.h"
 #include "Bomb.h"
@@ -24,7 +24,7 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-class GameScene;
+class RailScene;
 class Enemy;
 
 class Player
@@ -107,8 +107,8 @@ public: //メンバ関数
 	/// <summary>
 	/// ゲームシーンをセット
 	/// </summary>
-	/// <param name="gameScene">ゲームシーン</param>
-	void SetGameScene(GameScene* gameScene) { this->gameScene = gameScene; }
+	/// <param name="RailScene">ゲームシーン</param>
+	void SetRailScene(RailScene* RailScene) { this->railScene = RailScene; }
 
 	///// <summary>
 	///// エネミーリストをセット
@@ -215,7 +215,7 @@ private: //メンバ変数
 
 	Vector3 aimPos3d;
 	Camera* camera;
-	GameScene* gameScene;
+	RailScene* railScene;
 	Sound* sound;
 	//std::list<std::unique_ptr<Enemy>> enemies;
 

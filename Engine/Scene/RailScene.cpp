@@ -1,9 +1,9 @@
-#include "GameScene.h"
+#include "RailScene.h"
 #include "FBXObject3d.h"
 #include <algorithm>
 #include <fstream>
 
-void GameScene::Initialize() {
+void RailScene::Initialize() {
 
 	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
 
@@ -37,7 +37,7 @@ void GameScene::Initialize() {
 
 	player = new Player();
 	player->Initialize(camera, Sound::GetIns(), clearTime);
-	player->SetGameScene(this);
+	player->SetRailScene(this);
 
 	int stageNo;
 	stageNo = SceneManager::GetStageNo();
@@ -82,7 +82,7 @@ void GameScene::Initialize() {
 	referenceCount = std::chrono::steady_clock::now();
 }
 
-void GameScene::Update() {
+void RailScene::Update() {
 	// DirectX毎フレーム処理　ここから
 	const int32_t noneHP = 0;
 
@@ -275,7 +275,7 @@ void GameScene::Update() {
 
 }
 
-void GameScene::Draw() {
+void RailScene::Draw() {
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
@@ -342,7 +342,7 @@ void GameScene::Draw() {
 	DirectXSetting::GetIns()->PostDraw();
 }
 
-void GameScene::Finalize() {
+void RailScene::Finalize() {
 	player->Finalize();
 	safe_delete(player);
 	safe_delete(ground);
@@ -360,7 +360,7 @@ void GameScene::Finalize() {
 	//FbxLoader::GetInstance()->Finalize();
 }
 
-//void GameScene::Reset() {
+//void RailScene::Reset() {
 //	LoadRailPoint();
 //	railCamera->Reset(points);
 //
@@ -381,7 +381,7 @@ void GameScene::Finalize() {
 //	LoadEnemyData();
 //}
 
-void GameScene::LoadEnemyData(const std::string filename) {
+void RailScene::LoadEnemyData(const std::string filename) {
 	//ファイルストリーム
 	std::ifstream file;
 	enemyData.str("");
@@ -399,7 +399,7 @@ void GameScene::LoadEnemyData(const std::string filename) {
 	file.close();
 }
 
-void GameScene::EnemyDataUpdate() {
+void RailScene::EnemyDataUpdate() {
 	std::string line;
 	Vector3 pos{};
 	Vector3 rot{};
@@ -451,7 +451,7 @@ void GameScene::EnemyDataUpdate() {
 		if (isPos && isScale && isStyle) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 			newEnemy->Initialize("Enemy", pos, scale, type);
-			newEnemy->SetGamaScene(this);
+			newEnemy->SetRailScene(this);
 			enemies.push_back(std::move(newEnemy));
 			isPos = false;
 			isScale = false;
@@ -460,19 +460,19 @@ void GameScene::EnemyDataUpdate() {
 	}
 }
 
-void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
+void RailScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
 	enemyBullets.push_back(std::move(enemyBullet));
 }
 
-void GameScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
+void RailScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
 	playerBullets.push_back(std::move(playerBullet));
 }
 
-void GameScene::AddBomb(std::unique_ptr<Bomb> bomb) {
+void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
 	bombs.push_back(std::move(bomb));
 }
 
-void GameScene::LoadRailPoint(const std::string filename) {
+void RailScene::LoadRailPoint(const std::string filename) {
 	//ファイルストリーム
 	std::ifstream file;
 	std::stringstream railcameraPointsData;
@@ -585,18 +585,7 @@ void GameScene::LoadRailPoint(const std::string filename) {
 
 }
 
-bool GameScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
+bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	const float aimPosCorrection = 20.0f;
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
-}
-
-int GameScene::GetBombTarget() {
-	int enemyTargetCount = 0;
-	for (const std::unique_ptr<Enemy>& enemy : enemies) {
-		if (enemy->GetIsTarget()) {
-			enemyTargetCount++;
-		}
-	}
-
-	return enemyTargetCount;
 }

@@ -138,7 +138,7 @@
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\GameScene.cpp">
+    <ClCompile Include="Engine\Scene\RailScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\SceneManager.cpp">
@@ -158,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Scene\BaseScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\BossScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\BaseBoss.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,7 +266,7 @@
     <ClInclude Include="Engine\ApplicationCode\Bomb.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\GameScene.h">
+    <ClInclude Include="Engine\Scene\RailScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\SceneManager.h">
@@ -277,6 +286,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\JsonLoader.h">
       <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\BossScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\BaseBoss.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

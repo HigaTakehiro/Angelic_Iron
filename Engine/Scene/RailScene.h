@@ -35,7 +35,7 @@ using namespace Microsoft::WRL;
 class Enemy;
 class Player;
 
-class GameScene : public BaseScene
+class RailScene : public BaseScene
 {
 private: //静的メンバ変数
 	//デバックテキスト用テクスチャ番号
@@ -45,12 +45,12 @@ public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	GameScene() = default;
+	RailScene() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameScene() = default;
+	~RailScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -102,11 +102,6 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="bomb"></param>
 	void AddBomb(std::unique_ptr<Bomb> bomb);
-
-	/// <summary>
-	/// ターゲットされている敵の数取得
-	/// </summary>
-	int GetBombTarget();
 
 	/// <summary>
 	/// 敵オブジェクト取得

@@ -149,6 +149,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\ApplicationCode\BaseBoss.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Enemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
@@ -181,14 +183,17 @@
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
+    <ClCompile Include="Engine\Scene\BossScene.cpp" />
     <ClCompile Include="Engine\Scene\GameOverScene.cpp" />
-    <ClCompile Include="Engine\Scene\GameScene.cpp" />
+    <ClCompile Include="Engine\Scene\RailScene.cpp" />
     <ClCompile Include="Engine\Scene\ResultScene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\ApplicationCode\BaseBoss.h" />
+    <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Bomb.h" />
     <ClInclude Include="Engine\ApplicationCode\Enemy.h" />
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
@@ -223,8 +228,9 @@
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
+    <ClInclude Include="Engine\Scene\BossScene.h" />
     <ClInclude Include="Engine\Scene\GameOverScene.h" />
-    <ClInclude Include="Engine\Scene\GameScene.h" />
+    <ClInclude Include="Engine\Scene\RailScene.h" />
     <ClInclude Include="Engine\Scene\ResultScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Scene\TitleScene.h" />

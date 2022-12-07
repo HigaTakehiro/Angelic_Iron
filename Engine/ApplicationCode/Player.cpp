@@ -123,7 +123,7 @@ void Player::Update(bool isClear) {
 
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
 			isBomb = !isBomb;
-			for (std::unique_ptr<Enemy>& enemy : gameScene->GetEnemyObj()) {
+			for (std::unique_ptr<Enemy>& enemy : railScene->GetEnemyObj()) {
 				enemy->SetTarget(false);
 			}
 		}
@@ -257,7 +257,7 @@ void Player::Shot() {
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos, velocity);
 
-	gameScene->AddPlayerBullet(std::move(newBullet));
+	railScene->AddPlayerBullet(std::move(newBullet));
 
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;
@@ -266,12 +266,12 @@ void Player::Shot() {
 }
 
 void Player::BombShot() {
-	for (std::unique_ptr<Enemy>& enemy : gameScene->GetEnemyObj()) {
+	for (std::unique_ptr<Enemy>& enemy : railScene->GetEnemyObj()) {
 		if (enemy->GetIsTarget()) {
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
 			newBomb->Initialize(playerWPos, enemy->GetEnemyObj());
 
-			gameScene->AddBomb(std::move(newBomb));
+			railScene->AddBomb(std::move(newBomb));
 		}
 	}
 	

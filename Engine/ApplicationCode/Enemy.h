@@ -5,11 +5,11 @@
 #include "SafeDelete.h"
 #include "ModelManager.h"
 #include "EnemyBullet.h"
-#include "GameScene.h"
+#include "RailScene.h"
 #include "Sprite.h"
 #include "Easing.h"
 
-class GameScene;
+class RailScene;
 
 class Enemy
 {
@@ -84,10 +84,10 @@ public: //メンバ関数
 	bool GetIsTarget() { return isTarget; }
 
 	/// <summary>
-	/// ゲームシーンをセットする
+	/// レールシーンをセットする
 	/// </summary>
-	/// <param name="gameScene">ゲームシーン</param>
-	void SetGamaScene(GameScene* gameScene) { this->gameScene = gameScene; }
+	/// <param name="RailScene">ゲームシーン</param>
+	void SetRailScene(RailScene* railScene) { this->railScene = railScene; }
 
 	/// <summary>
 	/// ロックオンフラグをたてる
@@ -129,7 +129,7 @@ private: //メンバ変数
 	int32_t lifeTimer;
 	Object3d* enemy;
 	Sprite* target;
-	GameScene* gameScene;
+	RailScene* railScene;
 	Vector3 pos;
 	Vector3 oldPos;
 	float moveSpeedX;
