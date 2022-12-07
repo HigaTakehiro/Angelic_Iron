@@ -45,7 +45,7 @@ void SceneManager::SceneChange(SceneName scene) {
 		break;
 
 	case Stage1_Boss:
-		nowScene = new RailScene();
+		nowScene = new BossScene();
 		nowScene->Initialize();
 		break;
 	case Stage2_Rail:
@@ -55,7 +55,7 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene->Initialize();
 		break;
 	case Stage2_Boss:
-		nowScene = new RailScene();
+		nowScene = new BossScene();
 		nowScene->Initialize();
 		break;
 	case Result:

@@ -166,7 +166,10 @@
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\NormalEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\NormalEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

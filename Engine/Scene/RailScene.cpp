@@ -258,7 +258,12 @@ void RailScene::Update() {
 	}
 	else if (isClear && !isDead) {
 		SceneManager::SetScore(score);
-		SceneManager::SceneChange(SceneManager::Result);
+		if (SceneManager::GetStageNo() == 1) {
+			SceneManager::SceneChange(SceneManager::Stage1_Boss);
+		}
+		else if (SceneManager::GetStageNo() == 2) {
+			SceneManager::SceneChange(SceneManager::Stage2_Boss);
+		}
 	}
 	else if (isTitleBack) {
 		SceneManager::SceneChange(SceneManager::Title);
@@ -266,7 +271,7 @@ void RailScene::Update() {
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 		SceneManager::SetScore(score);
-		SceneManager::SceneChange(SceneManager::Result);
+		SceneManager::SceneChange(SceneManager::Stage1_Boss);
 	}
 
 	//player->SetEnemies(enemies);

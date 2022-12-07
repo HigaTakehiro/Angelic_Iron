@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Object3d.h"
 #include "Model.h"
 #include "Vector3.h"
@@ -27,7 +28,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの座標</param>
 	/// <param name="delayTime">スロー演出用遅延時間</param>
-	virtual void Update(Vector3 playerPos, int delayTime) = 0;
+	virtual void Update(const Vector3& playerPos, const int delayTime) = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -45,12 +46,12 @@ public: //メンバ関数
 	/// </summary>
 	void OnCollision();
 	/// <summary>
-	/// ロックオンフラグを立てる
+	/// ロックオンフラグをセット
 	/// </summary>
 	/// <param name="isTarget"></param>
 	void SetIsTarget(bool isTarget) { this->isTarget = isTarget; }
 	/// <summary>
-	/// 死亡フラグをセット
+	/// 死亡フラグを取得
 	/// </summary>
 	/// <param name="isDead"></param>
 	bool GetIsDead() { return isDead; }
@@ -60,9 +61,29 @@ public: //メンバ関数
 	/// <param name="railScene"></param>
 	void SetRailScene(RailScene* railScene) { this->railScene = railScene; }
 
+protected: //メンバ関数
+	/// <summary>
+	/// 移動処理
+	/// </summary>
+	virtual void Move() = 0;
+	/// <summary>
+	/// 攻撃処理
+	/// </summary>
+	virtual void Attack() = 0;
+
+protected: //静的メンバ変数
+	//ロックオン演出用時間
+	static const float targetReactionTime;
+
 protected: //メンバ変数
+	//敵オブジェクト
+	Object3d* enemy;
+	//ロックオン画像
+	Sprite* target;
 	//座標
 	Vector3 pos;
+	//初期座標
+	Vector3 oldPos;
 	//大きさ
 	Vector3 scale;
 	//回転角
@@ -73,5 +94,20 @@ protected: //メンバ変数
 	bool isTarget;
 	//ゲームシーンのポインタ
 	RailScene* railScene;
+	//体力
+	int hp;
+	//プレイヤーの座標
+	Vector3 playerPos;
+	//生存時間
+	int32_t lifeTimer;
+	//最大生存時間
+	int32_t lifeTime;
+	//弾発射間隔時間
+	int32_t shotIntervalTimer;
+	//弾発射間隔
+	int32_t shotIntervalTime;
+	//ロックオン演出用時間
+	float targetReactionTimer;
+	//スロー演出用タイマー
+	int delayTimer;
 };
-
