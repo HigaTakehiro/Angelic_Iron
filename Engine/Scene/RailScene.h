@@ -29,6 +29,8 @@
 #include <thread>
 #include "BaseScene.h"
 #include "SceneManager.h"
+#include "BaseEnemy.h"
+#include "NormalEnemy.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -146,8 +148,10 @@ private: //メンバ変数
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;
 	Sprite* back = nullptr;
+	Sprite* restart = nullptr;
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;
+	XMFLOAT2 restartSize;
 
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト
@@ -169,6 +173,7 @@ private: //メンバ変数
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	bool isPause; //ポーズフラグ
 	bool isTitleBack; //タイトル画面変更フラグ
+	bool isRestart;
 	int32_t waitTimer; //エネミー読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列

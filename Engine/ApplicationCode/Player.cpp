@@ -314,7 +314,7 @@ void Player::AimUpdate() {
 	XMVECTOR mouseDirection = posFar - posNear; //ベクトル
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 100.0f; //ベクトルの方向にいくら進ませるか
+	const float kDistanceTestObject = 150.0f; //ベクトルの方向にいくら進ませるか
 
 	XMVECTOR raticle3D;
 	raticle3D = posNear + mouseDirection * kDistanceTestObject;

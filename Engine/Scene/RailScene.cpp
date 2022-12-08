@@ -21,9 +21,14 @@ void RailScene::Initialize() {
 	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
 	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBackSize = titleBack->GetSize();
-	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 500 });
+	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
+	restart = Sprite::Create(ImageManager::Restart, { 640, 600 });
+	restart->SetAnchorPoint({ 0.5f, 0.5f });
+	restartSize = restart->GetSize();
+	restartSize.x /= 2;
+	restartSize.y /= 2;
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -249,6 +254,19 @@ void RailScene::Update() {
 			back->SetSize(backSize);
 			back->SetAlpha(normalAlpha);
 		}
+
+		if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
+			selectSize = { restartSize.x * 0.9f, restartSize.y * 0.9f };
+			restart->SetSize(selectSize);
+			restart->SetAlpha(selectAlpha);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				isRestart = true;
+			}
+		}
+		else {
+			restart->SetSize(restartSize);
+			restart->SetAlpha(normalAlpha);
+		}
 	}
 
 	//シーン切り替え
@@ -267,6 +285,14 @@ void RailScene::Update() {
 	}
 	else if (isTitleBack) {
 		SceneManager::SceneChange(SceneManager::Title);
+	}
+	else if (isRestart) {
+		if (SceneManager::GetStageNo() == 1) {
+			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		}
+		else if (SceneManager::GetStageNo() == 2) {
+			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		}
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
@@ -336,6 +362,7 @@ void RailScene::Draw() {
 		pause->Draw();
 		titleBack->Draw();
 		back->Draw();
+		restart->Draw();
 	}
 	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
@@ -362,29 +389,9 @@ void RailScene::Finalize() {
 	safe_delete(pause);
 	safe_delete(titleBack);
 	safe_delete(back);
+	safe_delete(restart);
 	//FbxLoader::GetInstance()->Finalize();
 }
-
-//void RailScene::Reset() {
-//	LoadRailPoint();
-//	railCamera->Reset(points);
-//
-//	clearTimer = clearTime;
-//	isDead = false;
-//	isClear = false;
-//	isPlayerDead = false;
-//
-//	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-//		playerBullet->OnCollision();
-//	}
-//	for (const std::unique_ptr<Bomb>& bomb : bombs) {
-//		bomb->OnCollision();
-//	}
-//
-//	player->Reset();
-//
-//	LoadEnemyData();
-//}
 
 void RailScene::LoadEnemyData(const std::string filename) {
 	//ファイルストリーム
