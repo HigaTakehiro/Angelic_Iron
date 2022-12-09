@@ -2,12 +2,12 @@
 #include "BaseEnemy.h"
 #include "RailScene.h"
 
-class StraightEnemy : public BaseEnemy
+class HomingEnemy : public BaseEnemy
 {
 public:
-	StraightEnemy() = default;
+	HomingEnemy() = default;
 
-	~StraightEnemy();
+	~HomingEnemy();
 
 public: //メンバ関数
 	/// <summary>
@@ -16,13 +16,13 @@ public: //メンバ関数
 	/// <param name="modelName">モデル名</param>
 	/// <param name="pos">座標</param>
 	/// <param name="scale">大きさ</param>
-	void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) override;
+	void Initialize(const ModelManager::ModelName modelName, const Vector3 & pos, const Vector3 & scale) override;
 	/// <summary>
 	/// 更新処理
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの座標</param>
 	/// <param name="delayTime">スロー演出用遅延時間</param>
-	void Update(const Vector3& playerPos, const int delayTime) override;
+	void Update(const Vector3 & playerPos, const int delayTime) override;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -45,6 +45,5 @@ private: //メンバ関数
 private: //静的メンバ変数
 
 private: //メンバ変数
-
 };
 

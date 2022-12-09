@@ -6,9 +6,11 @@
 #include "SafeDelete.h"
 #include "ModelManager.h"
 #include "EnemyBullet.h"
-#include "RailScene.h"
+#include "ImageManager.h"
 #include "Sprite.h"
 #include "Easing.h"
+
+class RailScene;
 
 class BaseEnemy
 {
@@ -38,10 +40,6 @@ public: //メンバ関数
 	/// </summary>
 	virtual void SpriteDraw() = 0;
 	/// <summary>
-	/// 終了処理
-	/// </summary>
-	virtual void Finalize() = 0;
-	/// <summary>
 	/// 攻撃ヒット時コールバック関数
 	/// </summary>
 	void OnCollision();
@@ -56,10 +54,30 @@ public: //メンバ関数
 	/// <param name="isDead"></param>
 	bool GetIsDead() { return isDead; }
 	/// <summary>
+	/// HP取得
+	/// </summary>
+	/// <returns>HP</returns>
+	int GetHP() { return hp; }
+	/// <summary>
 	/// レールシーンをセット
 	/// </summary>
 	/// <param name="railScene"></param>
 	void SetRailScene(RailScene* railScene) { this->railScene = railScene; }
+	/// <summary>
+	/// ロックオンフラグをセット
+	/// </summary>
+	/// <param name="isTarget">ロックオンフラグ</param>
+	void SetTarget(bool isTarget) { this->isTarget = isTarget; }
+	/// <summary>
+	/// ロックオンフラグを取得
+	/// </summary>
+	/// <returns>ロックオンフラグ</returns>
+	bool GetIsTarget() { return isTarget; }
+	/// <summary>
+	/// 敵オブジェクト取得
+	/// </summary>
+	/// <returns>敵オブジェクト</returns>
+	Object3d* GetEnemyObj() { return enemy; }
 
 protected: //メンバ関数
 	/// <summary>

@@ -1,11 +1,13 @@
-#include "NormalEnemy.h"
+#include "HomingEnemy.h"
 
-StraightEnemy::~StraightEnemy() {
+HomingEnemy::~HomingEnemy()
+{
 	safe_delete(enemy);
 	safe_delete(target);
 }
 
-void StraightEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) {
+void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale)
+{
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
 	enemy->SetPosition(pos);
 	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
@@ -22,7 +24,7 @@ void StraightEnemy::Initialize(const ModelManager::ModelName modelName, const Ve
 	targetReactionTimer = 0;
 }
 
-void StraightEnemy::Update(const Vector3& playerPos, const int delayTime)
+void HomingEnemy::Update(const Vector3& playerPos, const int delayTime)
 {
 	const int32_t lifeTimeOver = 0;
 
@@ -67,37 +69,25 @@ void StraightEnemy::Update(const Vector3& playerPos, const int delayTime)
 	}
 }
 
-void StraightEnemy::Draw()
+void HomingEnemy::Draw()
 {
 	enemy->Draw();
 }
 
-void StraightEnemy::SpriteDraw()
+void HomingEnemy::SpriteDraw()
 {
 	if (isTarget) {
 		target->Draw();
 	}
 }
 
-void StraightEnemy::Move()
+void HomingEnemy::Move()
 {
-	Vector3 nowPos = { enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z };
-	nowPos.y += 0.1f;
-	enemy->SetPosition(nowPos);
+	XMFLOAT3 enemyPos = enemy->GetPosition();
+	enemyPos.x++;
+	enemy->SetPosition(enemyPos);
 }
 
-void StraightEnemy::Attack()
+void HomingEnemy::Attack()
 {
-	if (++shotIntervalTimer >= shotIntervalTime) {
-		const float bulletSpeed = 0.001f;
-		XMVECTOR velocity = { 0, 0, 1 };
-
-		velocity = MatCalc::GetIns()->VecDivided(velocity, enemy->GetMatWorld());
-
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
-
-		railScene->AddEnemyBullet(std::move(newBullet));
-		shotIntervalTimer = 0;
-	}
 }

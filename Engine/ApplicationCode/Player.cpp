@@ -123,7 +123,7 @@ void Player::Update(bool isClear) {
 
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
 			isBomb = !isBomb;
-			for (std::unique_ptr<Enemy>& enemy : railScene->GetEnemyObj()) {
+			for (std::unique_ptr<BaseEnemy>& enemy : railScene->GetEnemyObj()) {
 				enemy->SetTarget(false);
 			}
 		}
@@ -266,7 +266,7 @@ void Player::Shot() {
 }
 
 void Player::BombShot() {
-	for (std::unique_ptr<Enemy>& enemy : railScene->GetEnemyObj()) {
+	for (std::unique_ptr<BaseEnemy>& enemy : railScene->GetEnemyObj()) {
 		if (enemy->GetIsTarget()) {
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
 			newBomb->Initialize(playerWPos, enemy->GetEnemyObj());
@@ -314,7 +314,7 @@ void Player::AimUpdate() {
 	XMVECTOR mouseDirection = posFar - posNear; //ベクトル
 	mouseDirection = XMVector3Normalize(mouseDirection);
 
-	const float kDistanceTestObject = 150.0f; //ベクトルの方向にいくら進ませるか
+	const float kDistanceTestObject = 200.0f; //ベクトルの方向にいくら進ませるか
 
 	XMVECTOR raticle3D;
 	raticle3D = posNear + mouseDirection * kDistanceTestObject;

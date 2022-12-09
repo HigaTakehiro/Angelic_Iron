@@ -87,9 +87,6 @@
     <ClCompile Include="Engine\Input\PadInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Enemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
@@ -171,6 +168,9 @@
     <ClCompile Include="Engine\ApplicationCode\NormalEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -217,9 +217,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Input\PadInput.h">
       <Filter>ソース ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Enemy.h">
-      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
@@ -297,9 +294,12 @@
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\NormalEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>

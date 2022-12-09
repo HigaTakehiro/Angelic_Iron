@@ -91,7 +91,7 @@ void RailScene::Update() {
 	// DirectX毎フレーム処理　ここから
 	const int32_t noneHP = 0;
 
-	enemies.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+	enemies.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
@@ -114,55 +114,6 @@ void RailScene::Update() {
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
-	}
-
-	for (const std::unique_ptr<Enemy>& enemy : enemies) {
-		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
-				enemy->OnCollision();
-				playerBullet->OnCollision();
-			}
-		}
-	}
-
-	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-			if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-				player->OnCollision();
-			}
-			enemyBullet->OnCollision();
-			railCamera->SetIsDamage();
-		}
-	}
-
-	for (const std::unique_ptr<Enemy>& enemy : enemies) {
-		for (const std::unique_ptr<Bomb>& bomb : bombs) {
-			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
-				enemy->OnCollision();
-				bomb->OnCollision();
-			}
-		}
-	}
-
-	for (std::unique_ptr<Enemy>& enemy : enemies) {
-		XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-		enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
-
-		XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
-
-		XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
-
-		if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
-			enemy->SetTarget(true);
-		}
-
-		if (enemy->IsDead()) {
-			score += 100;
-			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-			new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
-			particles2d.push_back(std::move(new2DParticle));
-		}
 	}
 
 	EnemyDataUpdate();
@@ -204,8 +155,8 @@ void RailScene::Update() {
 			if (!railCamera->GetIsEnd()) {
 				railCamera->Update(delayCount);
 			}
-			for (std::unique_ptr<Enemy>& enemy : enemies) {
-				enemy->Update(player->GetPlayerPos(), delayCount);
+			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+				enemy->Update({ player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z }, delayCount);
 			}
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
@@ -220,6 +171,56 @@ void RailScene::Update() {
 		}
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
+		}
+
+		for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
+			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+					score += 100;
+					enemy->OnCollision();
+					playerBullet->OnCollision();
+				}
+			}
+		}
+
+		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
+				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+					player->OnCollision();
+				}
+				enemyBullet->OnCollision();
+				railCamera->SetIsDamage();
+			}
+		}
+
+		for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
+			for (const std::unique_ptr<Bomb>& bomb : bombs) {
+				if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
+					score += 100;
+					enemy->OnCollision();
+					bomb->OnCollision();
+				}
+			}
+		}
+
+		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+			enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
+
+			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
+
+			XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
+
+			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
+				enemy->SetTarget(true);
+			}
+
+			if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
+				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+				particles2d.push_back(std::move(new2DParticle));
+			}
 		}
 
 		player->Update(railCamera->GetIsEnd());
@@ -334,7 +335,7 @@ void RailScene::Draw() {
 	if (!isDead) {
 		player->ObjectDraw();
 	}
-	for (std::unique_ptr<Enemy>& enemy : enemies) {
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->Draw();
 	}
 	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
@@ -352,7 +353,7 @@ void RailScene::Draw() {
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	player->SpriteDraw();
-	for (std::unique_ptr<Enemy>& enemy : enemies) {
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
 	}
 	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
@@ -461,10 +462,24 @@ void RailScene::EnemyDataUpdate() {
 		}
 
 		if (isPos && isScale && isStyle) {
-			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-			newEnemy->Initialize("Enemy", pos, scale, type);
-			newEnemy->SetRailScene(this);
-			enemies.push_back(std::move(newEnemy));
+			//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+			//newEnemy->Initialize("Enemy", pos, scale, type);
+			//newEnemy->SetRailScene(this);
+			//enemies.push_back(std::move(newEnemy));
+
+			if (type == "STR") {
+				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
+				newEnemy->Initialize(ModelManager::Enemy, pos, scale);
+				newEnemy->SetRailScene(this);
+				enemies.push_back(std::move(newEnemy));
+			}
+			if (type == "HOM") {
+				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
+				newEnemy->Initialize(ModelManager::Enemy, pos, scale);
+				newEnemy->SetRailScene(this);
+				enemies.push_back(std::move(newEnemy));
+			}
+
 			isPos = false;
 			isScale = false;
 			isStyle = false;

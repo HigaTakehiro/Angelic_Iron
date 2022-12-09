@@ -152,8 +152,8 @@
     <ClCompile Include="Engine\ApplicationCode\BaseBoss.cpp" />
     <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Enemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp" />
     <ClCompile Include="Engine\ApplicationCode\NormalEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp" />
@@ -196,8 +196,8 @@
     <ClInclude Include="Engine\ApplicationCode\BaseBoss.h" />
     <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Bomb.h" />
-    <ClInclude Include="Engine\ApplicationCode\Enemy.h" />
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\MotionMath.h" />
     <ClInclude Include="Engine\ApplicationCode\NormalEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Particle2d.h" />

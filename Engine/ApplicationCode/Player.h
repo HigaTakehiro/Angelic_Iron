@@ -15,17 +15,17 @@
 #include "MatCalc.h"
 #include "ModelManager.h"
 #include "PlayerBullet.h"
-#include "RailScene.h"
 #include "Sound.h"
 #include "ImageManager.h"
 #include "Bomb.h"
-#include "Enemy.h"
+#include "BaseEnemy.h"
+#include "RailScene.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
 class RailScene;
-class Enemy;
+class BaseEnemy;
 
 class Player
 {

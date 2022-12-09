@@ -14,7 +14,6 @@
 #include "MouseInput.h"
 #include "PadInput.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "Collision.h"
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
@@ -31,6 +30,7 @@
 #include "SceneManager.h"
 #include "BaseEnemy.h"
 #include "NormalEnemy.h"
+#include "HomingEnemy.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -109,7 +109,7 @@ public: //メンバ関数
 	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	std::list<std::unique_ptr<Enemy>>& GetEnemyObj() { return enemies; }
+	std::list<std::unique_ptr<BaseEnemy>>& GetEnemyObj() { return enemies; }
 
 private: //メンバ関数
 
@@ -139,7 +139,7 @@ private: //メンバ変数
 
 	//ゲームオブジェクト & スプライト
 	Player* player = nullptr; //プレイヤークラス
-	std::list<std::unique_ptr<Enemy>> enemies; //エネミーリスト
+	std::list<std::unique_ptr<BaseEnemy>> enemies;
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets; //エネミーの弾リスト
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
