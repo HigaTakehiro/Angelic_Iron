@@ -84,7 +84,7 @@ void HomingEnemy::SpriteDraw()
 void HomingEnemy::Move()
 {
 	XMFLOAT3 enemyPos = enemy->GetPosition();
-	enemyPos.x++;
+	enemyPos.x += 0.1f;
 	enemy->SetPosition(enemyPos);
 }
 

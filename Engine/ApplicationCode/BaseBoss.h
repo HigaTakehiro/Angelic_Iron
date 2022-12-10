@@ -1,5 +1,7 @@
 #pragma once
 #include "Object3d.h"
+#include "Model.h"
+#include "ModelManager.h"
 #include "Vector3.h"
 #include "MouseInput.h"
 
@@ -30,7 +32,15 @@ public: //メンバ関数
 	/// </summary>
 	virtual void Action();
 
+protected: //静的メンバ変数
+	//攻撃クールタイム
+	static const int32_t actionCoolTime = 60;
+
 protected: //メンバ変数
+	//ボスオブジェクト
+	Object3d* boss;
+	//プレイヤー座標
+	Vector3 playerPos;
 	//座標
 	Vector3 pos;
 	//回転角

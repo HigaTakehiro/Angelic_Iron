@@ -204,21 +204,21 @@ void RailScene::Update() {
 		}
 
 		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-			XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-			enemy3dPos = XMVector3TransformCoord(enemy3dPos, matVPV); //スクリーン座標
+			XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3]}; //ワールド座標
+			XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+			raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
-			XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
+			DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
 
-			XMFLOAT2 targetCheckHitPos = { enemy2dPos.x - player->GetAimPos().x, enemy2dPos.y - player->GetAimPos().y };
+			XMFLOAT2 targetCheckHitPos = { spritePos.x - player->GetAimPos().x, spritePos.y - player->GetAimPos().y };
 
-			if (IsTargetCheck(enemy2dPos, player->GetAimPos()) && player->GetIsBomb()) {
+			if (IsTargetCheck(spritePos, player->GetAimPos()) && player->GetIsBomb()) {
 				enemy->SetTarget(true);
 			}
 
 			if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
 				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-				new2DParticle->Initialize(enemy2dPos, { 50, 50 }, 24, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+				new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 				particles2d.push_back(std::move(new2DParticle));
 			}
 		}
@@ -462,10 +462,6 @@ void RailScene::EnemyDataUpdate() {
 		}
 
 		if (isPos && isScale && isStyle) {
-			//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-			//newEnemy->Initialize("Enemy", pos, scale, type);
-			//newEnemy->SetRailScene(this);
-			//enemies.push_back(std::move(newEnemy));
 
 			if (type == "STR") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();

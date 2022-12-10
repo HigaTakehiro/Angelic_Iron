@@ -171,6 +171,9 @@
     <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\BossScenePlayer.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -300,6 +303,9 @@
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>

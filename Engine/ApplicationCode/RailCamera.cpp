@@ -16,7 +16,7 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 void RailCamera::Update(float delayCount) {
 	this->delayCount++;
 	if (this->delayCount >= delayCount) {
-		if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+		if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 			if (isStop) {
 				isStop = false;
 				startTime = GetTickCount64();

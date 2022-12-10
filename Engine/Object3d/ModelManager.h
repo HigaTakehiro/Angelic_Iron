@@ -26,7 +26,8 @@ public: //ƒ‚ƒfƒ‹–¼
 		Enemy,
 		Shot,
 		Ground,
-		CelestialSphere
+		CelestialSphere,
+		Building
 	};
 
 public: //ƒƒ“ƒoŠÖ”

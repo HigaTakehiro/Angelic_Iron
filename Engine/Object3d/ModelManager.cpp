@@ -22,6 +22,7 @@ void ModelManager::Initialize() {
 	LoadModel("Block");
 	LoadModel("ground");
 	LoadModel("CelestialSphere");
+	LoadModel("Building");
 }
 
 void ModelManager::LoadModel(const std::string modelName) {
