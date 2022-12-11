@@ -40,7 +40,7 @@ void RailScene::Initialize() {
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
-	player = new Player();
+	player = new Player;
 	player->Initialize(camera, Sound::GetIns(), clearTime);
 	player->SetRailScene(this);
 

@@ -30,7 +30,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの座標</param>
 	/// <param name="delayTime">スロー演出用遅延時間</param>
-	virtual void Update(const Vector3& playerPos, const int delayTime) = 0;
+	virtual void Update(const Vector3& playerPos, const int delayTime = 0) = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>

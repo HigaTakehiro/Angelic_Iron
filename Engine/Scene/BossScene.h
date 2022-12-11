@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include "SceneManager.h"
 #include "MotionMath.h"
+#include "BossScenePlayer.h"
 
 class BossScene : public BaseScene
 {
@@ -30,6 +31,8 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Object3d>> buildings;
 	//カメラ
 	Camera* camera = nullptr;
+	//プレイヤー
+	BossScenePlayer* player = nullptr;
 	//地面
 	Object3d* ground = nullptr;
 	//天球
@@ -44,7 +47,7 @@ private: //メンバ変数
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
 	Vector3 spherePos = { 0, 0, 0 }; //天球座標
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
-	Vector3 cameraPos = { 0, -50.0f, 0 };
-	float cameraAngle;
+	//Vector3 cameraPos = { 0, -20.0f, 0 };
+	//float cameraAngle;
 };
 

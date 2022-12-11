@@ -27,7 +27,9 @@ public: //ƒ‚ƒfƒ‹–¼
 		Shot,
 		Ground,
 		CelestialSphere,
-		Building
+		Building,
+		BossBody,
+		BossHand
 	};
 
 public: //ƒƒ“ƒoŠÖ”

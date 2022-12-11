@@ -41,7 +41,10 @@ void BossScene::Initialize()
 
 	postEffectNo = PostEffect::NORMAL;
 
-	cameraAngle = 0.0f;
+	player = new BossScenePlayer;
+	player->Initialize(camera);
+
+	//cameraAngle = 0.0f;
 	//cameraPos = MotionMath::GetIns()->CircularMotion({10, 0, 0}, cameraPos, cameracameraAngle, 30, MotionMath::Y);
 
 	test = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
@@ -51,38 +54,42 @@ void BossScene::Update()
 {
 	ground->Update();
 	celetialSphere->Update();
-	camera->SetTarget({ 0.0f, 0.0f, 0.0f });
-	camera->SetEye(cameraPos);
+	player->Update();
+	//camera->SetTarget({ 0.0f, 0.0f, 0.0f });
+	//camera->SetEye(cameraPos);
 	//test->Update();
-	//Vector3 testPos;
-	//testPos
-	//test->SetPosition();
+	//Vector3 testPos = { 0.0f, -10.0f, 0.0f };
+	//static float length = 200.0f;
+	//testPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, testPos, cameraAngle, length, MotionMath::Y);
+	//test->SetPosition(testPos);
 
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Update();
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_A)) {
-		cameraAngle -= 1.0f;
-		if (cameraAngle <= 0.0f) {
-			cameraAngle = 360.0f;
-		}
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+	//if (KeyInput::GetIns()->PushKey(DIK_A)) {
+	//	cameraAngle -= 1.0f;
+	//	if (cameraAngle <= 0.0f) {
+	//		cameraAngle = 360.0f;
+	//	}
+	//	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_D)) {
-		cameraAngle += 1.0f;
-		if (cameraAngle >= 360.0f) {
-			cameraAngle = 0.0f;
-		}
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
-	}
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_D)) {
+	//	cameraAngle += 1.0f;
+	//	if (cameraAngle >= 360.0f) {
+	//		cameraAngle = 0.0f;
+	//	}
+	//	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+	//}
 
-	if (KeyInput::GetIns()->PushKey(DIK_W)) {
-		cameraPos.y += 1.0f;
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_S)) {
-		cameraPos.y -= 1.0f;
-	}
+	//if (KeyInput::GetIns()->PushKey(DIK_W)) {
+	//	//cameraPos.y += 1.0f;
+	//	length--;
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_S)) {
+	//	//cameraPos.y -= 1.0f;
+	//	length++;
+	//}
 
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 		SceneManager::SceneChange(SceneManager::Result);
@@ -114,7 +121,8 @@ void BossScene::Draw()
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	ground->Draw();
 	celetialSphere->Draw();
-	test->Draw();
+	//test->Draw();
+	player->Draw();
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
@@ -139,4 +147,6 @@ void BossScene::Finalize()
 	safe_delete(camera);
 	safe_delete(postEffect);
 	safe_delete(test);
+	player->Finalize();
+	safe_delete(player);
 }

@@ -8,33 +8,33 @@
 class BaseBoss
 {
 public:
-	virtual ~BaseBoss();
+	virtual ~BaseBoss() {}
 
 public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) = 0;
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update();
+	virtual void Update(const Vector3& playerPos, const int delayTime = 0) = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw();
+	virtual void Draw() = 0;
 	/// <summary>
 	/// 終了処理
 	/// </summary>
-	virtual void Finalize();
+	virtual void Finalize() = 0;
 	/// <summary>
 	/// 行動
 	/// </summary>
-	virtual void Action();
+	virtual void Action() = 0;
 
 protected: //静的メンバ変数
-	//攻撃クールタイム
-	static const int32_t actionCoolTime = 60;
+	//行動クールタイム
+	static const int32_t actionCoolTime;
 
 protected: //メンバ変数
 	//ボスオブジェクト
@@ -51,5 +51,8 @@ protected: //メンバ変数
 	float attackPower;
 	//体力
 	float hp;
+	//行動クールタイマー
+	int32_t actionCoolTimer;
+	//スロー演出用タイマー
+	int delayTimer;
 };
-
