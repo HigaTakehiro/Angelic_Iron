@@ -7,7 +7,7 @@ void BossScene::Initialize()
 	camera->SetTarget(XMFLOAT3(0, 10, 0));
 
 	for (int i = 0; i < 36; i++) {
-		Vector3 pos = { 0, 0, 0 };
+		Vector3 pos = { 0, 20, 0 };
 		Vector3 rot = { 0, 270, 0 };
 		Vector3 scale = { 20, 20, 20 };
 		float angle = 20;
@@ -17,6 +17,7 @@ void BossScene::Initialize()
 			length = 500;
 		}
 		pos = MotionMath::GetIns()->CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
+		pos.y = rand() % 20 - 30;
 		rot.y -= angle * i;
 		std::unique_ptr<Object3d> newBuilding;
 		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
@@ -42,56 +43,83 @@ void BossScene::Initialize()
 	postEffectNo = PostEffect::NORMAL;
 
 	player = new BossScenePlayer;
-	player->Initialize(camera);
+	player->Initialize(camera, Sound::GetIns());
+	player->SetBossScene(this);
 
-	//cameraAngle = 0.0f;
-	//cameraPos = MotionMath::GetIns()->CircularMotion({10, 0, 0}, cameraPos, cameracameraAngle, 30, MotionMath::Y);
+	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
+	pause->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
+	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBackSize = titleBack->GetSize();
+	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
+	back->SetAnchorPoint({ 0.5f, 0.5f });
+	backSize = back->GetSize();
 
-	test = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
+	isPause = false;
+	isTitleBack = false;
 }
 
 void BossScene::Update()
 {
-	ground->Update();
-	celetialSphere->Update();
-	player->Update();
-	//camera->SetTarget({ 0.0f, 0.0f, 0.0f });
-	//camera->SetEye(cameraPos);
-	//test->Update();
-	//Vector3 testPos = { 0.0f, -10.0f, 0.0f };
-	//static float length = 200.0f;
-	//testPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, testPos, cameraAngle, length, MotionMath::Y);
-	//test->SetPosition(testPos);
+	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 
-	for (std::unique_ptr<Object3d>& building : buildings) {
-		building->Update();
+	const int delayTime = 0;
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
+		isPause = !isPause;
 	}
-	//if (KeyInput::GetIns()->PushKey(DIK_A)) {
-	//	cameraAngle -= 1.0f;
-	//	if (cameraAngle <= 0.0f) {
-	//		cameraAngle = 360.0f;
-	//	}
-	//	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_D)) {
-	//	cameraAngle += 1.0f;
-	//	if (cameraAngle >= 360.0f) {
-	//		cameraAngle = 0.0f;
-	//	}
-	//	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
-	//}
+	if (!isPause) {
+		ground->Update();
+		celetialSphere->Update();
+		player->Update();
 
-	//if (KeyInput::GetIns()->PushKey(DIK_W)) {
-	//	//cameraPos.y += 1.0f;
-	//	length--;
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_S)) {
-	//	//cameraPos.y -= 1.0f;
-	//	length++;
-	//}
+		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			playerBullet->Update(delayTime);
+		}
 
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		for (std::unique_ptr<Object3d>& building : buildings) {
+			building->Update();
+		}
+	}
+	else {
+		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+		const float selectAlpha = 0.5f;
+		const float normalAlpha = 1.0f;
+		XMFLOAT2 selectSize;
+		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+			selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
+			titleBack->SetSize(selectSize);
+			titleBack->SetAlpha(selectAlpha);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				isTitleBack = true;
+			}
+		}
+		else {
+			titleBack->SetSize(titleBackSize);
+			titleBack->SetAlpha(normalAlpha);
+		}
+
+		if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
+			selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
+			back->SetSize(selectSize);
+			back->SetAlpha(selectAlpha);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				isPause = !isPause;
+			}
+		}
+		else {
+			back->SetSize(backSize);
+			back->SetAlpha(normalAlpha);
+		}
+
+	}
+
+	if (isTitleBack) {
+		SceneManager::SceneChange(SceneManager::Title);
+	}
+	
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 		SceneManager::SceneChange(SceneManager::Result);
 	}
 }
@@ -102,35 +130,37 @@ void BossScene::Draw()
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
 
-	//if (player->GetIsDamage()) {
-	//	postEffectNo = PostEffect::DAMAGE;
-	//}
-	//else {
 	postEffectNo = PostEffect::NORMAL;
 	isRoop = true;
-	//}
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	//background->Draw();
+
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	ground->Draw();
 	celetialSphere->Draw();
-	//test->Draw();
 	player->Draw();
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
+	}
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		playerBullet->Draw();
 	}
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-
+	player->SpriteDraw();
+	if (isPause) {
+		pause->Draw();
+		titleBack->Draw();
+		back->Draw();
+	}
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -146,7 +176,14 @@ void BossScene::Finalize()
 	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(postEffect);
-	safe_delete(test);
+	safe_delete(pause);
+	safe_delete(titleBack);
+	safe_delete(back);
 	player->Finalize();
 	safe_delete(player);
+}
+
+void BossScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet)
+{
+	playerBullets.push_back(std::move(playerBullet));
 }

@@ -93,6 +93,8 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 cameraPos;
 	Vector3 cameraTargetPos;
 
+	Vector3 sphereRot;
+
 	bool isStageSelect;
 	bool isManual;
 	bool isStage1;

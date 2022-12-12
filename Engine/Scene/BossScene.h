@@ -3,6 +3,10 @@
 #include "SceneManager.h"
 #include "MotionMath.h"
 #include "BossScenePlayer.h"
+#include "PlayerBullet.h"
+#include "Sound.h"
+
+class BossScenePlayer;
 
 class BossScene : public BaseScene
 {
@@ -24,21 +28,27 @@ public: //メンバ関数
 	/// 終了処理
 	/// </summary>
 	void Finalize();
+	/// <summary>
+	/// プレイヤー弾を追加
+	/// </summary>
+	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
 
 private: //メンバ変数
 
 	//ビルリスト
 	std::list<std::unique_ptr<Object3d>> buildings;
+	//プレイヤー弾リスト
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
 	//カメラ
 	Camera* camera = nullptr;
+	//サウンド
+	Sound* sound = nullptr;
 	//プレイヤー
 	BossScenePlayer* player = nullptr;
 	//地面
 	Object3d* ground = nullptr;
 	//天球
 	Object3d* celetialSphere = nullptr;
-	//テストオブジェクト
-	Object3d* test = nullptr;
 	//ポストエフェクト
 	PostEffect* postEffect = nullptr;
 	PostEffect::PostEffectNo postEffectNo;
@@ -47,7 +57,17 @@ private: //メンバ変数
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
 	Vector3 spherePos = { 0, 0, 0 }; //天球座標
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
-	//Vector3 cameraPos = { 0, -20.0f, 0 };
-	//float cameraAngle;
+
+	Sprite* pause = nullptr;
+	Sprite* titleBack = nullptr;
+	Sprite* back = nullptr;
+
+	XMFLOAT2 titleBackSize;
+	XMFLOAT2 backSize;
+
+	//ポーズフラグ
+	bool isPause;
+	//タイトルバックフラグ
+	bool isTitleBack;
 };
 

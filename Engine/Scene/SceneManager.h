@@ -60,7 +60,7 @@ public: //静的メンバ関数
 	/// スコアをセット
 	/// </summary>
 	/// <param name="score">スコア</param>
-	static void SetScore(const int score);
+	static void AddScore(const int score);
 
 	/// <summary>
 	/// ステージ番号取得

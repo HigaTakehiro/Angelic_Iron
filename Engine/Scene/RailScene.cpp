@@ -272,11 +272,11 @@ void RailScene::Update() {
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	if (isDead && !isClear) {
-		SceneManager::SetScore(score);
+		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::GameOver);
 	}
 	else if (isClear && !isDead) {
-		SceneManager::SetScore(score);
+		SceneManager::AddScore(score);
 		if (SceneManager::GetStageNo() == 1) {
 			SceneManager::SceneChange(SceneManager::Stage1_Boss);
 		}
@@ -297,7 +297,7 @@ void RailScene::Update() {
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::SetScore(score);
+		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::Stage1_Boss);
 	}
 

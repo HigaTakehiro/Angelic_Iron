@@ -66,12 +66,17 @@ void TitleScene::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+
+	sphereRot = { 0, 0, 0 };
 }
 
 void TitleScene::Update()
 {
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	aim->SetPosition(mousePos);
+
+	sphereRot.y += 0.1f;
+	celetialSphere->SetRotation(sphereRot);
 
 	titlePlayer->Update();
 	ground->Update();

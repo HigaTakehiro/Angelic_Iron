@@ -21,8 +21,8 @@ void SceneManager::Finalize() {
 	safe_delete(nowScene);
 }
 
-void SceneManager::SetScore(const int score) {
-	SceneManager::score = score;
+void SceneManager::AddScore(const int score) {
+	SceneManager::score += score;
 }
 
 void SceneManager::SceneChange(SceneName scene) {
