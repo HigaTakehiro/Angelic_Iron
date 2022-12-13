@@ -5,6 +5,8 @@
 #include "BossScenePlayer.h"
 #include "PlayerBullet.h"
 #include "Sound.h"
+#include "BaseBoss.h"
+#include "FirstBoss.h"
 
 class BossScenePlayer;
 
@@ -61,6 +63,8 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;
 	Sprite* back = nullptr;
+
+	BaseBoss* boss;
 
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;

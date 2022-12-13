@@ -15,6 +15,11 @@ void TitleScene::Initialize()
 	stage2Pos = { -300, 300 };
 	manualButtonPos = { -300, 500 };
 	closePos = { 640, 550 };
+	allowPos = { 1240, 330 };
+	manualPos = { 640, 300 };
+
+	pageNumber = 1;
+	prePageNumber = 1;
 
 	const XMFLOAT2 spriteCenter = { 0.5f, 0.5f };
 	title = Sprite::Create(ImageManager::ImageName::title, titlePos);
@@ -27,13 +32,19 @@ void TitleScene::Initialize()
 	stage2->SetAnchorPoint(spriteCenter);
 	manualButton = Sprite::Create(ImageManager::ImageName::ManualButton, manualButtonPos);
 	manualButton->SetAnchorPoint(spriteCenter);
-	manual = Sprite::Create(ImageManager::ImageName::Manual, { 640, 300 });
+	manual = Sprite::Create(ImageManager::ImageName::Manual, manualPos);
 	manual->SetAnchorPoint(spriteCenter);
+	manual2 = Sprite::Create(ImageManager::Manual_2, { manualPos.x * (pageNumber + 2), manualPos.y });
+	manual2->SetAnchorPoint(spriteCenter);
+	allow = Sprite::Create(ImageManager::Allow, allowPos);
+	allow->SetAnchorPoint(spriteCenter);
+	allow->SetRotation(90.0f);
 	close = Sprite::Create(ImageManager::ImageName::Close, closePos);
 	close->SetAnchorPoint(spriteCenter);
 	aim = Sprite::Create(ImageManager::aim, { 0, 0 });
 	aim->SetAnchorPoint({ 0.5f, 0.5f });
 	aim->SetSize({ aim->GetSize().x / 2, aim->GetSize().y / 2 });
+
 
 	startButtonSize = startButton->GetSize();
 	stage1Size = stage1->GetSize();
@@ -42,6 +53,7 @@ void TitleScene::Initialize()
 	manualSize = { 0, 0 };
 	manualMaxSize = manual->GetSize();
 	closeSize = close->GetSize();
+	allowSize = allow->GetSize();
 	startTimer = 0;
 
 	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
@@ -157,6 +169,37 @@ void TitleScene::Update()
 		close->SetAlpha(initAlpha);
 	}
 
+	if (IsMouseHitSprite(mousePos, allowPos, 64, 64)) {
+		XMFLOAT2 spriteSize = allowSize;
+		spriteSize.x *= 0.9f;
+		spriteSize.y *= 0.9f;
+		float spriteRot = 90;
+		allow->SetSize(spriteSize);
+		allow->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && pageNumber == 1) {
+			pageNumber += 1;
+		}
+		else if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && pageNumber == 2) {
+			pageNumber -= 1;
+		}
+
+		if (pageNumber != 1) {
+			allowPos.x = 50;
+			spriteRot = -90;
+		}
+		else {
+			allowPos.x = 1240;
+			spriteRot = 90;
+		}
+
+		allow->SetPosition(allowPos);
+		allow->SetRotation(spriteRot);
+	}
+	else {
+		allow->SetSize(allowSize);
+		allow->SetAlpha(initAlpha);
+	}
+
 	if (isStageSelect) {
 		const float outPos = -300;
 		const float comePos = 200;
@@ -180,6 +223,8 @@ void TitleScene::Update()
 	if (isManual) {
 		const float openWidth = manualMaxSize.x;
 		const float openHeight = manualMaxSize.y;
+		const float manualOutPos = -640;
+		const float manualInPos = 640;
 		const float outPos = -300;
 
 		stageSelectTimer = titleOutTime;
@@ -188,12 +233,41 @@ void TitleScene::Update()
 		manualButtonPos.x = outPos;
 
 		manualTimer++;
+		manualSlideTimer++;
 		if (manualTimer >= manualOpenTime) {
 			manualTimer = manualOpenTime;
+		}
+		if (manualSlideTimer >= manualSlideTime) {
+			manualSlideTimer = manualSlideTime;
+			isNextPage = false;
+			isPrevPage = false;
 		}
 		manualSize.x = Easing::GetIns()->easeOut(manualTimer, manualOpenTime, openWidth, manualSize.x);
 		manualSize.y = Easing::GetIns()->easeOut(manualTimer, manualOpenTime, openHeight, manualSize.y);
 
+		if (pageNumber != prePageNumber) {
+			isNextPage = false;
+			isPrevPage = false;
+			manualSlideTimer = 0;
+			if (prePageNumber < pageNumber) {
+				isNextPage = true;
+				manualPos.x = manualInPos;
+			}
+			else {
+				isPrevPage = true;
+				manualPos.x = manualOutPos;
+			}
+			prePageNumber = pageNumber;
+		}
+		if (isNextPage) {
+			manualPos.x = Easing::GetIns()->easeOut(manualSlideTimer, manualSlideTime, manualOutPos, manualPos.x);
+		}
+		else if (isPrevPage) {
+			manualPos.x = Easing::GetIns()->easeOut(manualSlideTimer, manualSlideTime, manualInPos, manualPos.x);
+		}
+
+		manual->SetPosition(manualPos);
+		manual2->SetPosition({manualPos.x + (manualInPos * 2), manualPos.y});
 		manual->SetSize(manualSize);
 	}
 	else {
@@ -244,6 +318,8 @@ void TitleScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (isManual) {
 		manual->Draw();
+		manual2->Draw();
+		allow->Draw();
 		close->Draw();
 	}
 
@@ -283,4 +359,6 @@ void TitleScene::Finalize()
 	safe_delete(celetialSphere);
 	safe_delete(close);
 	safe_delete(aim);
+	safe_delete(manual2);
+	safe_delete(allow);
 }

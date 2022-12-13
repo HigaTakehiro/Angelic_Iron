@@ -44,6 +44,7 @@ private: //静的メンバ変数
 	static const int32_t manualComeTime = 170;
 	static const int32_t manualOpenTime = 60;
 	static const int32_t startTime = 60;
+	static const int32_t manualSlideTime = 60;
 
 private: //メンバ変数
 	const float selectAlpha = 0.5f;
@@ -55,8 +56,10 @@ private: //メンバ変数
 	Sprite* stage2 = nullptr;
 	Sprite* manualButton = nullptr;
 	Sprite* manual = nullptr;
+	Sprite* manual2 = nullptr;
 	Sprite* close = nullptr;
 	Sprite* aim = nullptr;
+	Sprite* allow = nullptr;
 
 	XMFLOAT2 titlePos;
 	XMFLOAT2 startButtonPos;
@@ -69,6 +72,9 @@ private: //メンバ変数
 	XMFLOAT2 manualButtonSize;
 	XMFLOAT2 manualSize;
 	XMFLOAT2 manualMaxSize;
+	XMFLOAT2 manualPos;
+	XMFLOAT2 allowPos;
+	XMFLOAT2 allowSize;
 	XMFLOAT2 closePos;
 	XMFLOAT2 closeSize;
 	XMFLOAT2 mousePos;
@@ -76,6 +82,7 @@ private: //メンバ変数
 	int32_t stageSelectTimer;
 	int32_t manualTimer;
 	int32_t startTimer;
+	int32_t manualSlideTimer;
 
 	PostEffect* postEffect = nullptr;
 	Object3d* titlePlayer = nullptr;
@@ -95,9 +102,14 @@ private: //メンバ変数
 
 	Vector3 sphereRot;
 
+	int pageNumber;
+	int prePageNumber;
+
 	bool isStageSelect;
 	bool isManual;
 	bool isStage1;
 	bool isStage2;
+	bool isNextPage;
+	bool isPrevPage;
 };
 

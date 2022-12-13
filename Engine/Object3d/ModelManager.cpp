@@ -25,6 +25,7 @@ void ModelManager::Initialize() {
 	LoadModel("Building");
 	LoadModel("BossBody");
 	LoadModel("BossHand");
+	LoadModel("Shadow");
 }
 
 void ModelManager::LoadModel(const std::string modelName) {

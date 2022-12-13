@@ -101,6 +101,7 @@ private: //メンバ変数
 	//3Dオブジェクト
 	//プレイヤー
 	Object3d* player;
+	Object3d* shadow;
 
 	//2Dスプライト
 	//レティクル
@@ -164,6 +165,8 @@ private: //メンバ変数
 	Vector3 scale;
 	//プレイヤーワールド座標
 	Vector3 playerWPos;
+	//影座標
+	Vector3 shadowPos;
 	//カメラアングル
 	float cameraAngle;
 	//カメラ座標

@@ -46,6 +46,9 @@ void BossScene::Initialize()
 	player->Initialize(camera, Sound::GetIns());
 	player->SetBossScene(this);
 
+	boss = new FirstBoss;
+	boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
+
 	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
 	pause->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
@@ -73,6 +76,7 @@ void BossScene::Update()
 		ground->Update();
 		celetialSphere->Update();
 		player->Update();
+		boss->Update(player->GetPlayerObj()->GetMatWorld().r[3]);
 
 		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 			playerBullet->Update(delayTime);
@@ -145,6 +149,7 @@ void BossScene::Draw()
 	ground->Draw();
 	celetialSphere->Draw();
 	player->Draw();
+	boss->Draw();
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
@@ -179,6 +184,8 @@ void BossScene::Finalize()
 	safe_delete(pause);
 	safe_delete(titleBack);
 	safe_delete(back);
+	boss->Finalize();
+	safe_delete(boss);
 	player->Finalize();
 	safe_delete(player);
 }

@@ -29,7 +29,8 @@ public: //ƒ‚ƒfƒ‹–¼
 		CelestialSphere,
 		Building,
 		BossBody,
-		BossHand
+		BossHand,
+		Shadow
 	};
 
 public: //ƒƒ“ƒoŠÖ”

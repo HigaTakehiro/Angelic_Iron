@@ -22,10 +22,12 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(Stage2, L"Engine/Resources/Images/Stage2.png");
 	Sprite::LoadTexture(ManualButton, L"Engine/Resources/Images/ManualButton.png");
 	Sprite::LoadTexture(Manual, L"Engine/Resources/Images/Manual.png");
+	Sprite::LoadTexture(Manual_2, L"Engine/Resources/Images/Manual_2.png");
 	Sprite::LoadTexture(Close, L"Engine/Resources/Images/Close.png");
 	Sprite::LoadTexture(Pause, L"Engine/Resources/Images/Pause.png");
 	Sprite::LoadTexture(TitleBack, L"Engine/Resources/Images/TitleBack.png");
 	Sprite::LoadTexture(Back, L"Engine/Resources/Images/Back.png");
 	Sprite::LoadTexture(Restart, L"Engine/Resources/Images/Restart.png");
 	Sprite::LoadTexture(Boost, L"Engine/Resources/Images/Boost.png");
+	Sprite::LoadTexture(Allow, L"Engine/Resources/Images/Allow.png");
 }

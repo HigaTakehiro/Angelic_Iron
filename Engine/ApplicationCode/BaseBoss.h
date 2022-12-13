@@ -4,6 +4,7 @@
 #include "ModelManager.h"
 #include "Vector3.h"
 #include "MouseInput.h"
+#include "SafeDelete.h"
 
 class BaseBoss
 {
@@ -14,7 +15,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»ˆ—
 	/// </summary>
-	virtual void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) = 0;
+	virtual void Initialize(const ModelManager::ModelName model, const Vector3& pos) = 0;
 	/// <summary>
 	/// XVˆ—
 	/// </summary>
