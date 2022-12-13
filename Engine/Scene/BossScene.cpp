@@ -46,8 +46,13 @@ void BossScene::Initialize()
 	player->Initialize(camera, Sound::GetIns());
 	player->SetBossScene(this);
 
-	boss = new FirstBoss;
-	boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
+	//boss = new FirstBoss;
+	//boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
+
+	firstBoss = new FirstBoss;
+	firstBoss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
+	firstBoss->SetBossScene(this);
+	firstBoss->SetPlayer(player);
 
 	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
 	pause->SetAnchorPoint({ 0.5f, 0.5f });
@@ -58,6 +63,8 @@ void BossScene::Initialize()
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
 
+	score = 0;
+
 	isPause = false;
 	isTitleBack = false;
 }
@@ -65,8 +72,11 @@ void BossScene::Initialize()
 void BossScene::Update()
 {
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
+	bossBullets.remove_if([](std::unique_ptr<EnemyBullet>& bossBullet) { return bossBullet->IsDead(); });
+	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle2d) {return particle2d->IsDelete(); });
 
 	const int delayTime = 0;
+	const int noneHP = 0;
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
@@ -76,15 +86,67 @@ void BossScene::Update()
 		ground->Update();
 		celetialSphere->Update();
 		player->Update();
-		boss->Update(player->GetPlayerObj()->GetMatWorld().r[3]);
 
-		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			playerBullet->Update(delayTime);
+		if (player->GetHPCount() <= noneHP) {
+			XMVECTOR playerPos = player->GetPlayerObj()->GetMatWorld().r[3];
+			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+			playerPos = XMVector3TransformCoord(playerPos, matVPV);
+
+			XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
+			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+			new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+			particles2d.push_back(std::move(new2DParticle));
 		}
 
-		for (std::unique_ptr<Object3d>& building : buildings) {
-			building->Update();
+		if (player->GetHPCount() > noneHP) {
+			firstBoss->Update(player->GetPlayerObj()->GetMatWorld().r[3]);
+
+			for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+				playerBullet->Update(delayTime);
+			}
+
+			for (std::unique_ptr<Object3d>& building : buildings) {
+				building->Update();
+			}
+
+			for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
+				bossBullet->Update(0);
+			}
+
+			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetBossObj(), 1.0f, 100.0f)) {
+					score += 100;
+					firstBoss->OnCollision();
+					playerBullet->OnCollision();
+				}
+
+				if (!firstBoss->GetIsLeftHandDead()) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetLeftHandObj(), 1.0f, 20.0f)) {
+						score += 100;
+						firstBoss->LeftHandOnCollision();
+						playerBullet->OnCollision();
+					}
+				}
+
+				if (!firstBoss->GetIsRightHandDead()) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetRightHandObj(), 1.0f, 20.0f)) {
+						score += 100;
+						firstBoss->RightHandOnCollision();
+						playerBullet->OnCollision();
+					}
+				}
+			}
+
+			for (const std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
+				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player->GetPlayerObj(), 2.0f, 5.0f)) {
+					bossBullet->OnCollision();
+					if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+						player->OnCollision();
+					}
+				}
+			}
 		}
+
 	}
 	else {
 		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
@@ -122,8 +184,14 @@ void BossScene::Update()
 	if (isTitleBack) {
 		SceneManager::SceneChange(SceneManager::Title);
 	}
-	
+
+	if (player->GetIsDead()) {
+		SceneManager::AddScore(score);
+		SceneManager::SceneChange(SceneManager::GameOver);
+	}
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::Result);
 	}
 }
@@ -135,6 +203,9 @@ void BossScene::Draw()
 	bool isRoop = false;
 
 	postEffectNo = PostEffect::NORMAL;
+	if (player->GetIsDamage()) {
+		postEffectNo = PostEffect::DAMAGE;
+	}
 	isRoop = true;
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -149,12 +220,15 @@ void BossScene::Draw()
 	ground->Draw();
 	celetialSphere->Draw();
 	player->Draw();
-	boss->Draw();
+	firstBoss->Draw();
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
 	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 		playerBullet->Draw();
+	}
+	for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
+		bossBullet->Draw();
 	}
 	Object3d::PostDraw();
 
@@ -184,8 +258,8 @@ void BossScene::Finalize()
 	safe_delete(pause);
 	safe_delete(titleBack);
 	safe_delete(back);
-	boss->Finalize();
-	safe_delete(boss);
+	firstBoss->Finalize();
+	safe_delete(firstBoss);
 	player->Finalize();
 	safe_delete(player);
 }
@@ -193,4 +267,9 @@ void BossScene::Finalize()
 void BossScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet)
 {
 	playerBullets.push_back(std::move(playerBullet));
+}
+
+void BossScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> bossBullet)
+{
+	bossBullets.push_back(std::move(bossBullet));
 }

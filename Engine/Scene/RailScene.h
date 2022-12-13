@@ -144,6 +144,7 @@ private: //メンバ変数
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
+	std::list<std::unique_ptr<Object3d>> buildings; //ビルリスト
 	Sprite* background = nullptr; //背景画像
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;

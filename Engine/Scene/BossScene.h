@@ -7,8 +7,11 @@
 #include "Sound.h"
 #include "BaseBoss.h"
 #include "FirstBoss.h"
+#include "Particle2d.h"
 
 class BossScenePlayer;
+class BaseBoss;
+class FirstBoss;
 
 class BossScene : public BaseScene
 {
@@ -34,6 +37,11 @@ public: //メンバ関数
 	/// プレイヤー弾を追加
 	/// </summary>
 	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
+	/// <summary>
+	/// ボス弾を追加
+	/// </summary>
+	/// <param name="bossEnemy"></param>
+	void AddEnemyBullet(std::unique_ptr<EnemyBullet> bosBullet);
 
 private: //メンバ変数
 
@@ -41,6 +49,10 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Object3d>> buildings;
 	//プレイヤー弾リスト
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
+	//ボス弾リスト
+	std::list<std::unique_ptr<EnemyBullet>> bossBullets;
+	//2Dパーティクルリスト
+	std::list<std::unique_ptr<Particle2d>> particles2d;
 	//カメラ
 	Camera* camera = nullptr;
 	//サウンド
@@ -64,10 +76,13 @@ private: //メンバ変数
 	Sprite* titleBack = nullptr;
 	Sprite* back = nullptr;
 
-	BaseBoss* boss;
+	//BaseBoss* boss;
+	FirstBoss* firstBoss;
 
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;
+	//スコア
+	int score;
 
 	//ポーズフラグ
 	bool isPause;

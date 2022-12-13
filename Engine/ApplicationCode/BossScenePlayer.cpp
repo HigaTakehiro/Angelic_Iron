@@ -5,6 +5,8 @@ const int32_t BossScenePlayer::dashTime = 30;
 const int32_t BossScenePlayer::shotCoolTime = 10;
 const int32_t BossScenePlayer::reloadTime = 60;
 const float BossScenePlayer::boostReloadTime = 80.0f;
+const int32_t BossScenePlayer::damageTime = 20;
+const int32_t BossScenePlayer::deadTime = 120;
 
 void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
 {
@@ -50,6 +52,8 @@ void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
 	cameraPos = { 0, -20.0f, 0 };
 	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
+	damageTimer = 0;
+
 	camera->SetTarget({ 0.0f, 0.0f, 0.0f });
 	camera->SetEye(cameraPos);
 	player->SetPosition(pos);
@@ -59,22 +63,26 @@ void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
 	rotationTimer = 0;
 	shotCoolTimer = 0;
 	boostReloadTimer = 0;
+	damageTimer = 0;
 	reloadTimer = 0;
 	jumpPower = 0.0f;
 	bulletCount = maxBulletCount;
 	boostCount = maxBoostCount;
 	hpCount = maxHp;
+	deadTimer = 0;
 	isDash = false;
 	isLeftDash = false;
 	isRightDash = false;
 	isJump = false;
 	isShot = false;
 	isReload = false;
+	isDead = false;
 }
 
 void BossScenePlayer::Update()
 {
 	const float lowerLimit = -10.0f;
+	const int noneHP = 0;
 
 	camera->SetTarget({ 0.0f, 0.0f, 0.0f });
 	camera->SetEye(cameraPos);
@@ -88,19 +96,31 @@ void BossScenePlayer::Update()
 	shadow->Update();
 	gun->Update();
 
-	if (!isDash) {
-		Move();
-		Jump();
+	if (hpCount > noneHP) {
+		if (!isDash) {
+			Move();
+			Jump();
+		}
+		Dash();
+		AimUpdate();
 	}
-	Dash();
-	AimUpdate();
+	
+	if (isDamage) {
+		DamageEffect();
+	}
+	if (hpCount <= noneHP) {
+		DeadPerformance();
+	}
 }
 
 void BossScenePlayer::Draw()
 {
-	player->Draw();
-	shadow->Draw();
-	gun->Draw();
+	const int32_t liveTime = deadTime / 1.2;
+	if (deadTimer <= liveTime) {
+		player->Draw();
+		gun->Draw();
+		shadow->Draw();
+	}
 }
 
 void BossScenePlayer::SpriteDraw()
@@ -137,6 +157,12 @@ void BossScenePlayer::Finalize() {
 		safe_delete(boostUI[i]);
 	}
 	safe_delete(reloadUI);
+}
+
+void BossScenePlayer::OnCollision()
+{
+	hpCount--;
+	isDamage = true;
 }
 
 void BossScenePlayer::Move() {
@@ -364,4 +390,21 @@ void BossScenePlayer::Shot(Vector3 mouse3dPos)
 
 	bulletCount--;
 	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
+}
+
+void BossScenePlayer::DamageEffect()
+{
+	if (++damageTimer >= damageTime) {
+		isDamage = false;
+		damageTimer = 0;
+	}
+}
+
+void BossScenePlayer::DeadPerformance() {
+	deadTimer++;
+	rot.x -= 2.0f;
+
+	if (deadTimer >= deadTime) {
+		isDead = true;
+	}
 }

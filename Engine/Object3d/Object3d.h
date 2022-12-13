@@ -28,6 +28,7 @@ public: // サブクラス
 	struct ConstBufferDataB0
 	{
 		XMMATRIX mat;	// ３Ｄ変換行列
+		XMFLOAT4 color; // 色
 	};
 
 public: // 静的メンバ関数
@@ -141,6 +142,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="parent"></param>
 	void SetParent(Object3d* parent) { this->parent = parent; }
+
+	/// <summary>
+	/// 色をセット
+	/// </summary>
+	/// <param name="color"></param>
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 
 	/// <summary>
 	/// 親オブジェクト取得

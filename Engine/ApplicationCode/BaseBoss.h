@@ -5,6 +5,11 @@
 #include "Vector3.h"
 #include "MouseInput.h"
 #include "SafeDelete.h"
+#include "EnemyBullet.h"
+#include "MotionMath.h"
+
+class BossScene;
+class BossScenePlayer;
 
 class BaseBoss
 {
@@ -32,14 +37,45 @@ public: //メンバ関数
 	/// 行動
 	/// </summary>
 	virtual void Action() = 0;
+	/// <summary>
+	/// 攻撃ヒット時コールバック関数
+	/// </summary>
+	void OnCollision();
+	/// <summary>
+	/// ダメージリアクション
+	/// </summary>
+	void DamageReaction();
+	/// <summary>
+	/// ボスオブジェクト取得
+	/// </summary>
+	/// <returns></returns>
+	Object3d* GetBossObj() { return boss; }
+	/// <summary>
+	/// ボスシーンをセット
+	/// </summary>
+	/// <param name="bossScene">ボスシーン</param>
+	void SetBossScene(BossScene* bossScene) { this->bossScene = bossScene; }
+	/// <summary>
+	/// プレイヤーをセット
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void SetPlayer(BossScenePlayer* player) { this->player = player; }
 
 protected: //静的メンバ変数
 	//行動クールタイム
 	static const int32_t actionCoolTime;
+	//ダメージタイム
+	static const int32_t damageTime;
+	//回転時間
+	static const int32_t rotationTime;
 
 protected: //メンバ変数
 	//ボスオブジェクト
 	Object3d* boss;
+	//ボスシーン
+	BossScene* bossScene;
+	//プレイヤー
+	BossScenePlayer* player;
 	//プレイヤー座標
 	Vector3 playerPos;
 	//座標
@@ -54,6 +90,14 @@ protected: //メンバ変数
 	float hp;
 	//行動クールタイマー
 	int32_t actionCoolTimer;
+	//ダメージタイマー
+	int32_t damageTimer;
+	//回転時間
+	int32_t rotationTimer;
 	//スロー演出用タイマー
 	int delayTimer;
+	//攻撃パターン
+	int actionPattern;
+	//ダメージフラグ
+	bool isDamage = false;
 };

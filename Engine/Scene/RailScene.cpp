@@ -40,6 +40,39 @@ void RailScene::Initialize() {
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
+	for (int i = 0; i < 90; i++) {
+		Vector3 pos = { 0, 20, 0 };
+		Vector3 rot = { 0, 270, 0 };
+		Vector3 scale = { 5, 5, 5 };
+		float angle = 20;
+		float length = 100;
+		if (i > 17) {
+			angle = 25;
+			length = 200;
+		}
+		if (i > 35) {
+			angle = 20;
+			length = 300;
+		}
+		if (i > 53) {
+			angle = 22;
+			length = 400;
+		}
+		if (i > 71) {
+			angle = 20;
+			length = 500;
+		}
+		pos = MotionMath::GetIns()->CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
+		pos.y = rand() % 20 - 40;
+		rot.y -= angle * i;
+		std::unique_ptr<Object3d> newBuilding;
+		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
+		newBuilding->SetPosition(pos);
+		newBuilding->SetRotation(rot);
+		newBuilding->SetScale(scale);
+		buildings.push_back(std::move(newBuilding));
+	}
+
 	player = new Player;
 	player->Initialize(camera, Sound::GetIns(), clearTime);
 	player->SetRailScene(this);
@@ -130,9 +163,9 @@ void RailScene::Update() {
 		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 		playerPos = XMVector3TransformCoord(playerPos, matVPV);
 
-		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 100.0f, playerPos.m128_f32[1] - 90.0f };
+		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
 		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0, 0 }, 8, { 0, 0 }, { 32, 32 });
+		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 		particles2d.push_back(std::move(new2DParticle));
 		isPlayerDead = true;
 	}
@@ -150,6 +183,9 @@ void RailScene::Update() {
 	if (!isPause) {
 		celetialSphere->Update();
 		ground->Update();
+		for (std::unique_ptr<Object3d>& building : buildings) {
+			building->Update();
+		}
 
 		if (player->GetHPCount() > 0) {
 			if (!railCamera->GetIsEnd()) {
@@ -346,6 +382,9 @@ void RailScene::Draw() {
 	}
 	for (std::unique_ptr<Bomb>& bomb : bombs) {
 		bomb->Draw();
+	}
+	for (std::unique_ptr<Object3d>& building : buildings) {
+		building->Draw();
 	}
 	//object1->Draw(dxCommon->GetCmdList());
 	Object3d::PostDraw();

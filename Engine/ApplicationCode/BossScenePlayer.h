@@ -47,9 +47,33 @@ public: //メンバ関数
 	/// <returns></returns>
 	Object3d* GetPlayerObj() { return player; }
 	/// <summary>
+	/// HP取得
+	/// </summary>
+	/// <returns>HP</returns>
+	int GetHPCount() { return hpCount; }
+	/// <summary>
+	/// ダメージフラグ取得
+	/// </summary>
+	/// <returns>ダメージフラグ</returns>
+	bool GetIsDamage() { return isDamage; }
+	/// <summary>
+	/// 死亡フラグ取得
+	/// </summary>
+	/// <returns>死亡フラグ</returns>
+	bool GetIsDead() { return isDead; }
+	/// <summary>
+	/// アングル取得
+	/// </summary>
+	/// <returns>アングル</returns>
+	float GetAngle() { return cameraAngle; }
+	/// <summary>
 	/// 終了処理
 	/// </summary>
 	void Finalize();
+	/// <summary>
+	/// ヒット時コールバック関数
+	/// </summary>
+	void OnCollision();
 	/// <summary>
 	/// ボスシーンをセット
 	/// </summary>
@@ -77,6 +101,14 @@ private: //メンバ関数
 	/// 弾発射
 	/// </summary>
 	void Shot(Vector3 mouse3dPos);
+	/// <summary>
+	/// ダメージエフェクト
+	/// </summary>
+	void DamageEffect();
+	/// <summary>
+	/// 死亡演出
+	/// </summary>
+	void DeadPerformance();
 
 private: //静的メンバ変数
 	//回転時間
@@ -95,6 +127,10 @@ private: //静的メンバ変数
 	static const int maxBoostCount = 3;
 	//ブースト回復時間
 	static const float boostReloadTime;
+	//ダメージ時間
+	static const int32_t damageTime;
+	//死亡タイム
+	static const int32_t deadTime;
 
 private: //メンバ変数
 
@@ -172,4 +208,12 @@ private: //メンバ変数
 	float cameraAngle;
 	//カメラ座標
 	Vector3 cameraPos;
+	//ダメージフラグ
+	bool isDamage;
+	//ダメージタイマー
+	int32_t damageTimer;
+	//死亡タイマー
+	int32_t deadTimer;
+	//死亡フラグ
+	bool isDead;
 };
