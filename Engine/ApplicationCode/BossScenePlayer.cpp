@@ -21,6 +21,10 @@ void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
 
 	shadow = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shadow));
 
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun->SetPosition(Vector3(1, 0.6, 1.1));
+	gun->SetParent(player);
+
 	aimPos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	aim = Sprite::Create(ImageManager::aim, aimPos, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
@@ -82,6 +86,7 @@ void BossScenePlayer::Update()
 	shadowPos.y = -35.0f;
 	shadow->SetPosition(shadowPos);
 	shadow->Update();
+	gun->Update();
 
 	if (!isDash) {
 		Move();
@@ -95,6 +100,7 @@ void BossScenePlayer::Draw()
 {
 	player->Draw();
 	shadow->Draw();
+	gun->Draw();
 }
 
 void BossScenePlayer::SpriteDraw()
@@ -118,6 +124,7 @@ void BossScenePlayer::SpriteDraw()
 void BossScenePlayer::Finalize() {
 	safe_delete(player);
 	safe_delete(shadow);
+	safe_delete(gun);
 	safe_delete(aim);
 	safe_delete(playerUI);
 	for (int i = 0; i < maxHp; i++) {

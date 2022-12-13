@@ -11,6 +11,7 @@
 #include "Easing.h"
 
 class RailScene;
+class Player;
 
 class BaseEnemy
 {
@@ -30,7 +31,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの座標</param>
 	/// <param name="delayTime">スロー演出用遅延時間</param>
-	virtual void Update(const Vector3& playerPos, const int delayTime = 0) = 0;
+	virtual void Update(const int delayTime = 0) = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -63,6 +64,11 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="railScene"></param>
 	void SetRailScene(RailScene* railScene) { this->railScene = railScene; }
+	/// <summary>
+	/// プレイヤーをセット
+	/// </summary>
+	/// <param name="player">プレイヤー</param>
+	void SetPlayer(Player* player) { this->player = player; }
 	/// <summary>
 	/// ロックオンフラグをセット
 	/// </summary>
@@ -112,6 +118,8 @@ protected: //メンバ変数
 	bool isTarget;
 	//ゲームシーンのポインタ
 	RailScene* railScene;
+	//プレイヤーのポインタ
+	Player* player;
 	//体力
 	int hp;
 	//プレイヤーの座標

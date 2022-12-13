@@ -102,6 +102,7 @@ private: //メンバ変数
 	//プレイヤー
 	Object3d* player;
 	Object3d* shadow;
+	Object3d* gun;
 
 	//2Dスプライト
 	//レティクル

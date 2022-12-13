@@ -24,7 +24,7 @@ void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vect
 	targetReactionTimer = 0;
 }
 
-void HomingEnemy::Update(const Vector3& playerPos, const int delayTime)
+void HomingEnemy::Update(const int delayTime)
 {
 	const int32_t lifeTimeOver = 0;
 
@@ -84,10 +84,31 @@ void HomingEnemy::SpriteDraw()
 void HomingEnemy::Move()
 {
 	XMFLOAT3 enemyPos = enemy->GetPosition();
-	enemyPos.x += 0.1f;
+	if (lifeTimer <= 180.0f) {
+		enemyPos.z += 0.01f;
+	}
+	else {
+		enemyPos.x += 1.5f;
+	}
 	enemy->SetPosition(enemyPos);
 }
 
 void HomingEnemy::Attack()
 {
+	if (++shotIntervalTimer >= shotIntervalTime) {
+		const float bulletSpeed = 2.0f;
+		Vector3 playerWPos = player->GetPlayerObject()->GetMatWorld().r[3];
+		Vector3 enemyWPos = enemy->GetMatWorld().r[3];
+		XMVECTOR velocity = { 0, 0, 1 };
+		XMVECTOR vector = { playerWPos.x - enemyWPos.x, playerWPos.y - enemyWPos.y, playerWPos.z - enemyWPos.z };
+		vector = XMVector3Normalize(vector);
+		//velocity = MatCalc::GetIns()->VecDivided(velocity, enemy->GetMatWorld());
+		velocity = vector * bulletSpeed;
+
+		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
+
+		railScene->AddEnemyBullet(std::move(newBullet));
+		shotIntervalTimer = 0;
+	}
 }

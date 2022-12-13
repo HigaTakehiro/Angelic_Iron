@@ -62,7 +62,7 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return playerWPos; }
+	const XMFLOAT3 GetPlayerPos() { return playerLPos; }
 
 	/// <summary>
 	/// 3Dレティクルの位置取得

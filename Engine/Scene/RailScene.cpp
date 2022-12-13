@@ -156,7 +156,7 @@ void RailScene::Update() {
 				railCamera->Update(delayCount);
 			}
 			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-				enemy->Update({ player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z }, delayCount);
+				enemy->Update(delayCount);
 			}
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
@@ -473,6 +473,7 @@ void RailScene::EnemyDataUpdate() {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
 				newEnemy->Initialize(ModelManager::Enemy, pos, scale);
 				newEnemy->SetRailScene(this);
+				newEnemy->SetPlayer(player);
 				enemies.push_back(std::move(newEnemy));
 			}
 
