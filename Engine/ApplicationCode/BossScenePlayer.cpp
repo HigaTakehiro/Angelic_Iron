@@ -115,7 +115,7 @@ void BossScenePlayer::Update()
 
 void BossScenePlayer::Draw()
 {
-	const int32_t liveTime = deadTime / 1.2;
+	const int32_t liveTime = deadTime / 3;
 	if (deadTimer <= liveTime) {
 		player->Draw();
 		gun->Draw();
@@ -162,6 +162,8 @@ void BossScenePlayer::Finalize() {
 void BossScenePlayer::OnCollision()
 {
 	hpCount--;
+	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
 	isDamage = true;
 }
 

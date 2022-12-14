@@ -51,6 +51,11 @@ public: //メンバ関数
 	/// <returns></returns>
 	Object3d* GetBossObj() { return boss; }
 	/// <summary>
+	/// 死亡フラグ取得
+	/// </summary>
+	/// <returns>死亡フラグ</returns>
+	bool GetIsDead() { return isDead; }
+	/// <summary>
 	/// ボスシーンをセット
 	/// </summary>
 	/// <param name="bossScene">ボスシーン</param>
@@ -68,6 +73,12 @@ protected: //静的メンバ変数
 	static const int32_t damageTime;
 	//回転時間
 	static const int32_t rotationTime;
+	//死亡時間
+	static const int32_t deadTime;
+	//ダメージカラー
+	static const XMFLOAT4 damageColor;
+	//死亡HP
+	static const int deadHP;
 
 protected: //メンバ変数
 	//ボスオブジェクト
@@ -100,4 +111,8 @@ protected: //メンバ変数
 	int actionPattern;
 	//ダメージフラグ
 	bool isDamage = false;
+	//死亡フラグ
+	bool isDead = false;
+	//死亡タイマー
+	int32_t deadTimer;
 };

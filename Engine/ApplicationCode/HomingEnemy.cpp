@@ -6,7 +6,7 @@ HomingEnemy::~HomingEnemy()
 	safe_delete(target);
 }
 
-void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale)
+void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot)
 {
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
 	enemy->SetPosition(pos);
@@ -14,6 +14,7 @@ void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vect
 	target->SetSize(XMFLOAT2(100.0f, 100.0f));
 	target->SetAnchorPoint({ 0.5f, 0.5f });
 	oldPos = pos;
+	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
 	delayTimer = 0.0f;
 	hp = 1;

@@ -5,13 +5,14 @@ StraightEnemy::~StraightEnemy() {
 	safe_delete(target);
 }
 
-void StraightEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) {
+void StraightEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot) {
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
 	enemy->SetPosition(pos);
 	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	target->SetSize(XMFLOAT2(100.0f, 100.0f));
 	target->SetAnchorPoint({ 0.5f, 0.5f });
 	oldPos = pos;
+	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
 	delayTimer = 0.0f;
 	hp = 1;

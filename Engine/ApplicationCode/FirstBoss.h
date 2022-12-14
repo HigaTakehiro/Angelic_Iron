@@ -75,22 +75,49 @@ public: //メンバ関数
 
 private: //メンバ関数
 	/// <summary>
-	/// 回転
+	/// 防御
 	/// </summary>
-	void Rotation();
+	void Guard();
 	/// <summary>
 	/// 回転攻撃
 	/// </summary>
 	void RollingShot();
+	/// <summary>
+	/// 押しつぶし攻撃
+	/// </summary>
+	void Stomp();
+	/// <summary>
+	/// ラリアット攻撃
+	/// </summary>
+	void Lariat();
+	/// <summary>
+	/// 死亡演出
+	/// </summary>
+	void DeadReaction();
+	/// <summary>
+	/// 左手死亡演出
+	/// </summary>
+	void LeftHandDeadReaction();
+	/// <summary>
+	/// 右手死亡演出
+	/// </summary>
+	void RightHandDeadReaction();
 
 private: //静的メンバ変数
 	static const int32_t rollingShotTime;
+	static const int32_t leftHandDeadTime;
+	static const int32_t rightHandDeadTime;
+	static const int32_t guardTime;
+	static const int32_t stompTime;
+	static const int32_t punchTime;
 
 private: //メンバ変数
 	// 左手
 	Object3d* leftHand;
+	Object3d* leftHandShadow;
 	//右手
 	Object3d* rightHand;
+	Object3d* rightHandShadow;
 	//左手関連変数
 	Vector3 leftHandPos;
 	Vector3 leftHandScale;
@@ -99,7 +126,9 @@ private: //メンバ変数
 	bool isLeftHandDamage;
 	bool isLeftHandDead;
 	int32_t leftHandDamageTimer;
+	int32_t leftHandDeadTimer;
 	float leftHandAngle;
+	Vector3 leftHandShadowPos;
 	//右手関連変数
 	Vector3 rightHandPos;
 	Vector3 rightHandScale;
@@ -108,9 +137,14 @@ private: //メンバ変数
 	bool isRightHandDamage;
 	bool isRightHandDead;
 	int32_t rightHandDamageTimer;
+	int32_t rightHandDeadTimer;
 	float rightHandAngle;
+	Vector3 rightHandShadowPos;
 
 	//攻撃関連変数
 	int32_t rollingShotTimer;
+	int32_t guardTimer;
+	int32_t stompTimer;
+	int32_t punchTimer;
 };
 

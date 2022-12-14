@@ -15,8 +15,8 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <param name="pos">座標</param>
-	/// <param name="scale">大きさ</param>
-	void Initialize(const ModelManager::ModelName modelName, const Vector3 & pos, const Vector3 & scale) override;
+	/// <param name="rot">回転</param>
+	void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot) override;
 	/// <summary>
 	/// 更新処理
 	/// </summary>

@@ -88,5 +88,7 @@ private: //メンバ変数
 	bool isPause;
 	//タイトルバックフラグ
 	bool isTitleBack;
+	//死亡フラグ
+	bool isDead;
 };
 

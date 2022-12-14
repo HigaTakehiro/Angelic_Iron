@@ -67,6 +67,7 @@ void BossScene::Initialize()
 
 	isPause = false;
 	isTitleBack = false;
+	isDead = false;
 }
 
 void BossScene::Update()
@@ -87,15 +88,20 @@ void BossScene::Update()
 		celetialSphere->Update();
 		player->Update();
 
-		if (player->GetHPCount() <= noneHP) {
+		if (player->GetHPCount() <= noneHP && !isDead) {
 			XMVECTOR playerPos = player->GetPlayerObj()->GetMatWorld().r[3];
 			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 			playerPos = XMVector3TransformCoord(playerPos, matVPV);
 
 			XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-			new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
+			isDead = true;
+		}
+
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+			particle2d->Update();
 		}
 
 		if (player->GetHPCount() > noneHP) {
@@ -121,7 +127,7 @@ void BossScene::Update()
 				}
 
 				if (!firstBoss->GetIsLeftHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetLeftHandObj(), 1.0f, 20.0f)) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetLeftHandObj(), 1.0f, 30.0f)) {
 						score += 100;
 						firstBoss->LeftHandOnCollision();
 						playerBullet->OnCollision();
@@ -129,7 +135,7 @@ void BossScene::Update()
 				}
 
 				if (!firstBoss->GetIsRightHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetRightHandObj(), 1.0f, 20.0f)) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetRightHandObj(), 1.0f, 30.0f)) {
 						score += 100;
 						firstBoss->RightHandOnCollision();
 						playerBullet->OnCollision();
@@ -143,6 +149,17 @@ void BossScene::Update()
 					if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
 						player->OnCollision();
 					}
+				}
+			}
+
+			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetLeftHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
+				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+					player->OnCollision();
+				}
+			}
+			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetRightHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
+				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+					player->OnCollision();
 				}
 			}
 		}
@@ -180,20 +197,22 @@ void BossScene::Update()
 		}
 
 	}
-
-	if (isTitleBack) {
-		SceneManager::SceneChange(SceneManager::Title);
-	}
-
 	if (player->GetIsDead()) {
 		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::GameOver);
 	}
-
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	else if (firstBoss->GetIsDead()) {
 		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::Result);
 	}
+	else if (isTitleBack) {
+		SceneManager::SceneChange(SceneManager::Title);
+	}
+
+	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	//	SceneManager::AddScore(score);
+	//	SceneManager::SceneChange(SceneManager::Result);
+	//}
 }
 
 void BossScene::Draw()
@@ -239,6 +258,9 @@ void BossScene::Draw()
 		pause->Draw();
 		titleBack->Draw();
 		back->Draw();
+	}
+	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+		particle2d->Draw();
 	}
 	Sprite::PostDraw();
 

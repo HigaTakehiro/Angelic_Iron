@@ -332,10 +332,10 @@ void RailScene::Update() {
 		}
 	}
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	}
+	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	//	SceneManager::AddScore(score);
+	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	//}
 
 	//player->SetEnemies(enemies);
 
@@ -404,7 +404,7 @@ void RailScene::Draw() {
 		back->Draw();
 		restart->Draw();
 	}
-	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
+	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -458,7 +458,7 @@ void RailScene::EnemyDataUpdate() {
 	Vector3 scale{};
 	std::string type;
 	bool isPos = false;
-	bool isScale = false;
+	bool isRot = false;
 	bool isStyle = false;
 
 	if (isWait) {
@@ -483,11 +483,11 @@ void RailScene::EnemyDataUpdate() {
 			line_stream >> pos.z;
 			isPos = true;
 		}
-		if (word == "Scale") {
-			line_stream >> scale.x;
-			line_stream >> scale.y;
-			line_stream >> scale.z;
-			isScale = true;
+		if (word == "Rot") {
+			line_stream >> rot.x;
+			line_stream >> rot.y;
+			line_stream >> rot.z;
+			isRot = true;
 		}
 		if (word == "Type") {
 			line_stream >> type;
@@ -500,24 +500,24 @@ void RailScene::EnemyDataUpdate() {
 			break;
 		}
 
-		if (isPos && isScale && isStyle) {
+		if (isPos && isRot && isStyle) {
 
 			if (type == "STR") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
-				newEnemy->Initialize(ModelManager::Enemy, pos, scale);
+				newEnemy->Initialize(ModelManager::Enemy, pos, rot);
 				newEnemy->SetRailScene(this);
 				enemies.push_back(std::move(newEnemy));
 			}
 			if (type == "HOM") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
-				newEnemy->Initialize(ModelManager::Enemy, pos, scale);
+				newEnemy->Initialize(ModelManager::Enemy, pos, rot);
 				newEnemy->SetRailScene(this);
 				newEnemy->SetPlayer(player);
 				enemies.push_back(std::move(newEnemy));
 			}
 
 			isPos = false;
-			isScale = false;
+			isRot = false;
 			isStyle = false;
 		}
 	}

@@ -1,6 +1,8 @@
 #include "BaseBoss.h"
 
 const int32_t BaseBoss::damageTime = 20;
+const XMFLOAT4 BaseBoss::damageColor = { 1.0f, 0.3f, 0.3f, 1.0f };
+const int BaseBoss::deadHP = 0;
 
 void BaseBoss::OnCollision()
 {

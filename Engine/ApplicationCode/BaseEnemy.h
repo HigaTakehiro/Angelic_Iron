@@ -24,8 +24,8 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <param name="pos">座標</param>
-	/// <param name="scale">大きさ</param>
-	virtual void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& scale) = 0;
+	/// <param name="rot">回転</param>
+	virtual void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot) = 0;
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -109,9 +109,9 @@ protected: //メンバ変数
 	//初期座標
 	Vector3 oldPos;
 	//大きさ
-	Vector3 scale;
+	Vector3 scale = { 5.0f, 5.0f, 5.0f };
 	//回転角
-	Vector3 rot;
+	Vector3 rot = {5.0f, 5.0f, 5.0f};
 	//死亡フラグ
 	bool isDead;
 	//ロックオンフラグ
