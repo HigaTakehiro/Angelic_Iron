@@ -165,7 +165,7 @@
     <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\NormalEnemy.cpp">
+    <ClCompile Include="Engine\ApplicationCode\StraightEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp">
@@ -302,7 +302,7 @@
     <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\NormalEnemy.h">
+    <ClInclude Include="Engine\ApplicationCode\StraightEnemy.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h">

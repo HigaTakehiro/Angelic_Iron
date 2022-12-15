@@ -1,4 +1,4 @@
-#include "NormalEnemy.h"
+#include "StraightEnemy.h"
 
 StraightEnemy::~StraightEnemy() {
 	safe_delete(enemy);

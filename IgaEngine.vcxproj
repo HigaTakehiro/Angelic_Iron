@@ -157,7 +157,7 @@
     <ClCompile Include="Engine\ApplicationCode\FirstBoss.cpp" />
     <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\NormalEnemy.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\StraightEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Player.cpp" />
     <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
@@ -203,7 +203,7 @@
     <ClInclude Include="Engine\ApplicationCode\FirstBoss.h" />
     <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\MotionMath.h" />
-    <ClInclude Include="Engine\ApplicationCode\NormalEnemy.h" />
+    <ClInclude Include="Engine\ApplicationCode\StraightEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Particle2d.h" />
     <ClInclude Include="Engine\ApplicationCode\Player.h" />
     <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />

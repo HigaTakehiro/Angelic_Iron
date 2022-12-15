@@ -20,6 +20,7 @@ void FirstBoss::Initialize(ModelManager::ModelName model, const Vector3& pos) {
 	actionCoolTimer = 0;
 	actionPattern = 1;
 	rotationTimer = 0;
+	actionPreTimer = 0;
 	deadTimer = 0;
 
 	boss->SetPosition(this->pos);
@@ -145,10 +146,10 @@ void FirstBoss::Action()
 		switch (actionPattern)
 		{
 		case 1:
-			RollingShot();
+			RollingShot(20);
 			break;
 		case 2:
-			Guard();
+			Guard(40);
 			break;
 		default:
 			break;
@@ -196,79 +197,183 @@ void FirstBoss::RightHandDamageReaction()
 	}
 }
 
-void FirstBoss::Guard()
+void FirstBoss::Guard(const int32_t actionPreTime)
 {
-	guardTimer++;
-	if (guardTimer >= guardTime) {
-		guardTimer = 0;
-		actionPattern = 1;
-		actionCoolTimer = 0;
+	actionPreTimer++;
+	if (actionPreTimer >= actionPreTime) {
+		isActionPos = true;
 	}
 
-	const float direction = 180.0f;
+	if (isActionPos) {
+		guardTimer++;
+		if (guardTimer >= guardTime) {
+			isActionPos = false;
+			isActionPost = true;
+		}
 
-	Vector3 distance = pos - playerPos;
+		const float direction = 180.0f;
 
-	float angle = (atan2(distance.x, distance.z)) * 180.0f / 3.14f + direction;
+		Vector3 distance = pos - playerPos;
 
-	rot.y = angle;
+		float angle = (atan2(distance.x, distance.z)) * 180.0f / 3.14f + direction;
 
-	leftHandPos.x = 2.0f;
-	leftHandPos.z = 15.0f;
-	leftHandRot.x = -180.0f;
-	
-	rightHandPos.x = -2.0f;
-	rightHandPos.z = 15.0f;
-	rightHandRot.x = -180.0f;
+		rot.y = angle;
+
+		leftHandPos.x = 2.0f;
+		leftHandPos.z = 15.0f;
+		leftHandRot.x = -180.0f;
+
+		rightHandPos.x = -2.0f;
+		rightHandPos.z = 15.0f;
+		rightHandRot.x = -180.0f;
+	}
+	else {
+		const float direction = 180.0f;
+
+		Vector3 distance = pos - playerPos;
+
+		float angle = (atan2(distance.x, distance.z)) * 180.0f / 3.14f + direction;
+
+		rot.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, angle, rot.y);
+
+		leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, leftHandPos.x);
+		leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, leftHandPos.z);
+		leftHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, leftHandRot.x);
+		rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, rightHandPos.x);
+		rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, rightHandPos.z);
+		rightHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, rightHandRot.x);
+	}
+
+	if (isActionPost) {
+		const Vector3 initLeftHandPos = { 15.0f, 0.0f, 0.0f };
+		const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
+		const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
+
+		leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
+		leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
+		leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
+
+		rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
+		rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
+		rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
+
+		leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
+		leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
+		leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
+
+		rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
+		rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
+		rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+
+		actionPostTimer++;
+		if (actionPostTimer >= actionPreTime) {
+			actionCoolTimer = 0;
+			actionPattern = 1;
+			guardTimer = 0;
+			actionPreTimer = 0;
+			actionPostTimer = 0;
+			isActionPost = false;
+		}
+	}
 }
 
-void FirstBoss::RollingShot() {
+void FirstBoss::RollingShot(const int32_t actionPreTime) {
 	const float bulletSpeed = 0.001f;
 
-	rollingShotTimer += 2.0f;
-	if (rollingShotTimer >= rollingShotTime) {
-		actionCoolTimer = 0;
-		actionPattern = 2;
-		rollingShotTimer = 0;
+	actionPreTimer++;
+	if (actionPreTimer >= actionPreTime) {
+		isActionPos = true;
 	}
-	
 
-	if (leftHandHP > deadHP) {
-		leftHandAngle++;
-		if (leftHandAngle >= 360.0f) {
-			leftHandAngle = 0;
+	if (isActionPos) {
+		rollingShotTimer++;
+		if (rollingShotTimer >= rollingShotTime) {
+			isActionPos = false;
+			isActionPost = true;
 		}
 
-		leftHandPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, leftHandPos, leftHandAngle, 15, MotionMath::Y);
-		leftHandPos.y = -3.5f;
+		if (leftHandHP > deadHP) {
+			leftHandAngle++;
+			if (leftHandAngle >= 360.0f) {
+				leftHandAngle = 0;
+			}
 
-		leftHandRot.y = -leftHandAngle;
+			leftHandPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, leftHandPos, leftHandAngle, 15, MotionMath::Y);
+			leftHandPos.y = -3.5f;
 
-		XMVECTOR velocity = { 0, -1, 0 };
-		velocity = MatCalc::GetIns()->VecDivided(velocity, leftHand->GetMatWorld());
-		std::unique_ptr<EnemyBullet> newLeftBullet = std::make_unique<EnemyBullet>();
-		newLeftBullet->Initialize(leftHand->GetMatWorld().r[3], velocity);
-		bossScene->AddEnemyBullet(std::move(newLeftBullet));
-	}
+			leftHandRot.y = -leftHandAngle;
 
-	if (rightHandHP > deadHP) {
-		rightHandAngle++;
-		if (rightHandAngle >= 360.0f) {
-			rightHandAngle = 0;
+			XMVECTOR velocity = { 0, -1, 0 };
+			velocity = MatCalc::GetIns()->VecDivided(velocity, leftHand->GetMatWorld());
+			std::unique_ptr<EnemyBullet> newLeftBullet = std::make_unique<EnemyBullet>();
+			newLeftBullet->Initialize(leftHand->GetMatWorld().r[3], velocity);
+			bossScene->AddEnemyBullet(std::move(newLeftBullet));
 		}
 
-		rightHandPos.y = -3.5f;
-		rightHandPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandPos, rightHandAngle, 15, MotionMath::Y);
+		if (rightHandHP > deadHP) {
+			rightHandAngle++;
+			if (rightHandAngle >= 360.0f) {
+				rightHandAngle = 0;
+			}
 
-		rightHandRot.y = -rightHandAngle;
+			rightHandPos.y = -3.5f;
+			rightHandPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandPos, rightHandAngle, 15, MotionMath::Y);
 
-		XMVECTOR velocity = { 0, -1, 0 };
-		velocity = MatCalc::GetIns()->VecDivided(velocity, rightHand->GetMatWorld());
-		std::unique_ptr<EnemyBullet> newRightBullet = std::make_unique<EnemyBullet>();
-		newRightBullet->Initialize(rightHand->GetMatWorld().r[3], velocity);
-		bossScene->AddEnemyBullet(std::move(newRightBullet));
+			rightHandRot.y = -rightHandAngle;
+
+			XMVECTOR velocity = { 0, -1, 0 };
+			velocity = MatCalc::GetIns()->VecDivided(velocity, rightHand->GetMatWorld());
+			std::unique_ptr<EnemyBullet> newRightBullet = std::make_unique<EnemyBullet>();
+			newRightBullet->Initialize(rightHand->GetMatWorld().r[3], velocity);
+			bossScene->AddEnemyBullet(std::move(newRightBullet));
+		}
 	}
-	
+	else {
+		Vector3 leftHandActionPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, leftHandActionPos, leftHandAngle, 15, MotionMath::Y);
+		leftHandActionPos.y = -3.5f;
+		Vector3 rightHandActionPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandActionPos, rightHandAngle, 15, MotionMath::Y);
+		rightHandActionPos.y = -3.5f;
+		leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.x, leftHandPos.x);
+		leftHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.y, leftHandPos.y);
+		leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.z, leftHandPos.z);
+
+		rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.x, rightHandPos.x);
+		rightHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.y, rightHandPos.y);
+		rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.z, rightHandPos.z);
+	}
+
+	if (isActionPost) {
+		const Vector3 initLeftHandPos = { 15.0f, 0.0f, 0.0f };
+		const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
+		const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
+		
+		leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
+		leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
+		leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
+
+		rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
+		rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
+		rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
+
+		leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
+		leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
+		leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
+
+		rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
+		rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
+		rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+
+		actionPostTimer++;
+		if (actionPostTimer >= actionPreTime) {
+			actionCoolTimer = 0;
+			actionPattern = 2;
+			rollingShotTimer = 0;
+			actionPreTimer = 0;
+			actionPostTimer = 0;
+			isActionPost = false;
+		}
+		
+	}
 }
 
 void FirstBoss::Stomp()

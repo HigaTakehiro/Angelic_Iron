@@ -29,12 +29,11 @@
 #include "BaseScene.h"
 #include "SceneManager.h"
 #include "BaseEnemy.h"
-#include "NormalEnemy.h"
+#include "StraightEnemy.h"
 #include "HomingEnemy.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
-class Enemy;
 class Player;
 
 class RailScene : public BaseScene

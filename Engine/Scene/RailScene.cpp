@@ -332,10 +332,10 @@ void RailScene::Update() {
 		}
 	}
 
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
-	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	//}
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::AddScore(score);
+		SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	}
 
 	//player->SetEnemies(enemies);
 

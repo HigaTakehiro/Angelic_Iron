@@ -77,11 +77,11 @@ private: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// –hŒä
 	/// </summary>
-	void Guard();
+	void Guard(const int32_t actionPreTime);
 	/// <summary>
 	/// ‰ñ“]UŒ‚
 	/// </summary>
-	void RollingShot();
+	void RollingShot(const int32_t actionPreTime);
 	/// <summary>
 	/// ‰Ÿ‚µ‚Â‚Ô‚µUŒ‚
 	/// </summary>
@@ -146,5 +146,9 @@ private: //ƒƒ“ƒo•Ï”
 	int32_t guardTimer;
 	int32_t stompTimer;
 	int32_t punchTimer;
+	int32_t actionPreTimer;
+	int32_t actionPostTimer;
+	bool isActionPos;
+	bool isActionPost;
 };
 
