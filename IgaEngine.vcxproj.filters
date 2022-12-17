@@ -383,5 +383,8 @@
     <FxCompile Include="Engine\Resources\shaders\Fadeout.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\SlowEffect.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

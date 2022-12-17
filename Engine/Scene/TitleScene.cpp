@@ -339,7 +339,7 @@ void TitleScene::Draw()
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 10.0f, PostEffect::NONE);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, PostEffect::NONE);
 	DirectXSetting::GetIns()->PostDraw();
 
 }

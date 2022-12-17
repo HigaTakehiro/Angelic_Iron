@@ -243,6 +243,9 @@ void PostEffect::CreateGraphicsPipelineState() {
 		else if (i == DAMAGE) {
 			LoadPS(L"Engine/Resources/shaders/DamageEffect.hlsl", psBlob);
 		}
+		else if (i == SLOW) {
+			LoadPS(L"Engine/Resources/shaders/SlowEffect.hlsl", psBlob);
+		}
 		
 
 		// 頂点レイアウト

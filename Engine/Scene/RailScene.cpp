@@ -356,6 +356,11 @@ void RailScene::Draw() {
 		isRoop = true;
 	}
 
+	if (player->GetIsBomb()) {
+		postEffectNo = PostEffect::SLOW;
+		isRoop = false;
+	}
+
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
