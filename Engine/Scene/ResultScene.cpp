@@ -148,14 +148,3 @@ void ResultScene::Finalize()
 		safe_delete(scoreNumbers[i]);
 	}
 }
-
-ResultScene::ScoreNumber ResultScene::JudgeDigitNumber(int score, int digit)
-{
-	if (score >= 1000000) {
-		return nine;
-	}
-
-	int num = (score / (int)pow(10, digit)) % 10;
-
-	return (ScoreNumber)(64 * num);
-}

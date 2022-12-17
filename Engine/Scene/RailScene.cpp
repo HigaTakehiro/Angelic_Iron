@@ -29,6 +29,15 @@ void RailScene::Initialize() {
 	restartSize = restart->GetSize();
 	restartSize.x /= 2;
 	restartSize.y /= 2;
+	scoreSprite = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreSprite->SetAnchorPoint({ 0.5f, 0.5f });
+	scoreSprite->SetSize({ scoreSprite->GetSize().x / 2.0f, scoreSprite->GetSize().y / 2.0f });
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		scoreNumber[i]->SetSize({ 32, 32 });
+	}
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -156,6 +165,10 @@ void RailScene::Update() {
 	}
 	if (clearTimer <= 0) {
 		isClear = true;
+	}
+
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, {64, 64});
 	}
 
 	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
@@ -396,6 +409,10 @@ void RailScene::Draw() {
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	scoreSprite->Draw();
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i]->Draw();
+	}
 	player->SpriteDraw();
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -435,6 +452,10 @@ void RailScene::Finalize() {
 	safe_delete(titleBack);
 	safe_delete(back);
 	safe_delete(restart);
+	safe_delete(scoreSprite);
+	for (int i = 0; i < 6; i++) {
+		safe_delete(scoreNumber[i]);
+	}
 	//FbxLoader::GetInstance()->Finalize();
 }
 

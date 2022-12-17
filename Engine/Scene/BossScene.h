@@ -75,6 +75,8 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;
 	Sprite* back = nullptr;
+	Sprite* scoreText = nullptr;
+	Sprite* scoreNumber[6] = {};
 
 	//BaseBoss* boss;
 	FirstBoss* firstBoss;

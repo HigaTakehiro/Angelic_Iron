@@ -219,13 +219,17 @@ void FirstBoss::Guard(const int32_t actionPreTime)
 
 		rot.y = angle;
 
-		leftHandPos.x = 2.0f;
-		leftHandPos.z = 15.0f;
-		leftHandRot.x = -180.0f;
+		if (leftHandHP > deadHP) {
+			leftHandPos.x = 2.0f;
+			leftHandPos.z = 15.0f;
+			leftHandRot.x = -180.0f;
+		}
 
-		rightHandPos.x = -2.0f;
-		rightHandPos.z = 15.0f;
-		rightHandRot.x = -180.0f;
+		if (rightHandHP > deadHP) {
+			rightHandPos.x = -2.0f;
+			rightHandPos.z = 15.0f;
+			rightHandRot.x = -180.0f;
+		}
 	}
 	else {
 		const float direction = 180.0f;
@@ -236,12 +240,17 @@ void FirstBoss::Guard(const int32_t actionPreTime)
 
 		rot.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, angle, rot.y);
 
-		leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, leftHandPos.x);
-		leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, leftHandPos.z);
-		leftHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, leftHandRot.x);
-		rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, rightHandPos.x);
-		rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, rightHandPos.z);
-		rightHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, rightHandRot.x);
+		if (leftHandHP > deadHP) {
+			leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, leftHandPos.x);
+			leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, leftHandPos.z);
+			leftHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, leftHandRot.x);
+		}
+		
+		if (rightHandHP > deadHP) {
+			rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 2.0f, rightHandPos.x);
+			rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, 15.0f, rightHandPos.z);
+			rightHandRot.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, -180.0f, rightHandRot.x);
+		}
 	}
 
 	if (isActionPost) {
@@ -249,21 +258,25 @@ void FirstBoss::Guard(const int32_t actionPreTime)
 		const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
 		const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
 
-		leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
-		leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
-		leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
+		if (leftHandHP > deadHP) {
+			leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
+			leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
+			leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
 
-		rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
-		rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
-		rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
+			leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
+			leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
+			leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
+		}
 
-		leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
-		leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
-		leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
+		if (rightHandHP > deadHP) {
+			rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
+			rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
+			rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
 
-		rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
-		rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
-		rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+			rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
+			rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
+			rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+		}
 
 		actionPostTimer++;
 		if (actionPostTimer >= actionPreTime) {
@@ -333,13 +346,18 @@ void FirstBoss::RollingShot(const int32_t actionPreTime) {
 		leftHandActionPos.y = -3.5f;
 		Vector3 rightHandActionPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandActionPos, rightHandAngle, 15, MotionMath::Y);
 		rightHandActionPos.y = -3.5f;
-		leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.x, leftHandPos.x);
-		leftHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.y, leftHandPos.y);
-		leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.z, leftHandPos.z);
 
-		rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.x, rightHandPos.x);
-		rightHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.y, rightHandPos.y);
-		rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.z, rightHandPos.z);
+		if (leftHandHP > deadHP) {
+			leftHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.x, leftHandPos.x);
+			leftHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.y, leftHandPos.y);
+			leftHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, leftHandActionPos.z, leftHandPos.z);
+		}
+		
+		if (rightHandHP > deadHP) {
+			rightHandPos.x = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.x, rightHandPos.x);
+			rightHandPos.y = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.y, rightHandPos.y);
+			rightHandPos.z = Easing::GetIns()->easeIn(actionPreTimer, actionPreTime, rightHandActionPos.z, rightHandPos.z);
+		}
 	}
 
 	if (isActionPost) {
@@ -347,21 +365,25 @@ void FirstBoss::RollingShot(const int32_t actionPreTime) {
 		const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
 		const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
 		
-		leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
-		leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
-		leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
+		if (leftHandHP > deadHP) {
+			leftHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.x, leftHandPos.x);
+			leftHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.y, leftHandPos.y);
+			leftHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initLeftHandPos.z, leftHandPos.z);
 
-		rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
-		rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
-		rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
+			leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
+			leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
+			leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
+		}
+		
+		if (rightHandHP > deadHP) {
+			rightHandPos.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.x, rightHandPos.x);
+			rightHandPos.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.y, rightHandPos.y);
+			rightHandPos.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initRightHandPos.z, rightHandPos.z);
 
-		leftHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, leftHandRot.x);
-		leftHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, leftHandRot.y);
-		leftHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, leftHandRot.z);
-
-		rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
-		rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
-		rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+			rightHandRot.x = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.x, rightHandRot.x);
+			rightHandRot.y = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.y, rightHandRot.y);
+			rightHandRot.z = Easing::GetIns()->easeIn(actionPostTimer, actionPreTime, initHandRot.z, rightHandRot.z);
+		}
 
 		actionPostTimer++;
 		if (actionPostTimer >= actionPreTime) {

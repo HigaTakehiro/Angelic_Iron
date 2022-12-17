@@ -149,6 +149,8 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* titleBack = nullptr;
 	Sprite* back = nullptr;
 	Sprite* restart = nullptr;
+	Sprite* scoreSprite = nullptr;
+	Sprite* scoreNumber[6] = {};
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;
 	XMFLOAT2 restartSize;

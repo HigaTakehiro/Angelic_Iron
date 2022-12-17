@@ -62,7 +62,15 @@ void BossScene::Initialize()
 	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
-
+	scoreText = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreText->SetAnchorPoint({ 0.5f, 0.5f });
+	scoreText->SetSize({ scoreText->GetSize().x / 2.0f, scoreText->GetSize().y / 2.0f });
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		scoreNumber[i]->SetSize({ 32, 32 });
+	}
 	score = 0;
 
 	isPause = false;
@@ -81,6 +89,10 @@ void BossScene::Update()
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
+	}
+
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0}, {64, 64});
 	}
 
 	if (!isPause) {
@@ -147,19 +159,19 @@ void BossScene::Update()
 				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player->GetPlayerObj(), 2.0f, 5.0f)) {
 					bossBullet->OnCollision();
 					if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-						player->OnCollision();
+						//player->OnCollision();
 					}
 				}
 			}
 
 			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetLeftHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
 				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
+					//player->OnCollision();
 				}
 			}
 			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetRightHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
 				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
+					//player->OnCollision();
 				}
 			}
 		}
@@ -253,6 +265,10 @@ void BossScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	scoreText->Draw();
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i]->Draw();
+	}
 	player->SpriteDraw();
 	if (isPause) {
 		pause->Draw();
@@ -284,6 +300,10 @@ void BossScene::Finalize()
 	safe_delete(firstBoss);
 	player->Finalize();
 	safe_delete(player);
+	safe_delete(scoreText);
+	for (int i = 0; i < 6; i++) {
+		safe_delete(scoreNumber[i]);
+	}
 }
 
 void BossScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet)

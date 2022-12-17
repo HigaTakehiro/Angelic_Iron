@@ -25,6 +25,11 @@ void SceneManager::AddScore(const int score) {
 	SceneManager::score += score;
 }
 
+void SceneManager::SetScore(const int score)
+{
+	SceneManager::score = score;
+}
+
 void SceneManager::SceneChange(SceneName scene) {
 	if (nowScene != nullptr) {
 		nowScene->Finalize();

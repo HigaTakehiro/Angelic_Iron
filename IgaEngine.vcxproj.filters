@@ -308,10 +308,10 @@
     <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h">
+    <ClInclude Include="Engine\ApplicationCode\FirstBoss.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\FirstBoss.h">
+    <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>

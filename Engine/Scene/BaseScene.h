@@ -7,6 +7,20 @@ public:
 	//デストラクタ
 	virtual ~BaseScene() {}
 
+public:
+	enum ScoreNumber {
+		zero = 64 * 0,
+		one = 64 * 1,
+		two = 64 * 2,
+		three = 64 * 3,
+		four = 64 * 4,
+		five = 64 * 5,
+		six = 64 * 6,
+		seven = 64 * 7,
+		eight = 64 * 8,
+		nine = 64 * 9
+	};
+
 public: //仮想関数
 	/// <summary>
 	/// 初期化
@@ -36,4 +50,12 @@ public: //メンバ関数
 	/// <param name="spriteHeight">スプライト縦幅</param>
 	/// <returns>マウスがスプライトを触れている</returns>
 	bool IsMouseHitSprite(DirectX::XMFLOAT2 mousePos, DirectX::XMFLOAT2 spritePos, float spriteWidth, float spriteHeight);
+
+	/// <summary>
+	/// nの位の数字を判定する
+	/// </summary>
+	/// <param name="score">判定したいスコア</param>
+	/// <param name="place">判定したいスコアの位</param>
+	/// <returns></returns>
+	ScoreNumber JudgeDigitNumber(int score, int digit);
 };

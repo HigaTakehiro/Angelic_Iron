@@ -57,10 +57,16 @@ public: //静的メンバ関数
 	static void SceneChange(SceneName scene);
 
 	/// <summary>
-	/// スコアをセット
+	/// スコアを加算
 	/// </summary>
 	/// <param name="score">スコア</param>
 	static void AddScore(const int score);
+
+	/// <summary>
+	/// スコアをセット
+	/// </summary>
+	/// <param name="score"></param>
+	static void SetScore(const int score);
 
 	/// <summary>
 	/// ステージ番号取得

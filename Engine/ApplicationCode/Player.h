@@ -194,7 +194,6 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 playerScale = { 0, 0, 0 };
 
 	Object3d* player = nullptr;
-	Object3d* aim3d = nullptr;
 	Object3d* gun = nullptr;
 	Sprite* aim = nullptr;
 	Sprite* playerUI = nullptr;

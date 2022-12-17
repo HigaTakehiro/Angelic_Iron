@@ -32,13 +32,6 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
 
-	aim3d = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
-	aim3d->SetScale(Vector3(3, 3, 3));
-	aim3d->SetPosition(Vector3(0, 0, -100));
-	aim3d->SetRotation(Vector3(0, 0, 0));
-	//aim3d->SetParent(player);
-	//aim3d->SetCameraParent(camera);
-
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
 	gun->SetPosition(Vector3(1, 0.6, 1.1));
 	gun->SetParent(player);
@@ -63,7 +56,6 @@ void Player::Finalize() {
 	safe_delete(player);
 	safe_delete(gun);
 	safe_delete(aim);
-	safe_delete(aim3d);
 	safe_delete(playerUI);
 	for (int i = 0; i < maxHp; i++) {
 		safe_delete(hpUI[i]);
@@ -148,7 +140,6 @@ void Player::Update(bool isClear) {
 	}
 
 	AimUpdate();
-	aim3d->Update();
 	player->Update();
 	gun->Update();
 }
@@ -173,7 +164,6 @@ void Player::ObjectDraw() {
 		player->Draw();
 		gun->Draw();
 	}
-	aim3d->Draw();
 }
 
 void Player::Move() {
@@ -321,8 +311,6 @@ void Player::AimUpdate() {
 	aimPos3d = raticle3D;
 
 	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
-	aim3d->SetPosition(aimPos3d);
-
 }
 
 void Player::OnCollision() {

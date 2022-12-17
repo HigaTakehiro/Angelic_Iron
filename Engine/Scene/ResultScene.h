@@ -11,20 +11,6 @@
 
 class ResultScene : public BaseScene
 {
-public:
-	enum ScoreNumber {
-		zero = 64 * 0,
-		one = 64 * 1,
-		two = 64 * 2,
-		three = 64 * 3,
-		four = 64 * 4,
-		five = 64 * 5,
-		six = 64 * 6,
-		seven = 64 * 7,
-		eight = 64 * 8,
-		nine = 64 * 9
-	};
-
 public: //メンバ関数
 
 	/// <summary>
@@ -44,15 +30,6 @@ public: //メンバ関数
 	/// 終了処理
 	/// </summary>
 	void Finalize();
-
-private: //メンバ関数
-	/// <summary>
-	/// nの位の数字を判定する
-	/// </summary>
-	/// <param name="score">判定したいスコア</param>
-	/// <param name="place">判定したいスコアの位</param>
-	/// <returns></returns>
-	ScoreNumber JudgeDigitNumber(int score, int digit);
 
 private: //メンバ変数
 
