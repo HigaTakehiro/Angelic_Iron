@@ -98,16 +98,12 @@ void RailScene::Initialize() {
 	}
 
 	//FBXの初期化
-	/*FbxLoader::GetInstance()->Initialize(dxCommon->GetDev());
-	FBXObject3d::SetDevice(dxCommon->GetDev());
-	FBXObject3d::SetCamera(camera);
-	FBXObject3d::CreateGraphicsPipeline();
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//FBXObject3d::SetCamera(camera);
 	object1 = new FBXObject3d;
 	object1->Initialize();
-	object1->SetModel(model1);
-	object1->SetScale({ 5.0f, 5.0f, 5.0f });
-	object1->PlayAnimation();*/
+	object1->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::Test));
+	object1->SetScale({ 1.0f, 1.0f, 1.0f });
+	object1->PlayAnimation();
 
 	railCamera->SetStartTime(GetTickCount64());
 
@@ -319,6 +315,8 @@ void RailScene::Update() {
 		}
 	}
 
+	object1->Update();
+
 	//シーン切り替え
 	if (isDead && !isClear) {
 		SceneManager::AddScore(score);
@@ -351,9 +349,6 @@ void RailScene::Update() {
 	}
 
 	//player->SetEnemies(enemies);
-
-	//object1->Update();
-
 }
 
 void RailScene::Draw() {
@@ -404,7 +399,7 @@ void RailScene::Draw() {
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
-	//object1->Draw(dxCommon->GetCmdList());
+	object1->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -444,7 +439,6 @@ void RailScene::Finalize() {
 	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(object1);
-	safe_delete(model1);
 	safe_delete(mapchip);
 	safe_delete(railCamera);
 	safe_delete(postEffect);

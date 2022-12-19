@@ -185,6 +185,7 @@
     <ClCompile Include="Engine\Object3d\Model.cpp" />
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
+    <ClCompile Include="Engine\Object3d\Shapes.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Scene\BossScene.cpp" />
     <ClCompile Include="Engine\Scene\GameOverScene.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Engine\Object3d\Model.h" />
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
+    <ClInclude Include="Engine\Object3d\Shapes.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\BossScene.h" />
     <ClInclude Include="Engine\Scene\GameOverScene.h" />

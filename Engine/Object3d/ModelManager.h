@@ -1,5 +1,6 @@
 #pragma once
 #include "Model.h"
+#include "FBXLoader.h"
 #include <vector>
 
 class ModelManager
@@ -33,6 +34,10 @@ public: //モデル名
 		Shadow
 	};
 
+	enum FBXModelName {
+		Test
+	};
+
 public: //メンバ関数
 
 	/// <summary>
@@ -46,13 +51,27 @@ public: //メンバ関数
 	void LoadModel(const std::string modelName);
 
 	/// <summary>
+	/// FBXモデル追加
+	/// </summary>
+	/// <param name="modelName">モデル名</param>
+	void LoadFBXModel(const std::string modelName);
+
+	/// <summary>
 	/// モデル取得
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <returns>モデル</returns>
 	Model* GetModel(const ModelName modelName) { return models[modelName]; }
 
+	/// <summary>
+	/// FBXモデル取得
+	/// </summary>
+	/// <param name="modelName">モデル名</param>
+	/// <returns>FBXモデル</returns>
+	FBXModel* GetFBXModel(const FBXModelName modelName) { return fbxModels[modelName]; }
+
 private: //メンバ変数
 	std::vector<Model*> models;
+	std::vector<FBXModel*> fbxModels;
 };
 

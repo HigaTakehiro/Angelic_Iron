@@ -146,7 +146,7 @@ void Model::InitializeModel(const std::string& modelname) {
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			//V方向反転
-			texcoord.y = 1.0f - texcoord.y;
+			texcoord.y = -1.0f * texcoord.y;
 			//テクスチャ座標データに追加
 			texcoords.emplace_back(texcoord);
 		}

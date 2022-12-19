@@ -4,7 +4,11 @@ ModelManager::~ModelManager() {
 	for (Model* model : models) {
 		delete model;
 	}
+	for (FBXModel* model : fbxModels) {
+		delete model;
+	}
 	models.clear();
+	fbxModels.clear();
 }
 
 ModelManager* ModelManager::GetIns()
@@ -26,12 +30,22 @@ void ModelManager::Initialize() {
 	LoadModel("BossBody");
 	LoadModel("BossHand");
 	LoadModel("Shadow");
+	LoadFBXModel("Player_Attack");
 }
 
 void ModelManager::LoadModel(const std::string modelName) {
 	Model* newModel = nullptr;
 	newModel = Model::CreateModel(modelName);
 	models.push_back(newModel);
+	newModel = nullptr;
+	delete newModel;
+}
+
+void ModelManager::LoadFBXModel(const std::string modelName)
+{
+	FBXModel* newModel = nullptr;
+	newModel = FbxLoader::GetInstance()->LoadModelFromFile(modelName);
+	fbxModels.push_back(newModel);
 	newModel = nullptr;
 	delete newModel;
 }

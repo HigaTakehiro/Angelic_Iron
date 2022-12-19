@@ -73,7 +73,6 @@ Object3d* Object3d::Create(Model* model)
 		return nullptr;
 	}
 
-
 	return object3d;
 }
 

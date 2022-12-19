@@ -177,6 +177,9 @@
     <ClCompile Include="Engine\ApplicationCode\FirstBoss.cpp">
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object3d\Shapes.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h">
       <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\Shapes.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -165,7 +165,6 @@ private: //メンバ変数
 	//マップチップ用変数
 
 	//FBX用変数
-	FBXModel* model1 = nullptr; //FBXテストモデル
 	FBXObject3d* object1 = nullptr; //FBXテストオブジェクト
 
 	//ゲームシーン用変数

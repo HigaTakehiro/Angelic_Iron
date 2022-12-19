@@ -50,10 +50,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ImageManager::GetIns()->Initialize();
 
+	//FBXの初期化
+	FbxLoader::GetInstance()->Initialize(DirectXSetting::GetIns()->GetDev());
+	FBXObject3d::SetDevice(DirectXSetting::GetIns()->GetDev());
+	FBXObject3d::CreateGraphicsPipeline();
+
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 	ModelManager::GetIns()->Initialize();
-	
+
+
 	scene = new SceneManager();
 	scene->Initialize();
 

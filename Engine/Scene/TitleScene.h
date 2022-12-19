@@ -61,7 +61,6 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* aim = nullptr;
 	Sprite* allow = nullptr;
 
-	FBXModel* testModel;
 	FBXObject3d* test;
 
 	XMFLOAT2 titlePos;

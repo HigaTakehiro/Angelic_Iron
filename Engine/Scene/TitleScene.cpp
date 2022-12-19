@@ -80,14 +80,10 @@ void TitleScene::Initialize()
 
 	sphereRot = { 0, 0, 0 };
 
-	FbxLoader::GetInstance()->Initialize(DirectXSetting::GetIns()->GetDev());
-	FBXObject3d::SetDevice(DirectXSetting::GetIns()->GetDev());
 	FBXObject3d::SetCamera(camera);
-	FBXObject3d::CreateGraphicsPipeline();
-	testModel = FbxLoader::GetInstance()->LoadModelFromFile("Player_Attack");
 	test = new FBXObject3d;
 	test->Initialize();
-	test->SetModel(testModel);
+	test->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::Test));
 	test->SetScale({ 0.05f, 0.05f, 0.05f });
 	test->PlayAnimation(true);
 }
@@ -373,6 +369,5 @@ void TitleScene::Finalize()
 	safe_delete(aim);
 	safe_delete(manual2);
 	safe_delete(allow);
-	safe_delete(testModel);
 	safe_delete(test);
 }
