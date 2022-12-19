@@ -45,7 +45,6 @@ void TitleScene::Initialize()
 	aim->SetAnchorPoint({ 0.5f, 0.5f });
 	aim->SetSize({ aim->GetSize().x / 2, aim->GetSize().y / 2 });
 
-
 	startButtonSize = startButton->GetSize();
 	stage1Size = stage1->GetSize();
 	stage2Size = stage2->GetSize();
@@ -80,6 +79,17 @@ void TitleScene::Initialize()
 	postEffect->Initialize();
 
 	sphereRot = { 0, 0, 0 };
+
+	FbxLoader::GetInstance()->Initialize(DirectXSetting::GetIns()->GetDev());
+	FBXObject3d::SetDevice(DirectXSetting::GetIns()->GetDev());
+	FBXObject3d::SetCamera(camera);
+	FBXObject3d::CreateGraphicsPipeline();
+	testModel = FbxLoader::GetInstance()->LoadModelFromFile("Player_Attack");
+	test = new FBXObject3d;
+	test->Initialize();
+	test->SetModel(testModel);
+	test->SetScale({ 0.05f, 0.05f, 0.05f });
+	test->PlayAnimation(true);
 }
 
 void TitleScene::Update()
@@ -93,6 +103,7 @@ void TitleScene::Update()
 	titlePlayer->Update();
 	ground->Update();
 	celetialSphere->Update();
+	test->Update();
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
@@ -312,6 +323,7 @@ void TitleScene::Draw()
 	titlePlayer->Draw();
 	ground->Draw();
 	celetialSphere->Draw();
+	test->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -361,4 +373,6 @@ void TitleScene::Finalize()
 	safe_delete(aim);
 	safe_delete(manual2);
 	safe_delete(allow);
+	safe_delete(testModel);
+	safe_delete(test);
 }

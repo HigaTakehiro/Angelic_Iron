@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ポインタ置き場
 	WinApp* winApp = nullptr;
 	DirectXSetting* dxCommon = DirectXSetting::GetIns();
-	SceneManager* RailScene = nullptr;
+	SceneManager* scene = nullptr;
 	Sound* sound = Sound::GetIns();
 
 	//WindowsAPIの初期化
@@ -54,8 +54,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 	ModelManager::GetIns()->Initialize();
 	
-	RailScene = new SceneManager();
-	RailScene->Initialize();
+	scene = new SceneManager();
+	scene->Initialize();
 
 	// DirectX初期化処理　ここまで
 
@@ -65,24 +65,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 
-		//if (KeyInput::GetIns()->PushKey(DIK_ESCAPE)) {
-		//	break;
-		//}
-
 		KeyInput::GetIns()->Update();
 		MouseInput::GetIns()->Update();
 		PadInput::GetIns()->Update();
-		RailScene->Update();
+		scene->Update();
 
 		// DirectX毎フレーム処理　ここまで
 		// ４．描画コマンドここから
-		RailScene->Draw();
+		scene->Draw();
 
 	}
 
-	//RailScene解放
-	RailScene->Finalize();
-	safe_delete(RailScene);
+	//scene解放
+	scene->Finalize();
+	safe_delete(scene);
 	//WindowsAPI解放
 	winApp->Finalize();
 	safe_delete(winApp);

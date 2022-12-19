@@ -223,7 +223,7 @@ void FBXObject3d::Update() {
 	matWorld *= matTrans;
 
 	//ビュープロジェクション行列
-	const XMMATRIX& matViewProjection = matWorld * camera->GetMatView() * camera->GetMatProjection();
+	const XMMATRIX& matViewProjection = camera->GetMatView() * camera->GetMatProjection();
 	//モデルのメッシュトランスフォーム
 	const XMMATRIX& modelTransform = model->GetModelTransform();
 	//カメラ座標
@@ -246,6 +246,11 @@ void FBXObject3d::Update() {
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBufferSkin->Map(0, nullptr, (void**)&constMapSkin);
+
+	for (int i = 0; i < MAX_BONES; i++) {
+		constMapSkin->bones[i] = XMMatrixIdentity();
+	}
+
 	for (int i = 0; i < bones.size(); i++) {
 		//今の姿勢行列
 		XMMATRIX matCurrentPose;
@@ -253,17 +258,21 @@ void FBXObject3d::Update() {
 		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 		//XMMATRIXに変換
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//モデルの変換行列を取得
+		XMMATRIX meshTransform = model->GetModelTransform();
 		//合成してスキニング行列に
-		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+		constMapSkin->bones[i] = meshTransform * bones[i].invInitialPose * matCurrentPose * XMMatrixInverse(nullptr, meshTransform);
 	}
 	constBufferSkin->Unmap(0, nullptr);
 
 	if (isPlay) {
 		//1フレーム進める
 		currentTime += frameTime;
-		//最後まで再生したら最初に戻す
+		//最後まで再生したら最初に戻す(ループ再生の場合)
 		if (currentTime > endTime) {
-			currentTime = startTime;
+			if (isLoop) {
+				currentTime = startTime;
+			}
 			//アニメーションをループさせないなら停止する
 			if (!isLoop) {
 				isPlay = false;
@@ -290,10 +299,11 @@ void FBXObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 	model->Draw(cmdList);
 }
 
-void FBXObject3d::PlayAnimation(bool isLoop) {
+void FBXObject3d::PlayAnimation(bool isLoop, int animeNo) {
 	FbxScene* fbxScene = model->GetFbxScene();
-	//0番のアニメーション取得
-	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+	//指定した番号のアニメーション取得
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(animeNo);
+	assert(animstack != nullptr);
 	//アニメーションの名前を取得
 	const char* animstackname = animstack->GetName();
 	//アニメーションの時間を取得

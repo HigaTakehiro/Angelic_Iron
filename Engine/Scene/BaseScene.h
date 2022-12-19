@@ -1,5 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
+#include "FbxLoader.h"
+#include "FBXObject3d.h"
 
 class BaseScene
 {

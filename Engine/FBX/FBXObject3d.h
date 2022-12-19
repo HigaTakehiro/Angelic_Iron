@@ -103,10 +103,11 @@ public: //メンバ関数
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 
 	/// <summary>
-	/// アニメーション再生
+	/// アニメーションを再生
 	/// </summary>
-	/// <param name="isLoop">アニメーションをループさせるか</param>
-	void PlayAnimation(bool isLoop = true);
+	/// <param name="isLoop">ループ再生フラグ</param>
+	/// <param name="animeNo">アニメーション番号</param>
+	void PlayAnimation(bool isLoop = true, int animeNo = 0);
 
 	/// <summary>
 	/// アニメーションを停止

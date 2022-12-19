@@ -48,7 +48,6 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene = new RailScene();
 		nowScene->Initialize();
 		break;
-
 	case Stage1_Boss:
 		nowScene = new BossScene();
 		nowScene->Initialize();
@@ -70,6 +69,7 @@ void SceneManager::SceneChange(SceneName scene) {
 	case GameOver:
 		nowScene = new GameOverScene();
 		nowScene->Initialize();
+		break;
 	default:
 		break;
 	}
