@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "MouseInput.h"
 #include "Easing.h"
+#include "Shapes.h"
 
 class TitleScene : public BaseScene
 {
@@ -90,6 +91,8 @@ private: //ƒƒ“ƒo•Ï”
 	Object3d* titlePlayer = nullptr;
 	Object3d* ground = nullptr;
 	Object3d* celetialSphere = nullptr;
+	Model* testSquareModel = nullptr;
+	Object3d* testSquare = nullptr;
 	Camera* camera = nullptr;
 
 	Vector3 playerRot;

@@ -280,7 +280,7 @@ void FbxLoader::ParseMaterial(FBXModel* model, FbxNode* fbxNode)
 				}
 			}
 		}
-		//テクスチャがない場合は白テクスチャを初
+		//テクスチャがない場合は白テクスチャを張る
 		if (!textureLoaded) {
 			LoadTexture(model, baseDirectory + defaultTextureFileName);
 		}

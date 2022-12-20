@@ -69,6 +69,10 @@ void TitleScene::Initialize()
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
+	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Allow.png");
+	testSquare = Object3d::Create(testSquareModel);
+	testSquare->SetRotation({ 0.0f, -30.0f, 0.0f });
+
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
@@ -100,6 +104,7 @@ void TitleScene::Update()
 	ground->Update();
 	celetialSphere->Update();
 	test->Update();
+	testSquare->Update();
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
@@ -320,6 +325,7 @@ void TitleScene::Draw()
 	ground->Draw();
 	celetialSphere->Draw();
 	test->Draw(DirectXSetting::GetIns()->GetCmdList());
+	testSquare->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -370,4 +376,6 @@ void TitleScene::Finalize()
 	safe_delete(manual2);
 	safe_delete(allow);
 	safe_delete(test);
+	safe_delete(testSquare);
+	safe_delete(testSquareModel);
 }

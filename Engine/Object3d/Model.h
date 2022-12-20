@@ -97,6 +97,15 @@ public: //静的メンバ関数
 	/// </summary>
 	static Model* CreateModel(const std::string& modelname);
 
+	/// <summary>
+	/// 図形モデル生成
+	/// </summary>
+	/// <param name="vertices_">頂点</param>
+	/// <param name="indices_">頂点インデックス</param>
+	/// <param name="textureName">テクスチャ名</param>
+	/// <returns></returns>
+	static Model* CreateShapeModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName);
+
 public: //メンバ関数
 	/// <summary>
 	/// マテリアルの取得
@@ -123,6 +132,14 @@ public: //メンバ関数
 	/// モデル初期化
 	/// </summary>
 	void InitializeModel(const std::string& modelname);
+
+	/// <summary>
+	/// 図形モデル初期化
+	/// </summary>
+	/// <param name="vertices_">頂点データ</param>
+	/// <param name="indices_">頂点インデックス</param>
+	/// <param name="textureName">テクスチャ名</param>
+	void InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName);
 
 	/// <summary>
 	/// 初期化

@@ -30,6 +30,86 @@ Model* Model::CreateModel(const std::string& modelname) {
 	return instance;
 }
 
+Model* Model::CreateShapeModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName)
+{
+	Model* shape = new Model;
+	shape->InitializeDescriptorHeap();
+	shape->InitializeShapesModel(vertices_, indices_, textureName);
+	return shape;
+}
+
+void Model::InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName)
+{
+	HRESULT result = S_FALSE;
+
+	std::vector<VertexPosNormalUv> realVertices;
+
+	vertices = vertices_;
+	indices = indices_;
+
+	material.name = "square";
+	material.ambient = { 1.0f, 1.0f, 1.0f };
+	material.textureFilename = textureName;
+	LoadTexture("Engine/Resources/Images/", material.textureFilename);
+
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	// 頂点バッファ生成
+	result = device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff));
+	if (FAILED(result)) {
+		assert(0);
+		return;
+	}
+
+	// インデックスバッファ生成
+	result = device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
+	if (FAILED(result)) {
+		assert(0);
+		return;
+	}
+
+	// 頂点バッファへのデータ転送
+	VertexPosNormalUv* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result)) {
+		std::copy(vertices.begin(), vertices.end(), vertMap);
+		vertBuff->Unmap(0, nullptr);
+	}
+
+	// インデックスバッファへのデータ転送
+	unsigned short* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	if (SUCCEEDED(result)) {
+
+		// 全インデックスに対して
+		std::copy(indices.begin(), indices.end(), indexMap);
+
+		indexBuff->Unmap(0, nullptr);
+	}
+
+	// 頂点バッファビューの作成
+	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView.SizeInBytes = sizeVB;
+	vbView.StrideInBytes = sizeof(vertices[0]);
+
+	// インデックスバッファビューの作成
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
+}
+
 void Model::Initialize() {
 	HRESULT result;
 
@@ -146,7 +226,7 @@ void Model::InitializeModel(const std::string& modelname) {
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			//V方向反転
-			texcoord.y = -1.0f * texcoord.y;
+			texcoord.y = 1.0f - texcoord.y;
 			//テクスチャ座標データに追加
 			texcoords.emplace_back(texcoord);
 		}
