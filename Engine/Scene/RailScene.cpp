@@ -315,7 +315,7 @@ void RailScene::Update() {
 		}
 	}
 
-	object1->Update();
+	//object1->Update();
 
 	//シーン切り替え
 	if (isDead && !isClear) {
@@ -399,7 +399,7 @@ void RailScene::Draw() {
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
-	object1->Draw(DirectXSetting::GetIns()->GetCmdList());
+	//object1->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)

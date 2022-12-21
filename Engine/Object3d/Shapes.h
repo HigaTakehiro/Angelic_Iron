@@ -19,7 +19,7 @@ public: //静的メンバ関数
 	/// <param name="vertices_2">頂点2</param>
 	/// <param name="vertices_3">頂点3</param>
 	/// <returns>平面の三角形</returns>
-	static Model* CreateTriangle(XMFLOAT3 vertices_1, XMFLOAT3 vertices_2, XMFLOAT3 vertices_3);
+	static Model* CreateTriangle(const XMFLOAT2& vertices_1, const XMFLOAT2& vertices_2, const XMFLOAT2& vertices_3, const std::string& textureName = "white1x1.png");
 
 	/// <summary>
 	/// 平面の四角形を生成

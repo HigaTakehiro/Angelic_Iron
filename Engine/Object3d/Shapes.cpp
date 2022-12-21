@@ -1,23 +1,31 @@
 #include "Shapes.h"
 
-//std::unique_ptr<Model> Shapes::CreateTriangle(XMFLOAT3 vertices_1, XMFLOAT3 vertices_2, XMFLOAT3 vertices_3)
-//{
-//    Object3d* newTriangle = new Object3d;
-//    if (newTriangle == nullptr) {
-//        return nullptr;
-//    }
-//
-//    Model* triangleModel = new Model;
-//    triangleModel->InitializeDescriptorHeap();
-//
-//    Model::VertexPosNormalUv verticesTriangle[] = {
-//        vertices_1, {0, 0, 1}, {vertices_1.x, vertices_1.y},
-//        vertices_2, {0, 0, 1}, {vertices_2.x, vertices_2.y},
-//        vertices_3, {0, 0, 1}, {vertices_3.x, vertices_3.y},
-//    };
-//
-//	return nullptr;
-//}
+
+
+Model* Shapes::CreateTriangle(const XMFLOAT2& vertices_1, const XMFLOAT2& vertices_2, const XMFLOAT2& vertices_3, const std::string& textureName)
+{
+    Model* triangleModel = nullptr;
+    Model::VertexPosNormalUv verticesTriangle[] = {
+        {{vertices_1.x, vertices_1.y, 0.0f}, {0, 0, 1}, {0, 1}},
+        {{vertices_2.x, vertices_2.y, 0.0f}, {0, 0, 1}, {0, 0}},
+        {{vertices_3.x, vertices_3.y, 0.0f}, {0, 0, 1}, {1, 1}},
+    };
+
+    unsigned short indicesTriangle[] = {
+        0, 1, 2,
+    };
+
+    std::vector<Model::VertexPosNormalUv> vertices;
+    std::vector<unsigned short> indices;
+    for (int i = 0; i < 3; i++) {
+        vertices.emplace_back(verticesTriangle[i]);
+        indices.emplace_back(indicesTriangle[i]);
+    }
+
+    triangleModel = Model::CreateShapeModel(vertices, indices, textureName);
+
+    return triangleModel;
+}
 
 Model* Shapes::CreateSquare(XMFLOAT2 upperLeft, XMFLOAT2 lowerBottom, const std::string& textureName)
 {

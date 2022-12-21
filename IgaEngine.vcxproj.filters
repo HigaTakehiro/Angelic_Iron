@@ -178,7 +178,7 @@
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\Shapes.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +318,7 @@
       <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Shapes.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -263,8 +263,15 @@ void Object3d::Update()
 
 	// ワールド行列の合成
 	matWorld = XMMatrixIdentity(); // 変形をリセット
+
 	matWorld *= matScale; // ワールド行列にスケーリングを反映
 	matWorld *= matRot; // ワールド行列に回転を反映
+	if (isBillboard) {
+		matWorld *= Camera::GetMatBillboard(); //ワールド行列にビルボード行列を掛ける
+	}
+	if (isBillboardY) {
+		matWorld *= Camera::GetMatBillboardY();
+	}
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
 
 	// 親オブジェクトがあれば

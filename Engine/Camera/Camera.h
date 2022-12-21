@@ -96,6 +96,18 @@ public: //静的メンバ関数
 	static const XMMATRIX& GetMatProjection() { return matProjection; }
 
 	/// <summary>
+	/// ビルボード行列を掛ける
+	/// </summary>
+	/// <returns>ビルボード行列</returns>
+	static const XMMATRIX& GetMatBillboard() { return matBillboard; }
+
+	/// <summary>
+	/// Y軸ビルボード行列を掛ける
+	/// </summary>
+	/// <returns>Y軸ビルボード行列</returns>
+	static const XMMATRIX& GetMatBillboardY() { return matBillboardY; }
+
+	/// <summary>
 	/// ワールド行列の取得
 	/// </summary>
 	/// <returns>ワールド行列</returns>
@@ -114,6 +126,10 @@ private: //静的メンバ変数
 	static XMMATRIX matProjection;
 	//ワールド行列
 	static XMMATRIX matWorld;
+	//ビルボード行列
+	static XMMATRIX matBillboard;
+	//Y軸ビルボード行列
+	static XMMATRIX matBillboardY;
 	// 視点座標
 	static XMFLOAT3 eye;
 	// 注視点座標

@@ -62,6 +62,7 @@ void TitleScene::Initialize()
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
+	titlePlayer->SetIsBillboardY(true);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -69,9 +70,10 @@ void TitleScene::Initialize()
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
-	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Allow.png");
+	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
-	testSquare->SetRotation({ 0.0f, -30.0f, 0.0f });
+	testSquare->SetRotation({ 0.0f, 0.0f, 0.0f });
+	//testSquare->SetIsBillboard(true);
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
@@ -105,6 +107,27 @@ void TitleScene::Update()
 	celetialSphere->Update();
 	test->Update();
 	testSquare->Update();
+
+	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
+		cameraPos.x -= 2.0f;
+		camera->SetEye(cameraPos);
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
+		cameraPos.x += 2.0f;
+		camera->SetEye(cameraPos);
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
+		cameraPos.y += 2.0f;
+		camera->SetEye(cameraPos);
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
+		cameraPos.y -= 2.0f;
+		camera->SetEye(cameraPos);
+	}
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
@@ -324,7 +347,7 @@ void TitleScene::Draw()
 	titlePlayer->Draw();
 	ground->Draw();
 	celetialSphere->Draw();
-	test->Draw(DirectXSetting::GetIns()->GetCmdList());
+	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
 	testSquare->Draw();
 	Object3d::PostDraw();
 

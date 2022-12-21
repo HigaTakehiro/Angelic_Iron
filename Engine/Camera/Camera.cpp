@@ -9,15 +9,14 @@ XMMATRIX Camera::matViewPort{};
 XMFLOAT3 Camera::eye = { 0, 200.0f, -200.0f };
 XMFLOAT3 Camera::target = { 0, 0, 0 };
 XMFLOAT3 Camera::up = { 0, 1, 0 };
+XMMATRIX Camera::matBillboard = XMMatrixIdentity();
+XMMATRIX Camera::matBillboardY = XMMatrixIdentity();
 bool Camera::isMatWorldCalc = false;
 
 void Camera::InitializeCamera(int window_width, int window_height)
 {
 	// ビュー行列の生成
-	matView = XMMatrixLookAtLH(
-		XMLoadFloat3(&eye),
-		XMLoadFloat3(&target),
-		XMLoadFloat3(&up));
+	UpdateViewMatrix();
 
 	// 透視投影による射影行列の生成
 	matProjection = XMMatrixPerspectiveFovLH(
@@ -99,10 +98,56 @@ void Camera::CameraMoveTargetVector(XMFLOAT3 move) {
 	SetTarget(target_moved);
 }
 
-void Camera::UpdateViewMatrix()
-{
-	// ビュー行列の更新
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+void Camera::UpdateViewMatrix() {
+
+	XMVECTOR eyePosition = XMLoadFloat3(&eye);
+	XMVECTOR targetPosition = XMLoadFloat3(&target);
+	XMVECTOR upVector = XMLoadFloat3(&up);
+
+	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+	assert(!XMVector3IsInfinite(cameraAxisZ));
+	assert(!XMVector3Equal(upVector, XMVectorZero()));
+	assert(!XMVector3IsInfinite(upVector));
+
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	XMVECTOR  cameraAxisX;
+	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+
+	XMVECTOR cameraAxisY;
+	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	XMMATRIX matCameraRot;
+	matCameraRot.r[0] = cameraAxisX;
+	matCameraRot.r[1] = cameraAxisY;
+	matCameraRot.r[2] = cameraAxisZ;
+	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[1] = cameraAxisY;
+	matBillboard.r[2] = cameraAxisZ;
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	XMVECTOR ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
+	ybillCameraAxisX = cameraAxisX;
+	ybillCameraAxisY = XMVector3Normalize(upVector);
+	ybillCameraAxisZ = XMVector3Cross(ybillCameraAxisX, ybillCameraAxisY);
+
+	matBillboardY.r[0] = ybillCameraAxisX;
+	matBillboardY.r[1] = ybillCameraAxisY;
+	matBillboardY.r[2] = ybillCameraAxisZ;
+	matBillboardY.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	matView = XMMatrixTranspose(matCameraRot);
+
+	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
+	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
+	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
+
+	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
+	matView.r[3] = translation;
 }
 
 void Camera::UpdateWorldMatrix()

@@ -150,6 +150,18 @@ public: // メンバ関数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 
 	/// <summary>
+	/// ビルボード行列を掛ける
+	/// </summary>
+	/// <param name="isBillboard">ビルボードフラグ</param>
+	void SetIsBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
+
+	/// <summary>
+	/// Y軸ビルボード行列を掛ける
+	/// </summary>
+	/// <param name="isBillboardY">Y軸ビルボードフラグ</param>
+	void SetIsBillboardY(bool isBillboardY) { this->isBillboardY = isBillboardY; }
+
+	/// <summary>
 	/// 親オブジェクト取得
 	/// </summary>
 	/// <returns>親オブジェクト</returns>
@@ -181,6 +193,9 @@ private: // メンバ変数
 	Model* model = nullptr;
 	//カメラ
 	Camera* camera = nullptr;
-
+	//ビルボード行列フラグ
+	bool isBillboard;
+	//Y軸ビルボード行列フラグ
+	bool isBillboardY;
 };
 
