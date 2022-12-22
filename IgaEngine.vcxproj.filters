@@ -345,6 +345,9 @@
     <None Include="Engine\Resources\shaders\Sprite.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="Engine\Resources\shaders\GeometryShader.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\shaders\BasicPS.hlsl">
@@ -392,5 +395,9 @@
     <FxCompile Include="Engine\Resources\shaders\SlowEffect.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\GeometryPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\GeometryGS.hlsl" />
   </ItemGroup>
 </Project>
