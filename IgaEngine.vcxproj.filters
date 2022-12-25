@@ -345,7 +345,7 @@
     <None Include="Engine\Resources\shaders\Sprite.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Engine\Resources\shaders\GeometryShader.hlsli">
+    <None Include="Engine\Resources\shaders\ParticleHeader.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>
@@ -395,9 +395,14 @@
     <FxCompile Include="Engine\Resources\shaders\SlowEffect.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\GeometryPS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\ParticlePS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\GeometryGS.hlsl" />
+    <FxCompile Include="Engine\Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\ParticleVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

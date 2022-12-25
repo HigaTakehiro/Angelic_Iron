@@ -62,7 +62,6 @@ void TitleScene::Initialize()
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
-	titlePlayer->SetIsBillboardY(true);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -73,7 +72,6 @@ void TitleScene::Initialize()
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
 	testSquare->SetRotation({ 0.0f, 0.0f, 0.0f });
-	//testSquare->SetIsBillboard(true);
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
