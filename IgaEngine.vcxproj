@@ -185,6 +185,7 @@
     <ClCompile Include="Engine\Object3d\Model.cpp" />
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
+    <ClCompile Include="Engine\Object3d\ParticleManager.cpp" />
     <ClCompile Include="Engine\Object3d\Shapes.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Scene\BossScene.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Engine\Object3d\Model.h" />
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
+    <ClInclude Include="Engine\Object3d\ParticleManager.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\BossScene.h" />
@@ -250,8 +252,8 @@
     <None Include="Engine\Resources\shaders\Basic.hlsli" />
     <None Include="Engine\Resources\shaders\BasicShaderHeader.hlsli" />
     <None Include="Engine\Resources\shaders\FBX.hlsli" />
-    <None Include="Engine\Resources\shaders\ParticleHeader.hlsli" />
     <None Include="Engine\Resources\shaders\OBJShaderHeader.hlsli" />
+    <None Include="Engine\Resources\shaders\Particle.hlsli" />
     <None Include="Engine\Resources\shaders\PostEffect.hlsli" />
     <None Include="Engine\Resources\shaders\Sprite.hlsli" />
   </ItemGroup>

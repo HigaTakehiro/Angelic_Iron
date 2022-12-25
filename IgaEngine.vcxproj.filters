@@ -180,6 +180,9 @@
     <ClCompile Include="Engine\Object3d\Shapes.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object3d\ParticleManager.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -320,6 +323,9 @@
     <ClInclude Include="Engine\Object3d\Shapes.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Object3d\ParticleManager.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">
@@ -345,7 +351,7 @@
     <None Include="Engine\Resources\shaders\Sprite.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Engine\Resources\shaders\ParticleHeader.hlsli">
+    <None Include="Engine\Resources\shaders\Particle.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>

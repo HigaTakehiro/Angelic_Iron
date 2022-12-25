@@ -76,6 +76,11 @@ void TitleScene::Initialize()
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
+	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	//particle->LoadTexture("Aim");
+	particle2 = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	particle2->LoadTexture("Bomb");
+
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	stageSelectTimer = 0;
 
@@ -100,11 +105,39 @@ void TitleScene::Update()
 	sphereRot.y += 0.1f;
 	celetialSphere->SetRotation(sphereRot);
 
+	for (int i = 0; i < 10; i++) {
+		const float rnd_pos = 10.0f;
+		XMFLOAT3 pos{};
+		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.x = 0;
+		vel.y = 0;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.1f;
+		acc.y = +(float)rand() / RAND_MAX * rnd_acc;
+
+		const float startScale = 10.0f;
+		const float endScale = 0.0f;
+
+		particle->Add(60, pos, vel, acc, startScale, endScale, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f});
+		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
+	}
+
 	titlePlayer->Update();
 	ground->Update();
 	celetialSphere->Update();
 	test->Update();
 	testSquare->Update();
+	particle->Update();
+	particle2->Update();
 
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
 		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
@@ -349,6 +382,9 @@ void TitleScene::Draw()
 	testSquare->Draw();
 	Object3d::PostDraw();
 
+	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	particle2->Draw(DirectXSetting::GetIns()->GetCmdList());
+
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (isManual) {
@@ -399,4 +435,6 @@ void TitleScene::Finalize()
 	safe_delete(test);
 	safe_delete(testSquare);
 	safe_delete(testSquareModel);
+	safe_delete(particle);
+	safe_delete(particle2);
 }

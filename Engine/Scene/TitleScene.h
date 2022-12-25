@@ -14,6 +14,7 @@
 #include "MouseInput.h"
 #include "Easing.h"
 #include "Shapes.h"
+#include "ParticleManager.h"
 
 class TitleScene : public BaseScene
 {
@@ -61,6 +62,9 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* close = nullptr;
 	Sprite* aim = nullptr;
 	Sprite* allow = nullptr;
+
+	ParticleManager* particle = nullptr;
+	ParticleManager* particle2 = nullptr;
 
 	FBXObject3d* test;
 
