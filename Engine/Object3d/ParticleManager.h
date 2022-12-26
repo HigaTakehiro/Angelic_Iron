@@ -62,14 +62,18 @@ public: // サブクラス
 		float scale = 1.0f;
 		// 回転
 		float rotation = 0.0f;
+		//アルファ値
+		float alpha = 1.0f;
 		// 初期値
 		XMFLOAT3 s_color = {};
 		float s_scale = 1.0f;
 		float s_rotation = 0.0f;
+		float s_alpha = 1.0f;
 		// 最終値
 		XMFLOAT3 e_color = {};
 		float e_scale = 0.0f;
 		float e_rotation = 0.0f;
+		float e_alpha = 0.0f;
 		// 現在フレーム
 		int frame = 0;
 		// 終了フレーム
@@ -111,9 +115,11 @@ public: // メンバ関数
 	/// <param name="accel">加速度</param>
 	/// <param name="start_scale">開始時スケール</param>
 	/// <param name="end_scale">終了時スケール</param>
-	/// <param name="start_scale">開始時カラー</param>
-	/// <param name="end_scale">終了時カラー</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale = 1.0f, float end_scale = 0.0f, XMFLOAT3 start_color = {1.0f, 1.0f, 1.0f}, XMFLOAT3 end_color = {0.0f, 0.0f, 0.0f});
+	/// <param name="start_color">開始時カラー</param>
+	/// <param name="end_color">終了時カラー</param>
+	/// <param name="start_alpha">開始時アルファ値</param>
+	/// <param name="end_alpha">終了時アルファ値</param>
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale = 1.0f, float end_scale = 0.0f, XMFLOAT3 start_color = {1.0f, 1.0f, 1.0f}, XMFLOAT3 end_color = {0.0f, 0.0f, 0.0f}, float start_alpha = 1.0f, float end_alpha = 0.0f);
 
 	/// <summary>
 	/// デスクリプタヒープの初期化

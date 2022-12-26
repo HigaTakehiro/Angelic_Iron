@@ -116,19 +116,17 @@ void TitleScene::Update()
 		XMFLOAT3 vel{};
 		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.x = 0;
-		vel.y = 0;
 		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
 		XMFLOAT3 acc{};
-		const float rnd_acc = 0.1f;
-		acc.y = +(float)rand() / RAND_MAX * rnd_acc;
+		const float rnd_acc = 0.01f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
 		const float startScale = 10.0f;
-		const float endScale = 0.0f;
+		const float endScale = 10.0f;
 
-		particle->Add(60, pos, vel, acc, startScale, endScale, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f});
-		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
+		particle->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f);
+		//particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
 	titlePlayer->Update();
@@ -137,7 +135,7 @@ void TitleScene::Update()
 	test->Update();
 	testSquare->Update();
 	particle->Update();
-	particle2->Update();
+	//particle2->Update();
 
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
 		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
@@ -204,7 +202,7 @@ void TitleScene::Update()
 		stage2->SetSize(stage2Size);
 		stage2->SetAlpha(initAlpha);
 	}
-	
+
 	if (IsMouseHitSprite(mousePos, manualButtonPos, 300, 128)) {
 		XMFLOAT2 spriteSize = manualButtonSize;
 		spriteSize.x *= 0.9f;
@@ -333,7 +331,7 @@ void TitleScene::Update()
 		}
 
 		manual->SetPosition(manualPos);
-		manual2->SetPosition({manualPos.x + (manualInPos * 2), manualPos.y});
+		manual2->SetPosition({ manualPos.x + (manualInPos * 2), manualPos.y });
 		manual->SetSize(manualSize);
 	}
 	else {
@@ -383,7 +381,7 @@ void TitleScene::Draw()
 	Object3d::PostDraw();
 
 	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	particle2->Draw(DirectXSetting::GetIns()->GetCmdList());
+	//particle2->Draw(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
