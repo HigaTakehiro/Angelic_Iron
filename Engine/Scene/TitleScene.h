@@ -15,6 +15,7 @@
 #include "Easing.h"
 #include "Shapes.h"
 #include "ParticleManager.h"
+#include "Light.h"
 
 class TitleScene : public BaseScene
 {

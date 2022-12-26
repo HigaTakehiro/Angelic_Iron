@@ -183,6 +183,9 @@
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object3d\Light.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -324,6 +327,9 @@
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\ParticleManager.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\Light.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>

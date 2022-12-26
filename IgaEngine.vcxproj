@@ -181,6 +181,7 @@
     <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
     <ClCompile Include="Engine\Object2d\Sprite.cpp" />
     <ClCompile Include="Engine\Object3d\Collision.cpp" />
+    <ClCompile Include="Engine\Object3d\Light.cpp" />
     <ClCompile Include="Engine\Object3d\MapChip.cpp" />
     <ClCompile Include="Engine\Object3d\Model.cpp" />
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Engine\Object2d\PostEffect.h" />
     <ClInclude Include="Engine\Object2d\Sprite.h" />
     <ClInclude Include="Engine\Object3d\Collision.h" />
+    <ClInclude Include="Engine\Object3d\Light.h" />
     <ClInclude Include="Engine\Object3d\MapChip.h" />
     <ClInclude Include="Engine\Object3d\Model.h" />
     <ClInclude Include="Engine\Object3d\ModelManager.h" />

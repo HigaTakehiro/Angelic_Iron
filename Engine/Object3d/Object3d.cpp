@@ -289,6 +289,7 @@ void Object3d::Update()
 	if (SUCCEEDED(constBuffB0->Map(0, nullptr, (void**)&constMap0))) {
 		constMap0->mat = matWorld * camera->GetMatView() * camera->GetMatProjection();
 		constMap0->color = color;
+		constMap0->lightPos = Light::GetLightPos();
 		constBuffB0->Unmap(0, nullptr);
 	}
 

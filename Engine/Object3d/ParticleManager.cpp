@@ -34,7 +34,7 @@ const DirectX::XMFLOAT3 operator/(const DirectX::XMFLOAT3& lhs, const float rhs)
 	return result;
 }
 
-ParticleManager* ParticleManager::Create(ID3D12Device* device, Camera* camera)
+ParticleManager* ParticleManager::Create(ID3D12Device* device, Camera* camera, bool isSubBlend)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	ParticleManager* partMan = new ParticleManager(device, camera);
@@ -43,12 +43,12 @@ ParticleManager* ParticleManager::Create(ID3D12Device* device, Camera* camera)
 	}
 
 	// 初期化
-	partMan->Initialize();
+	partMan->Initialize(isSubBlend);
 
 	return partMan;
 }
 
-void ParticleManager::Initialize()
+void ParticleManager::Initialize(bool isSubBlend)
 {
 	// nullptrチェック
 	assert(device);
@@ -59,7 +59,7 @@ void ParticleManager::Initialize()
 	InitializeDescriptorHeap();
 
 	// パイプライン初期化
-	InitializeGraphicsPipeline();
+	InitializeGraphicsPipeline(isSubBlend);
 
 	// テクスチャ読み込み
 	LoadTexture();
@@ -218,7 +218,7 @@ void ParticleManager::InitializeDescriptorHeap()
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void ParticleManager::InitializeGraphicsPipeline()
+void ParticleManager::InitializeGraphicsPipeline(bool isSubBlend)
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -335,14 +335,18 @@ void ParticleManager::InitializeGraphicsPipeline()
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-	// 加算ブレンディング
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
-	//// 減算ブレンディング
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;
+	if (!isSubBlend) {
+		// 加算ブレンディング
+		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+		blenddesc.SrcBlend = D3D12_BLEND_ONE;
+		blenddesc.DestBlend = D3D12_BLEND_ONE;
+	}
+	else {
+		// 減算ブレンディング
+		blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		blenddesc.SrcBlend = D3D12_BLEND_ONE;
+		blenddesc.DestBlend = D3D12_BLEND_ONE;
+	}
 
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;

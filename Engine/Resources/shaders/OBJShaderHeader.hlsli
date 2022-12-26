@@ -2,6 +2,7 @@ cbuffer cbuff0 : register(b0)
 {
 	matrix mat; //３Ｄ変換行列
     float4 color; //色
+    float3 lightPos; //ライト座標
 };
 
 cbuffer cbuff1 : register(b1)

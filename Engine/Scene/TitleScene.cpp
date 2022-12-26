@@ -71,12 +71,13 @@ void TitleScene::Initialize()
 
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
-	testSquare->SetRotation({ 0.0f, 0.0f, 0.0f });
+	testSquare->SetRotation({ 0.0f, 180.0f, 0.0f });
+	testSquare->SetIsBillboard(true);
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
-	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera, true);
 	//particle->LoadTexture("Aim");
 	particle2 = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 	particle2->LoadTexture("Bomb");
@@ -120,13 +121,13 @@ void TitleScene::Update()
 
 		XMFLOAT3 acc{};
 		const float rnd_acc = 0.01f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		acc.y = +(float)rand() / RAND_MAX * rnd_acc;
 
 		const float startScale = 10.0f;
-		const float endScale = 10.0f;
+		const float endScale = 0.0f;
 
-		particle->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f);
-		//particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
+		particle->Add(60, pos, vel, acc, startScale, endScale, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 0.0f }, 1.0f, 1.0f);
+		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
 	titlePlayer->Update();
@@ -135,28 +136,36 @@ void TitleScene::Update()
 	test->Update();
 	testSquare->Update();
 	particle->Update();
-	//particle2->Update();
+	particle2->Update();
 
-	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
-		cameraPos.x -= 2.0f;
-		camera->SetEye(cameraPos);
+	static Vector3 lightPos = { 0.0f, 0.0f, 0.0f };
+
+	if (KeyInput::GetIns()->PushKey(DIK_A)) {
+		lightPos.x++;
+		Light::SetLightPos(lightPos);
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
-		cameraPos.x += 2.0f;
-		camera->SetEye(cameraPos);
+	if (KeyInput::GetIns()->PushKey(DIK_D)) {
+		lightPos.x--;
+		Light::SetLightPos(lightPos);
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
-		cameraPos.y += 2.0f;
-		camera->SetEye(cameraPos);
+	if (KeyInput::GetIns()->PushKey(DIK_S)) {
+		lightPos.z++;
+		Light::SetLightPos(lightPos);
 	}
-	if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-		Vector3 cameraPos = { camera->GetEye().x, camera->GetEye().y,camera->GetEye().z };
-		cameraPos.y -= 2.0f;
-		camera->SetEye(cameraPos);
+	if (KeyInput::GetIns()->PushKey(DIK_W)) {
+		lightPos.z--;
+		Light::SetLightPos(lightPos);
 	}
+	if (KeyInput::GetIns()->PushKey(DIK_Q)) {
+		lightPos.y++;
+		Light::SetLightPos(lightPos);
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_E)) {
+		lightPos.y--;
+		Light::SetLightPos(lightPos);
+	}
+
+	testSquare->SetPosition(lightPos);
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;

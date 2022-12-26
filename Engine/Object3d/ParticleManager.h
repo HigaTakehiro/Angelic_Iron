@@ -88,14 +88,14 @@ public: // 静的メンバ関数
 	/// インスタンス生成
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static ParticleManager* Create(ID3D12Device* device, Camera* camera);
+	static ParticleManager* Create(ID3D12Device* device, Camera* camera, bool isSubBlend = false);
 
 public: // メンバ関数	
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <returns></returns>
-	void Initialize();
+	void Initialize(bool isSubBlend);
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
@@ -131,7 +131,7 @@ public: // メンバ関数
 	/// グラフィックパイプライン生成
 	/// </summary>
 	/// <returns>成否</returns>
-	void InitializeGraphicsPipeline();
+	void InitializeGraphicsPipeline(bool isSubBlend);
 
 	/// <summary>
 	/// テクスチャ読み込み
