@@ -31,6 +31,7 @@ public: // サブクラス
 		XMMATRIX mat;	// ３Ｄ変換行列
 		XMFLOAT4 color; // 色
 		XMFLOAT3 lightPos; //ライト座標
+		XMFLOAT3 cameraPos; //カメラ座標
 	};
 
 public: // 静的メンバ関数

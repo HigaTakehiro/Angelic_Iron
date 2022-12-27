@@ -5,7 +5,7 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-	float3 light = normalize(lightPos); // 右下奥　向きのライト
+	float3 light = normalize(lightPos);
 	float light_diffuse = saturate(dot(light, input.normal));
 	float3 shade_color;
 	shade_color = m_ambient; //アンビエント項

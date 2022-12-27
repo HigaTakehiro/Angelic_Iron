@@ -123,10 +123,10 @@ void TitleScene::Update()
 		const float rnd_acc = 0.01f;
 		acc.y = +(float)rand() / RAND_MAX * rnd_acc;
 
-		const float startScale = 10.0f;
+		const float startScale = 5.0f;
 		const float endScale = 0.0f;
 
-		particle->Add(60, pos, vel, acc, startScale, endScale, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 0.0f }, 1.0f, 1.0f);
+		particle->Add(60, pos, vel, acc, startScale, endScale, { 0.5f, 0.2f, 1.0f }, { 1.0f, 0.0f, 0.0f }, 1.0f, 0.0f);
 		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
