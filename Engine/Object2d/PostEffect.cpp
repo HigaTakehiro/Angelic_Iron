@@ -207,7 +207,7 @@ void PostEffect::CreateGraphicsPipelineState() {
 	for (int i = 0; i < texSize; i++) {
 		// 頂点シェーダの読み込みとコンパイル
 		result = D3DCompileFromFile(
-			L"Engine/Resources/shaders/PostEffectVS.hlsl",  // シェーダファイル名
+			L"Engine/Resources/shaders/PostEffect/PostEffectVS.hlsl",  // シェーダファイル名
 			nullptr,
 			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 			"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -231,20 +231,20 @@ void PostEffect::CreateGraphicsPipelineState() {
 
 		if (i == NONE) {
 			// ピクセルシェーダの読み込みとコンパイル
-			LoadPS(L"Engine/Resources/shaders/PostEffectNormal.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/PostEffect/PostEffectNormal.hlsl", psBlob);
 		}
 		else if (i == FADEOUT) {
 			// ピクセルシェーダの読み込みとコンパイル
-			LoadPS(L"Engine/Resources/shaders/Fadeout.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/PostEffect/Fadeout.hlsl", psBlob);
 		}
 		else if (i == NORMAL) {
-			LoadPS(L"Engine/Resources/shaders/Vignette.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/PostEffect/Vignette.hlsl", psBlob);
 		}
 		else if (i == DAMAGE) {
-			LoadPS(L"Engine/Resources/shaders/DamageEffect.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/PostEffect/DamageEffect.hlsl", psBlob);
 		}
 		else if (i == SLOW) {
-			LoadPS(L"Engine/Resources/shaders/SlowEffect.hlsl", psBlob);
+			LoadPS(L"Engine/Resources/shaders/PostEffect/SlowEffect.hlsl", psBlob);
 		}
 		
 

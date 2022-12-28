@@ -357,88 +357,88 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Resources\shaders\FBX.hlsli">
-      <Filter>シェーダーファイル\Object3d\fbx</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\Sprite.hlsli">
+    <None Include="Engine\Resources\shaders\Object2d\Sprite.hlsli">
       <Filter>シェーダーファイル\Object2d</Filter>
     </None>
-    <None Include="Engine\Resources\shaders\PostEffect.hlsli">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\Basic.hlsli">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\BasicShaderHeader.hlsli">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\OBJShaderHeader.hlsli">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\Particle.hlsli">
+    <None Include="Engine\Resources\shaders\Particle\Particle.hlsli">
       <Filter>シェーダーファイル\Particle</Filter>
+    </None>
+    <None Include="Engine\Resources\shaders\Object3d\fbx\FBX.hlsli">
+      <Filter>シェーダーファイル\Object3d\fbx</Filter>
+    </None>
+    <None Include="Engine\Resources\shaders\Object3d\obj\Basic.hlsli">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </None>
+    <None Include="Engine\Resources\shaders\Object3d\obj\BasicShaderHeader.hlsli">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </None>
+    <None Include="Engine\Resources\shaders\Object3d\obj\OBJShaderHeader.hlsli">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </None>
+    <None Include="Engine\Resources\shaders\PostEffect\PostEffect.hlsli">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Resources\shaders\RGBShift.hlsl">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\SlowEffect.hlsl">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Vignette.hlsl">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Fadeout.hlsl">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\DamageEffect.hlsl">
-      <Filter>シェーダーファイル\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\FBXPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\fbx</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\FBXVS.hlsl">
-      <Filter>シェーダーファイル\Object3d\fbx</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\ParticleGS.hlsl">
-      <Filter>シェーダーファイル\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\ParticlePS.hlsl">
-      <Filter>シェーダーファイル\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\ParticleVS.hlsl">
-      <Filter>シェーダーファイル\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\SpritePS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\Object2d\SpritePS.hlsl">
       <Filter>シェーダーファイル\Object2d</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\SpriteVS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\Object2d\SpriteVS.hlsl">
       <Filter>シェーダーファイル\Object2d</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\PostEffectNormal.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\Particle\ParticleGS.hlsl">
+      <Filter>シェーダーファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Particle\ParticlePS.hlsl">
+      <Filter>シェーダーファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Particle\ParticleVS.hlsl">
+      <Filter>シェーダーファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\fbx\FBXPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\fbx\FBXVS.hlsl">
+      <Filter>シェーダーファイル\Object3d\fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ADSPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicVS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJPixelShader.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJVertexShader.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\PhongShadingPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\DamageEffect.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\PostEffectVS.hlsl">
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\Fadeout.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\PhongShadingPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\PostEffectNormal.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\ADSPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\PostEffectVS.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\BasicPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\RGBShift.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\BasicVS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\SlowEffect.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\OBJPixelShader.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\OBJVertexShader.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\Vignette.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
