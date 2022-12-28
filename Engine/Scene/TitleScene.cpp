@@ -165,6 +165,37 @@ void TitleScene::Update()
 		Light::SetLightPos(lightPos);
 	}
 
+	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+		if (camera->GetTarget().z < cameraPos.z) {
+			cameraPos.x++;
+		}
+		else {
+			cameraPos.x--;
+		}
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+		XMFLOAT3 camraPos = camera->GetEye();
+		if (camera->GetTarget().z < cameraPos.z) {
+			cameraPos.x--;
+		}
+		else {
+			cameraPos.x++;
+		}
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_UP) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
+		cameraPos.y++;
+	}
+	else if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+		cameraPos.z--;
+	}
+	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
+		cameraPos.y--;
+	}
+	else if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+		cameraPos.z++;
+	}
+
+	camera->SetEye(cameraPos);
 	testSquare->SetPosition(lightPos);
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {

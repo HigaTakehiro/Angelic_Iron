@@ -1,6 +1,7 @@
 cbuffer cbuff0 : register(b0)
 {
-	matrix mat; //３Ｄ変換行列
+    matrix viewproj;
+	matrix world; //３Ｄ変換行列
     float4 color; //色
     float3 lightPos; //ライト座標
     float3 cameraPos; //カメラ座標
@@ -13,6 +14,12 @@ cbuffer cbuff1 : register(b1)
 	float3 m_specular : packoffset(c2); //スペキュラー係数
 	float m_alpha : packoffset(c2.w); //アルファ
 };
+
+cbuffer cbuff2 : register(b2)
+{
+    float3 lightVec;
+    float3 lightColor;
+}
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
 struct VSOutput
