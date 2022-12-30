@@ -27,6 +27,7 @@ public: //サブクラス
 	struct ConstBufferData {
 		XMVECTOR lightVec; //ライトへの方向を表すベクトル
 		XMFLOAT3 lightColor; //ライトの色
+		XMFLOAT3 lightPos;
 	};
 
 public: //静的メンバ関数
@@ -41,18 +42,6 @@ public: //静的メンバ関数
 	/// </summary>
 	/// <returns>インスタンス</returns>
 	static Light* Create();
-
-	/// <summary>
-	/// ライト座標をセット
-	/// </summary>
-	/// <param name="light"></param>
-	static void SetLightPos(XMFLOAT3 pos);
-
-	/// <summary>
-	/// ライト座標を取得
-	/// </summary>
-	/// <returns>ライト座標</returns>
-	static XMFLOAT3 GetLightPos() { return pos; }
 
 public: //メンバ関数
 	/// <summary>
@@ -78,6 +67,12 @@ public: //メンバ関数
 	void SetLightColor(const XMFLOAT3& lightColor);
 
 	/// <summary>
+	/// ライト座標をセット
+	/// </summary>
+	/// <param name="light"></param>
+	void SetLightPos(XMFLOAT3 pos);
+
+	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update();
@@ -88,19 +83,19 @@ public: //メンバ関数
 	/// <param name="rootParameter">指定ルートパラメータ</param>
 	void Draw(UINT rootParameter);
 
-private: //静的メンバ変数
+protected: //静的メンバ変数
 	//デバイス
 	static ID3D12Device* device;
-	//ライト座標
-	static XMFLOAT3 pos;
 
-private: //メンバ変数
+protected: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 	//ライト光線方向
 	XMVECTOR lightDir = { 1, 0, 0, 0 };
 	//ライト色
 	XMFLOAT3 lightColor = { 1, 1, 1 };
+	//ライト座標	
+	XMFLOAT3 lightPos = { 0, 0, 0 };
 	//ダーティフラグ
 	bool isDirty = false;
 };

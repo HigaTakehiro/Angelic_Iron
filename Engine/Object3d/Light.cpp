@@ -4,13 +4,11 @@ using namespace DirectX;
 
 ID3D12Device* Light::device = nullptr;
 
-XMFLOAT3 Light::pos = { 0.0f, 0.0f, 0.0f };
-
 void Light::StaticInitialize()
 {
+	Light::device = DirectXSetting::GetIns()->GetDev();
 	assert(Light::device);
 	assert(device);
-	Light::device = DirectXSetting::GetIns()->GetDev();
 }
 
 Light* Light::Create()
@@ -21,7 +19,7 @@ Light* Light::Create()
 }
 
 void Light::SetLightPos(XMFLOAT3 pos) {
-	Light::pos = pos;
+	lightPos = pos;
 }
 
 void Light::Initialize()
@@ -50,6 +48,7 @@ void Light::TransferConstBuffer()
 	if (SUCCEEDED(result)) {
 		constMap->lightVec = -lightDir;
 		constMap->lightColor = lightColor;
+		constMap->lightPos = lightPos;
 		constBuff->Unmap(0, nullptr);
 	}
 }
