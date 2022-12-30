@@ -55,7 +55,7 @@ void TitleScene::Initialize()
 	allowSize = allow->GetSize();
 	startTimer = 0;
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
+	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, 0 };
 	playerRot = { 0, 0, 0 };
@@ -140,30 +140,30 @@ void TitleScene::Update()
 
 	static Vector3 lightPos = { 0.0f, 0.0f, 0.0f };
 
-	if (KeyInput::GetIns()->PushKey(DIK_A)) {
-		lightPos.x++;
-		Light::SetLightPos(lightPos);
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_D)) {
-		lightPos.x--;
-		Light::SetLightPos(lightPos);
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_S)) {
-		lightPos.z++;
-		Light::SetLightPos(lightPos);
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_W)) {
-		lightPos.z--;
-		Light::SetLightPos(lightPos);
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_Q)) {
-		lightPos.y++;
-		Light::SetLightPos(lightPos);
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_E)) {
-		lightPos.y--;
-		Light::SetLightPos(lightPos);
-	}
+	//if (KeyInput::GetIns()->PushKey(DIK_A)) {
+	//	lightPos.x++;
+	//	Light::SetLightPos(lightPos);
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_D)) {
+	//	lightPos.x--;
+	//	Light::SetLightPos(lightPos);
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_S)) {
+	//	lightPos.z++;
+	//	Light::SetLightPos(lightPos);
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_W)) {
+	//	lightPos.z--;
+	//	Light::SetLightPos(lightPos);
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_Q)) {
+	//	lightPos.y++;
+	//	Light::SetLightPos(lightPos);
+	//}
+	//if (KeyInput::GetIns()->PushKey(DIK_E)) {
+	//	lightPos.y--;
+	//	Light::SetLightPos(lightPos);
+	//}
 
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
 		if (camera->GetTarget().z < cameraPos.z) {

@@ -31,7 +31,6 @@ public: // サブクラス
 		XMMATRIX viewproj;	// ビュー変換行列
 		XMMATRIX world; //ワールド行列
 		XMFLOAT4 color; // 色
-		XMFLOAT3 lightPos; //ライト座標
 		XMFLOAT3 cameraPos; //カメラ座標
 	};
 

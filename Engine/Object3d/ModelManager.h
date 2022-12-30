@@ -48,7 +48,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ƒ‚ƒfƒ‹’Ç‰Á
 	/// </summary>
-	void LoadModel(const std::string modelName);
+	void LoadModel(const std::string modelName, bool isSmoothing = false);
 
 	/// <summary>
 	/// FBXƒ‚ƒfƒ‹’Ç‰Á

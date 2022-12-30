@@ -85,7 +85,7 @@ bool Object3d::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Engine/Resources/shaders/Object3d/obj/OBJVertexShader.hlsl",	// シェーダファイル名
+		L"Engine/Resources/shaders/Object3d/obj/LambertVS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -290,7 +290,6 @@ void Object3d::Update()
 		constMap0->viewproj = camera->GetMatView() * camera->GetMatProjection();
 		constMap0->world = matWorld;
 		constMap0->color = color;
-		constMap0->lightPos = Light::GetLightPos();
 		constMap0->cameraPos = camera->GetEye();
 		constBuffB0->Unmap(0, nullptr);
 	}

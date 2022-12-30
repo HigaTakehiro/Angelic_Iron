@@ -22,10 +22,10 @@ void Model::StaticInitialize(ID3D12Device* device) {
 	Model::device = device;
 }
 
-Model* Model::CreateModel(const std::string& modelname) {
+Model* Model::CreateModel(const std::string& modelname, bool isSmoothing) {
 	Model* instance = new Model;
 	instance->InitializeDescriptorHeap();
-	instance->InitializeModel(modelname);
+	instance->InitializeModel(modelname, isSmoothing);
 
 	return instance;
 }
@@ -110,6 +110,27 @@ void Model::InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices
 	ibView.SizeInBytes = sizeIB;
 }
 
+void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)
+{
+	smoothData[indexPosition].emplace_back(indexVertex);
+}
+
+void Model::CalculateSmoothedVertexNormals()
+{
+	auto itr = smoothData.begin();
+	for (; itr != smoothData.end(); ++itr) {
+		std::vector<unsigned short>& v = itr->second;
+		XMVECTOR normal = {};
+		for (unsigned short index : v) {
+			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
+		}
+		normal = XMVector3Normalize(normal / (float)v.size());
+		for (unsigned short index : v) {
+			vertices[index].normal = { normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2] };
+		}
+	}
+}
+
 void Model::Initialize() {
 	HRESULT result;
 
@@ -170,7 +191,7 @@ void Model::InitializeDescriptorHeap() {
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void Model::InitializeModel(const std::string& modelname) {
+void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
 
 	HRESULT result = S_FALSE;
 
@@ -261,6 +282,9 @@ void Model::InitializeModel(const std::string& modelname) {
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices.emplace_back(vertex);
+				if (isSmoothing) {
+					AddSmoothData(indexPosition, (unsigned short)vertices.size() - 1);
+				}
 				//頂点インデックスに追加
 				indices.emplace_back((unsigned short)indices.size());
 			}
@@ -268,6 +292,10 @@ void Model::InitializeModel(const std::string& modelname) {
 	}
 
 	file.close();
+
+	if (isSmoothing) {
+		CalculateSmoothedVertexNormals();
+	}
 
 	std::vector<VertexPosNormalUv> realVertices;
 

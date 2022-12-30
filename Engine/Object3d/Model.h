@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
+#include <unordered_map>
 
 class Model
 {
@@ -72,6 +73,8 @@ private: //メンバ変数
 	std::vector<VertexPosNormalUv> vertices;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
+	//頂点法線スムージング用データ
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
 	//マテリアル
 	Material material;
 	// テクスチャバッファ
@@ -95,7 +98,7 @@ public: //静的メンバ関数
 	/// <summary>
 	/// 生成
 	/// </summary>
-	static Model* CreateModel(const std::string& modelname);
+	static Model* CreateModel(const std::string& modelname, bool isSmoothing = false);
 
 	/// <summary>
 	/// 図形モデル生成
@@ -131,7 +134,7 @@ public: //メンバ関数
 	/// <summary>
 	/// モデル初期化
 	/// </summary>
-	void InitializeModel(const std::string& modelname);
+	void InitializeModel(const std::string& modelname, bool isSmoothing);
 
 	/// <summary>
 	/// 図形モデル初期化
@@ -140,6 +143,18 @@ public: //メンバ関数
 	/// <param name="indices_">頂点インデックス</param>
 	/// <param name="textureName">テクスチャ名</param>
 	void InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName);
+
+	/// <summary>
+	/// エッジ平滑化用データを追加
+	/// </summary>
+	/// <param name="indexPosition">座標インデックス</param>
+	/// <param name="indexVertex">頂点インデックス</param>
+	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
+
+	/// <summary>
+	/// 平滑化した頂点法線の計算
+	/// </summary>
+	void CalculateSmoothedVertexNormals();
 
 	/// <summary>
 	/// 初期化

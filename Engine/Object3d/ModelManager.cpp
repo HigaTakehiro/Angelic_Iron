@@ -19,10 +19,10 @@ ModelManager* ModelManager::GetIns()
 
 void ModelManager::Initialize() {
 	LoadModel("Player_Normal");
-	LoadModel("Player_Stand");
+	LoadModel("Player_Stand", true);
 	LoadModel("Player_Down");
 	LoadModel("Gun");
-	LoadModel("Enemy");
+	LoadModel("Enemy", true);
 	LoadModel("Block");
 	LoadModel("ground");
 	LoadModel("CelestialSphere");
@@ -33,9 +33,9 @@ void ModelManager::Initialize() {
 	LoadFBXModel("Player_Attack");
 }
 
-void ModelManager::LoadModel(const std::string modelName) {
+void ModelManager::LoadModel(const std::string modelName, bool isSmoothing) {
 	Model* newModel = nullptr;
-	newModel = Model::CreateModel(modelName);
+	newModel = Model::CreateModel(modelName, isSmoothing);
 	models.push_back(newModel);
 	newModel = nullptr;
 	delete newModel;
