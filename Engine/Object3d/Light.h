@@ -20,7 +20,6 @@ private: // エイリアス
 public:
 
 	Light() = default;
-
 	~Light() = default;
 
 public: //サブクラス

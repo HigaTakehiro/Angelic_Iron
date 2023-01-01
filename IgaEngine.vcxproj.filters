@@ -440,8 +440,5 @@
     <FxCompile Include="Engine\Resources\shaders\PostEffect\Vignette.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\LambertVS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

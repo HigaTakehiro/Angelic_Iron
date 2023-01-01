@@ -58,6 +58,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//Object3dの初期化
 	Object3d::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);
 	ModelManager::GetIns()->Initialize();
+	Light::StaticInitialize();
 
 	scene = new SceneManager();
 	scene->Initialize();

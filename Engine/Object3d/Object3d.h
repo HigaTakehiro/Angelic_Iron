@@ -153,6 +153,12 @@ public: // メンバ関数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 
 	/// <summary>
+	/// ライトをセット
+	/// </summary>
+	/// <param name="light"></param>
+	void SetLight(Light* light) { this->light = light; }
+
+	/// <summary>
 	/// ビルボード行列を掛ける
 	/// </summary>
 	/// <param name="isBillboard">ビルボードフラグ</param>
@@ -196,6 +202,8 @@ private: // メンバ変数
 	Model* model = nullptr;
 	//カメラ
 	Camera* camera = nullptr;
+	//ライト
+	Light* light = nullptr;
 	//ビルボード行列フラグ
 	bool isBillboard;
 	//Y軸ビルボード行列フラグ

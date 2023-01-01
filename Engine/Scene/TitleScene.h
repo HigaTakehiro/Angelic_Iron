@@ -99,6 +99,7 @@ private: //ƒƒ“ƒo•Ï”
 	Model* testSquareModel = nullptr;
 	Object3d* testSquare = nullptr;
 	Camera* camera = nullptr;
+	Light* light = nullptr;
 
 	Vector3 playerRot;
 	Vector3 playerPos;

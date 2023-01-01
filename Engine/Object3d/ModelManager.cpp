@@ -19,7 +19,7 @@ ModelManager* ModelManager::GetIns()
 
 void ModelManager::Initialize() {
 	LoadModel("Player_Normal");
-	LoadModel("Player_Stand", true);
+	LoadModel("Player_Stand");
 	LoadModel("Player_Down");
 	LoadModel("Gun");
 	LoadModel("Enemy", true);

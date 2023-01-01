@@ -55,19 +55,24 @@ void TitleScene::Initialize()
 	allowSize = allow->GetSize();
 	startTimer = 0;
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
+	light = Light::Create();
+	light->SetLightColor({ 1.0f, 1.0f, 1.0f });
+
+	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, 0 };
 	playerRot = { 0, 0, 0 };
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
+	titlePlayer->SetLight(light);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
+	ground->SetLight(light);
 
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
@@ -76,6 +81,7 @@ void TitleScene::Initialize()
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
+	celetialSphere->SetLight(light);
 
 	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera, true);
 	//particle->LoadTexture("Aim");
@@ -137,33 +143,22 @@ void TitleScene::Update()
 	testSquare->Update();
 	particle->Update();
 	particle2->Update();
+	light->Update();
 
-	static Vector3 lightPos = { 0.0f, 0.0f, 0.0f };
+	static XMVECTOR lightDir = { 0, 1, 5, 0 };
+	if (KeyInput::GetIns()->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
+	else if (KeyInput::GetIns()->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
+	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
+	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
 
-	//if (KeyInput::GetIns()->PushKey(DIK_A)) {
-	//	lightPos.x++;
-	//	Light::SetLightPos(lightPos);
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_D)) {
-	//	lightPos.x--;
-	//	Light::SetLightPos(lightPos);
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_S)) {
-	//	lightPos.z++;
-	//	Light::SetLightPos(lightPos);
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_W)) {
-	//	lightPos.z--;
-	//	Light::SetLightPos(lightPos);
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_Q)) {
-	//	lightPos.y++;
-	//	Light::SetLightPos(lightPos);
-	//}
-	//if (KeyInput::GetIns()->PushKey(DIK_E)) {
-	//	lightPos.y--;
-	//	Light::SetLightPos(lightPos);
-	//}
+	light->SetLightDir(lightDir);
+
+	playerRot.y += 1.0f;
+	if (playerRot.y >= 360.0f) {
+		playerRot.y = 0.0f;
+	}
+
+	titlePlayer->SetRotation(playerRot);
 
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
 		if (camera->GetTarget().z < cameraPos.z) {
@@ -196,7 +191,7 @@ void TitleScene::Update()
 	}
 
 	camera->SetEye(cameraPos);
-	testSquare->SetPosition(lightPos);
+	//testSquare->SetPosition(lightPos);
 
 	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
@@ -475,4 +470,5 @@ void TitleScene::Finalize()
 	safe_delete(testSquareModel);
 	safe_delete(particle);
 	safe_delete(particle2);
+	safe_delete(light);
 }
