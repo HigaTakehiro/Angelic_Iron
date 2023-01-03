@@ -8,7 +8,7 @@
 #include <string>
 #include "Model.h"
 #include "Camera.h"
-#include "Light.h"
+#include "LightGroup.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -70,6 +70,8 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
+	//ライト
+	static LightGroup* light;
 
 private:// 静的メンバ関数
 	/// <summary>
@@ -77,6 +79,13 @@ private:// 静的メンバ関数
 	/// </summary>
 	/// <returns>成否</returns>
 	static bool InitializeGraphicsPipeline();
+
+public: //静的メンバ関数
+	/// <summary>
+	/// ライトをセット
+	/// </summary>
+	/// <param name="light">ライト</param>
+	static void SetLight(LightGroup* light) { Object3d::light = light; }
 
 public: // メンバ関数
 	bool Initialize();
@@ -153,12 +162,6 @@ public: // メンバ関数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 
 	/// <summary>
-	/// ライトをセット
-	/// </summary>
-	/// <param name="light"></param>
-	void SetLight(Light* light) { this->light = light; }
-
-	/// <summary>
 	/// ビルボード行列を掛ける
 	/// </summary>
 	/// <param name="isBillboard">ビルボードフラグ</param>
@@ -202,8 +205,6 @@ private: // メンバ変数
 	Model* model = nullptr;
 	//カメラ
 	Camera* camera = nullptr;
-	//ライト
-	Light* light = nullptr;
 	//ビルボード行列フラグ
 	bool isBillboard;
 	//Y軸ビルボード行列フラグ

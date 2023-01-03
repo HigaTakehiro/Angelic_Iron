@@ -6,8 +6,7 @@
 #include <d3dx12.h>
 #include "DirectXSetting.h"
 
-class Light
-{
+class BaseLight {
 private: // エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
@@ -18,9 +17,8 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-
-	Light() = default;
-	~Light() = default;
+	BaseLight() = default;
+	virtual ~BaseLight() {}
 
 public: //サブクラス
 	struct ConstBufferData {
@@ -30,7 +28,6 @@ public: //サブクラス
 	};
 
 public: //静的メンバ関数
-
 	/// <summary>
 	/// 静的初期化
 	/// </summary>
@@ -40,47 +37,47 @@ public: //静的メンバ関数
 	/// インスタンス生成
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static Light* Create();
+	static BaseLight* Create() {};
 
 public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	virtual void Initialize() = 0;
 
 	/// <summary>
 	/// 定数バッファへデータ転送
 	/// </summary>
-	void TransferConstBuffer();
+	virtual void TransferConstBuffer() = 0;
 
 	/// <summary>
 	/// ライト方向をセット
 	/// </summary>
 	/// <param name="lightDir">ライト方向</param>
-	void SetLightDir(const XMVECTOR& lightDir);
+	 virtual void SetLightDir(const XMVECTOR& lightDir) = 0;
 
 	/// <summary>
 	/// ライト色をセット
 	/// </summary>
 	/// <param name="lightColor">ライト色</param>
-	void SetLightColor(const XMFLOAT3& lightColor);
+	virtual void SetLightColor(const XMFLOAT3& lightColor) = 0;
 
 	/// <summary>
 	/// ライト座標をセット
 	/// </summary>
 	/// <param name="light"></param>
-	void SetLightPos(XMFLOAT3 pos);
+	virtual void SetLightPos(XMFLOAT3 pos) = 0;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	virtual void Update() = 0;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
 	/// <param name="rootParameter">指定ルートパラメータ</param>
-	void Draw(UINT rootParameter);
+	virtual void Draw(UINT rootParameter) = 0;
 
 protected: //静的メンバ変数
 	//デバイス

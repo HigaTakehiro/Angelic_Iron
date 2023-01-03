@@ -55,24 +55,26 @@ void TitleScene::Initialize()
 	allowSize = allow->GetSize();
 	startTimer = 0;
 
-	light = Light::Create();
-	light->SetLightColor({ 1.0f, 1.0f, 1.0f });
+	light = LightGroup::Create();
+	for (int i = 0; i < 3; i++) {
+		light->SetDirLightActive(i, false);
+		light->SetPointLightActive(i, true);
+	}
+	Object3d::SetLight(light);
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
+	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, 0 };
 	playerRot = { 0, 0, 0 };
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
-	titlePlayer->SetLight(light);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
-	ground->SetLight(light);
 
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
@@ -81,7 +83,7 @@ void TitleScene::Initialize()
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
-	celetialSphere->SetLight(light);
+	celetialSphere->SetColor({ 1.0f, 1.0f, 1.0f, 0.1f });
 
 	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera, true);
 	//particle->LoadTexture("Aim");
@@ -102,6 +104,8 @@ void TitleScene::Initialize()
 	test->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::Test));
 	test->SetScale({ 0.05f, 0.05f, 0.05f });
 	test->PlayAnimation(true);
+
+	debugText.Initialize(0);
 }
 
 void TitleScene::Update()
@@ -111,6 +115,12 @@ void TitleScene::Update()
 
 	sphereRot.y += 0.1f;
 	celetialSphere->SetRotation(sphereRot);
+
+	static Vector3 lightPos = { 0, 0, 0 };
+
+	char lightPosText[256];
+	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
+	debugText.Print(lightPosText, 0, 0, 2);
 
 	for (int i = 0; i < 10; i++) {
 		const float rnd_pos = 10.0f;
@@ -136,6 +146,16 @@ void TitleScene::Update()
 		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
+	
+	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.y++; }
+	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.y--; }
+	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x++; }
+	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x--; }
+	light->SetPointLightPos(0, lightPos);
+	light->SetPointLightColor(0, { 1, 1, 1 });
+	light->SetPointLightAtten(0, { 0.3f, 0.1f, 0.1f });
+	light->SetAmbientColor({ 1.0f, 1.0f, 1.0f });
+
 	titlePlayer->Update();
 	ground->Update();
 	celetialSphere->Update();
@@ -145,14 +165,6 @@ void TitleScene::Update()
 	particle2->Update();
 	light->Update();
 
-	static XMVECTOR lightDir = { 0, 1, 5, 0 };
-	if (KeyInput::GetIns()->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
-	else if (KeyInput::GetIns()->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
-	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
-	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
-
-	light->SetLightDir(lightDir);
-
 	playerRot.y += 1.0f;
 	if (playerRot.y >= 360.0f) {
 		playerRot.y = 0.0f;
@@ -160,34 +172,35 @@ void TitleScene::Update()
 
 	titlePlayer->SetRotation(playerRot);
 
+	const float cameraSpeed = 10.0f;
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
 		if (camera->GetTarget().z < cameraPos.z) {
-			cameraPos.x++;
+			cameraPos.x += cameraSpeed;
 		}
 		else {
-			cameraPos.x--;
+			cameraPos.x -= cameraSpeed;
 		}
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
 		XMFLOAT3 camraPos = camera->GetEye();
 		if (camera->GetTarget().z < cameraPos.z) {
-			cameraPos.x--;
+			cameraPos.x -= cameraSpeed;
 		}
 		else {
-			cameraPos.x++;
+			cameraPos.x += cameraSpeed;
 		}
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_UP) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		cameraPos.y++;
+		cameraPos.y += cameraSpeed;
 	}
 	else if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-		cameraPos.z--;
+		cameraPos.z -= cameraSpeed;
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		cameraPos.y--;
+		cameraPos.y -= cameraSpeed;
 	}
 	else if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-		cameraPos.z++;
+		cameraPos.z += cameraSpeed;
 	}
 
 	camera->SetEye(cameraPos);
@@ -438,6 +451,7 @@ void TitleScene::Draw()
 	}
 	title->Draw();
 	aim->Draw();
+	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

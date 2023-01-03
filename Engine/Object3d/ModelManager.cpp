@@ -25,7 +25,7 @@ void ModelManager::Initialize() {
 	LoadModel("Enemy", true);
 	LoadModel("Block");
 	LoadModel("ground");
-	LoadModel("CelestialSphere");
+	LoadModel("CelestialSphere", true);
 	LoadModel("Building");
 	LoadModel("BossBody");
 	LoadModel("BossHand");

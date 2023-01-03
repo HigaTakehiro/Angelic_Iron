@@ -15,7 +15,8 @@
 #include "Easing.h"
 #include "Shapes.h"
 #include "ParticleManager.h"
-#include "Light.h"
+#include "LightGroup.h"
+#include "DebugText.h"
 
 class TitleScene : public BaseScene
 {
@@ -63,6 +64,7 @@ private: //メンバ変数
 	Sprite* close = nullptr;
 	Sprite* aim = nullptr;
 	Sprite* allow = nullptr;
+	DebugText debugText; //デバッグテキスト表示用クラス
 
 	ParticleManager* particle = nullptr;
 	ParticleManager* particle2 = nullptr;
@@ -99,7 +101,7 @@ private: //メンバ変数
 	Model* testSquareModel = nullptr;
 	Object3d* testSquare = nullptr;
 	Camera* camera = nullptr;
-	Light* light = nullptr;
+	LightGroup* light = nullptr;
 
 	Vector3 playerRot;
 	Vector3 playerPos;

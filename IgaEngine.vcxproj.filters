@@ -201,7 +201,10 @@
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object3d\Light.cpp">
+    <ClCompile Include="Engine\Object3d\BaseLight.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object3d\LightGroup.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -347,7 +350,16 @@
     <ClInclude Include="Engine\Object3d\ParticleManager.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object3d\Light.h">
+    <ClInclude Include="Engine\Object3d\DirectionalLight.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\BaseLight.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\LightGroup.h">
+      <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\PointLight.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>
@@ -401,9 +413,6 @@
     <FxCompile Include="Engine\Resources\shaders\Object3d\fbx\FBXVS.hlsl">
       <Filter>シェーダーファイル\Object3d\fbx</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ADSPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicPS.hlsl">
       <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
@@ -414,9 +423,6 @@
       <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJVertexShader.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\PhongShadingPS.hlsl">
       <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffect\DamageEffect.hlsl">

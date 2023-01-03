@@ -31,6 +31,7 @@
 #include "BaseEnemy.h"
 #include "StraightEnemy.h"
 #include "HomingEnemy.h"
+#include "LightGroup.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -161,6 +162,7 @@ private: //メンバ変数
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
 	Vector3 spherePos = { 0, 0, 0 }; //天球座標
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
+	LightGroup* light;
 
 	//マップチップ用変数
 

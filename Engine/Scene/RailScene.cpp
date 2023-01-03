@@ -39,6 +39,9 @@ void RailScene::Initialize() {
 		scoreNumber[i]->SetSize({ 32, 32 });
 	}
 
+	light = LightGroup::Create();
+	Object3d::SetLight(light);
+
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
@@ -586,6 +589,7 @@ void RailScene::LoadRailPoint(const std::string filename) {
 	bool isTime = false;
 	bool isRot = false;
 	float splineTime = 0;
+	int stringCount = 0;
 
 	while (getline(railcameraPointsData, line)) {
 		std::istringstream line_stream(line);
@@ -594,6 +598,10 @@ void RailScene::LoadRailPoint(const std::string filename) {
 		getline(line_stream, word, ' ');
 		if (word == "#") {
 			continue;
+		}
+		if (word == u8"‚ ") {
+			int test = word.size();
+			test++;
 		}
 		if (word == "Start") {
 			line_stream >> startPos.x;
@@ -660,7 +668,7 @@ void RailScene::LoadRailPoint(const std::string filename) {
 			points.push_back(pos);
 		}
 
-
+		stringCount++;
 	}
 
 	assert(splineTime != 0);

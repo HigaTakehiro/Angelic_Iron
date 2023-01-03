@@ -19,6 +19,7 @@ ID3D12Device* Object3d::device = nullptr;
 ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
+LightGroup* Object3d::light = nullptr;
 
 bool Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
 {
@@ -108,7 +109,7 @@ bool Object3d::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Engine/Resources/shaders/Object3d/obj/PhongShadingPS.hlsl",	// シェーダファイル名
+		L"Engine/Resources/shaders/Object3d/obj/OBJPixelShader.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -310,9 +311,7 @@ void Object3d::Draw()
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
-
-	if (light != nullptr) {
-		light->Draw(3);
-	}
+	
+	light->Draw(2);
 	model->Draw(cmdList);
 }

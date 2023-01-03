@@ -2,7 +2,6 @@ cbuffer cbuff0 : register(b0)
 {
     matrix viewproj;
 	matrix world; //３Ｄ変換行列
-    float4 color; //色
     float3 cameraPos; //カメラ座標
 };
 
@@ -14,11 +13,30 @@ cbuffer cbuff1 : register(b1)
 	float m_alpha : packoffset(c2.w); //アルファ
 };
 
-cbuffer cbuff2 : register(b2)
+static const int DirLightNum = 3;
+
+struct DirLight
 {
     float3 lightVec;
     float3 lightColor;
-    float3 lightPos; //ライト座標
+    uint isActive;
+};
+
+static const int PointLightNum = 3;
+
+struct PointLight
+{
+    float3 lightPos;
+    float3 lightColor;
+    float3 lightAtten;
+    uint isActive;
+};
+
+cbuffer cbuff2 : register(b2)
+{
+    float3 ambientColor;
+    DirLight dirLights[DirLightNum];
+    PointLight pointLights[PointLightNum];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
