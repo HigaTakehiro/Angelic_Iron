@@ -8,6 +8,7 @@
 
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 
 class LightGroup
 {
@@ -21,6 +22,7 @@ public: //エイリアス
 private: //静的メンバ変数
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
+	static const int SpotLightNum = 3;
 	static ID3D12Device* device;
 
 public: //サブクラス
@@ -29,6 +31,7 @@ public: //サブクラス
 		float pad1;
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
 		PointLight::ConstBufferData pointLights[PointLightNum];
+		SpotLight::ConstBufferData spotLights[SpotLightNum];
 	};
 
 public: //静的メンバ関数
@@ -126,6 +129,48 @@ public: //メンバ関数
 	/// <param name="lightAtten">距離減衰係数(点光源用)</param>
 	void SetPointLightAtten(int index, const XMFLOAT3& lightAtten);
 
+	/// <summary>
+	/// スポットライト有効化
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="isActive">スポットライト有効化フラグ</param>
+	void SetSpotLightActive(int index, bool isActive);
+
+	/// <summary>
+	/// スポットライト方向をセット
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="lightDir">スポットライト方向</param>
+	void SetSpotLightDirection(int index, const XMVECTOR& lightDir);
+
+	/// <summary>
+	/// スポットライト座標をセット
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="lightPos">スポットライト座標</param>
+	void SetSpotLightPos(int index, const XMFLOAT3& lightPos);
+
+	/// <summary>
+	/// スポットライト色をセット
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="lightColor">スポットライト色</param>
+	void SetSpotLightColor(int index, const XMFLOAT3& lightColor);
+
+	/// <summary>
+	/// スポットライト距離減衰係数をセット
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="lightAtten">スポットライト距離減衰係数</param>
+	void SetSpotLightAtten(int index, const XMFLOAT3& lightAtten);
+
+	/// <summary>
+	/// スポットライト減衰角度をセット
+	/// </summary>
+	/// <param name="index">スポットライト番号</param>
+	/// <param name="lightAngle">スポットライト減衰角度</param>
+	void SetSpotLightAngle(int index, const XMFLOAT2& lightAngle);
+
 private: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
@@ -135,6 +180,8 @@ private: //メンバ変数
 	DirectionalLight dirLights[DirLightNum];
 	//点光源配列
 	PointLight pointLights[PointLightNum];
+	//スポットライト配列
+	SpotLight spotLights[SpotLightNum];
 	//ダーティフラグ
 	bool isDirty;
 };

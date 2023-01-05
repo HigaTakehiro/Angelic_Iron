@@ -32,11 +32,24 @@ struct PointLight
     uint isActive;
 };
 
+static const int SpotLightNum = 3;
+
+struct SpotLight
+{
+    float3 lightVec;
+    float3 lightPos;
+    float3 lightColor;
+    float3 lightAtten;
+    float2 lightAngle;
+    uint isActive;
+};
+
 cbuffer cbuff2 : register(b2)
 {
     float3 ambientColor;
     DirLight dirLights[DirLightNum];
     PointLight pointLights[PointLightNum];
+    SpotLight spotLights[SpotLightNum];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

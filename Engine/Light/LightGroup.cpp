@@ -79,7 +79,19 @@ void LightGroup::TransferConstBuffer()
 				constMap->pointLights[i].isActive = 0;
 			}
 		}
-
+		for (int i = 0; i < SpotLightNum; i++) {
+			if (spotLights[i].GetIsActive()) {
+				constMap->spotLights[i].isActive = 1;
+				constMap->spotLights[i].lightVec = -spotLights[i].GetLightVec();
+				constMap->spotLights[i].lightPos = spotLights[i].GetLightPos();
+				constMap->spotLights[i].lightColor = spotLights[i].GetLightColor();
+				constMap->spotLights[i].lightAtten = spotLights[i].GetLightAtten();
+				constMap->spotLights[i].lightCosAngle = spotLights[i].GetLightCosAngle();
+			}
+			else {
+				constMap->spotLights[i].isActive = 0;
+			}
+		}
 		constBuff->Unmap(0, nullptr);
 	}
 }
@@ -150,5 +162,52 @@ void LightGroup::SetPointLightAtten(int index, const XMFLOAT3& lightAtten)
 	assert(0 <= index && index < PointLightNum);
 
 	pointLights[index].SetLightAtten(lightAtten);
+	isDirty = true;
+}
+
+void LightGroup::SetSpotLightActive(int index, bool isActive)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetIsActive(isActive);
+}
+
+void LightGroup::SetSpotLightDirection(int index, const XMVECTOR& lightDir)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightVec(lightDir);
+	isDirty = true;
+}
+
+void LightGroup::SetSpotLightPos(int index, const XMFLOAT3& lightPos)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightPos(lightPos);
+	isDirty = true;
+}
+
+void LightGroup::SetSpotLightColor(int index, const XMFLOAT3& lightColor)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightColor(lightColor);
+	isDirty = true;
+}
+
+void LightGroup::SetSpotLightAtten(int index, const XMFLOAT3& lightAtten)
+{
+	assert(0 <= index && index < SpotLightNum);
+	
+	spotLights[index].SetLightAtten(lightAtten);
+	isDirty = true;
+}
+
+void LightGroup::SetSpotLightAngle(int index, const XMFLOAT2& lightAngle)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightCosAngle(lightAngle);
 	isDirty = true;
 }

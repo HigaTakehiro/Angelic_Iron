@@ -42,5 +42,26 @@ float4 main(VSOutput input) : SV_TARGET
         }
     }
     
+    for (int i = 0; i < SpotLightNum; i++)
+    {
+        if (spotLights[i].isActive)
+        {
+            float3 lightVec = spotLights[i].lightPos - input.worldpos.xyz;
+            lightVec = normalize(lightVec);
+            float d = length(lightVec);
+            
+            float atten = saturate(1.0f / (spotLights[i].lightAtten.x + spotLights[i].lightAtten.y * d + spotLights[i].lightAtten.z * d * d));
+            float cos = dot(lightVec, spotLights[i].lightVec);
+            float angleAtten = smoothstep(spotLights[i].lightAngle.y, spotLights[i].lightAngle.x, cos);
+            atten *= angleAtten;
+            
+            float3 dotLightNormal = dot(lightVec, input.normal);
+            float3 reflect = normalize(-lightVec + 2 * dotLightNormal * input.normal);
+            float3 diffuse = dotLightNormal * m_diffuse;
+            float3 specular = pow(saturate(dot(reflect, eyeDir)), shininess) * m_specular;
+            shadeColor.rgb += atten * (diffuse + specular) * spotLights[i].lightColor;
+        }
+    }
+    
     return shadeColor * texColor;
 }

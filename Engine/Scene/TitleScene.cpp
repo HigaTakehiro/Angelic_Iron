@@ -58,7 +58,8 @@ void TitleScene::Initialize()
 	light = LightGroup::Create();
 	for (int i = 0; i < 3; i++) {
 		light->SetDirLightActive(i, false);
-		light->SetPointLightActive(0, true);
+		light->SetPointLightActive(i, false);
+		light->SetSpotLightActive(0, true);
 	}
 	Object3d::SetLight(light);
 
@@ -147,13 +148,18 @@ void TitleScene::Update()
 	}
 
 	float lightSpeed = 10.0f;
-	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.y += lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.y -= lightSpeed; }
+	if (KeyInput::GetIns()->PushKey(DIK_W) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { lightPos.y += lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.z -= lightSpeed; }
+	if (KeyInput::GetIns()->PushKey(DIK_S) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { lightPos.y -= lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.z += lightSpeed; }
 	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x += lightSpeed; }
 	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x -= lightSpeed; }
-	light->SetPointLightPos(0, lightPos);
-	light->SetPointLightColor(0, { 1, 1, 1 });
-	light->SetPointLightAtten(0, { 0.1f, 0.1f, 0.1f });
+	light->SetSpotLightPos(0, lightPos);
+	light->SetAmbientColor({ 0.5f, 0.5f, 0.5f });
+	light->SetSpotLightColor(0, { 1, 1, 1 });
+	light->SetSpotLightAtten(0, { 0.1f, 0.1f, 0.1f });
+	light->SetSpotLightDirection(0, { 0.0f, -1.0f, 0.0f });
+	light->SetSpotLightAngle(0, { 50.0f, 80.0f });
 
 	titlePlayer->Update();
 	ground->Update();
