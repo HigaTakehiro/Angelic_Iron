@@ -58,7 +58,7 @@ void TitleScene::Initialize()
 	light = LightGroup::Create();
 	for (int i = 0; i < 3; i++) {
 		light->SetDirLightActive(i, false);
-		light->SetPointLightActive(i, true);
+		light->SetPointLightActive(0, true);
 	}
 	Object3d::SetLight(light);
 
@@ -146,15 +146,14 @@ void TitleScene::Update()
 		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
-	
-	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.y++; }
-	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.y--; }
-	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x++; }
-	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x--; }
+	float lightSpeed = 10.0f;
+	if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.y += lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.y -= lightSpeed; }
+	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x += lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x -= lightSpeed; }
 	light->SetPointLightPos(0, lightPos);
 	light->SetPointLightColor(0, { 1, 1, 1 });
-	light->SetPointLightAtten(0, { 0.3f, 0.1f, 0.1f });
-	light->SetAmbientColor({ 1.0f, 1.0f, 1.0f });
+	light->SetPointLightAtten(0, { 0.1f, 0.1f, 0.1f });
 
 	titlePlayer->Update();
 	ground->Update();

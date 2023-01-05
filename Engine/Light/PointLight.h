@@ -16,8 +16,8 @@ public: //サブクラス
 		float pad1;
 		XMFLOAT3 lightColor;
 		float pad2;
-		XMFLOAT3 lightatten;
-		unsigned int active;
+		XMFLOAT3 lightAtten;
+		unsigned int isActive;
 	};
 
 public: //メンバ関数

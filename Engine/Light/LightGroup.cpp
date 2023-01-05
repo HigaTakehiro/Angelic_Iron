@@ -70,13 +70,13 @@ void LightGroup::TransferConstBuffer()
 		}
 		for (int i = 0; i < PointLightNum; i++) {
 			if (pointLights[i].GetIsActive()) {
-				constMap->pointLights[i].active = 1;
+				constMap->pointLights[i].isActive = 1;
 				constMap->pointLights[i].lightPos = pointLights[i].GetLightPos();
 				constMap->pointLights[i].lightColor = pointLights[i].GetLightColor();
-				constMap->pointLights[i].lightColor = pointLights[i].GetLightAtten();
+				constMap->pointLights[i].lightAtten = pointLights[i].GetLightAtten();
 			}
 			else {
-				constMap->pointLights[i].active = 0;
+				constMap->pointLights[i].isActive = 0;
 			}
 		}
 
@@ -85,6 +85,8 @@ void LightGroup::TransferConstBuffer()
 }
 
 void LightGroup::DefaultLightSetting() {
+	ambientColor = { 1.0f, 1.0f, 1.0f };
+
 	dirLights[0].SetIsActive(true);
 	dirLights[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
 	dirLights[0].SetLightDir({ 0.0f, -1.0f, 0.0f, 0.0f });

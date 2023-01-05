@@ -312,6 +312,6 @@ void Object3d::Draw()
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	
-	light->Draw(2);
+	light->Draw(3);
 	model->Draw(cmdList);
 }

@@ -61,6 +61,9 @@
     <Filter Include="シェーダーファイル\Object2d">
       <UniqueIdentifier>{660667d0-67f6-4419-809c-6ce0a03d5ffc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Light">
+      <UniqueIdentifier>{ed6614da-b37d-46d0-bfdf-be9bb58fcfc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -204,8 +207,8 @@
     <ClCompile Include="Engine\Object3d\BaseLight.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object3d\LightGroup.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+    <ClCompile Include="Engine\Light\LightGroup.cpp">
+      <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -350,17 +353,17 @@
     <ClInclude Include="Engine\Object3d\ParticleManager.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object3d\DirectionalLight.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object3d\BaseLight.h">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object3d\LightGroup.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+    <ClInclude Include="Engine\Light\DirectionalLight.h">
+      <Filter>ソース ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object3d\PointLight.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+    <ClInclude Include="Engine\Light\LightGroup.h">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\PointLight.h">
+      <Filter>ソース ファイル\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -29,8 +29,8 @@ float4 main(VSOutput input) : SV_TARGET
         if (pointLights[i].isActive)
         {
             float3 lightVec = pointLights[i].lightPos - input.worldpos.xyz;
-            float d = length(lightVec);
             lightVec = normalize(lightVec);
+            float d = length(lightVec);
             
             float atten = 1.0f / (pointLights[i].lightAtten.x + pointLights[i].lightAtten.y * d + pointLights[i].lightAtten.z * d * d);
             float3 dotLightNormal = dot(lightVec, input.normal);

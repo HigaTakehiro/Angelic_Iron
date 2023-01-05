@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -176,13 +176,13 @@
     <ClCompile Include="Engine\Input\KeyInput.cpp" />
     <ClCompile Include="Engine\Input\MouseInput.cpp" />
     <ClCompile Include="Engine\Input\PadInput.cpp" />
+    <ClCompile Include="Engine\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Object2d\DebugText.cpp" />
     <ClCompile Include="Engine\Object2d\ImageManager.cpp" />
     <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
     <ClCompile Include="Engine\Object2d\Sprite.cpp" />
     <ClCompile Include="Engine\Object3d\BaseLight.cpp" />
     <ClCompile Include="Engine\Object3d\Collision.cpp" />
-    <ClCompile Include="Engine\Object3d\LightGroup.cpp" />
     <ClCompile Include="Engine\Object3d\MapChip.cpp" />
     <ClCompile Include="Engine\Object3d\Model.cpp" />
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
@@ -228,20 +228,20 @@
     <ClInclude Include="Engine\Input\KeyInput.h" />
     <ClInclude Include="Engine\Input\MouseInput.h" />
     <ClInclude Include="Engine\Input\PadInput.h" />
+    <ClInclude Include="Engine\Light\DirectionalLight.h" />
+    <ClInclude Include="Engine\Light\LightGroup.h" />
+    <ClInclude Include="Engine\Light\PointLight.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
     <ClInclude Include="Engine\Object2d\PostEffect.h" />
     <ClInclude Include="Engine\Object2d\Sprite.h" />
     <ClInclude Include="Engine\Object3d\BaseLight.h" />
     <ClInclude Include="Engine\Object3d\Collision.h" />
-    <ClInclude Include="Engine\Object3d\DirectionalLight.h" />
-    <ClInclude Include="Engine\Object3d\LightGroup.h" />
     <ClInclude Include="Engine\Object3d\MapChip.h" />
     <ClInclude Include="Engine\Object3d\Model.h" />
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Object3d\ParticleManager.h" />
-    <ClInclude Include="Engine\Object3d\PointLight.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\BossScene.h" />
