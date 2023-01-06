@@ -156,6 +156,12 @@ public: // メンバ関数
 	void SetParent(Object3d* parent) { this->parent = parent; }
 
 	/// <summary>
+	/// アンビエントをセット
+	/// </summary>
+	/// <param name="ambient">アンビエント</param>
+	void SetAmbient(const XMFLOAT3& ambient) { model->SetAmbient(ambient); }
+
+	/// <summary>
 	/// 色をセット
 	/// </summary>
 	/// <param name="color"></param>

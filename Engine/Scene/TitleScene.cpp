@@ -70,6 +70,7 @@ void TitleScene::Initialize()
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
+	titlePlayer->SetAmbient({ 0, 0, 0 });
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
@@ -155,7 +156,6 @@ void TitleScene::Update()
 	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x += lightSpeed; }
 	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x -= lightSpeed; }
 	light->SetSpotLightPos(0, lightPos);
-	light->SetAmbientColor({ 0.5f, 0.5f, 0.5f });
 	light->SetSpotLightColor(0, { 1, 1, 1 });
 	light->SetSpotLightAtten(0, { 0.1f, 0.1f, 0.1f });
 	light->SetSpotLightDirection(0, { 0.0f, -1.0f, 0.0f });

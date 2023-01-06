@@ -117,6 +117,12 @@ public: //メンバ関数
 	Material GetMaterial() { return material; }
 
 	/// <summary>
+	/// アンビエントをセット
+	/// </summary>
+	/// <param name="ambient"></param>
+	void SetAmbient(const XMFLOAT3& ambient) { material.ambient = ambient; }
+
+	/// <summary>
 	/// デスクリプタヒープの初期化
 	/// </summary>
 	void InitializeDescriptorHeap();
