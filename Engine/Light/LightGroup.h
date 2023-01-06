@@ -9,6 +9,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "CircleShadow.h"
 
 class LightGroup
 {
@@ -23,6 +24,7 @@ private: //静的メンバ変数
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
 	static const int SpotLightNum = 3;
+	static const int CircleShadowNum = 1;
 	static ID3D12Device* device;
 
 public: //サブクラス
@@ -32,6 +34,7 @@ public: //サブクラス
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		CircleShadow::ConstBufferData circleShadow[CircleShadowNum];
 	};
 
 public: //静的メンバ関数
@@ -171,6 +174,48 @@ public: //メンバ関数
 	/// <param name="lightAngle">スポットライト減衰角度</param>
 	void SetSpotLightAngle(int index, const XMFLOAT2& lightAngle);
 
+	/// <summary>
+	/// 丸影有効化
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="isActive">有効化フラグ</param>
+	void SetCircleShadowActive(int index, bool isActive);
+
+	/// <summary>
+	/// 丸影キャスター座標をセット
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="casterPos">キャスター座標</param>
+	void SetCircleShadowCasterPos(int index, const XMFLOAT3& casterPos);
+
+	/// <summary>
+	/// 丸影方向をセット
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="lightDir">丸影方向</param>
+	void SetCircleShadowDir(int index, const XMVECTOR& lightDir);
+
+	/// <summary>
+	/// キャスターとライトの距離をセット(丸影)
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="distanceCasterLight">キャスターとライトの距離</param>
+	void SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight);
+
+	/// <summary>
+	/// 丸影距離減衰係数をセット
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="lightAtten">距離減衰係数</param>
+	void SetCircleShadowAtten(int index, const XMFLOAT3& lightAtten);
+
+	/// <summary>
+	/// 丸影角度減衰をセット
+	/// </summary>
+	/// <param name="index">丸影番号</param>
+	/// <param name="angle">角度減衰</param>
+	void SetCircleShadowAngle(int index, const XMFLOAT2& angle);
+
 private: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
@@ -182,6 +227,8 @@ private: //メンバ変数
 	PointLight pointLights[PointLightNum];
 	//スポットライト配列
 	SpotLight spotLights[SpotLightNum];
+	//丸影配列
+	CircleShadow circleShadows[CircleShadowNum];
 	//ダーティフラグ
 	bool isDirty;
 };

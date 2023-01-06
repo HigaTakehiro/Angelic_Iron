@@ -92,6 +92,19 @@ void LightGroup::TransferConstBuffer()
 				constMap->spotLights[i].isActive = 0;
 			}
 		}
+		for (int i = 0; i < CircleShadowNum; i++) {
+			if (circleShadows[i].GetIsActive()) {
+				constMap->circleShadow[i].isActive = 1;
+				constMap->circleShadow[i].dir = -circleShadows[i].GetDir();
+				constMap->circleShadow[i].casterPos = circleShadows[i].GetCasterPos();
+				constMap->circleShadow[i].distanceCasterLight = circleShadows[i].GetDistanceCasterLight();
+				constMap->circleShadow[i].atten = circleShadows[i].GetAtten();
+				constMap->circleShadow[i].cosAngle = circleShadows[i].GetAngle();
+			}
+			else {
+				constMap->circleShadow[i].isActive = 0;
+			}
+		}
 		constBuff->Unmap(0, nullptr);
 	}
 }
@@ -209,5 +222,52 @@ void LightGroup::SetSpotLightAngle(int index, const XMFLOAT2& lightAngle)
 	assert(0 <= index && index < SpotLightNum);
 
 	spotLights[index].SetLightCosAngle(lightAngle);
+	isDirty = true;
+}
+
+void LightGroup::SetCircleShadowActive(int index, bool isActive)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetIsActive(isActive);
+}
+
+void LightGroup::SetCircleShadowCasterPos(int index, const XMFLOAT3& casterPos)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetCasterPos(casterPos);
+	isDirty = true;
+}
+
+void LightGroup::SetCircleShadowDir(int index, const XMVECTOR& lightDir)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetDir(lightDir);
+	isDirty = true;
+}
+
+void LightGroup::SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetDistanceCasterLight(distanceCasterLight);
+	isDirty = true;
+}
+
+void LightGroup::SetCircleShadowAtten(int index, const XMFLOAT3& lightAtten)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetAtten(lightAtten);
+	isDirty = true;
+}
+
+void LightGroup::SetCircleShadowAngle(int index, const XMFLOAT2& angle)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetAngle(angle);
 	isDirty = true;
 }

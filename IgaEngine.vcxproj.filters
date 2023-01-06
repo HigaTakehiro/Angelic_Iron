@@ -210,6 +210,9 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object2d\TextDraw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -366,6 +369,12 @@
       <Filter>ソース ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\SpotLight.h">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object2d\TextDraw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\CircleShadow.h">
       <Filter>ソース ファイル\Light</Filter>
     </ClInclude>
   </ItemGroup>

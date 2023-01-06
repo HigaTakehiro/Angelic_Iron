@@ -57,26 +57,27 @@ void TitleScene::Initialize()
 
 	light = LightGroup::Create();
 	for (int i = 0; i < 3; i++) {
-		light->SetDirLightActive(i, false);
+		light->SetDirLightActive(0, true);
 		light->SetPointLightActive(i, false);
-		light->SetSpotLightActive(0, true);
+		light->SetSpotLightActive(i, false);
 	}
+	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Enemy));
+	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, 0 };
 	playerRot = { 0, 0, 0 };
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
-	titlePlayer->SetAmbient({ 0, 0, 0 });
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
+	ground->SetAmbient({ 1, 1, 1 });
 
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
@@ -149,17 +150,19 @@ void TitleScene::Update()
 	}
 
 	float lightSpeed = 10.0f;
-	if (KeyInput::GetIns()->PushKey(DIK_W) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { lightPos.y += lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_W)) { lightPos.z -= lightSpeed; }
-	if (KeyInput::GetIns()->PushKey(DIK_S) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { lightPos.y -= lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_S)) { lightPos.z += lightSpeed; }
-	if (KeyInput::GetIns()->PushKey(DIK_A)) { lightPos.x += lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_D)) { lightPos.x -= lightSpeed; }
-	light->SetSpotLightPos(0, lightPos);
-	light->SetSpotLightColor(0, { 1, 1, 1 });
-	light->SetSpotLightAtten(0, { 0.1f, 0.1f, 0.1f });
-	light->SetSpotLightDirection(0, { 0.0f, -1.0f, 0.0f });
-	light->SetSpotLightAngle(0, { 50.0f, 80.0f });
+	if (KeyInput::GetIns()->PushKey(DIK_W) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { playerPos.y += lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_W)) { playerPos.z -= lightSpeed; }
+	if (KeyInput::GetIns()->PushKey(DIK_S) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { playerPos.y -= lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_S)) { playerPos.z += lightSpeed; }
+	if (KeyInput::GetIns()->PushKey(DIK_A)) { playerPos.x += lightSpeed; }
+	else if (KeyInput::GetIns()->PushKey(DIK_D)) { playerPos.x -= lightSpeed; }
+	light->SetCircleShadowDir(0, {0, -1, 0});
+	light->SetCircleShadowCasterPos(0, playerPos);
+	light->SetCircleShadowAtten(0, {0.0f, 0.01f, 0.0f});
+	light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+
+	titlePlayer->SetPosition(playerPos);
 
 	titlePlayer->Update();
 	ground->Update();
@@ -170,12 +173,6 @@ void TitleScene::Update()
 	particle2->Update();
 	light->Update();
 
-	playerRot.y += 1.0f;
-	if (playerRot.y >= 360.0f) {
-		playerRot.y = 0.0f;
-	}
-
-	titlePlayer->SetRotation(playerRot);
 
 	const float cameraSpeed = 10.0f;
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {

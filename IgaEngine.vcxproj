@@ -181,6 +181,7 @@
     <ClCompile Include="Engine\Object2d\ImageManager.cpp" />
     <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
     <ClCompile Include="Engine\Object2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Object2d\TextDraw.cpp" />
     <ClCompile Include="Engine\Object3d\BaseLight.cpp" />
     <ClCompile Include="Engine\Object3d\Collision.cpp" />
     <ClCompile Include="Engine\Object3d\MapChip.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Engine\Input\KeyInput.h" />
     <ClInclude Include="Engine\Input\MouseInput.h" />
     <ClInclude Include="Engine\Input\PadInput.h" />
+    <ClInclude Include="Engine\Light\CircleShadow.h" />
     <ClInclude Include="Engine\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Light\LightGroup.h" />
     <ClInclude Include="Engine\Light\PointLight.h" />
@@ -236,6 +238,7 @@
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
     <ClInclude Include="Engine\Object2d\PostEffect.h" />
     <ClInclude Include="Engine\Object2d\Sprite.h" />
+    <ClInclude Include="Engine\Object2d\TextDraw.h" />
     <ClInclude Include="Engine\Object3d\BaseLight.h" />
     <ClInclude Include="Engine\Object3d\Collision.h" />
     <ClInclude Include="Engine\Object3d\MapChip.h" />
