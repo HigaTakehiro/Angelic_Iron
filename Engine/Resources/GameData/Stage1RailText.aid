@@ -1,0 +1,60 @@
+#"Picture.png"←画像ファイルを表示する場合は""で囲む
+#TEXT1←1行目のテキスト
+#TEXT2←2行目のテキスト
+#TEXT3←3行目のテキスト
+#FACE←会話アイコンの顔グラフィック
+	#NONE←顔グラフィックなし
+	#OPE_NORMAL←通常時のオペレータ顔
+	#OPE_SURPRISE←驚いているオペレータ顔
+	#OPE_SMILE←喜んでいるオペレータ顔
+	#PLAYER←プレイヤー顔
+#SPEED←テキスト速度
+#WAIT←次のテキストが表示されるまでの待機時間
+
+FACE OPE_NORMAL
+TEXT1 これより作戦を開始します
+SPEED 2
+wAIT 60
+
+FACE OPE_NORMAL
+TEXT1 操作方法を確認しますね
+SPEED 2
+WAIT 60
+
+FACE OPE_NORMAL
+TEXT1 WASDで移動できます
+SPEED 2
+WAIT 30
+
+FACE OPE_NORMAL
+TEXT1 攻撃はマウスで狙いをつけ、左クリックで発射できます
+SPEED 2
+WAIT 30
+
+FACE OPE_NORMAL
+TEXT1 右クリックでボムモードに移行できます
+SPEED 2
+WAIT 30
+
+FACE OPE_NORMAL
+TEXT1 ボムモード中に敵に狙いを済ますとロックオンすることができます
+TEXT2 そのまま左クリックを押すことでボム攻撃することができます
+SPEED 2
+WAIT 30
+
+FACE OPE_NORMAL
+TEXT1 ただしボム攻撃には回数制限があります
+TEXT2 ピンチの時に使うとよいでしょう
+SPEED 2
+WAIT 30
+
+FACE OPE_NORMAL
+TEXT1 さて、今回の作戦は市街地に出現したMECの撃破です
+SPEED 2
+WAIT 30
+
+FACE_OPE_NORMAL
+TEXT1 住民の避難は完了しているので銃器の使用及びブーストダッシュを許可します
+TEXT2 ただし周囲への被害を考慮してボム攻撃は使用できませんのでお気をつけて
+SPEED 2
+WAIT 30

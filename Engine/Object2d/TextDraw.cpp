@@ -1,5 +1,19 @@
 #include "TextDraw.h"
 
-void TextDraw::Initialize() {
+const char* TextDraw::defaultFont = "ÉÅÉCÉäÉI";
 
+void TextDraw::Initialize() {
+	FontHandleCreate();
+}
+
+void TextDraw::Update() {
+
+}
+
+void TextDraw::Draw() {
+
+}
+
+void TextDraw::FontHandleCreate() {
+	//if (FAILED())
 }

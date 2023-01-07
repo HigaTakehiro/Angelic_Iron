@@ -1,6 +1,7 @@
 #include "DirectXSetting.h"
 #include <cassert>
 
+#pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
@@ -23,6 +24,8 @@ void DirectXSetting::Initialize(WinApp* winApp) {
 	InitializeDev();
 	//コマンド関連の初期化
 	InitializeCmd();
+	//D3D11デバイスの生成
+	InitializeDev11();
 	//スワップチェーンの初期化
 	InitializeSwapChain();
 	//レンダーターゲットビューの初期化
@@ -175,6 +178,30 @@ void DirectXSetting::InitializeCmd() {
 	result = dev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue));
 }
 
+void DirectXSetting::InitializeDev11()
+{
+	HRESULT result = S_FALSE;
+	//D3D11デバイスの生成
+	ComPtr<ID3D11Device> d3d11Device;
+	UINT d3d11DeviceFlags = 0U;
+
+#ifdef _DEBUG
+	d3d11DeviceFlags = D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+#else
+	d3d11DeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+#endif
+
+	result = D3D11On12CreateDevice(
+		dev.Get(), d3d11DeviceFlags, nullptr, 0, 
+		reinterpret_cast<IUnknown**>(cmdQueue.GetAddressOf()),
+		1, 0, &d3d11Device,
+		&devContext11, nullptr
+	);
+
+	d3d11Device.As(&dev11);
+	//dev11 = d3d11Device;
+}
+
 void DirectXSetting::InitializeSwapChain() {
 	// 各種設定をしてスワップチェーンを生成
 	DXGI_SWAP_CHAIN_DESC1 swapchainDesc{};
@@ -197,6 +224,15 @@ void DirectXSetting::InitializeSwapChain() {
 		nullptr,
 		nullptr,
 		&swapchain1);
+
+	//dxgiFactory->CreateSwapChainForHwnd(
+	//	dev11.Get(),
+	//	winApp->GetHwnd(),
+	//	&swapchainDesc,
+	//	nullptr,
+	//	nullptr,
+	//	&swapchain1
+	//);
 
 	// 生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
 	swapchain1.As(&swapchain);

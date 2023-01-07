@@ -2,6 +2,8 @@
 
 #include <Windows.h>
 #include <d3d12.h>
+#include <d3d11.h>
+#include <d3d11on12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include <d3dx12.h>
@@ -66,13 +68,18 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	ID3D12Device* GetDev() { return dev.Get(); }
-
+	/// <summary>
+	/// コマンドリストの取得
+	/// </summary>
+	/// <returns></returns>
 	ID3D12GraphicsCommandList* GetCmdList() { return cmdList.Get(); }
 private: //メンバ変数
 	//ウィンドウズアプリケーション管理
 	WinApp* winApp;
 
 	ComPtr<ID3D12Device> dev;
+	ComPtr<ID3D11Device> dev11;
+	ComPtr<ID3D11DeviceContext> devContext11;
 	ComPtr<IDXGIFactory6> dxgiFactory;
 	ComPtr<IDXGISwapChain4> swapchain;
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
@@ -96,6 +103,10 @@ private: //メンバ関数
 	/// コマンド関連の初期化
 	/// </summary>
 	void InitializeCmd();
+	/// <summary>
+	/// DirectX11のデバイスの初期化
+	/// </summary>
+	void InitializeDev11();
 	/// <summary>
 	/// スワップチェーンの初期化
 	/// </summary>
