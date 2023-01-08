@@ -5,6 +5,8 @@
 #include <d3d11.h>
 #include <d3d11on12.h>
 #include <dxgi1_6.h>
+#include <d2d1_1.h>
+#include <d2d1_3.h>
 #include <wrl.h>
 #include <d3dx12.h>
 #include <cstdlib>
@@ -78,8 +80,9 @@ private: //メンバ変数
 	WinApp* winApp;
 
 	ComPtr<ID3D12Device> dev;
-	ComPtr<ID3D11Device> dev11;
+	ComPtr<ID3D11On12Device> id3d11On12Device;
 	ComPtr<ID3D11DeviceContext> devContext11;
+	ComPtr<ID2D1DeviceContext> d2dDeviceContext;
 	ComPtr<IDXGIFactory6> dxgiFactory;
 	ComPtr<IDXGISwapChain4> swapchain;
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
@@ -87,6 +90,8 @@ private: //メンバ変数
 	ComPtr<ID3D12CommandQueue> cmdQueue;
 	ComPtr<ID3D12DescriptorHeap> rtvHeaps;
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	std::vector<ComPtr<ID3D11Resource>> wrappedBackBuffers;
+	std::vector<ComPtr<ID2D1Bitmap1>> d2dRenderTargets;
 	ComPtr<ID3D12Resource> depthBuffer;
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	ComPtr<ID3D12Fence> fence;
@@ -107,6 +112,14 @@ private: //メンバ関数
 	/// DirectX11のデバイスの初期化
 	/// </summary>
 	void InitializeDev11();
+	/// <summary>
+	/// ID2Dデバイスコンテキストの初期化
+	/// </summary>
+	void InitializeID2DDeviceContext();
+	/// <summary>
+	/// DirectWriteの描画先を生成
+	/// </summary>
+	void CreateD2DRenderdTarget();
 	/// <summary>
 	/// スワップチェーンの初期化
 	/// </summary>

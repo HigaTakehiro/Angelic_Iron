@@ -4,6 +4,7 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d2d1.lib")
 
 using namespace Microsoft::WRL;
 
@@ -26,10 +27,14 @@ void DirectXSetting::Initialize(WinApp* winApp) {
 	InitializeCmd();
 	//D3D11デバイスの生成
 	InitializeDev11();
+	//DirectX2DDeviceContextの生成
+	InitializeID2DDeviceContext();
 	//スワップチェーンの初期化
 	InitializeSwapChain();
 	//レンダーターゲットビューの初期化
 	InitializeRenderTarget();
+	//DirectWriteの描画先の生成
+	CreateD2DRenderdTarget();
 	//深度バッファの初期化
 	InitializeDepthBuffer();
 	//フェンスの初期化
@@ -192,14 +197,61 @@ void DirectXSetting::InitializeDev11()
 #endif
 
 	result = D3D11On12CreateDevice(
-		dev.Get(), d3d11DeviceFlags, nullptr, 0, 
+		dev.Get(), d3d11DeviceFlags, nullptr, 0,
 		reinterpret_cast<IUnknown**>(cmdQueue.GetAddressOf()),
 		1, 0, &d3d11Device,
 		&devContext11, nullptr
 	);
 
-	d3d11Device.As(&dev11);
-	//dev11 = d3d11Device;
+	d3d11Device.As(&id3d11On12Device);
+}
+
+void DirectXSetting::InitializeID2DDeviceContext()
+{
+	HRESULT result = S_FALSE;
+	ComPtr<ID2D1Factory3> d2dFactory = nullptr;
+	constexpr D2D1_FACTORY_OPTIONS factoryOption{};
+
+	result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory3), &factoryOption, &d2dFactory);
+
+	ComPtr<IDXGIDevice> dxgiDevice = nullptr;
+	id3d11On12Device.As(&dxgiDevice);
+
+	ComPtr<ID2D1Device> d2dDevice = nullptr;
+	d2dFactory->CreateDevice(dxgiDevice.Get(), d2dDevice.ReleaseAndGetAddressOf());
+
+	d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, d2dDeviceContext.ReleaseAndGetAddressOf());
+}
+
+void DirectXSetting::CreateD2DRenderdTarget()
+{
+	HRESULT result;
+
+	D3D11_RESOURCE_FLAGS flags = { D3D11_BIND_RENDER_TARGET };
+	const UINT dpi = GetDpiForWindow(winApp->GetHwnd());
+	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
+		D2D1::BitmapProperties1(D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+			static_cast<float>(dpi));
+
+
+	ComPtr<ID3D11Resource> wrappedBackBuffer = nullptr;
+	result = id3d11On12Device->CreateWrappedResource(
+		backBuffers[0].Get(),
+		&flags,
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PRESENT,
+		IID_PPV_ARGS(wrappedBackBuffer.ReleaseAndGetAddressOf()));
+
+	ComPtr<IDXGISurface> dxgiSurface = nullptr;
+	wrappedBackBuffer.As(&dxgiSurface);
+
+	ComPtr<ID2D1Bitmap1> d2dRenderTarget = nullptr;
+	result = d2dDeviceContext->CreateBitmapFromDxgiSurface(dxgiSurface.Get(), &bitmapProperties, &d2dRenderTarget);
+
+	wrappedBackBuffers.emplace_back(wrappedBackBuffer);
+	d2dRenderTargets.emplace_back(d2dRenderTarget);
+
 }
 
 void DirectXSetting::InitializeSwapChain() {
@@ -224,15 +276,6 @@ void DirectXSetting::InitializeSwapChain() {
 		nullptr,
 		nullptr,
 		&swapchain1);
-
-	//dxgiFactory->CreateSwapChainForHwnd(
-	//	dev11.Get(),
-	//	winApp->GetHwnd(),
-	//	&swapchainDesc,
-	//	nullptr,
-	//	nullptr,
-	//	&swapchain1
-	//);
 
 	// 生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
 	swapchain1.As(&swapchain);

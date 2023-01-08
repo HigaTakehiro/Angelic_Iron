@@ -156,6 +156,7 @@ void TitleScene::Update()
 	else if (KeyInput::GetIns()->PushKey(DIK_S)) { playerPos.z += lightSpeed; }
 	if (KeyInput::GetIns()->PushKey(DIK_A)) { playerPos.x += lightSpeed; }
 	else if (KeyInput::GetIns()->PushKey(DIK_D)) { playerPos.x -= lightSpeed; }
+	light->SetDirLightDirection(0, { 0, -1, -1 });
 	light->SetCircleShadowDir(0, {0, -1, 0});
 	light->SetCircleShadowCasterPos(0, playerPos);
 	light->SetCircleShadowAtten(0, {0.0f, 0.01f, 0.0f});
