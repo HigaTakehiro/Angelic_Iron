@@ -5,6 +5,7 @@
 #include <d3d11.h>
 #include <d3d11on12.h>
 #include <dxgi1_6.h>
+#include <dwrite.h>
 #include <d2d1_1.h>
 #include <d2d1_3.h>
 #include <wrl.h>
@@ -13,7 +14,7 @@
 #include <DirectXMath.h>
 #include <chrono>
 #include <thread>
-
+#include <unordered_map>
 #include "WinApp.h"
 
 class DirectXSetting final
@@ -75,6 +76,48 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	ID3D12GraphicsCommandList* GetCmdList() { return cmdList.Get(); }
+	/// <summary>
+	/// D2Dデバイス環境の取得
+	/// </summary>
+	/// <returns>D2Dデバイス環境</returns>
+	ID2D1DeviceContext* GetD2DDeviceContext() { return d2dDeviceContext.Get(); }
+	/// <summary>
+	/// directWriteFactoryの取得
+	/// </summary>
+	/// <returns>directWriteFactory</returns>
+	IDWriteFactory* GetDWriteFactory() { return directWriteFactory.Get(); }
+	/// <summary>
+	/// SolidColorBrushの取得
+	/// </summary>
+	/// <returns>SolidColorBrush連想配列</returns>
+	std::unordered_map<std::string, ComPtr<ID2D1SolidColorBrush>> GetColorBrushes() { return solidColorBlushes; }
+	/// <summary>
+	/// テキストフォーマットの取得
+	/// </summary>
+	/// <returns>テキストフォーマット連想配列</returns>
+	std::unordered_map<std::string, ComPtr<IDWriteTextFormat>> GetTextFormats() { return textFormats; }
+	/// <summary>
+	/// SolidColorBlushを登録する
+	/// </summary>
+	/// <param name="key">連想配列のキー</param>
+	/// <param name="color">ブラシ色</param>
+	void registerSolidColorBrush(const std::string& key, const D2D1::ColorF color);
+	/// <summary>
+	/// テキストフォーマットを登録する
+	/// </summary>
+	/// <param name="key">連想配列のキー</param>
+	/// <param name="fontName">フォント名</param>
+	/// <param name="fontSize">フォントサイズ</param>
+	void registerTextFormat(const std::string& key, const std::wstring& fontName, const float fontSize);
+	/// <summary>
+	/// Direct2D描画開始
+	/// </summary>
+	void beginDrawWithDirect2D();
+	/// <summary>
+	/// Direct2D描画終了
+	/// </summary>
+	void endDrawWithDirect2D();
+
 private: //メンバ変数
 	//ウィンドウズアプリケーション管理
 	WinApp* winApp;
@@ -89,6 +132,7 @@ private: //メンバ変数
 	ComPtr<ID3D12CommandAllocator> cmdAllocator;
 	ComPtr<ID3D12CommandQueue> cmdQueue;
 	ComPtr<ID3D12DescriptorHeap> rtvHeaps;
+	ComPtr<IDWriteFactory> directWriteFactory;
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 	std::vector<ComPtr<ID3D11Resource>> wrappedBackBuffers;
 	std::vector<ComPtr<ID2D1Bitmap1>> d2dRenderTargets;
@@ -96,6 +140,10 @@ private: //メンバ変数
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
+	//ソリッドカラーブラシ
+	std::unordered_map<std::string, ComPtr<ID2D1SolidColorBrush>> solidColorBlushes;
+	//テキストフォーマット
+	std::unordered_map<std::string, ComPtr<IDWriteTextFormat>> textFormats;
 	//FPS固定用記録時間
 	std::chrono::steady_clock::time_point reference;
 

@@ -17,6 +17,7 @@
 #include "ParticleManager.h"
 #include "LightGroup.h"
 #include "DebugText.h"
+#include "TextDraw.h"
 
 class TitleScene : public BaseScene
 {
@@ -68,6 +69,7 @@ private: //ƒƒ“ƒo•Ï”
 
 	ParticleManager* particle = nullptr;
 	ParticleManager* particle2 = nullptr;
+	TextDraw* textDraw = nullptr;
 
 	FBXObject3d* test;
 

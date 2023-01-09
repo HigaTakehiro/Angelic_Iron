@@ -9,6 +9,8 @@ void TitleScene::Initialize()
 	camera->SetEye(cameraPos);
 	camera->SetTarget(cameraTargetPos);
 
+	textDraw->Initialize();
+
 	titlePos = { 300, 200 };
 	startButtonPos = { 640, 550 };
 	stage1Pos = { -300, 100 };
@@ -455,9 +457,28 @@ void TitleScene::Draw()
 	title->Draw();
 	aim->Draw();
 	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
+
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+
+	static D2D1_RECT_F rectangle2 = D2D1::RectF(
+		0, 0, 1280, 720
+	);
+
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	static int textSpeed = 0;
+	static int textCount = 0;
+	const int textTime = 2;
+	static std::wstring text = L"‚ ";
+	textSpeed++;
+	if (textSpeed >= textTime && textCount < 20) {
+		textSpeed = 0;
+		textCount += 1;
+		text += L"‚ ";
+	}
+	textDraw->Draw("default", "default", text, rectangle2);
+	//DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, PostEffect::NONE);
@@ -488,4 +509,5 @@ void TitleScene::Finalize()
 	safe_delete(particle);
 	safe_delete(particle2);
 	safe_delete(light);
+	safe_delete(textDraw);
 }

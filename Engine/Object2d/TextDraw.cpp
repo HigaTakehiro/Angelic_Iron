@@ -1,19 +1,17 @@
 #include "TextDraw.h"
 
-const char* TextDraw::defaultFont = "メイリオ";
+const std::wstring TextDraw::defaultFont = L"メイリオ";
 
 void TextDraw::Initialize() {
-	FontHandleCreate();
+	DirectXSetting::GetIns()->registerSolidColorBrush("default", D2D1::ColorF::White);
+	DirectXSetting::GetIns()->registerTextFormat("default", defaultFont, defaultFontSize);
 }
 
-void TextDraw::Update() {
+void TextDraw::Draw(const std::string& textFormatKey, const std::string& solidColorBrushKey, const std::wstring& text, const D2D1_RECT_F& rect) {
+	const auto textFormat = DirectXSetting::GetIns()->GetTextFormats().at(textFormatKey);
+	const auto solidColorBrush = DirectXSetting::GetIns()->GetColorBrushes().at(solidColorBrushKey);
 
-}
+	DirectXSetting::GetIns()->GetD2DDeviceContext()->DrawTextW(text.c_str(),
+		static_cast<UINT32>(text.length()), textFormat.Get(), &rect, solidColorBrush.Get());
 
-void TextDraw::Draw() {
-
-}
-
-void TextDraw::FontHandleCreate() {
-	//if (FAILED())
 }

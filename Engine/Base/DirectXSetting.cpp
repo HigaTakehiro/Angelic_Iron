@@ -5,6 +5,7 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
 
 using namespace Microsoft::WRL;
 
@@ -78,7 +79,7 @@ void DirectXSetting::PostDraw() {
 	cmdQueue->ExecuteCommandLists(1, cmdLists);
 
 	// バッファをフリップ（裏表の入替え）
-	swapchain->Present(1, 0);
+	//swapchain->Present(1, 0);
 
 	// コマンドリストの実行完了を待つ
 	cmdQueue->Signal(fence.Get(), ++fenceVal);
@@ -186,6 +187,8 @@ void DirectXSetting::InitializeCmd() {
 void DirectXSetting::InitializeDev11()
 {
 	HRESULT result = S_FALSE;
+	//DirectWriteFactoryの生成
+	result = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, _uuidof(IDWriteFactory), &directWriteFactory);
 	//D3D11デバイスの生成
 	ComPtr<ID3D11Device> d3d11Device;
 	UINT d3d11DeviceFlags = 0U;
@@ -234,23 +237,25 @@ void DirectXSetting::CreateD2DRenderdTarget()
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
 			static_cast<float>(dpi));
 
+	for (int i = 0; i < 2; i++) {
+		ComPtr<ID3D11Resource> wrappedBackBuffer = nullptr;
+		result = id3d11On12Device->CreateWrappedResource(
+			backBuffers[i].Get(),
+			&flags,
+			D3D12_RESOURCE_STATE_RENDER_TARGET,
+			D3D12_RESOURCE_STATE_PRESENT,
+			IID_PPV_ARGS(wrappedBackBuffer.ReleaseAndGetAddressOf()));
 
-	ComPtr<ID3D11Resource> wrappedBackBuffer = nullptr;
-	result = id3d11On12Device->CreateWrappedResource(
-		backBuffers[0].Get(),
-		&flags,
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		D3D12_RESOURCE_STATE_PRESENT,
-		IID_PPV_ARGS(wrappedBackBuffer.ReleaseAndGetAddressOf()));
+		ComPtr<IDXGISurface> dxgiSurface = nullptr;
+		wrappedBackBuffer.As(&dxgiSurface);
 
-	ComPtr<IDXGISurface> dxgiSurface = nullptr;
-	wrappedBackBuffer.As(&dxgiSurface);
+		ComPtr<ID2D1Bitmap1> d2dRenderTarget = nullptr;
+		result = d2dDeviceContext->CreateBitmapFromDxgiSurface(dxgiSurface.Get(), &bitmapProperties, &d2dRenderTarget);
 
-	ComPtr<ID2D1Bitmap1> d2dRenderTarget = nullptr;
-	result = d2dDeviceContext->CreateBitmapFromDxgiSurface(dxgiSurface.Get(), &bitmapProperties, &d2dRenderTarget);
+		wrappedBackBuffers.emplace_back(wrappedBackBuffer);
+		d2dRenderTargets.emplace_back(d2dRenderTarget);
 
-	wrappedBackBuffers.emplace_back(wrappedBackBuffer);
-	d2dRenderTargets.emplace_back(d2dRenderTarget);
+	}
 
 }
 
@@ -373,4 +378,49 @@ void DirectXSetting::UpdateFixFPS() {
 	}
 
 	reference = std::chrono::steady_clock::now();
+}
+
+void DirectXSetting::beginDrawWithDirect2D()
+{
+	const auto backBufferIndex = swapchain->GetCurrentBackBufferIndex();
+	const auto wrappedBackBuffer = wrappedBackBuffers[backBufferIndex];
+	const auto backBufferForD2D = d2dRenderTargets[backBufferIndex];
+
+	id3d11On12Device->AcquireWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
+	d2dDeviceContext->SetTarget(backBufferForD2D.Get());
+	d2dDeviceContext->BeginDraw();
+	d2dDeviceContext->SetTransform(D2D1::Matrix3x2F::Identity());
+}
+
+void DirectXSetting::endDrawWithDirect2D()
+{
+	const auto backBufferIndex = swapchain->GetCurrentBackBufferIndex();
+	const auto wrappedBackBuffer = wrappedBackBuffers[backBufferIndex];
+
+	d2dDeviceContext->EndDraw();
+	id3d11On12Device->ReleaseWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
+	devContext11->Flush();
+
+	swapchain->Present(1, 0);
+}
+
+void DirectXSetting::registerSolidColorBrush(const std::string& key, const D2D1::ColorF color)
+{
+	ComPtr<ID2D1SolidColorBrush> brush = nullptr;
+	d2dDeviceContext->CreateSolidColorBrush(D2D1::ColorF(color), brush.GetAddressOf());
+	solidColorBlushes[key] = brush;
+}
+
+void DirectXSetting::registerTextFormat(const std::string& key, const std::wstring& fontName, const float fontSize)
+{
+	ComPtr<IDWriteTextFormat> textFormat = nullptr;
+	directWriteFactory->CreateTextFormat(
+		fontName.c_str(),
+		nullptr,
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		fontSize, L"ja-JP", textFormat.GetAddressOf());
+
+	textFormats[key] = textFormat;
 }
