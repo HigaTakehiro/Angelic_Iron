@@ -40,6 +40,12 @@ void RailScene::Initialize() {
 	}
 
 	light = LightGroup::Create();
+	for (int i = 0; i < 3; i++) {
+		light->SetDirLightActive(0, true);
+		light->SetPointLightActive(i, false);
+		light->SetSpotLightActive(i, false);
+	}
+	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
@@ -51,6 +57,9 @@ void RailScene::Initialize() {
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
+
+	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 
 	for (int i = 0; i < 90; i++) {
 		Vector3 pos = { 0, 20, 0 };
@@ -94,6 +103,7 @@ void RailScene::Initialize() {
 	if (stageNo == 1) {
 		LoadRailPoint("Stage1RailPoints.aid");
 		LoadEnemyData("Stage1EnemyData.aid");
+		LoadTextMessage("Stage1RailText.aid");
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
@@ -138,6 +148,13 @@ void RailScene::Update() {
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
+	light->SetCircleShadowCasterPos(0, {player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
+	light->SetDirLightDirection(0, { 0, -1, 0 });
+	light->SetCircleShadowDir(0, { 0, -1, 0 });
+	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+
 	char xPos[256];
 	char yPos[256];
 	char isSlowCheck[256];
@@ -158,6 +175,7 @@ void RailScene::Update() {
 	}
 
 	EnemyDataUpdate();
+	TextMessageUpdate();
 
 	if (railCamera->GetIsEnd()) {
 		clearTimer--;
@@ -205,11 +223,27 @@ void RailScene::Update() {
 			}
 			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 				enemy->Update(delayCount);
+				if (enemy->GetHP() <= 0) {
+					XMFLOAT3 enemyPos;
+					enemyPos.x = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[0];
+					enemyPos.y = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[1];
+					enemyPos.z = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[2];
+					enemyParticle->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
+				}
 			}
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
+				bombParticle->Add(20, { bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
+					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1], 
+					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2] }, 
+					{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 
+					3.0f, 0.0f, {1.0f, 1.0f, 1.0f},
+					{1.0f, 1.0f, 1.0f}, 1.0f, 0.0f);
 			}
 		}
+
+		enemyParticle->Update();
+		bombParticle->Update();
 
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			enemyBullet->Update(delayCount);
@@ -246,7 +280,32 @@ void RailScene::Update() {
 				if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 					score += 100;
 					enemy->OnCollision();
+					for (int i = 0; i < 10; i++) {
+						XMFLOAT3 pos = {
+							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
+							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
+							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2]
+						};
+						pos.x += rand() % 40 - 20;
+						pos.y += rand() % 40 - 20;
+						pos.z += rand() % 40 - 20;
+
+						const float rnd_vel = 0.1f;
+						XMFLOAT3 vel{};
+						vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+						vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+						vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+						XMFLOAT3 acc{};
+						const float rnd_acc = 0.01f;
+						acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+						acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+						acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+
+						bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+					}
 					bomb->OnCollision();
+					
 				}
 			}
 		}
@@ -318,6 +377,7 @@ void RailScene::Update() {
 		}
 	}
 
+	light->Update();
 	//object1->Update();
 
 	//シーン切り替え
@@ -402,6 +462,8 @@ void RailScene::Draw() {
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
+	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//object1->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
@@ -429,6 +491,9 @@ void RailScene::Draw() {
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
@@ -450,6 +515,9 @@ void RailScene::Finalize() {
 	safe_delete(back);
 	safe_delete(restart);
 	safe_delete(scoreSprite);
+	safe_delete(light);
+	safe_delete(bombParticle);
+	safe_delete(enemyParticle);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
@@ -599,10 +667,6 @@ void RailScene::LoadRailPoint(const std::string filename) {
 		if (word == "#") {
 			continue;
 		}
-		if (word == u8"あ") {
-			int test = word.size();
-			test++;
-		}
 		if (word == "Start") {
 			line_stream >> startPos.x;
 			line_stream >> startPos.y;
@@ -674,6 +738,63 @@ void RailScene::LoadRailPoint(const std::string filename) {
 	assert(splineTime != 0);
 	railCamera->Initialize(startPos, rot, points, splineTime, isCameraRoop);
 
+}
+
+void RailScene::LoadTextMessage(const std::string fileName)
+{
+	//ファイルストリーム
+	std::ifstream file;
+	textData.str("");
+	textData.clear(std::stringstream::goodbit);
+
+	const std::string directory = "Engine/Resources/GameData/";
+	file.open(directory + fileName);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	textData << file.rdbuf();
+
+	file.close();
+}
+
+void RailScene::TextMessageUpdate()
+{
+	std::string line;
+	std::string messageData;
+	std::wstring massageData;
+	bool isPos = false;
+	bool isRot = false;
+	bool isStyle = false;
+
+	if (isMessageWait) {
+		waitTimer--;
+		if (waitTimer <= 0) {
+			isMessageWait = false;
+		}
+		return;
+	}
+
+	while (getline(textData, line)) {
+		std::istringstream line_stream(line);
+		std::wstringstream text_stream;
+		std::string word;
+		//半角区切りで文字列を取得
+		getline(text_stream, word, ' ');
+		if (word == "#") {
+			continue;
+		}
+		if (word == "TEXT1") {
+			line_stream;
+		}
+		if (word == "Wait") {
+			isWait = true;
+			line_stream >> waitMessageTimer;
+
+			break;
+		}
+
+	}
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {

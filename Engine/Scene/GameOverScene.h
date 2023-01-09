@@ -7,6 +7,7 @@
 #include "PostEffect.h"
 #include "SafeDelete.h"
 #include "MouseInput.h"
+#include "LightGroup.h"
 
 class GameOverScene : public BaseScene
 {
@@ -62,6 +63,8 @@ private: //メンバ変数
 	Sprite* restart = nullptr;
 
 	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
+	//ライト
+	LightGroup* light = nullptr;
 
 	float scoreRollTimer;
 	XMFLOAT2 scoreRollPos[6] = {};

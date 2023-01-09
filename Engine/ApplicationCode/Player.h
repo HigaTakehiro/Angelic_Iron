@@ -20,6 +20,7 @@
 #include "Bomb.h"
 #include "BaseEnemy.h"
 #include "RailScene.h"
+#include "ParticleManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

@@ -21,8 +21,6 @@ void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
 	rot = { 0.0f, 90.0f, 0.0f };
 	scale = { 1.0f, 1.0f, 1.0f };
 
-	shadow = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shadow));
-
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
 	gun->SetPosition(Vector3(1, 0.6, 1.1));
 	gun->SetParent(player);
@@ -90,10 +88,6 @@ void BossScenePlayer::Update()
 	player->SetRotation(rot);
 	player->Update();
 	playerWPos = player->GetMatWorld().r[3];
-	shadowPos = playerWPos;
-	shadowPos.y = -35.0f;
-	shadow->SetPosition(shadowPos);
-	shadow->Update();
 	gun->Update();
 
 	if (hpCount > noneHP) {
@@ -119,7 +113,6 @@ void BossScenePlayer::Draw()
 	if (deadTimer <= liveTime) {
 		player->Draw();
 		gun->Draw();
-		shadow->Draw();
 	}
 }
 
@@ -143,7 +136,6 @@ void BossScenePlayer::SpriteDraw()
 
 void BossScenePlayer::Finalize() {
 	safe_delete(player);
-	safe_delete(shadow);
 	safe_delete(gun);
 	safe_delete(aim);
 	safe_delete(playerUI);

@@ -41,6 +41,10 @@ public: //メンバ関数
 	/// </summary>
 	virtual void SpriteDraw() = 0;
 	/// <summary>
+	/// 死亡時演出
+	/// </summary>
+	virtual void DeadPerformance() = 0;
+	/// <summary>
 	/// 攻撃ヒット時コールバック関数
 	/// </summary>
 	void OnCollision();
@@ -98,6 +102,8 @@ protected: //メンバ関数
 protected: //静的メンバ変数
 	//ロックオン演出用時間
 	static const float targetReactionTime;
+	//死亡時演出用時間
+	static const int32_t deadTime = 30;
 
 protected: //メンバ変数
 	//敵オブジェクト
@@ -132,6 +138,8 @@ protected: //メンバ変数
 	int32_t shotIntervalTimer;
 	//弾発射間隔
 	int32_t shotIntervalTime;
+	//死亡時演出用時間
+	int32_t deadTimer;
 	//ロックオン演出用時間
 	float targetReactionTimer;
 	//スロー演出用タイマー

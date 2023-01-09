@@ -31,6 +31,10 @@ public: //ƒƒ“ƒoŠÖ”
 	/// ‰æ‘œ•`‰æˆ—
 	/// </summary>
 	void SpriteDraw() override;
+	/// <summary>
+	/// €–Sˆ—
+	/// </summary>
+	void DeadPerformance() override;
 
 private: //ƒƒ“ƒoŠÖ”
 	/// <summary>

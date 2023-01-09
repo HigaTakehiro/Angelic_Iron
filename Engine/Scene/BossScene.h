@@ -8,6 +8,7 @@
 #include "BaseBoss.h"
 #include "FirstBoss.h"
 #include "Particle2d.h"
+#include "LightGroup.h"
 
 class BossScenePlayer;
 class BaseBoss;
@@ -66,6 +67,8 @@ private: //メンバ変数
 	//ポストエフェクト
 	PostEffect* postEffect = nullptr;
 	PostEffect::PostEffectNo postEffectNo;
+	//ライト
+	LightGroup* light = nullptr;
 
 	Vector3 groundPos = { 0, 0, 0 }; //地面座標
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ

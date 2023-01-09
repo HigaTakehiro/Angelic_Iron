@@ -88,7 +88,6 @@ void TitleScene::Initialize()
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
-	celetialSphere->SetColor({ 1.0f, 1.0f, 1.0f, 0.1f });
 
 	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera, true);
 	//particle->LoadTexture("Aim");
@@ -158,7 +157,7 @@ void TitleScene::Update()
 	else if (KeyInput::GetIns()->PushKey(DIK_S)) { playerPos.z += lightSpeed; }
 	if (KeyInput::GetIns()->PushKey(DIK_A)) { playerPos.x += lightSpeed; }
 	else if (KeyInput::GetIns()->PushKey(DIK_D)) { playerPos.x -= lightSpeed; }
-	light->SetDirLightDirection(0, { 0, -1, -1 });
+	light->SetDirLightDirection(0, { 0, -1, 0 });
 	light->SetCircleShadowDir(0, {0, -1, 0});
 	light->SetCircleShadowCasterPos(0, playerPos);
 	light->SetCircleShadowAtten(0, {0.0f, 0.01f, 0.0f});
@@ -463,7 +462,7 @@ void TitleScene::Draw()
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	static D2D1_RECT_F rectangle2 = D2D1::RectF(
-		0, 0, 1280, 720
+		0, 500, 1280, 720
 	);
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
@@ -472,13 +471,13 @@ void TitleScene::Draw()
 	const int textTime = 2;
 	static std::wstring text = L"‚ ";
 	textSpeed++;
-	if (textSpeed >= textTime && textCount < 20) {
+	if (textSpeed >= textTime && textCount < 100) {
 		textSpeed = 0;
 		textCount += 1;
 		text += L"‚ ";
 	}
 	textDraw->Draw("default", "default", text, rectangle2);
-	//DirectXSetting::GetIns()->endDrawWithDirect2D();
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, PostEffect::NONE);

@@ -2,6 +2,7 @@ cbuffer cbuff0 : register(b0)
 {
     matrix viewproj;
 	matrix world; //３Ｄ変換行列
+    float4 color; //色
     float3 cameraPos; //カメラ座標
 };
 

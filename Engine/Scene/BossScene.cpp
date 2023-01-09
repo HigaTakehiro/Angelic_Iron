@@ -73,6 +73,15 @@ void BossScene::Initialize()
 	}
 	score = 0;
 
+	light = LightGroup::Create();
+	for (int i = 0; i < 3; i++) {
+		light->SetDirLightActive(0, true);
+		light->SetPointLightActive(i, false);
+		light->SetSpotLightActive(i, false);
+	}
+	light->SetCircleShadowActive(0, true);
+	Object3d::SetLight(light);
+
 	isPause = false;
 	isTitleBack = false;
 	isDead = false;
@@ -86,6 +95,14 @@ void BossScene::Update()
 
 	const int delayTime = 0;
 	const int noneHP = 0;
+
+	XMFLOAT3 playerPos = { player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
+	light->SetCircleShadowCasterPos(0, playerPos);
+	light->SetDirLightDirection(0, { 0, -1, 0 });
+	light->SetCircleShadowDir(0, { 0, -1, 0 });
+	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
@@ -209,6 +226,10 @@ void BossScene::Update()
 		}
 
 	}
+
+	light->Update();
+
+	//ƒV[ƒ“•ÏX
 	if (player->GetIsDead()) {
 		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::GameOver);
@@ -221,10 +242,10 @@ void BossScene::Update()
 		SceneManager::SceneChange(SceneManager::Title);
 	}
 
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
-	//	SceneManager::SceneChange(SceneManager::Result);
-	//}
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::AddScore(score);
+		SceneManager::SceneChange(SceneManager::Result);
+	}
 }
 
 void BossScene::Draw()
@@ -282,6 +303,9 @@ void BossScene::Draw()
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
@@ -301,6 +325,7 @@ void BossScene::Finalize()
 	player->Finalize();
 	safe_delete(player);
 	safe_delete(scoreText);
+	safe_delete(light);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}

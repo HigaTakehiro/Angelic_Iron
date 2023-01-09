@@ -51,11 +51,14 @@ void StraightEnemy::Update(const int delayTime)
 
 	if (delayTimer >= delayTime) {
 
-		if (hp <= 0 || ++lifeTimer >= lifeTime) {
+		if (hp <= 0) {
+			DeadPerformance();
+		}
+		if (++lifeTimer >= lifeTime) {
 			isDead = true;
 		}
 
-		if (enemy != nullptr) {
+		if (enemy != nullptr && hp > 0) {
 			if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
 				pos = oldPos;
 			}
@@ -77,6 +80,22 @@ void StraightEnemy::SpriteDraw()
 {
 	if (isTarget) {
 		target->Draw();
+	}
+}
+
+void StraightEnemy::DeadPerformance()
+{
+	const float downSpeed = 0.5f;
+	const float rotSpeed = 15.0f;
+	XMFLOAT3 enemyPos = enemy->GetPosition();
+	XMFLOAT3 enemyRot = enemy->GetRotation();
+	deadTimer++;
+	enemyPos.y -= downSpeed;
+	enemyRot.y += rotSpeed;
+	enemy->SetPosition(enemyPos);
+	enemy->SetRotation(enemyRot);
+	if (deadTimer >= deadTime) {
+		isDead = true;
 	}
 }
 

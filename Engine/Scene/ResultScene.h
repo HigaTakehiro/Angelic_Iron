@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "ImageManager.h"
 #include "Easing.h"
+#include "LightGroup.h"
 
 class ResultScene : public BaseScene
 {
@@ -37,6 +38,8 @@ private: //メンバ変数
 	Sprite* score = nullptr; //スコア画像
 	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
 	Sprite* titleBack = nullptr;
+
+	LightGroup* light = nullptr;
 
 	XMFLOAT2 mousePos;
 	XMFLOAT2 titleBackSize;

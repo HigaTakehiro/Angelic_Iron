@@ -24,6 +24,15 @@ void ResultScene::Initialize()
 		scoreRollPos[i] = { -640, 0 };
 	}
 
+	light = LightGroup::Create();
+	for (int i = 0; i < 3; i++) {
+		light->SetDirLightActive(0, true);
+		light->SetPointLightActive(i, false);
+		light->SetSpotLightActive(i, false);
+	}
+	light->SetCircleShadowActive(0, true);
+	Object3d::SetLight(light);
+
 	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, -500 };
@@ -60,6 +69,13 @@ void ResultScene::Update()
 
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
+	light->SetCircleShadowCasterPos(0, playerPos);
+	light->SetDirLightDirection(0, { 0, -1, 0 });
+	light->SetCircleShadowDir(0, { 0, -1, 0 });
+	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+
 	scoreRollTimer++;
 	if (scoreRollTimer >= scoreRollTime) {
 		scoreRollTimer = scoreRollTime;
@@ -87,6 +103,9 @@ void ResultScene::Update()
 	titleBack->SetSize(titleBackSize);
 	titleBackAlpha = 1.0f;
 
+	light->Update();
+
+	//ƒV[ƒ“•ÏX
 	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
 		titleBackAlpha = 0.5f;
 		XMFLOAT2 spriteSize = titleBackSize;
@@ -130,6 +149,9 @@ void ResultScene::Draw()
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60, postEffectNo, true);
 	DirectXSetting::GetIns()->PostDraw();
@@ -144,6 +166,7 @@ void ResultScene::Finalize()
 	safe_delete(ground);
 	safe_delete(gun);
 	safe_delete(titleBack);
+	safe_delete(light);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}

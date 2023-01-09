@@ -29,8 +29,8 @@ float4 main(VSOutput input) : SV_TARGET
         if (pointLights[i].isActive)
         {
             float3 lightVec = pointLights[i].lightPos - input.worldpos.xyz;
-            lightVec = normalize(lightVec);
             float d = length(lightVec);
+            lightVec = normalize(lightVec);
             
             float atten = 1.0f / (pointLights[i].lightAtten.x + pointLights[i].lightAtten.y * d + pointLights[i].lightAtten.z * d * d);
             float3 dotLightNormal = dot(lightVec, input.normal);
@@ -47,8 +47,8 @@ float4 main(VSOutput input) : SV_TARGET
         if (spotLights[i].isActive)
         {
             float3 lightVec = spotLights[i].lightPos - input.worldpos.xyz;
-            lightVec = normalize(lightVec);
             float d = length(lightVec);
+            lightVec = normalize(lightVec);
             
             float atten = saturate(1.0f / (spotLights[i].lightAtten.x + spotLights[i].lightAtten.y * d + spotLights[i].lightAtten.z * d * d));
             float cos = dot(lightVec, spotLights[i].lightVec);
@@ -81,5 +81,5 @@ float4 main(VSOutput input) : SV_TARGET
         }
     }
     
-    return shadeColor * texColor;
+    return shadeColor * texColor * color;
 }

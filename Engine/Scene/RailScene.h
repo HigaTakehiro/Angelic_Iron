@@ -32,6 +32,7 @@
 #include "StraightEnemy.h"
 #include "HomingEnemy.h"
 #include "LightGroup.h"
+#include "ParticleManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -90,6 +91,17 @@ public: //メンバ関数
 	void LoadRailPoint(const std::string filename);
 
 	/// <summary>
+	/// 会話データの読み込み
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadTextMessage(const std::string fileName);
+
+	/// <summary>
+	/// 読み込んだテキストデータの更新
+	/// </summary>
+	void TextMessageUpdate();
+
+	/// <summary>
 	/// 敵弾を追加
 	/// </summary>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
@@ -145,6 +157,8 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
 	std::list<std::unique_ptr<Object3d>> buildings; //ビルリスト
+	ParticleManager* bombParticle;
+	ParticleManager* enemyParticle;
 	Sprite* background = nullptr; //背景画像
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;
@@ -162,7 +176,7 @@ private: //メンバ変数
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
 	Vector3 spherePos = { 0, 0, 0 }; //天球座標
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
-	LightGroup* light;
+	LightGroup* light = nullptr;
 
 	//マップチップ用変数
 
@@ -173,13 +187,17 @@ private: //メンバ変数
 	bool isDead; //プレイヤー死亡フラグ
 	bool isClear; //クリアシーンフラグ
 	bool isWait; //エネミー読み込み待機フラグ
+	bool isMessageWait; //メッセージデータ読み込み待機フラグ
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	bool isPause; //ポーズフラグ
 	bool isTitleBack; //タイトル画面変更フラグ
 	bool isRestart;
 	int32_t waitTimer; //エネミー読み込み待機時間
+	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
+	std::stringstream textData; //メッセージデータ格納用文字列
+	std::wstring message; //メッセージ内容格納文字列
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 

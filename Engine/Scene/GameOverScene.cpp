@@ -24,6 +24,17 @@ void GameOverScene::Initialize()
 	restartSize.x /= 2;
 	restartSize.y /= 2;
 
+	light = LightGroup::Create();
+	for (int i = 0; i < 3; i++) {
+		light->SetDirLightActive(i, false);
+		light->SetPointLightActive(i, false);
+		light->SetSpotLightActive(0, true);
+	}
+	light->SetCircleShadowActive(0, true);
+	Object3d::SetLight(light);
+
+
+
 	scoreRollTimer = 0;
 	for (int i = 0; i < 6; i++) {
 		scoreRollPos[i] = { -640, 0 };
@@ -42,8 +53,10 @@ void GameOverScene::Initialize()
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
+	ground->SetAmbient({ 0, 0, 0 });
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere->SetAmbient({ 0, 0, 0 });
 	celetialSphere->SetScale({ 15, 15, 15 });
 
 	//PostEffect‚Ì‰Šú‰»
@@ -89,6 +102,9 @@ void GameOverScene::Update()
 	titleBackAlpha = 1.0f;
 	restartAlpha = 1.0f;
 
+	light->Update();
+
+	//ƒV[ƒ“•ÏX
 	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
 		titleBackAlpha = 0.5f;
 		XMFLOAT2 spriteSize = titleBackSize;
@@ -96,6 +112,8 @@ void GameOverScene::Update()
 		spriteSize.y *= 0.9f;
 		titleBack->SetSize(spriteSize);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			ground->SetAmbient({ 1, 1, 1 });
+			celetialSphere->SetAmbient({ 1, 1, 1 });
 			SceneManager::SceneChange(SceneManager::Title);
 		}
 	}
@@ -106,9 +124,13 @@ void GameOverScene::Update()
 		spriteSize.y *= 0.9f;
 		restart->SetSize(spriteSize);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 1) {
+			ground->SetAmbient({ 1, 1, 1 });
+			celetialSphere->SetAmbient({ 1, 1, 1 });
 			SceneManager::SceneChange(SceneManager::Stage1_Rail);
 		}
 		else if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 2) {
+			ground->SetAmbient({ 1, 1, 1 });
+			celetialSphere->SetAmbient({ 1, 1, 1 });
 			SceneManager::SceneChange(SceneManager::Stage2_Rail);
 		}
 	}
@@ -145,6 +167,9 @@ void GameOverScene::Draw()
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 0, postEffectNo);
 	DirectXSetting::GetIns()->PostDraw();
@@ -159,6 +184,7 @@ void GameOverScene::Finalize()
 	safe_delete(ground);
 	safe_delete(titleBack);
 	safe_delete(restart);
+	safe_delete(light);
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}
