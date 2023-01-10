@@ -40,7 +40,11 @@ public: //‰æ‘œ–¼
 		Back,
 		Restart,
 		Boost,
-		Allow
+		Allow,
+		FaceWindow,
+		TextWindow,
+		OPE_NORMAL,
+		Bomb
 	};
 
 public: //ƒƒ“ƒoŠÖ”

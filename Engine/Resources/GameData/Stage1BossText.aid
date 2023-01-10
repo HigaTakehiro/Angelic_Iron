@@ -1,0 +1,32 @@
+#TEXT←テキスト
+#FACE←会話アイコンの顔グラフィック
+	#NONE←顔グラフィックなし
+	#OPE_NORMAL←通常時のオペレータ顔
+	#OPE_SURPRISE←驚いているオペレータ顔
+	#OPE_SMILE←喜んでいるオペレータ顔
+	#PLAYER←プレイヤー顔
+#SPEED←テキスト速度
+#WAIT←次のテキストが表示されるまでの待機時間
+#END←テキストウィンドウを閉じます
+
+FACE OPE_NORMAL
+TEXT 敵性MEC、こちらに気づきました
+SPEED 2
+WAIT 240
+
+FACE OPE_NORMAL
+TEXT 地上戦はWASDで移動、左クリックで攻撃、Rでリロードは変わりません
+SPEED 2
+WAIT 240
+
+FACE OPE_NORMAL
+TEXT それに加えてSHIFTでダッシュ、SPACEでジャンプできます
+SPEED 2
+WAIT 240
+
+FACE OPE_NORMAL
+TEXT 本体に攻撃を加え続け、撃破しましょう
+SPEED 2
+WAIT 240
+
+END

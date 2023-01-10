@@ -201,6 +201,7 @@ private: //メンバ変数
 	Sprite* hpUI[maxHp];
 	Sprite* bulletUI[maxBulletCount];
 	Sprite* reloadUI = nullptr;
+	Sprite* bomb[3] = {};
 
 	bool isShot = false;
 	bool isDead = false;
@@ -249,5 +250,7 @@ private: //メンバ変数
 	bool isStart;
 	//ボムフラグ
 	bool isBomb;
+	//ボム数
+	int bombCount;
 };
 

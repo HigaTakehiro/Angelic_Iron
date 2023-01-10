@@ -24,7 +24,7 @@ void RailScene::Initialize() {
 	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
-	restart = Sprite::Create(ImageManager::Restart, { 640, 600 });
+	restart = Sprite::Create(ImageManager::Restart, { 640, 620 });
 	restart->SetAnchorPoint({ 0.5f, 0.5f });
 	restartSize = restart->GetSize();
 	restartSize.x /= 2;
@@ -32,6 +32,23 @@ void RailScene::Initialize() {
 	scoreSprite = Sprite::Create(ImageManager::score, { 1180, 50 });
 	scoreSprite->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreSprite->SetSize({ scoreSprite->GetSize().x / 2.0f, scoreSprite->GetSize().y / 2.0f });
+	textWindow = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
+	textWindow->SetAlpha(0.4f);
+	textWindowSize = textWindow->GetSize();
+	textWindow->SetAnchorPoint({ 0.5f, 0.5f });
+	faceWindow = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
+	faceWindowSize = faceWindow->GetSize();
+	faceWindow->SetAlpha(0.4f);
+	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
+	operatorSize = { 160, 160 };
+	for (int i = 0; i < 3; i++) {
+		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
+		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeNormal[i]->SetSize({ 160, 160 });
+		opeNormal[i]->SetColor({ 2, 2, 2 });
+		opeNormal[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		//opeNormal[i]->SetAlpha(0.8f);
+	}
 	for (int i = 0; i < 6; i++) {
 		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
 		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
@@ -133,6 +150,9 @@ void RailScene::Initialize() {
 	//isClear = false;
 	//isWait = false;
 
+	textAddTimer = 0;
+	textSpeed = 1;
+
 	clearTimer = clearTime;
 
 	referenceCount = std::chrono::steady_clock::now();
@@ -148,7 +168,7 @@ void RailScene::Update() {
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
-	light->SetCircleShadowCasterPos(0, {player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
+	light->SetCircleShadowCasterPos(0, { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
 	light->SetDirLightDirection(0, { 0, -1, 0 });
 	light->SetCircleShadowDir(0, { 0, -1, 0 });
 	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
@@ -175,7 +195,21 @@ void RailScene::Update() {
 	}
 
 	EnemyDataUpdate();
-	TextMessageUpdate();
+	if (isMessageEnd) {
+		closeWindowTimer++;
+		if (closeWindowTimer >= closeWindowTime) {
+			closeWindowTimer = closeWindowTime;
+		}
+		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, textWindowSize.y);
+		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, faceWindowSize.y);
+		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, operatorSize.y);
+
+		textWindow->SetSize(textWindowSize);
+		faceWindow->SetSize(faceWindowSize);
+		for (int i = 0; i < 3; i++) {
+			opeNormal[i]->SetSize(operatorSize);
+		}
+	}
 
 	if (railCamera->GetIsEnd()) {
 		clearTimer--;
@@ -185,7 +219,7 @@ void RailScene::Update() {
 	}
 
 	for (int i = 0; i < 6; i++) {
-		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, {64, 64});
+		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
 	}
 
 	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
@@ -211,6 +245,8 @@ void RailScene::Update() {
 	}
 
 	if (!isPause) {
+		TextMessageUpdate();
+
 		celetialSphere->Update();
 		ground->Update();
 		for (std::unique_ptr<Object3d>& building : buildings) {
@@ -234,11 +270,11 @@ void RailScene::Update() {
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
 				bombParticle->Add(20, { bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
-					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1], 
-					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2] }, 
-					{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 
-					3.0f, 0.0f, {1.0f, 1.0f, 1.0f},
-					{1.0f, 1.0f, 1.0f}, 1.0f, 0.0f);
+					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
+					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2] },
+					{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
+					3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
+					{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
 			}
 		}
 
@@ -305,13 +341,13 @@ void RailScene::Update() {
 						bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 					}
 					bomb->OnCollision();
-					
+
 				}
 			}
 		}
 
 		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-			XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3]}; //ワールド座標
+			XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
 			XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 			raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
@@ -406,10 +442,10 @@ void RailScene::Update() {
 		}
 	}
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	}
+	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	//	SceneManager::AddScore(score);
+	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	//}
 
 	//player->SetEnemies(enemies);
 }
@@ -418,6 +454,20 @@ void RailScene::Draw() {
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
+
+	opeAnimeTimer++;
+	if (opeAnimeTimer >= opeAnimeTime) {
+		opeAnimeTimer = 0;
+		opeAnimeCount++;
+		if (opeAnimeCount >= 3) {
+			opeAnimeCount = 0;
+		}
+	}
+
+	if (isTextDraw) {
+		opeAnimeCount = 0;
+		opeAnimeTimer = 0;
+	}
 
 	if (player->GetIsDamage()) {
 		postEffectNo = PostEffect::DAMAGE;
@@ -473,6 +523,12 @@ void RailScene::Draw() {
 	for (int i = 0; i < 6; i++) {
 		scoreNumber[i]->Draw();
 	}
+	if (!isPause) {
+		textWindow->Draw();
+		faceWindow->Draw();
+		opeNormal[opeAnimeCount]->Draw();
+	}
+
 	player->SpriteDraw();
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -485,6 +541,7 @@ void RailScene::Draw() {
 		titleBack->Draw();
 		back->Draw();
 		restart->Draw();
+
 	}
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
@@ -492,6 +549,9 @@ void RailScene::Draw() {
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	if (!isPause) {
+		TextMessageDraw();
+	}
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
@@ -518,6 +578,12 @@ void RailScene::Finalize() {
 	safe_delete(light);
 	safe_delete(bombParticle);
 	safe_delete(enemyParticle);
+	safe_delete(textDraw);
+	safe_delete(textWindow);
+	safe_delete(faceWindow);
+	for (int i = 0; i < 3; i++) {
+		safe_delete(opeNormal[i]);
+	}
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
@@ -762,39 +828,87 @@ void RailScene::TextMessageUpdate()
 {
 	std::string line;
 	std::string messageData;
-	std::wstring massageData;
-	bool isPos = false;
-	bool isRot = false;
-	bool isStyle = false;
+	std::wstring messageDataW;
 
 	if (isMessageWait) {
-		waitTimer--;
-		if (waitTimer <= 0) {
+		if (isTextDraw) {
+			waitMessageTimer--;
+		}
+		if (waitMessageTimer <= 0) {
 			isMessageWait = false;
+			isTextDraw = false;
+			textCount = 0;
+			message.clear();
+			drawMessage.clear();
 		}
 		return;
 	}
 
 	while (getline(textData, line)) {
 		std::istringstream line_stream(line);
-		std::wstringstream text_stream;
 		std::string word;
 		//半角区切りで文字列を取得
-		getline(text_stream, word, ' ');
+		getline(line_stream, word, ' ');
 		if (word == "#") {
 			continue;
 		}
-		if (word == "TEXT1") {
-			line_stream;
+		if (word == "TEXT") {
+			line_stream >> messageData;
+			messageDataW = StringToWstring(messageData);
+			message = messageDataW;
 		}
-		if (word == "Wait") {
-			isWait = true;
+		if (word == "SPEED") {
+			line_stream >> textSpeed;
+		}
+		if (word == "WAIT") {
+			isMessageWait = true;
 			line_stream >> waitMessageTimer;
-
 			break;
 		}
-
+		if (word == "END") {
+			isMessageEnd = true;
+		}
 	}
+}
+
+void RailScene::TextMessageDraw()
+{
+	if (textSpeed <= 0) {
+		textSpeed = 1;
+	}
+
+	D2D1_RECT_F textDrawPos = {
+		200, 560, 950, 700
+	};
+
+	textAddTimer++;
+	if (textAddTimer >= textSpeed) {
+		textAddTimer = 0;
+		if (textCount < message.size()) {
+			drawMessage += message.substr(textCount, 1);
+			textCount++;
+		}
+
+		if (textCount >= message.size()) {
+			isTextDraw = true;
+		}
+	}
+
+	textDraw->Draw("default", "default", drawMessage, textDrawPos);
+}
+
+std::wstring RailScene::StringToWstring(const std::string& text)
+{
+	//文字サイズを取得
+	int iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
+	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
+	//SJISからwstringに変換
+	MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, cpUCS2, iBufferSize);
+	std::wstring oRet(cpUCS2, cpUCS2 + iBufferSize - 1);
+
+	delete[] cpUCS2;
+
+	return oRet;
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {

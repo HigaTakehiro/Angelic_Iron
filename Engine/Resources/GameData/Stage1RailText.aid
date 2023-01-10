@@ -1,7 +1,4 @@
-#"Picture.png"←画像ファイルを表示する場合は""で囲む
-#TEXT1←1行目のテキスト
-#TEXT2←2行目のテキスト
-#TEXT3←3行目のテキスト
+#TEXT←テキスト
 #FACE←会話アイコンの顔グラフィック
 	#NONE←顔グラフィックなし
 	#OPE_NORMAL←通常時のオペレータ顔
@@ -10,51 +7,51 @@
 	#PLAYER←プレイヤー顔
 #SPEED←テキスト速度
 #WAIT←次のテキストが表示されるまでの待機時間
+#END←テキストウィンドウを閉じます
 
 FACE OPE_NORMAL
-TEXT1 これより作戦を開始します
+TEXT これより作戦を開始します
 SPEED 2
-wAIT 60
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 操作方法を確認しますね
+TEXT 操作方法を確認しますね
 SPEED 2
-WAIT 60
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 WASDで移動できます
+TEXT WASDで移動し、Rでリロードすることができます
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 攻撃はマウスで狙いをつけ、左クリックで発射できます
+TEXT 攻撃はマウスで狙いをつけ、左クリックで発射できます
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 右クリックでボムモードに移行できます
+TEXT 右クリックでボムモードに移行できます
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 ボムモード中に敵に狙いを済ますとロックオンすることができます
-TEXT2 そのまま左クリックを押すことでボム攻撃することができます
+TEXT ボムモード中に敵に狙いを済ますとロックオンすることができます。そのまま左クリックを押すことでボム攻撃することができます
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 ただしボム攻撃には回数制限があります
-TEXT2 ピンチの時に使うとよいでしょう
+TEXT ただしボム攻撃には回数制限があります。ピンチの時に使うとよいでしょう
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE OPE_NORMAL
-TEXT1 さて、今回の作戦は市街地に出現したMECの撃破です
+TEXT さて、今回の作戦は市街地に出現したMECの撃破です
 SPEED 2
-WAIT 30
+WAIT 240
 
 FACE_OPE_NORMAL
-TEXT1 住民の避難は完了しているので銃器の使用及びブーストダッシュを許可します
-TEXT2 ただし周囲への被害を考慮してボム攻撃は使用できませんのでお気をつけて
+TEXT 住民の避難は完了しているので地上での銃器の使用及びブーストダッシュを許可します。ただしボム攻撃は使用できませんのでお気をつけて
 SPEED 2
-WAIT 30
+WAIT 300
+
+END

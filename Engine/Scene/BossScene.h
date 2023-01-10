@@ -9,6 +9,8 @@
 #include "FirstBoss.h"
 #include "Particle2d.h"
 #include "LightGroup.h"
+#include "TextDraw.h"
+#include <fstream>
 
 class BossScenePlayer;
 class BaseBoss;
@@ -43,6 +45,34 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="bossEnemy"></param>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> bosBullet);
+
+	/// <summary>
+	/// 会話データの読み込み
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadTextMessage(const std::string fileName);
+
+	/// <summary>
+	/// 読み込んだテキストデータの更新
+	/// </summary>
+	void TextMessageUpdate();
+
+	/// <summary>
+	/// テキストデータの描画
+	/// </summary>
+	void TextMessageDraw();
+
+private: //メンバ関数
+	/// <summary>
+	/// string型をwstring型に変換する(UTF-8)
+	/// </summary>
+	/// <param name="text">変換したいテキスト</param>
+	/// <returns>wstring型のテキスト</returns>
+	std::wstring StringToWstring(const std::string& text);
+
+private: //静的メンバ変数
+	static const int32_t opeAnimeTime = 6;
+	static const int32_t closeWindowTime = 120;
 
 private: //メンバ変数
 
@@ -80,6 +110,32 @@ private: //メンバ変数
 	Sprite* back = nullptr;
 	Sprite* scoreText = nullptr;
 	Sprite* scoreNumber[6] = {};
+	//テキスト用変数
+	Sprite* faceWindow = nullptr;
+	Sprite* textWindow = nullptr;
+	Sprite* opeNormal[3] = {};
+	XMFLOAT2 textWindowSize;
+	XMFLOAT2 faceWindowSize;
+	XMFLOAT2 operatorSize;
+
+	TextDraw* textDraw = nullptr;
+	int textSpeed;
+	int textCount;
+	int textAddTimer;
+
+	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
+
+	bool isMessageWait; //メッセージデータ読み込み待機フラグ
+	bool isMessageEnd; //メッセージ描画終了フラグ
+	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
+	bool isTextDraw; //メッセージデータ出力完了フラグ
+
+	std::stringstream textData; //メッセージデータ格納用文字列
+	std::wstring drawMessage; //メッセージ内容出力用文字列
+	std::wstring message; //メッセージ内容格納文字列
+
+	int32_t opeAnimeTimer;
+	int opeAnimeCount;
 
 	//BaseBoss* boss;
 	FirstBoss* firstBoss;

@@ -150,13 +150,6 @@ void TitleScene::Update()
 		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
 	}
 
-	float lightSpeed = 10.0f;
-	if (KeyInput::GetIns()->PushKey(DIK_W) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { playerPos.y += lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_W)) { playerPos.z -= lightSpeed; }
-	if (KeyInput::GetIns()->PushKey(DIK_S) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) { playerPos.y -= lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_S)) { playerPos.z += lightSpeed; }
-	if (KeyInput::GetIns()->PushKey(DIK_A)) { playerPos.x += lightSpeed; }
-	else if (KeyInput::GetIns()->PushKey(DIK_D)) { playerPos.x -= lightSpeed; }
 	light->SetDirLightDirection(0, { 0, -1, 0 });
 	light->SetCircleShadowDir(0, {0, -1, 0});
 	light->SetCircleShadowCasterPos(0, playerPos);
@@ -405,7 +398,7 @@ void TitleScene::Update()
 		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
-			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			//SceneManager::SceneChange(SceneManager::Stage2_Rail);
 		}
 	}
 }
@@ -429,10 +422,10 @@ void TitleScene::Draw()
 	ground->Draw();
 	celetialSphere->Draw();
 	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
-	testSquare->Draw();
+	//testSquare->Draw();
 	Object3d::PostDraw();
 
-	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	//particle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//particle2->Draw(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(UI等)
@@ -446,7 +439,7 @@ void TitleScene::Draw()
 
 	if (isStageSelect && !isManual) {
 		stage1->Draw();
-		stage2->Draw();
+		//stage2->Draw();
 		manualButton->Draw();
 	}
 
@@ -455,7 +448,7 @@ void TitleScene::Draw()
 	}
 	title->Draw();
 	aim->Draw();
-	debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
+	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 
 	Sprite::PostDraw();
 
@@ -466,17 +459,6 @@ void TitleScene::Draw()
 	);
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
-	static int textSpeed = 0;
-	static int textCount = 0;
-	const int textTime = 2;
-	static std::wstring text = L"あ";
-	textSpeed++;
-	if (textSpeed >= textTime && textCount < 100) {
-		textSpeed = 0;
-		textCount += 1;
-		text += L"あ";
-	}
-	textDraw->Draw("default", "default", text, rectangle2);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);

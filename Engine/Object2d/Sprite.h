@@ -143,6 +143,15 @@ public: //メンバ関数
 	/// <param name="isFlipY">上下反転</param>
 	void SetIsFlipY(bool isFlipY);
 	/// <summary>
+	/// スプライト色の設定
+	/// </summary>
+	/// <param name="color">スプライト色</param>
+	void SetColor(XMFLOAT3 color) {
+		this->color.x = color.x;
+		this->color.y = color.y;
+		this->color.z = color.z;
+	}
+	/// <summary>
 	/// アルファ値の設定
 	/// </summary>
 	/// <param name="alpha"></param>

@@ -32,6 +32,11 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	player->SetRotation(playerRot);
 	player->SetCameraParent(camera);
 
+	for (int i = 0; i < 3; i++) {
+		bomb[i] = Sprite::Create(ImageManager::Bomb, { 1050.0f + (float)(i * 80), 600.0f });
+		bomb[i]->SetAnchorPoint({ 0.5f, 0.5f });
+	}
+
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
 	gun->SetPosition(Vector3(1, 0.6, 1.1));
 	gun->SetParent(player);
@@ -41,6 +46,8 @@ void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
 	reloadTimer = reloadTime;
 	damageEffectTimer = damageEffectTime;
 	shotCoolTimer = 0;
+
+	bombCount = 3;
 
 	this->clearTime = clearTime;
 	clearTimer = this->clearTime;
@@ -57,6 +64,9 @@ void Player::Finalize() {
 	safe_delete(gun);
 	safe_delete(aim);
 	safe_delete(playerUI);
+	for (int i = 0; i < 3; i++) {
+		safe_delete(bomb[i]);
+	}
 	for (int i = 0; i < maxHp; i++) {
 		safe_delete(hpUI[i]);
 	}
@@ -109,18 +119,18 @@ void Player::Update(bool isClear) {
 			bulletCount = noneBulletCount;
 		}
 
-		if (isShot && isStart && hpCount > deadHp) {
-			Shot();
-		}
-
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK) && bombCount > 0) {
 			isBomb = !isBomb;
 			for (std::unique_ptr<BaseEnemy>& enemy : railScene->GetEnemyObj()) {
 				enemy->SetTarget(false);
 			}
 		}
+
 		if (isBomb && MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			BombShot();
+		}
+		else if (isShot && isStart && hpCount > deadHp && !isBomb) {
+			Shot();
 		}
 
 		if (isDamage) {
@@ -151,6 +161,9 @@ void Player::SpriteDraw() {
 	}
 	for (int i = 0; i < bulletCount; i++) {
 		bulletUI[i]->Draw();
+	}
+	for (int i = 0; i < bombCount; i++) {
+		bomb[i]->Draw();
 	}
 	if (isReload) {
 		reloadUI->Draw();
@@ -265,6 +278,7 @@ void Player::BombShot() {
 		}
 	}
 	
+	bombCount--;
 	isBomb = false;
 }
 

@@ -33,6 +33,7 @@
 #include "HomingEnemy.h"
 #include "LightGroup.h"
 #include "ParticleManager.h"
+#include "TextDraw.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -102,6 +103,11 @@ public: //メンバ関数
 	void TextMessageUpdate();
 
 	/// <summary>
+	/// テキストデータの描画
+	/// </summary>
+	void TextMessageDraw();
+
+	/// <summary>
 	/// 敵弾を追加
 	/// </summary>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
@@ -125,10 +131,12 @@ public: //メンバ関数
 
 private: //メンバ関数
 
-	///// <summary>
-	///// リセット処理
-	///// </summary>
-	//void Reset();
+	/// <summary>
+	/// string型をwstring型に変換する(UTF-8)
+	/// </summary>
+	/// <param name="text">変換したいテキスト</param>
+	/// <returns>wstring型のテキスト</returns>
+	std::wstring StringToWstring(const std::string& text);
 
 	/// <summary>
 	/// ロックオン距離か判定
@@ -140,6 +148,8 @@ private: //メンバ関数
 
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
+	static const int32_t opeAnimeTime = 6;
+	static const int32_t closeWindowTime = 120;
 
 private: //メンバ変数
 	WinApp* winApp = nullptr; //ウィンドウ設定クラス
@@ -165,10 +175,16 @@ private: //メンバ変数
 	Sprite* back = nullptr;
 	Sprite* restart = nullptr;
 	Sprite* scoreSprite = nullptr;
+	Sprite* faceWindow = nullptr;
+	Sprite* textWindow = nullptr;
+	Sprite* opeNormal[3] = {};
 	Sprite* scoreNumber[6] = {};
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;
 	XMFLOAT2 restartSize;
+	XMFLOAT2 textWindowSize;
+	XMFLOAT2 faceWindowSize;
+	XMFLOAT2 operatorSize;
 
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト
@@ -178,7 +194,11 @@ private: //メンバ変数
 	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
 	LightGroup* light = nullptr;
 
-	//マップチップ用変数
+	//テキスト描画用変数
+	TextDraw* textDraw = nullptr;
+	int textSpeed;
+	int textCount;
+	int textAddTimer;
 
 	//FBX用変数
 	FBXObject3d* object1 = nullptr; //FBXテストオブジェクト
@@ -188,20 +208,26 @@ private: //メンバ変数
 	bool isClear; //クリアシーンフラグ
 	bool isWait; //エネミー読み込み待機フラグ
 	bool isMessageWait; //メッセージデータ読み込み待機フラグ
+	bool isTextDraw; //メッセージデータ出力完了フラグ
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	bool isPause; //ポーズフラグ
 	bool isTitleBack; //タイトル画面変更フラグ
+	bool isMessageEnd; //メッセージ描画終了フラグ
 	bool isRestart;
 	int32_t waitTimer; //エネミー読み込み待機時間
 	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
+	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 	std::stringstream textData; //メッセージデータ格納用文字列
+	std::wstring drawMessage; //メッセージ内容出力用文字列
 	std::wstring message; //メッセージ内容格納文字列
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
 	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 
 	int score;
+	int32_t opeAnimeTimer;
+	int opeAnimeCount;
 
 	PostEffect::PostEffectNo postEffectNo;
 };

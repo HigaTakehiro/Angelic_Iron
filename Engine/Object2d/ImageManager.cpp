@@ -30,4 +30,8 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(Restart, L"Engine/Resources/Images/Restart.png");
 	Sprite::LoadTexture(Boost, L"Engine/Resources/Images/Boost.png");
 	Sprite::LoadTexture(Allow, L"Engine/Resources/Images/Allow.png");
+	Sprite::LoadTexture(TextWindow, L"Engine/Resources/Images/Text_Window.png");
+	Sprite::LoadTexture(FaceWindow, L"Engine/Resources/Images/Face_Window.png");
+	Sprite::LoadTexture(OPE_NORMAL, L"Engine/Resources/Images/Operator_Normal.png");
+	Sprite::LoadTexture(Bomb, L"Engine/Resources/Images/Bomb.png");
 }
