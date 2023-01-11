@@ -10,48 +10,48 @@
 #END←テキストウィンドウを閉じます
 
 FACE OPE_NORMAL
-TEXT これより作戦を開始します
+TEXT これより作戦を開始します。
 SPEED 2
-WAIT 240
+WAIT 40
 
 FACE OPE_NORMAL
-TEXT 操作方法を確認しますね
+TEXT 操作方法を確認しますね。
 SPEED 2
-WAIT 240
+WAIT 40
 
 FACE OPE_NORMAL
-TEXT WASDで移動し、Rでリロードすることができます
+TEXT WASDで移動することができます。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE OPE_NORMAL
-TEXT 攻撃はマウスで狙いをつけ、左クリックで発射できます
+TEXT 攻撃はマウスで狙いをつけ、弾がある限り　　　　左クリックで発射できます。　　　　　　　　　　また弾はRでリロードすることができます。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE OPE_NORMAL
-TEXT 右クリックでボムモードに移行できます
+TEXT 右クリックでボムモードに移行できます。また、　再び右クリックを押すことでキャンセルすることができます。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE OPE_NORMAL
-TEXT ボムモード中に敵に狙いを済ますとロックオンすることができます。そのまま左クリックを押すことでボム攻撃することができます
+TEXT ボムモード中に敵に狙いを済ますとロックオンすることができます。そのまま左クリックを押すことでボム攻撃することができます。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE OPE_NORMAL
-TEXT ただしボム攻撃には回数制限があります。ピンチの時に使うとよいでしょう
+TEXT ただしボム攻撃には回数制限があります。ピンチの時に使うとよいでしょう。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE OPE_NORMAL
-TEXT さて、今回の作戦は市街地に出現したMECの撃破です
+TEXT さて、今回の作戦は市街地に出現したMECの撃破です。
 SPEED 2
-WAIT 240
+WAIT 120
 
 FACE_OPE_NORMAL
-TEXT 住民の避難は完了しているので地上での銃器の使用及びブーストダッシュを許可します。ただしボム攻撃は使用できませんのでお気をつけて
+TEXT 住民の避難は完了しているので地上での銃器の使用及びブーストダッシュを許可します。ただし　　　　　ボム攻撃は使用できませんのでお気をつけて。
 SPEED 2
-WAIT 300
+WAIT 160
 
 END

@@ -14,7 +14,7 @@
 #include <DirectXMath.h>
 #include <chrono>
 #include <thread>
-#include <unordered_map>
+#include <map>
 #include "WinApp.h"
 
 class DirectXSetting final
@@ -90,12 +90,12 @@ public: //メンバ関数
 	/// SolidColorBrushの取得
 	/// </summary>
 	/// <returns>SolidColorBrush連想配列</returns>
-	std::unordered_map<std::string, ComPtr<ID2D1SolidColorBrush>> GetColorBrushes() { return solidColorBlushes; }
+	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> GetColorBrushes() { return solidColorBlushes; }
 	/// <summary>
 	/// テキストフォーマットの取得
 	/// </summary>
 	/// <returns>テキストフォーマット連想配列</returns>
-	std::unordered_map<std::string, ComPtr<IDWriteTextFormat>> GetTextFormats() { return textFormats; }
+	std::map<std::string, ComPtr<IDWriteTextFormat>> GetTextFormats() { return textFormats; }
 	/// <summary>
 	/// SolidColorBlushを登録する
 	/// </summary>
@@ -141,9 +141,9 @@ private: //メンバ変数
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 	//ソリッドカラーブラシ
-	std::unordered_map<std::string, ComPtr<ID2D1SolidColorBrush>> solidColorBlushes;
+	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> solidColorBlushes;
 	//テキストフォーマット
-	std::unordered_map<std::string, ComPtr<IDWriteTextFormat>> textFormats;
+	std::map<std::string, ComPtr<IDWriteTextFormat>> textFormats;
 	//FPS固定用記録時間
 	std::chrono::steady_clock::time_point reference;
 

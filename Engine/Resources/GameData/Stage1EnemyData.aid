@@ -6,25 +6,25 @@
 #HOM　←追尾弾を発射する敵タイプ
 #TAG ←自機狙い弾を発射する敵タイプ
 
-Wait 30
+Wait 720
 
 #Enemy1
 
-Pos 50.0 50.0 50.0
+Pos 50.0 50.0 0.0
 Rot 0.0 0.0 0.0
 Type STR
 Wait 0
 
 #Enemy2
 
-Pos 50.0 30.0 50.0
+Pos 50.0 30.0 0.0
 Rot 0.0 0.0 0.0
 Type HOM
 Wait 0
 
 #Enemy3
 
-Pos 50.0 70.0 50.0
+Pos 50.0 70.0 0.0
 Rot 0.0 0.0 0.0
 Type HOM
 Wait 500
@@ -59,26 +59,26 @@ Wait 1000
 
 #Enemy8
 
-Pos -300.0 200.0 190.0
+Pos -300.0 180.0 190.0
 Rot 0.0 180.0 0.0
 Type HOM
 
 #Enemy9
-Pos -275.0 200.0 190.0
+Pos -275.0 180.0 190.0
 Rot 0.0 180.0 0.0
 Type HOM
 
 #Enemy10
-Pos -250.0 200.0 190.0
+Pos -250.0 180.0 190.0
 Rot 0.0 180.0 0.0
 Type HOM
 
 #Enemy11
-Pos -275.0 180.0 190.0
+Pos -275.0 160.0 190.0
 Rot 0.0 180.0 0.0
 Type STR
 
 #Enemy12
-Pos -275.0 220.0 190.0
+Pos -275.0 200.0 190.0
 Rot 0.0 180.0 0.0
 Type STR

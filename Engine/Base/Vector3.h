@@ -42,3 +42,9 @@ const Vector3 operator/(const Vector3& v, float s);
 //補間関数
 //線形補間(1次関数補間)
 const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);
+
+//線形補間(イーズイン)
+const Vector3 easeIn(const Vector3& start, const Vector3& end, const float t);
+
+//線形補間(イーズアウト)
+const Vector3 easeOut(const Vector3& start, const Vector3& end, const float t);

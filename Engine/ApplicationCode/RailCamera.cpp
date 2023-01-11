@@ -18,12 +18,12 @@ void RailCamera::Update(float delayCount) {
 	if (this->delayCount >= delayCount) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
 			if (isStop) {
-				//isStop = false;
+				isStop = false;
 				startTime = GetTickCount64();
 				nowCount = GetTickCount64();
 			}
 			else {
-				//isStop = true;
+				isStop = true;
 
 			}
 		}

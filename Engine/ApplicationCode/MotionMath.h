@@ -35,5 +35,14 @@ public: //メンバ関数
 	/// <param name="axis">どの軸を中心に回転させるか</param>
 	/// <returns>座標</returns>
 	Vector3 CircularMotion(const Vector3& centerPos, const Vector3& rotPos, float angle, const float length, const Axis axis);
+
+	/// <summary>
+	/// 一次線形補間
+	/// </summary>
+	/// <param name="startPos">開始地点</param>
+	/// <param name="endPos">終了地点</param>
+	/// <param name="time">時間の割合</param>
+	/// <returns>座標</returns>
+	Vector3 Leap(const Vector3& startPos, const Vector3& endPos, const float timeRate);
 };
 

@@ -441,7 +441,6 @@ void BossScene::TextMessageUpdate()
 		}
 		if (waitMessageTimer <= 0) {
 			isMessageWait = false;
-			isTextDraw = false;
 			textCount = 0;
 			message.clear();
 			drawMessage.clear();
@@ -487,6 +486,7 @@ void BossScene::TextMessageDraw()
 	};
 
 	textAddTimer++;
+	isTextDraw = false;
 	if (textAddTimer >= textSpeed) {
 		textAddTimer = 0;
 		if (textCount < message.size()) {

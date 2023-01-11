@@ -121,6 +121,7 @@ private: //ƒƒ“ƒo•Ï”
 	int prePageNumber;
 
 	bool isStageSelect;
+	bool isStageChoice;
 	bool isManual;
 	bool isStage1;
 	bool isStage2;

@@ -224,8 +224,9 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		stage1->SetSize(spriteSize);
 		stage1->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isStage1 = true;
+			isStageChoice = true;
 		}
 	}
 	else {
@@ -239,8 +240,9 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		stage2->SetSize(spriteSize);
 		stage2->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isStage2 = true;
+			isStageChoice = true;
 		}
 	}
 	else {
@@ -254,7 +256,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		manualButton->SetSize(spriteSize);
 		manualButton->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isManual = true;
 		}
 	}
@@ -387,7 +389,14 @@ void TitleScene::Update()
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	if (isStage1) {
 		startTimer++;
-		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
+		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
+		Vector3 pointA = { -30, 0, 0 };
+		Vector3 pointB = { -30.0f, 0.0f, 200.0f };
+		Vector3 pointC = { -30, 300, 200 };
+		Vector3 easingPointA = easeIn(pointA, pointB, timeRate);
+		Vector3 easingPointB = easeIn(pointB, pointC, timeRate);
+		playerPos = easeIn(easingPointA, easingPointB, timeRate);
+		cameraPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, -100, cameraPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
 			SceneManager::SceneChange(SceneManager::Stage1_Rail);
@@ -398,7 +407,7 @@ void TitleScene::Update()
 		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
-			//SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			SceneManager::SceneChange(SceneManager::Stage2_Rail);
 		}
 	}
 }
@@ -437,9 +446,9 @@ void TitleScene::Draw()
 		close->Draw();
 	}
 
-	if (isStageSelect && !isManual) {
+	if (isStageSelect && !isManual && !isStageChoice) {
 		stage1->Draw();
-		//stage2->Draw();
+		stage2->Draw();
 		manualButton->Draw();
 	}
 

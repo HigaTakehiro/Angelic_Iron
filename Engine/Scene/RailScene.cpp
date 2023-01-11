@@ -24,7 +24,7 @@ void RailScene::Initialize() {
 	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
 	back->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize = back->GetSize();
-	restart = Sprite::Create(ImageManager::Restart, { 640, 620 });
+	restart = Sprite::Create(ImageManager::Restart, { 640, 600 });
 	restart->SetAnchorPoint({ 0.5f, 0.5f });
 	restartSize = restart->GetSize();
 	restartSize.x /= 2;
@@ -152,6 +152,8 @@ void RailScene::Initialize() {
 
 	textAddTimer = 0;
 	textSpeed = 1;
+	textCount = 0;
+	isTextDraw = false;
 
 	clearTimer = clearTime;
 
@@ -174,6 +176,20 @@ void RailScene::Update() {
 	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
 	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
 	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+
+	opeAnimeTimer++;
+	if (opeAnimeTimer >= opeAnimeTime) {
+		opeAnimeTimer = 0;
+		opeAnimeCount++;
+		if (opeAnimeCount >= 3) {
+			opeAnimeCount = 0;
+		}
+	}
+
+	if (isTextDraw) {
+		opeAnimeCount = 0;
+		opeAnimeTimer = 0;
+	}
 
 	char xPos[256];
 	char yPos[256];
@@ -454,20 +470,6 @@ void RailScene::Draw() {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
-
-	opeAnimeTimer++;
-	if (opeAnimeTimer >= opeAnimeTime) {
-		opeAnimeTimer = 0;
-		opeAnimeCount++;
-		if (opeAnimeCount >= 3) {
-			opeAnimeCount = 0;
-		}
-	}
-
-	if (isTextDraw) {
-		opeAnimeCount = 0;
-		opeAnimeTimer = 0;
-	}
 
 	if (player->GetIsDamage()) {
 		postEffectNo = PostEffect::DAMAGE;
@@ -836,7 +838,6 @@ void RailScene::TextMessageUpdate()
 		}
 		if (waitMessageTimer <= 0) {
 			isMessageWait = false;
-			isTextDraw = false;
 			textCount = 0;
 			message.clear();
 			drawMessage.clear();
@@ -873,6 +874,7 @@ void RailScene::TextMessageUpdate()
 
 void RailScene::TextMessageDraw()
 {
+
 	if (textSpeed <= 0) {
 		textSpeed = 1;
 	}
@@ -882,6 +884,7 @@ void RailScene::TextMessageDraw()
 	};
 
 	textAddTimer++;
+	isTextDraw = false;
 	if (textAddTimer >= textSpeed) {
 		textAddTimer = 0;
 		if (textCount < message.size()) {
