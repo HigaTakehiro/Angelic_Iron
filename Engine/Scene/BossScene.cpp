@@ -44,7 +44,7 @@ void BossScene::Initialize()
 	postEffectNo = PostEffect::NORMAL;
 
 	player = new BossScenePlayer;
-	player->Initialize(camera, Sound::GetIns());
+	//player->Initialize(camera, Sound::GetIns());
 	player->SetBossScene(this);
 
 	int stageNo = 0;

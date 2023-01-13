@@ -163,6 +163,7 @@
     <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
+    <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
     <ClCompile Include="Engine\Base\JsonLoader.cpp" />
     <ClCompile Include="Engine\Base\MatCalc.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\RailCamera.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
+    <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
     <ClInclude Include="Engine\Base\Easing.h" />
     <ClInclude Include="Engine\Base\JsonLoader.h" />

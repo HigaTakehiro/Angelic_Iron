@@ -154,8 +154,8 @@ void BossScenePlayer::Finalize() {
 void BossScenePlayer::OnCollision()
 {
 	hpCount--;
-	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
 	isDamage = true;
 }
 
@@ -351,7 +351,7 @@ void BossScenePlayer::AimUpdate()
 	if (bulletCount <= noneBullet) {
 		if (!isReload) {
 			isReload = true;
-			sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
+			//sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
 		}
 		reloadTimer++;
 		if (reloadTimer >= reloadTime) {
@@ -383,7 +383,7 @@ void BossScenePlayer::Shot(Vector3 mouse3dPos)
 	bossScene->AddPlayerBullet(std::move(newBullet));
 
 	bulletCount--;
-	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
 }
 
 void BossScenePlayer::DamageEffect()

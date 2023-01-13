@@ -213,6 +213,9 @@
     <ClCompile Include="Engine\Object2d\TextDraw.cpp">
       <Filter>ソース ファイル\Object2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Audio\SoundManager.cpp">
+      <Filter>ソース ファイル\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object2d\TextDraw.h">
       <Filter>ソース ファイル\Object2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio\SoundManager.h">
+      <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

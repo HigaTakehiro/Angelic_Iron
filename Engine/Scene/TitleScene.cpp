@@ -2,6 +2,8 @@
 
 void TitleScene::Initialize()
 {
+	SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.2f);
+
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
 
@@ -384,6 +386,10 @@ void TitleScene::Update()
 	else {
 		manualTimer = 0;
 		manualSize = { 0.0f, 0.0f };
+	}
+
+	if (isStageChoice) {
+		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
 	}
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦

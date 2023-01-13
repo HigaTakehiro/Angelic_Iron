@@ -15,7 +15,7 @@
 #include "MatCalc.h"
 #include "ModelManager.h"
 #include "PlayerBullet.h"
-#include "Sound.h"
+#include "SoundManager.h"
 #include "ImageManager.h"
 #include "Bomb.h"
 #include "BaseEnemy.h"
@@ -34,7 +34,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Initialize(Camera* camera, Sound* sound, float clearTime);
+	void Initialize(Camera* camera, float clearTime);
 
 	/// <summary>
 	/// プレイヤー
@@ -217,7 +217,6 @@ private: //メンバ変数
 	Vector3 aimPos3d;
 	Camera* camera;
 	RailScene* railScene;
-	Sound* sound;
 	//std::list<std::unique_ptr<Enemy>> enemies;
 
 	//残弾数

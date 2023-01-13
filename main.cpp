@@ -9,6 +9,7 @@
 #include "BaseScene.h"
 #include "SceneManager.h"
 #include "LightGroup.h"
+#include "SoundManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -21,7 +22,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WinApp* winApp = nullptr;
 	DirectXSetting* dxCommon = DirectXSetting::GetIns();
 	SceneManager* scene = nullptr;
-	Sound* sound = Sound::GetIns();
+	Sound* sound = nullptr;
 
 	//WindowsAPIの初期化
 	winApp = new WinApp();
@@ -37,10 +38,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	PadInput::GetIns()->Initialize(winApp);
 
 	//Soundの初期化
+	sound = new Sound();
 	if (!sound->Initialize()) {
 		assert(0);
 		return 1;
 	}
+	SoundManager::GetIns()->Initialize(sound);
 
 	//Sprite & DebugTextの初期化
 	Sprite::StaticInitialize(dxCommon->GetDev(), WinApp::window_width, WinApp::window_height);

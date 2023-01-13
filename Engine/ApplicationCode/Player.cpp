@@ -3,9 +3,8 @@
 #include "MotionMath.h"
 #include "Easing.h"
 
-void Player::Initialize(Camera* camera, Sound* sound, float clearTime) {
+void Player::Initialize(Camera* camera, float clearTime) {
 	this->camera = camera;
-	this->sound = sound;
 
 	aim = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
@@ -98,7 +97,7 @@ void Player::Update(bool isClear) {
 		}
 		if (bulletCount <= noneBulletCount && !isReload) {
 			isReload = true;
-			sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
+			//sound->PlayWave("Engine/Resources/Sound/SE/reload.wav", false, 0.05f);
 		}
 		if (isReload) {
 			reloadTimer--;
@@ -264,7 +263,7 @@ void Player::Shot() {
 
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;
-	sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
 	isShot = false;
 }
 
@@ -329,8 +328,8 @@ void Player::AimUpdate() {
 
 void Player::OnCollision() {
 	hpCount--;
-	sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
 	isDamage = true;
 }
 

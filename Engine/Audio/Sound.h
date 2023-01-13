@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <xaudio2.h>
 #include <wrl.h>
+#include <map>
+#include <vector>
 
 /// <summary>
 /// オーディオコールバック
@@ -33,34 +35,8 @@ public:
 /// <summary>
 /// オーディオ
 /// </summary>
-class Sound final
+class Sound
 {
-private:
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Sound() = default;
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Sound() = default;
-	/// <summary>
-    /// コピーコンストラクタを禁止
-    /// </summary>
-	Sound(const Sound& obj) = delete;
-
-	/// <summary>
-	/// 代入演算子を禁止
-	/// </summary>
-	Sound& operator=(const Sound& obj) = delete;
-
-public: //静的メンバ関数
-	/// <summary>
-	/// インスタンスを取得
-	/// </summary>
-	/// <returns>インスタンス</returns>
-	static Sound* GetIns();
-
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -86,6 +62,13 @@ public: // サブクラス
 		WAVEFORMAT	fmt;   // 波形フォーマット
 	};
 
+	struct SoundData {
+		IXAudio2SourceVoice* sound;
+		Chunk data;
+		char* pBuffer;
+		bool isPlay;
+	};
+
 public: // メンバ関数
 
 	/// <summary>
@@ -94,8 +77,27 @@ public: // メンバ関数
 	/// <returns>成否</returns>
 	bool Initialize();
 
-	// サウンドファイルの読み込みと再生
-	void PlayWave(const char* filename, bool roop, float volume);
+	/// <summary>
+	/// BGMを再生
+	/// </summary>
+	/// <param name="soundData">再生したい音データ</param>
+	/// <param name="isRoop">ループフラグ</param>
+	/// <param name="volume">bgm再生</param>
+	void PlaySoundData(const SoundData& soundData, bool isRoop, float volume);
+
+	/// <summary>
+	/// BGMを停止
+	/// </summary>
+	/// <param name="soundData">停止したい音データ</param>
+	/// <param name="isPause">一時停止フラグ</param>
+	void StopSoundData(const SoundData& soundData, bool isPause = false);
+
+	/// <summary>
+	/// 音データ読み込み
+	/// </summary>
+	/// <param name="fileName">読み込む音データファイル</param>
+	/// <param name="soundData">書き込む音データ構造体</param>
+	void LoadSound(const char* fileName, SoundData& soundData);
 
 private: // メンバ変数
 	ComPtr<IXAudio2> xAudio2;

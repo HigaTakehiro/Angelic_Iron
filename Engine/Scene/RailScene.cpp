@@ -5,7 +5,7 @@
 
 void RailScene::Initialize() {
 
-	//this->sound->PlayWave("Engine/Resources/Sound/BGM/Speace_World.wav", true, 0.2f);
+	SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -112,7 +112,7 @@ void RailScene::Initialize() {
 	}
 
 	player = new Player;
-	player->Initialize(camera, Sound::GetIns(), clearTime);
+	player->Initialize(camera, clearTime);
 	player->SetRailScene(this);
 
 	int stageNo;
@@ -163,6 +163,7 @@ void RailScene::Initialize() {
 void RailScene::Update() {
 	// DirectX毎フレーム処理　ここから
 	const int32_t noneHP = 0;
+	SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
 	enemies.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
@@ -248,6 +249,7 @@ void RailScene::Update() {
 		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 		particles2d.push_back(std::move(new2DParticle));
 		isPlayerDead = true;
+		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 	}
 
 	if (player->GetIsDead()) {
@@ -385,6 +387,7 @@ void RailScene::Update() {
 		player->Update(railCamera->GetIsEnd());
 	}
 	else {
+		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 		const float selectAlpha = 0.5f;
 		const float normalAlpha = 1.0f;
@@ -445,6 +448,7 @@ void RailScene::Update() {
 		else if (SceneManager::GetStageNo() == 2) {
 			SceneManager::SceneChange(SceneManager::Stage2_Boss);
 		}
+		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 	}
 	else if (isTitleBack) {
 		SceneManager::SceneChange(SceneManager::Title);

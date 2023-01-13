@@ -4,11 +4,6 @@
 
 #pragma comment(lib,"xaudio2.lib")
 
-Sound* Sound::GetIns() {
-	static Sound sound;
-	return &sound;
-}
-
 bool Sound::Initialize() {
 	HRESULT result;
 
@@ -29,12 +24,42 @@ bool Sound::Initialize() {
 	return true;
 }
 
-void Sound::PlayWave(const char* filename, bool roop, float volume) {
+void Sound::PlaySoundData(const SoundData& soundData, bool isRoop, float volume)
+{
+	HRESULT result;
+
+	// 再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = (BYTE*)soundData.pBuffer;
+	buf.pContext = soundData.pBuffer;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+	buf.AudioBytes = soundData.data.size;
+	if (isRoop == true) {
+		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+	}
+
+	soundData.sound->SetVolume(volume);
+
+	// 波形データの再生
+	if (!soundData.isPlay) {
+		result = soundData.sound->SubmitSourceBuffer(&buf);
+		result = soundData.sound->Start();
+	}
+
+}
+
+void Sound::StopSoundData(const SoundData& soundData, bool isPause)
+{
+	soundData.sound->Stop();
+}
+
+void Sound::LoadSound(const char* fileName, SoundData& soundData)
+{
 	HRESULT result;
 	// ファイルストリーム
 	std::ifstream file;
 	// Waveファイルを開く
-	file.open(filename, std::ios_base::binary);
+	file.open(fileName, std::ios_base::binary);
 	// ファイルオープン失敗をチェック
 	if (file.fail()) {
 		assert(0);
@@ -53,12 +78,11 @@ void Sound::PlayWave(const char* filename, bool roop, float volume) {
 	file.read((char*)&format, sizeof(format));
 
 	// Dataチャンクの読み込み
-	Chunk data;
-	file.read((char*)&data, sizeof(data));
+	file.read((char*)&soundData.data, sizeof(soundData.data));
 
 	// Dataチャンクのデータ部（波形データ）の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
+	soundData.pBuffer = new char[soundData.data.size];
+	file.read(soundData.pBuffer, soundData.data.size);
 
 	// Waveファイルを閉じる
 	file.close();
@@ -69,38 +93,39 @@ void Sound::PlayWave(const char* filename, bool roop, float volume) {
 	wfex.wBitsPerSample = format.fmt.nBlockAlign * 8 / format.fmt.nChannels;
 
 	// 波形フォーマットを元にSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2->CreateSourceVoice(&pSourceVoice, &wfex, 0, 2.0f, &voiceCallback);
-	if FAILED(result) {
-		delete[] pBuffer;
-		assert(0);
-		return;
-	}
-
-	// 再生する波形データの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = (BYTE*)pBuffer;
-	buf.pContext = pBuffer;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-	buf.AudioBytes = data.size;
-	if (roop == true) {
-		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
-	}
-
-	pSourceVoice->SetVolume(volume);
-
-	// 波形データの再生
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	if FAILED(result) {
-		delete[] pBuffer;
-		assert(0);
-		return;
-	}
-
-	result = pSourceVoice->Start();
-	if FAILED(result) {
-		delete[] pBuffer;
-		assert(0);
-		return;
-	}
+	result = xAudio2->CreateSourceVoice(&soundData.sound, &wfex, 0, 2.0f, &voiceCallback);
 }
+
+//void Sound::PlayBGM(BackGroundMusicKey bgmKey, bool isRoop, float volume, bool isStart)
+//{
+//	HRESULT result;
+//
+//	// 再生する波形データの設定
+//	XAUDIO2_BUFFER buf{};
+//	buf.pAudioData = (BYTE*)bgms[bgmKey].pBuffer;
+//	buf.pContext = bgms[bgmKey].pBuffer;
+//	buf.Flags = XAUDIO2_END_OF_STREAM;
+//	buf.AudioBytes = bgms[bgmKey].data.size;
+//	if (isRoop == true) {
+//		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+//	}
+//	if (isStart) {
+//		buf.PlayBegin = bgms[bgmKey].bgm->ExitLoop();
+//	}
+//
+//	bgms[bgmKey].bgm->SetVolume(volume);
+//
+//	XAUDIO2_VOICE_STATE voiceState;
+//	bgms[bgmKey].bgm->GetState(&voiceState);
+//
+//	// 波形データの再生
+//	result = bgms[bgmKey].bgm->SubmitSourceBuffer(&buf);
+//
+//	result = bgms[bgmKey].bgm->Start();
+//}
+//
+//void Sound::StopBGM(BackGroundMusicKey bgmKey, bool isPause)
+//{
+//	bgms[bgmKey].bgm->Stop();
+//}
+//

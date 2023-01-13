@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include "FbxLoader.h"
 #include "FBXObject3d.h"
+#include "SoundManager.h"
 
 class BaseScene
 {
