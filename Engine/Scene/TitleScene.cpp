@@ -2,7 +2,7 @@
 
 void TitleScene::Initialize()
 {
-	SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.2f);
+	//SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
 
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };

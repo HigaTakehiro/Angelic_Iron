@@ -45,6 +45,13 @@ private: //静的メンバ変数
 	//デバックテキスト用テクスチャ番号
 	static const int debugTextNumber = 0;
 
+private: //サブクラス
+	enum FaceGraphics {
+		OPE_NORMALFACE,
+		OPE_SURPRISEFACE,
+		OPE_SMILEFACE
+	};
+
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -150,6 +157,7 @@ private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 	static const int32_t opeAnimeTime = 6;
 	static const int32_t closeWindowTime = 120;
+	static const int32_t openWindowTime = 120;
 
 private: //メンバ変数
 	WinApp* winApp = nullptr; //ウィンドウ設定クラス
@@ -178,6 +186,8 @@ private: //メンバ変数
 	Sprite* faceWindow = nullptr;
 	Sprite* textWindow = nullptr;
 	Sprite* opeNormal[3] = {};
+	Sprite* opeSurprise[3] = {};
+	Sprite* opeSmile[3] = {};
 	Sprite* scoreNumber[6] = {};
 	XMFLOAT2 titleBackSize;
 	XMFLOAT2 backSize;
@@ -212,12 +222,13 @@ private: //メンバ変数
 	bool isPlayerDead; //プレイヤー死亡時演出用フラグ
 	bool isPause; //ポーズフラグ
 	bool isTitleBack; //タイトル画面変更フラグ
-	bool isMessageEnd; //メッセージ描画終了フラグ
+	bool isTextWindowOpen; //メッセージウィンドウオープンフラグ
 	bool isRestart;
 	int32_t waitTimer; //エネミー読み込み待機時間
 	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
 	int32_t clearTimer; //クリア演出用時間
 	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
+	int32_t openWindowTimer; //ウィンドウ解放時間
 	std::stringstream enemyData; //エネミーデータ格納用文字列
 	std::stringstream textData; //メッセージデータ格納用文字列
 	std::wstring drawMessage; //メッセージ内容出力用文字列
@@ -228,6 +239,7 @@ private: //メンバ変数
 	int score;
 	int32_t opeAnimeTimer;
 	int opeAnimeCount;
+	FaceGraphics faceType;
 
 	PostEffect::PostEffectNo postEffectNo;
 };

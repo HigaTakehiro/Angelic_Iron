@@ -8,12 +8,10 @@ const float BossScenePlayer::boostReloadTime = 80.0f;
 const int32_t BossScenePlayer::damageTime = 20;
 const int32_t BossScenePlayer::deadTime = 120;
 
-void BossScenePlayer::Initialize(Camera* camera, Sound* sound)
+void BossScenePlayer::Initialize(Camera* camera)
 {
 	//カメラをセット
 	this->camera = camera;
-	//サウンドをセット
-	this->sound = sound;
 
 	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
 	player->SetCameraParent(this->camera);

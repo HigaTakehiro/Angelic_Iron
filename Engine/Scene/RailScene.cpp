@@ -5,7 +5,7 @@
 
 void RailScene::Initialize() {
 
-	SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
+	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -35,19 +35,32 @@ void RailScene::Initialize() {
 	textWindow = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
 	textWindow->SetAlpha(0.4f);
 	textWindowSize = textWindow->GetSize();
+	textWindowSize.y = 0;
 	textWindow->SetAnchorPoint({ 0.5f, 0.5f });
 	faceWindow = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
 	faceWindowSize = faceWindow->GetSize();
+	faceWindowSize.y = 0;
 	faceWindow->SetAlpha(0.4f);
 	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	operatorSize = { 160, 160 };
+	operatorSize = { 160, 0 };
 	for (int i = 0; i < 3; i++) {
 		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
 		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeNormal[i]->SetSize({ 160, 160 });
 		opeNormal[i]->SetColor({ 2, 2, 2 });
 		opeNormal[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		//opeNormal[i]->SetAlpha(0.8f);
+
+		opeSurprise[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSurprise[i]->SetSize({ 160, 160 });
+		opeSurprise[i]->SetColor({ 2, 2, 2 });
+		opeSurprise[i]->SetAnchorPoint({ 0.5f, 0.5f });
+
+		opeSmile[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSmile[i]->SetSize({ 160, 160 });
+		opeSmile[i]->SetColor({ 2, 2, 2 });
+		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
 	for (int i = 0; i < 6; i++) {
 		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
@@ -158,12 +171,17 @@ void RailScene::Initialize() {
 	clearTimer = clearTime;
 
 	referenceCount = std::chrono::steady_clock::now();
+
+	faceType = FaceGraphics::OPE_NORMALFACE;
+	
 }
 
 void RailScene::Update() {
 	// DirectX毎フレーム処理　ここから
 	const int32_t noneHP = 0;
-	SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
+	const float closeWindowSizeY = 0.0f;
+	const float openWindowSizeY = 160.0f;
+	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
 	enemies.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
@@ -212,19 +230,40 @@ void RailScene::Update() {
 	}
 
 	EnemyDataUpdate();
-	if (isMessageEnd) {
+	if (!isTextWindowOpen) {
+		openWindowTimer = 0;
 		closeWindowTimer++;
 		if (closeWindowTimer >= closeWindowTime) {
 			closeWindowTimer = closeWindowTime;
 		}
-		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, textWindowSize.y);
-		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, faceWindowSize.y);
-		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, operatorSize.y);
+		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
 		for (int i = 0; i < 3; i++) {
 			opeNormal[i]->SetSize(operatorSize);
+			opeSurprise[i]->SetSize(operatorSize);
+			opeSmile[i]->SetSize(operatorSize);
+		}
+	}
+	else if (isTextWindowOpen) {
+		closeWindowTimer = 0;
+		openWindowTimer++;
+		if (openWindowTimer >= openWindowTime) {
+			openWindowTimer = openWindowTime;
+		}
+		textWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
+
+		textWindow->SetSize(textWindowSize);
+		faceWindow->SetSize(faceWindowSize);
+		for (int i = 0; i < 3; i++) {
+			opeNormal[i]->SetSize(operatorSize);
+			opeSurprise[i]->SetSize(operatorSize);
+			opeSmile[i]->SetSize(operatorSize);
 		}
 	}
 
@@ -532,7 +571,17 @@ void RailScene::Draw() {
 	if (!isPause) {
 		textWindow->Draw();
 		faceWindow->Draw();
-		opeNormal[opeAnimeCount]->Draw();
+		switch (faceType) {
+		case FaceGraphics::OPE_NORMALFACE:
+			opeNormal[opeAnimeCount]->Draw();
+			break;
+		case FaceGraphics::OPE_SURPRISEFACE:
+			opeSurprise[opeAnimeCount]->Draw();
+			break;
+		case FaceGraphics::OPE_SMILEFACE:
+			opeSmile[opeAnimeCount]->Draw();
+			break;
+		}
 	}
 
 	player->SpriteDraw();
@@ -589,6 +638,8 @@ void RailScene::Finalize() {
 	safe_delete(faceWindow);
 	for (int i = 0; i < 3; i++) {
 		safe_delete(opeNormal[i]);
+		safe_delete(opeSurprise[i]);
+		safe_delete(opeSmile[i]);
 	}
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
@@ -833,6 +884,7 @@ void RailScene::LoadTextMessage(const std::string fileName)
 void RailScene::TextMessageUpdate()
 {
 	std::string line;
+	std::string face;
 	std::string messageData;
 	std::wstring messageDataW;
 
@@ -857,6 +909,21 @@ void RailScene::TextMessageUpdate()
 		if (word == "#") {
 			continue;
 		}
+		if (word == "OPEN") {
+			isTextWindowOpen = true;
+		}
+		if (word == "FACE") {
+			line_stream >> face;
+			if (face == "OPE_NORMAL") {
+				faceType = FaceGraphics::OPE_NORMALFACE;
+			}
+			else if (face == "OPE_SURPRISE") {
+				faceType = FaceGraphics::OPE_SURPRISEFACE;
+			}
+			else if (face == "OPE_SMILE") {
+				faceType = FaceGraphics::OPE_SMILEFACE;
+			}
+		}
 		if (word == "TEXT") {
 			line_stream >> messageData;
 			messageDataW = StringToWstring(messageData);
@@ -870,8 +937,8 @@ void RailScene::TextMessageUpdate()
 			line_stream >> waitMessageTimer;
 			break;
 		}
-		if (word == "END") {
-			isMessageEnd = true;
+		if (word == "CLOSE") {
+			isTextWindowOpen = false;
 		}
 	}
 }
@@ -892,7 +959,12 @@ void RailScene::TextMessageDraw()
 	if (textAddTimer >= textSpeed) {
 		textAddTimer = 0;
 		if (textCount < message.size()) {
-			drawMessage += message.substr(textCount, 1);
+			if (message.substr(textCount, 1) != L"/") {
+				drawMessage += message.substr(textCount, 1);
+			}
+			else {
+				drawMessage += L"\n";
+			}
 			textCount++;
 		}
 

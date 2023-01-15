@@ -44,6 +44,8 @@ public: //‰æ‘œ–¼
 		FaceWindow,
 		TextWindow,
 		OPE_NORMAL,
+		OPE_SURPRISE,
+		OPE_SMILE,
 		Bomb
 	};
 

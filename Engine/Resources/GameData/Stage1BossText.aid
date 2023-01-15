@@ -7,7 +7,12 @@
 	#PLAYER←プレイヤー顔
 #SPEED←テキスト速度
 #WAIT←次のテキストが表示されるまでの待機時間
-#END←テキストウィンドウを閉じます
+#OPEN←テキストウィンドウを開きます
+#CLOSE←テキストウィンドウを閉じます
+
+FACE OPE_NORMAL
+OPEN
+WAIT 60
 
 FACE OPE_NORMAL
 TEXT 敵性MEC、こちらに気づきました
@@ -29,4 +34,4 @@ TEXT 本体に攻撃を加え続け、撃破しましょう
 SPEED 2
 WAIT 160
 
-END
+CLOSE

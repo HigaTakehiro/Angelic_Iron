@@ -27,8 +27,7 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	/// <param name="camera">カメラ</param>
-	/// <param name="sound">サウンド</param>
-	void Initialize(Camera* camera, Sound* sound);
+	void Initialize(Camera* camera);
 	/// <summary>
 	/// 更新処理
 	/// </summary>

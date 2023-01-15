@@ -44,7 +44,7 @@ void BossScene::Initialize()
 	postEffectNo = PostEffect::NORMAL;
 
 	player = new BossScenePlayer;
-	//player->Initialize(camera, Sound::GetIns());
+	player->Initialize(camera);
 	player->SetBossScene(this);
 
 	int stageNo = 0;
@@ -56,9 +56,11 @@ void BossScene::Initialize()
 	textWindow = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
 	textWindow->SetAlpha(0.4f);
 	textWindowSize = textWindow->GetSize();
+	textWindowSize.y = 0;
 	textWindow->SetAnchorPoint({ 0.5f, 0.5f });
 	faceWindow = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
 	faceWindowSize = faceWindow->GetSize();
+	faceWindowSize.y = 0;
 	faceWindow->SetAlpha(0.4f);
 	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
 	for (int i = 0; i < 3; i++) {
@@ -67,7 +69,18 @@ void BossScene::Initialize()
 		opeNormal[i]->SetSize({ 160, 160 });
 		opeNormal[i]->SetColor({ 2, 2, 2 });
 		opeNormal[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		//opeNormal[i]->SetAlpha(0.8f);
+
+		opeSurprise[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSurprise[i]->SetSize({ 160, 160 });
+		opeSurprise[i]->SetColor({ 2, 2, 2 });
+		opeSurprise[i]->SetAnchorPoint({ 0.5f, 0.5f });
+
+		opeSmile[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSmile[i]->SetSize({ 160, 160 });
+		opeSmile[i]->SetColor({ 2, 2, 2 });
+		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
 	textAddTimer = 0;
 	textSpeed = 1;
@@ -96,6 +109,7 @@ void BossScene::Initialize()
 		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		scoreNumber[i]->SetSize({ 32, 32 });
 	}
+	operatorSize = { 160.0f, 0.0f };
 	score = 0;
 
 	light = LightGroup::Create();
@@ -120,6 +134,8 @@ void BossScene::Update()
 
 	const int delayTime = 0;
 	const int noneHP = 0;
+	const float closeWindowSizeY = 0.0f;
+	const float openWindowSizeY = 160.0f;
 
 	XMFLOAT3 playerPos = { player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
 	light->SetCircleShadowCasterPos(0, playerPos);
@@ -137,19 +153,37 @@ void BossScene::Update()
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0}, {64, 64});
 	}
 
-	if (isMessageEnd) {
+	if (!isTextWindowOpen) {
 		closeWindowTimer++;
 		if (closeWindowTimer >= closeWindowTime) {
 			closeWindowTimer = closeWindowTime;
 		}
-		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, textWindowSize.y);
-		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, faceWindowSize.y);
-		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, 0, operatorSize.y);
+		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
 		for (int i = 0; i < 3; i++) {
 			opeNormal[i]->SetSize(operatorSize);
+		}
+	}
+	else if (isTextWindowOpen) {
+		closeWindowTimer = 0;
+		openWindowTimer++;
+		if (openWindowTimer >= openWindowTime) {
+			openWindowTimer = openWindowTime;
+		}
+		textWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
+
+		textWindow->SetSize(textWindowSize);
+		faceWindow->SetSize(faceWindowSize);
+		for (int i = 0; i < 3; i++) {
+			opeNormal[i]->SetSize(operatorSize);
+			opeSurprise[i]->SetSize(operatorSize);
+			opeSmile[i]->SetSize(operatorSize);
 		}
 	}
 
@@ -395,6 +429,8 @@ void BossScene::Finalize()
 	safe_delete(faceWindow);
 	for (int i = 0; i < 3; i++) {
 		safe_delete(opeNormal[i]);
+		safe_delete(opeSurprise[i]);
+		safe_delete(opeSmile[i]);
 	}
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
@@ -432,6 +468,7 @@ void BossScene::LoadTextMessage(const std::string fileName)
 void BossScene::TextMessageUpdate()
 {
 	std::string line;
+	std::string face;
 	std::string messageData;
 	std::wstring messageDataW;
 
@@ -456,6 +493,21 @@ void BossScene::TextMessageUpdate()
 		if (word == "#") {
 			continue;
 		}
+		if (word == "OPEN") {
+			isTextWindowOpen = true;
+		}
+		if (word == "FACE") {
+			line_stream >> face;
+			if (face == "OPE_NORMAL") {
+				faceType = FaceGraphics::OPE_NORMALFACE;
+			}
+			else if (face == "OPE_SURPRISE") {
+				faceType = FaceGraphics::OPE_SURPRISEFACE;
+			}
+			else if (face == "OPE_SMILE") {
+				faceType = FaceGraphics::OPE_SMILEFACE;
+			}
+		}
 		if (word == "TEXT") {
 			line_stream >> messageData;
 			messageDataW = StringToWstring(messageData);
@@ -469,8 +521,8 @@ void BossScene::TextMessageUpdate()
 			line_stream >> waitMessageTimer;
 			break;
 		}
-		if (word == "END") {
-			isMessageEnd = true;
+		if (word == "CLOSE") {
+			isTextWindowOpen = false;
 		}
 	}
 }
@@ -490,7 +542,12 @@ void BossScene::TextMessageDraw()
 	if (textAddTimer >= textSpeed) {
 		textAddTimer = 0;
 		if (textCount < message.size()) {
-			drawMessage += message.substr(textCount, 1);
+			if (message.substr(textCount, 1) != L"/") {
+				drawMessage += message.substr(textCount, 1);
+			}
+			else {
+				drawMessage += L"\n";
+			}
 			textCount++;
 		}
 

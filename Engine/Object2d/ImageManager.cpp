@@ -33,5 +33,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(TextWindow, L"Engine/Resources/Images/Text_Window.png");
 	Sprite::LoadTexture(FaceWindow, L"Engine/Resources/Images/Face_Window.png");
 	Sprite::LoadTexture(OPE_NORMAL, L"Engine/Resources/Images/Operator_Normal.png");
+	Sprite::LoadTexture(OPE_SURPRISE, L"Engine/Resources/Images/Operator_Surprise.png");
+	Sprite::LoadTexture(OPE_SMILE, L"Engine/Resources/Images/Operator_Smile.png");
 	Sprite::LoadTexture(Bomb, L"Engine/Resources/Images/Bomb.png");
 }

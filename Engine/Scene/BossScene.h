@@ -18,6 +18,13 @@ class FirstBoss;
 
 class BossScene : public BaseScene
 {
+public: //サブクラス
+	enum FaceGraphics {
+		OPE_NORMALFACE,
+		OPE_SURPRISEFACE,
+		OPE_SMILEFACE
+	};
+
 public: //メンバ関数
 
 	/// <summary>
@@ -73,6 +80,7 @@ private: //メンバ関数
 private: //静的メンバ変数
 	static const int32_t opeAnimeTime = 6;
 	static const int32_t closeWindowTime = 120;
+	static const int32_t openWindowTime = 120;
 
 private: //メンバ変数
 
@@ -99,6 +107,7 @@ private: //メンバ変数
 	PostEffect::PostEffectNo postEffectNo;
 	//ライト
 	LightGroup* light = nullptr;
+	FaceGraphics faceType;
 
 	Vector3 groundPos = { 0, 0, 0 }; //地面座標
 	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
@@ -114,6 +123,8 @@ private: //メンバ変数
 	Sprite* faceWindow = nullptr;
 	Sprite* textWindow = nullptr;
 	Sprite* opeNormal[3] = {};
+	Sprite* opeSurprise[3] = {};
+	Sprite* opeSmile[3] = {};
 	XMFLOAT2 textWindowSize;
 	XMFLOAT2 faceWindowSize;
 	XMFLOAT2 operatorSize;
@@ -124,9 +135,10 @@ private: //メンバ変数
 	int textAddTimer;
 
 	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
+	int32_t openWindowTimer; //ウィンドウ解放時間
 
 	bool isMessageWait; //メッセージデータ読み込み待機フラグ
-	bool isMessageEnd; //メッセージ描画終了フラグ
+	bool isTextWindowOpen; //テキストウィンドウオープンフラグ
 	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
 	bool isTextDraw; //メッセージデータ出力完了フラグ
 
