@@ -556,7 +556,7 @@ void BossScene::TextMessageDraw()
 		}
 	}
 
-	textDraw->Draw("default", "default", drawMessage, textDrawPos);
+	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
 }
 
 std::wstring BossScene::StringToWstring(const std::string& text)

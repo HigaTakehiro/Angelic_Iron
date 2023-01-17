@@ -5,6 +5,7 @@
 #include <wrl.h>
 #include <map>
 #include <vector>
+#include <string>
 
 /// <summary>
 /// オーディオコールバック
@@ -65,6 +66,7 @@ public: // サブクラス
 	struct SoundData {
 		IXAudio2SourceVoice* sound;
 		Chunk data;
+		std::string fileName;
 		char* pBuffer;
 		bool isPlay;
 	};
@@ -90,14 +92,14 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="soundData">停止したい音データ</param>
 	/// <param name="isPause">一時停止フラグ</param>
-	void StopSoundData(const SoundData& soundData, bool isPause = false);
+	void StopSoundData(const SoundData& soundData, bool isPause);
 
 	/// <summary>
 	/// 音データ読み込み
 	/// </summary>
 	/// <param name="fileName">読み込む音データファイル</param>
 	/// <param name="soundData">書き込む音データ構造体</param>
-	void LoadSound(const char* fileName, SoundData& soundData);
+	void LoadSound(const std::string& fileName, SoundData& soundData);
 
 private: // メンバ変数
 	ComPtr<IXAudio2> xAudio2;

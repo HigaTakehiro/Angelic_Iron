@@ -3,8 +3,8 @@
 const std::wstring TextDraw::defaultFont = L"ƒƒCƒŠƒI";
 
 void TextDraw::Initialize() {
-	DirectXSetting::GetIns()->registerSolidColorBrush("default", D2D1::ColorF::White);
-	DirectXSetting::GetIns()->registerTextFormat("default", defaultFont, defaultFontSize);
+	DirectXSetting::GetIns()->registerSolidColorBrush("white", D2D1::ColorF::White);
+	DirectXSetting::GetIns()->registerTextFormat("meiryo", defaultFont, defaultFontSize);
 }
 
 void TextDraw::Draw(const std::string& textFormatKey, const std::string& solidColorBrushKey, const std::wstring& text, const D2D1_RECT_F& rect) {

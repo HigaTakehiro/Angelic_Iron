@@ -2,7 +2,7 @@
 
 void TitleScene::Initialize()
 {
-	//SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
+	SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
 
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
@@ -91,11 +91,6 @@ void TitleScene::Initialize()
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
-	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera, true);
-	//particle->LoadTexture("Aim");
-	particle2 = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	particle2->LoadTexture("Bomb");
-
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	stageSelectTimer = 0;
 
@@ -119,6 +114,18 @@ void TitleScene::Update()
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	aim->SetPosition(mousePos);
 
+	static bool isPlaySound = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+		isPlaySound = !isPlaySound;
+	}
+
+	if (!isPlaySound) {
+		SoundManager::GetIns()->StopBGM(SoundManager::TITLE, true);
+	}
+	else {
+		SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.05f);
+	}
+
 	sphereRot.y += 0.1f;
 	celetialSphere->SetRotation(sphereRot);
 
@@ -127,30 +134,6 @@ void TitleScene::Update()
 	char lightPosText[256];
 	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
 	debugText.Print(lightPosText, 0, 0, 2);
-
-	for (int i = 0; i < 10; i++) {
-		const float rnd_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.01f;
-		acc.y = +(float)rand() / RAND_MAX * rnd_acc;
-
-		const float startScale = 5.0f;
-		const float endScale = 0.0f;
-
-		particle->Add(60, pos, vel, acc, startScale, endScale, { 0.5f, 0.2f, 1.0f }, { 1.0f, 0.0f, 0.0f }, 1.0f, 0.0f);
-		particle2->Add(60, pos, vel, acc, startScale, endScale, { 1.0f, 0.0f, 0.0f }, {0.0f, 0.0f, 1.0f});
-	}
 
 	light->SetDirLightDirection(0, { 0, -1, 0 });
 	light->SetCircleShadowDir(0, {0, -1, 0});
@@ -166,8 +149,6 @@ void TitleScene::Update()
 	celetialSphere->Update();
 	test->Update();
 	testSquare->Update();
-	particle->Update();
-	particle2->Update();
 	light->Update();
 
 
@@ -440,9 +421,6 @@ void TitleScene::Draw()
 	//testSquare->Draw();
 	Object3d::PostDraw();
 
-	//particle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	//particle2->Draw(DirectXSetting::GetIns()->GetCmdList());
-
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (isManual) {
@@ -502,8 +480,6 @@ void TitleScene::Finalize()
 	safe_delete(test);
 	safe_delete(testSquare);
 	safe_delete(testSquareModel);
-	safe_delete(particle);
-	safe_delete(particle2);
 	safe_delete(light);
 	safe_delete(textDraw);
 }

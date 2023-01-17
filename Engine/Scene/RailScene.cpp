@@ -973,7 +973,7 @@ void RailScene::TextMessageDraw()
 		}
 	}
 
-	textDraw->Draw("default", "default", drawMessage, textDrawPos);
+	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
 }
 
 std::wstring RailScene::StringToWstring(const std::string& text)

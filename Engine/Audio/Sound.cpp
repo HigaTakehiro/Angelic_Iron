@@ -50,10 +50,15 @@ void Sound::PlaySoundData(const SoundData& soundData, bool isRoop, float volume)
 
 void Sound::StopSoundData(const SoundData& soundData, bool isPause)
 {
+	HRESULT result;
+
 	soundData.sound->Stop();
+	if (!isPause) {
+		result = soundData.sound->FlushSourceBuffers();
+	}
 }
 
-void Sound::LoadSound(const char* fileName, SoundData& soundData)
+void Sound::LoadSound(const std::string& fileName, SoundData& soundData)
 {
 	HRESULT result;
 	// ファイルストリーム
@@ -95,37 +100,3 @@ void Sound::LoadSound(const char* fileName, SoundData& soundData)
 	// 波形フォーマットを元にSourceVoiceの生成
 	result = xAudio2->CreateSourceVoice(&soundData.sound, &wfex, 0, 2.0f, &voiceCallback);
 }
-
-//void Sound::PlayBGM(BackGroundMusicKey bgmKey, bool isRoop, float volume, bool isStart)
-//{
-//	HRESULT result;
-//
-//	// 再生する波形データの設定
-//	XAUDIO2_BUFFER buf{};
-//	buf.pAudioData = (BYTE*)bgms[bgmKey].pBuffer;
-//	buf.pContext = bgms[bgmKey].pBuffer;
-//	buf.Flags = XAUDIO2_END_OF_STREAM;
-//	buf.AudioBytes = bgms[bgmKey].data.size;
-//	if (isRoop == true) {
-//		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
-//	}
-//	if (isStart) {
-//		buf.PlayBegin = bgms[bgmKey].bgm->ExitLoop();
-//	}
-//
-//	bgms[bgmKey].bgm->SetVolume(volume);
-//
-//	XAUDIO2_VOICE_STATE voiceState;
-//	bgms[bgmKey].bgm->GetState(&voiceState);
-//
-//	// 波形データの再生
-//	result = bgms[bgmKey].bgm->SubmitSourceBuffer(&buf);
-//
-//	result = bgms[bgmKey].bgm->Start();
-//}
-//
-//void Sound::StopBGM(BackGroundMusicKey bgmKey, bool isPause)
-//{
-//	bgms[bgmKey].bgm->Stop();
-//}
-//

@@ -69,13 +69,13 @@ public: //メンバ関数
 	/// BGMを停止
 	/// </summary>
 	/// <param name="bgmKey">停止したいBGMマップのキー</param>
-	void StopBGM(const BGMKey bgmKey);
+	void StopBGM(const BGMKey bgmKey, const bool isPause = false);
 
 	/// <summary>
 	/// SEを停止
 	/// </summary>
 	/// <param name="seKey">停止したいSEマップのキー</param>
-	void StopSE(const SEKey seKey);
+	void StopSE(const SEKey seKey, const bool isPause = false);
 
 private: //メンバ変数
 
@@ -84,14 +84,14 @@ private: //メンバ変数
 	/// </summary>
 	/// <param name="bgmKey">追加したいBGMマップのキー</param>
 	/// <param name="fileName">ファイル名</param>
-	void LoadBGM(const char* fileName, BGMKey bgmKey);
+	void LoadBGM(const std::string& fileName, BGMKey bgmKey);
 
 	/// <summary>
 	/// SE追加
 	/// </summary>
 	/// <param name="seKey">追加したいSEマップのキー</param>
 	/// <param name="fileName">ファイル名</param>
-	void LoadSE(const char* fileName, SEKey seKey);
+	void LoadSE(const std::string& fileName, SEKey seKey);
 
 private: //メンバ変数
 	//サウンドクラスのインスタンス

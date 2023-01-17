@@ -67,8 +67,6 @@ private: //メンバ変数
 	Sprite* allow = nullptr;
 	DebugText debugText; //デバッグテキスト表示用クラス
 
-	ParticleManager* particle = nullptr;
-	ParticleManager* particle2 = nullptr;
 	TextDraw* textDraw = nullptr;
 
 	FBXObject3d* test;
