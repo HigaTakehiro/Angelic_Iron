@@ -51,7 +51,8 @@ void Sound::PlaySoundData(const SoundData& soundData, bool isRoop, float volume)
 void Sound::StopSoundData(const SoundData& soundData, bool isPause)
 {
 	HRESULT result;
-
+	XAUDIO2_VOICE_STATE voiceState;
+	soundData.sound->GetState(&voiceState);
 	soundData.sound->Stop();
 	if (!isPause) {
 		result = soundData.sound->FlushSourceBuffers();

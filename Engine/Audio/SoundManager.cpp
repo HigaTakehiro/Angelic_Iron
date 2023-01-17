@@ -11,6 +11,10 @@ void SoundManager::Initialize(Sound* sound)
 	this->sound = sound;
 	LoadBGM("Engine/Resources/Sound/BGM/Speace_World.wav", TITLE);
 	LoadBGM("Engine/Resources/Sound/BGM/JimS - Little Excitement.wav", STAGE1_RAIL);
+	LoadSE("Engine/Resources/Sound/SE/damage.wav", DAMAGE);
+	LoadSE("Engine/Resources/Sound/SE/short_bomb.wav", SHOT);
+	LoadSE("Engine/Resources/Sound/SE/noise.wav", NOISE);
+	LoadSE("Engine/Resources/Sound/SE/reload.wav", RELOAD);
 }
 
 void SoundManager::PlayBGM(const BGMKey bgmKey, const bool isRoop, const float volume)
@@ -24,11 +28,24 @@ void SoundManager::PlayBGM(const BGMKey bgmKey, const bool isRoop, const float v
 
 void SoundManager::PlaySE(const SEKey seKey, const float volume)
 {
+	//XAUDIO2_VOICE_STATE voiceState;
+	//seMap[seKey].sound->GetState(&voiceState);
+
+	//if (voiceState.BuffersQueued <= 0) {
+	//	seMap[seKey].isPlay = false;
+	//	StopSE(seKey);
+	//}
+
+	seMap[seKey].pBuffer = nullptr;
+	seMap[seKey].sound = nullptr;
+	seMap[seKey].isPlay = false;
+	seMap[seKey].data.size = 0;
+
 	if (seMap[seKey].data.size <= 0) {
 		LoadSE(seMap[seKey].fileName, seKey);
 	}
-	seMap[seKey].isPlay = false;
 	sound->PlaySoundData(seMap[seKey], false, volume);
+	seMap[seKey].isPlay = true;
 }
 
 void SoundManager::StopBGM(const BGMKey bgmKey, const bool isPause)
@@ -44,6 +61,9 @@ void SoundManager::StopSE(const SEKey seKey, const bool isPause)
 {
 	sound->StopSoundData(seMap[seKey], isPause);
 	seMap[seKey].isPlay = false;
+	if (!isPause) {
+		seMap[seKey].data.size = 0;
+	}
 }
 
 void SoundManager::LoadBGM(const std::string& fileName, BGMKey bgmKey)

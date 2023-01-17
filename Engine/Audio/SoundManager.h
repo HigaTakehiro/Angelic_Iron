@@ -31,6 +31,8 @@ public: //サブクラス
 
 	enum SEKey {
 		SHOT,
+		DAMAGE,
+		NOISE,
 		PLAYER_DEAD,
 		ENEMY_DEAD,
 		RELOAD

@@ -118,12 +118,30 @@ void TitleScene::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
 		isPlaySound = !isPlaySound;
 	}
+	if (KeyInput::GetIns()->PushKey(DIK_1)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::DAMAGE, 0.2f);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_2)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::NOISE, 0.2f);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_3)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::SHOT, 0.2f);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_4)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::RELOAD, 0.2f);
+	}
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_5)) {
+		SoundManager::GetIns()->StopSE(SoundManager::DAMAGE);
+	}
 
 	if (!isPlaySound) {
-		SoundManager::GetIns()->StopBGM(SoundManager::TITLE, true);
+		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
+		//SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 	}
 	else {
 		SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.05f);
+		//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.05f);
 	}
 
 	sphereRot.y += 0.1f;
