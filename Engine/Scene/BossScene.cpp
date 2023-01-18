@@ -5,6 +5,8 @@ void BossScene::Initialize()
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(0, 100, 0));
 	camera->SetTarget(XMFLOAT3(0, 10, 0));
+	isSceneChangeComplete = true;
+	SceneChangeInitialize();
 
 	for (int i = 0; i < 36; i++) {
 		Vector3 pos = { 0, 20, 0 };
@@ -204,6 +206,7 @@ void BossScene::Update()
 			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
 			isDead = true;
+			isSceneChangeStart = true;
 		}
 
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
@@ -282,6 +285,7 @@ void BossScene::Update()
 			titleBack->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				isTitleBack = true;
+				isSceneChangeStart = true;
 			}
 		}
 		else {
@@ -306,17 +310,30 @@ void BossScene::Update()
 
 	light->Update();
 
+	if (isSceneChangeComplete) {
+		SceneChangeCompleteEffect();
+	}
+	if (isSceneChangeStart) {
+		SceneChangeEffect();
+	}
+
 	//ƒV[ƒ“•ÏX
-	if (player->GetIsDead()) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::GameOver);
+	if (firstBoss->GetIsDead()) {
+		isSceneChangeStart = true;
 	}
-	else if (firstBoss->GetIsDead()) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::Result);
-	}
-	else if (isTitleBack) {
-		SceneManager::SceneChange(SceneManager::Title);
+
+	if (isSceneChange) {
+		if (player->GetIsDead()) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::GameOver);
+		}
+		else if (firstBoss->GetIsDead()) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::Result);
+		}
+		else if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
 	}
 
 	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
@@ -394,6 +411,7 @@ void BossScene::Draw()
 		faceWindow->Draw();
 		opeNormal[opeAnimeCount]->Draw();
 	}
+	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

@@ -18,6 +18,7 @@ void SceneManager::Draw() {
 
 void SceneManager::Finalize() {
 	nowScene->Finalize();
+	nowScene->SceneChangeFinalize();
 	safe_delete(nowScene);
 }
 

@@ -2,6 +2,9 @@
 
 void ResultScene::Initialize()
 {
+	isSceneChangeComplete = true;
+	SceneChangeInitialize();
+
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 0, 0 };
 
@@ -105,6 +108,13 @@ void ResultScene::Update()
 
 	light->Update();
 
+	if (isSceneChangeComplete) {
+		SceneChangeCompleteEffect();
+	}
+	if (isSceneChangeStart) {
+		SceneChangeEffect();
+	}
+
 	//ƒV[ƒ“•ÏX
 	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
 		titleBackAlpha = 0.5f;
@@ -113,8 +123,12 @@ void ResultScene::Update()
 		spriteSize.y *= 0.9f;
 		titleBack->SetSize(spriteSize);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			SceneManager::SceneChange(SceneManager::Title);
+			isSceneChangeStart = true;
 		}
+	}
+
+	if (isSceneChange) {
+		SceneManager::SceneChange(SceneManager::Title);
 	}
 }
 
@@ -145,6 +159,7 @@ void ResultScene::Draw()
 		scoreNumbers[i]->Draw();
 	}
 	titleBack->Draw();
+	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

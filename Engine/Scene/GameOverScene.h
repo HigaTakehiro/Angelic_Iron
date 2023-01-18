@@ -89,5 +89,8 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 cameraPos;
 	Vector3 cameraTargetPos;
 
+	bool isTitleBack;
+	bool isRestart;
+	bool isSelectedButton;
 };
 

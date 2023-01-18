@@ -46,6 +46,7 @@ public: //‰æ‘œ–¼
 		OPE_NORMAL,
 		OPE_SURPRISE,
 		OPE_SMILE,
+		SceneChangeBar,
 		Bomb
 	};
 

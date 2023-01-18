@@ -6,6 +6,8 @@
 void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
+	isSceneChangeComplete = true;
+	SceneChangeInitialize();
 
 	//ƒJƒƒ‰‰Šú‰»
 	camera = new Camera;
@@ -173,7 +175,7 @@ void RailScene::Initialize() {
 	referenceCount = std::chrono::steady_clock::now();
 
 	faceType = FaceGraphics::OPE_NORMALFACE;
-	
+
 }
 
 void RailScene::Update() {
@@ -272,6 +274,7 @@ void RailScene::Update() {
 	}
 	if (clearTimer <= 0) {
 		isClear = true;
+		isSceneChangeStart = true;
 	}
 
 	for (int i = 0; i < 6; i++) {
@@ -293,6 +296,7 @@ void RailScene::Update() {
 
 	if (player->GetIsDead()) {
 		isDead = true;
+		isSceneChangeStart = true;
 	}
 
 	float delayCount = 0.0f;
@@ -437,6 +441,7 @@ void RailScene::Update() {
 			titleBack->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				isTitleBack = true;
+				isSceneChangeStart = true;
 			}
 		}
 		else {
@@ -463,6 +468,7 @@ void RailScene::Update() {
 			restart->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				isRestart = true;
+				isSceneChangeStart = true;
 			}
 		}
 		else {
@@ -474,37 +480,46 @@ void RailScene::Update() {
 	light->Update();
 	//object1->Update();
 
+	if (isSceneChangeComplete) {
+		SceneChangeCompleteEffect();
+	}
+	if (isSceneChangeStart) {
+		SceneChangeEffect();
+	}
+
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
-	if (isDead && !isClear) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::GameOver);
-	}
-	else if (isClear && !isDead) {
-		SceneManager::AddScore(score);
-		if (SceneManager::GetStageNo() == 1) {
-			SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	if (isSceneChange) {
+		if (isDead && !isClear) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::GameOver);
 		}
-		else if (SceneManager::GetStageNo() == 2) {
-			SceneManager::SceneChange(SceneManager::Stage2_Boss);
+		else if (isClear && !isDead) {
+			SceneManager::AddScore(score);
+			if (SceneManager::GetStageNo() == 1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Boss);
+			}
+			else if (SceneManager::GetStageNo() == 2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Boss);
+			}
+			SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 		}
-		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
-	}
-	else if (isTitleBack) {
-		SceneManager::SceneChange(SceneManager::Title);
-	}
-	else if (isRestart) {
-		if (SceneManager::GetStageNo() == 1) {
-			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+		else if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
 		}
-		else if (SceneManager::GetStageNo() == 2) {
-			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		else if (isRestart) {
+			if (SceneManager::GetStageNo() == 1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+			}
+			else if (SceneManager::GetStageNo() == 2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			}
 		}
 	}
 
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
-	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	//}
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::AddScore(score);
+		SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	}
 
 	//player->SetEnemies(enemies);
 }
@@ -599,6 +614,7 @@ void RailScene::Draw() {
 
 	}
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
+	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

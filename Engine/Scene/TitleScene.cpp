@@ -3,6 +3,8 @@
 void TitleScene::Initialize()
 {
 	SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
+	isSceneChangeComplete = true;
+	SceneChangeInitialize();
 
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
@@ -113,36 +115,6 @@ void TitleScene::Update()
 {
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	aim->SetPosition(mousePos);
-
-	static bool isPlaySound = true;
-	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-		isPlaySound = !isPlaySound;
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_1)) {
-		SoundManager::GetIns()->PlaySE(SoundManager::DAMAGE, 0.2f);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_2)) {
-		SoundManager::GetIns()->PlaySE(SoundManager::NOISE, 0.2f);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_3)) {
-		SoundManager::GetIns()->PlaySE(SoundManager::SHOT, 0.2f);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_4)) {
-		SoundManager::GetIns()->PlaySE(SoundManager::RELOAD, 0.2f);
-	}
-
-	if (KeyInput::GetIns()->TriggerKey(DIK_5)) {
-		SoundManager::GetIns()->StopSE(SoundManager::DAMAGE);
-	}
-
-	if (!isPlaySound) {
-		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
-		//SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
-	}
-	else {
-		SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.05f);
-		//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.05f);
-	}
 
 	sphereRot.y += 0.1f;
 	celetialSphere->SetRotation(sphereRot);
@@ -391,9 +363,18 @@ void TitleScene::Update()
 		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
 	}
 
+	if (isSceneChangeComplete) {
+		SceneChangeCompleteEffect();
+	}
+	if (isSceneChangeStart) {
+		SceneChangeEffect();
+	}
+
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	if (isStage1) {
-		startTimer++;
+		if (startTimer <= startTime) {
+			startTimer++;
+		}
 		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
 		Vector3 pointA = { -30, 0, 0 };
 		Vector3 pointB = { -30.0f, 0.0f, 200.0f };
@@ -404,6 +385,10 @@ void TitleScene::Update()
 		cameraPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, -100, cameraPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
+			isSceneChangeStart = true;
+		}
+
+		if (isSceneChange) {
 			SceneManager::SceneChange(SceneManager::Stage1_Rail);
 		}
 	}
@@ -460,7 +445,7 @@ void TitleScene::Draw()
 	title->Draw();
 	aim->Draw();
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
-
+	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

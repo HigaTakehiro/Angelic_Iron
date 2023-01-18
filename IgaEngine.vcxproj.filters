@@ -467,5 +467,8 @@
     <FxCompile Include="Engine\Resources\shaders\PostEffect\Vignette.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\Wave.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

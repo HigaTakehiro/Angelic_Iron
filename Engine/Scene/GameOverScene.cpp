@@ -5,6 +5,9 @@ void GameOverScene::Initialize()
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
 
+	isSceneChangeComplete = true;
+	SceneChangeInitialize();
+
 	camera = new Camera;
 	camera->SetEye(cameraPos);
 	camera->SetTarget(cameraTargetPos);
@@ -104,34 +107,62 @@ void GameOverScene::Update()
 
 	light->Update();
 
+	if (isSceneChangeComplete) {
+		SceneChangeCompleteEffect();
+	}
+	if (isSceneChangeStart) {
+		SceneChangeEffect();
+	}
+
 	//ƒV[ƒ“•ÏX
-	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-		titleBackAlpha = 0.5f;
-		XMFLOAT2 spriteSize = titleBackSize;
-		spriteSize.x *= 0.9f;
-		spriteSize.y *= 0.9f;
-		titleBack->SetSize(spriteSize);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			ground->SetAmbient({ 1, 1, 1 });
-			celetialSphere->SetAmbient({ 1, 1, 1 });
-			SceneManager::SceneChange(SceneManager::Title);
+	if (!isSelectedButton) {
+		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+			titleBackAlpha = 0.5f;
+			XMFLOAT2 spriteSize = titleBackSize;
+			spriteSize.x *= 0.9f;
+			spriteSize.y *= 0.9f;
+			titleBack->SetSize(spriteSize);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				ground->SetAmbient({ 1, 1, 1 });
+				celetialSphere->SetAmbient({ 1, 1, 1 });
+				isSceneChangeStart = true;
+				isTitleBack = true;
+				isSelectedButton = true;
+			}
+		}
+		else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
+			restartAlpha = 0.5f;
+			XMFLOAT2 spriteSize = restartSize;
+			spriteSize.x *= 0.9f;
+			spriteSize.y *= 0.9f;
+			restart->SetSize(spriteSize);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				ground->SetAmbient({ 1, 1, 1 });
+				celetialSphere->SetAmbient({ 1, 1, 1 });
+				isSceneChangeStart = true;
+				isRestart = true;
+				isSelectedButton = true;
+			}
 		}
 	}
-	else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
-		restartAlpha = 0.5f;
-		XMFLOAT2 spriteSize = restartSize;
-		spriteSize.x *= 0.9f;
-		spriteSize.y *= 0.9f;
-		restart->SetSize(spriteSize);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 1) {
-			ground->SetAmbient({ 1, 1, 1 });
-			celetialSphere->SetAmbient({ 1, 1, 1 });
-			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+
+	if (isSceneChange) {
+		if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
 		}
-		else if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && SceneManager::GetStageNo() == 2) {
-			ground->SetAmbient({ 1, 1, 1 });
-			celetialSphere->SetAmbient({ 1, 1, 1 });
-			SceneManager::SceneChange(SceneManager::Stage2_Rail);
+		else if (isRestart) {
+			switch (SceneManager::GetStageNo())  
+			{
+			case 1:
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				break;
+			case 2:
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+				break;
+			default:
+				SceneManager::SceneChange(SceneManager::Title);
+				break;
+			}
 		}
 	}
 }
@@ -161,8 +192,11 @@ void GameOverScene::Draw()
 	for (int i = 0; i < 6; i++) {
 		scoreNumbers[i]->Draw();
 	}
-	titleBack->Draw();
-	restart->Draw();
+	if (!isSelectedButton) {
+		titleBack->Draw();
+		restart->Draw();
+	}
+	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

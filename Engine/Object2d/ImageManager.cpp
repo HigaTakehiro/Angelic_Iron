@@ -35,5 +35,6 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(OPE_NORMAL, L"Engine/Resources/Images/Operator_Normal.png");
 	Sprite::LoadTexture(OPE_SURPRISE, L"Engine/Resources/Images/Operator_Surprise.png");
 	Sprite::LoadTexture(OPE_SMILE, L"Engine/Resources/Images/Operator_Smile.png");
+	Sprite::LoadTexture(SceneChangeBar, L"Engine/Resources/Images/SceneChangeBar.png");
 	Sprite::LoadTexture(Bomb, L"Engine/Resources/Images/Bomb.png");
 }
