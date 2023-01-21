@@ -32,6 +32,7 @@ public: // サブクラス
 		XMMATRIX world; //ワールド行列
 		XMFLOAT4 color; // 色
 		XMFLOAT3 cameraPos; //カメラ座標
+		float time; //時間
 	};
 
 public: // 静的メンバ関数
@@ -215,5 +216,7 @@ private: // メンバ変数
 	bool isBillboard;
 	//Y軸ビルボード行列フラグ
 	bool isBillboardY;
+	//シェーダー用タイマー
+	float timer = 0.0f;
 };
 

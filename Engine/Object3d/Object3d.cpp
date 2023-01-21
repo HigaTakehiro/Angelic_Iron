@@ -86,7 +86,7 @@ bool Object3d::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Engine/Resources/shaders/Object3d/obj/OBJVertexShader.hlsl",	// シェーダファイル名
+		L"Engine/Resources/shaders/Object3d/obj/WaveVS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -253,6 +253,12 @@ bool Object3d::Initialize()
 
 void Object3d::Update()
 {
+	const float maxTime = 60.0f;
+	timer++;
+	if (timer >= maxTime) {
+		timer = 0.0f;
+	}
+
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
@@ -293,6 +299,7 @@ void Object3d::Update()
 		constMap0->world = matWorld;
 		constMap0->color = color;
 		constMap0->cameraPos = camera->GetEye();
+		constMap0->time = timer;
 		constBuffB0->Unmap(0, nullptr);
 	}
 

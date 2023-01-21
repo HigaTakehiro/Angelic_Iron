@@ -4,6 +4,7 @@ cbuffer cbuff0 : register(b0)
 	matrix world; //３Ｄ変換行列
     float4 color; //色
     float3 cameraPos; //カメラ座標
+    float time;
 };
 
 cbuffer cbuff1 : register(b1)
