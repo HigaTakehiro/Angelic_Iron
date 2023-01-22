@@ -246,6 +246,9 @@ void PostEffect::CreateGraphicsPipelineState() {
 		else if (i == SLOW) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/SlowEffect.hlsl", psBlob);
 		}
+		else if (i == DASH) {
+			LoadPS(L"Engine/Resources/shaders/PostEffect/RadialBlur.hlsl", psBlob);
+		}
 		
 
 		// 頂点レイアウト

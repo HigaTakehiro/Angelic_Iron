@@ -473,5 +473,8 @@
     <FxCompile Include="Engine\Resources\shaders\Object3d\obj\WaveVS.hlsl">
       <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\RadialBlur.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

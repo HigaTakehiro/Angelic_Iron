@@ -14,6 +14,7 @@ public: //構造体
 		NORMAL,
 		DAMAGE,
 		SLOW,
+		DASH,
 	};
 
 public: //メンバ関数
@@ -56,7 +57,7 @@ public: //メンバ関数
 	void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
 
 private: //静的メンバ変数
-	static const int texSize = 5;
+	static const int texSize = 6;
 
 public: //メンバ変数
 	//テクスチャバッファ
