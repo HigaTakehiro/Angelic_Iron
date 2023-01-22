@@ -6,7 +6,7 @@ void TitleScene::Initialize()
 	isSceneChangeComplete = true;
 	SceneChangeInitialize();
 
-	cameraPos = { -50, 0, 100 };
+	cameraPos = { -100, 50, 200 };
 	cameraTargetPos = { 0, 500, 0 };
 
 	camera = new Camera;
@@ -72,18 +72,22 @@ void TitleScene::Initialize()
 
 	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
 	playerScale = { 20, 20, 20 };
-	playerPos = { -30, 0, 0 };
+	playerPos = { -30, 50, 0 };
 	playerRot = { 0, 0, 0 };
 	titlePlayer->SetScale(playerScale);
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
-	groundPos = { 0, -50, 0 };
-	ground->SetPosition(groundPos);
-	groundScale = { 10, 10, 10 };
-	ground->SetScale(groundScale);
-	ground->SetAmbient({ 1, 1, 1 });
+	wave = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Wave));
+	wavePos = { 0, -50, 0 };
+	wave->SetPosition(wavePos);
+	waveScale = { 10, 10, 10 };
+	wave->SetScale(waveScale);
+	wave->SetAmbient({ 1, 1, 1 });
+
+	aircraft_Carrier = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Aircraft_Carrier));
+	aircraft_Carrier->SetScale({ 10, 10, 10 });
+	aircraft_Carrier->SetAmbient({ 1, 1, 1 });
 
 	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
 	testSquare = Object3d::Create(testSquareModel);
@@ -135,7 +139,8 @@ void TitleScene::Update()
 	titlePlayer->SetPosition(playerPos);
 
 	titlePlayer->Update();
-	ground->Update();
+	wave->Update();
+	aircraft_Carrier->Update();
 	celetialSphere->Update();
 	test->Update();
 	testSquare->Update();
@@ -376,13 +381,14 @@ void TitleScene::Update()
 			startTimer++;
 		}
 		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
-		Vector3 pointA = { -30, 0, 0 };
-		Vector3 pointB = { -30.0f, 0.0f, 200.0f };
+		Vector3 pointA = { -30, 50, 0 };
+		Vector3 pointB = { -30.0f, 50.0f, 200.0f };
 		Vector3 pointC = { -30, 300, 200 };
 		Vector3 easingPointA = easeIn(pointA, pointB, timeRate);
 		Vector3 easingPointB = easeIn(pointB, pointC, timeRate);
 		playerPos = easeIn(easingPointA, easingPointB, timeRate);
-		cameraPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, -100, cameraPos.z);
+		cameraPos.y = Easing::GetIns()->easeIn(startTimer, startTime / 2, 3, cameraPos.y);
+		cameraPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, -150, cameraPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
 			isSceneChangeStart = true;
@@ -418,8 +424,9 @@ void TitleScene::Draw()
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	titlePlayer->Draw();
-	ground->Draw();
+	wave->Draw(Object3d::Wave);
 	celetialSphere->Draw();
+	aircraft_Carrier->Draw();
 	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//testSquare->Draw();
 	Object3d::PostDraw();
@@ -469,7 +476,8 @@ void TitleScene::Finalize()
 	safe_delete(title);
 	safe_delete(titlePlayer);
 	safe_delete(camera);
-	safe_delete(ground);
+	safe_delete(wave);
+	safe_delete(aircraft_Carrier);
 	safe_delete(startButton);
 	safe_delete(stage1);
 	safe_delete(stage2);

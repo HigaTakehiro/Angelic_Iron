@@ -9,7 +9,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     float4 wpos = mul(world, pos);
     
     output.svpos = mul(mul(viewproj, world), pos);
-    output.svpos.y += sin(output.svpos.x + time * 100.0f) + 2.0f;
+    output.svpos.y += (sin(output.svpos.x + (time * 0.5f) * 100.0f) * pi * -10.0f);
     output.worldpos = wpos;
     output.normal = wnormal.xyz;
     output.uv = uv;

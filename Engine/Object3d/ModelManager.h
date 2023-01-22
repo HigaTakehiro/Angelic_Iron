@@ -31,6 +31,8 @@ public: //ƒ‚ƒfƒ‹–¼
 		Building,
 		BossBody,
 		BossHand,
+		Aircraft_Carrier,
+		Wave,
 		Shadow
 	};
 

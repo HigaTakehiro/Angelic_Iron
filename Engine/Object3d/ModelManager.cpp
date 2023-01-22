@@ -29,6 +29,8 @@ void ModelManager::Initialize() {
 	LoadModel("Building");
 	LoadModel("BossBody");
 	LoadModel("BossHand");
+	LoadModel("Aircraft_Carrier", true);
+	LoadModel("Wave");
 	LoadModel("Shadow");
 	LoadFBXModel("Player_Attack");
 }

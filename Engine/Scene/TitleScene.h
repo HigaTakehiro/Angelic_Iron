@@ -96,8 +96,9 @@ private: //ƒƒ“ƒo•Ï”
 
 	PostEffect* postEffect = nullptr;
 	Object3d* titlePlayer = nullptr;
-	Object3d* ground = nullptr;
+	Object3d* wave = nullptr;
 	Object3d* celetialSphere = nullptr;
+	Object3d* aircraft_Carrier = nullptr;
 	Model* testSquareModel = nullptr;
 	Object3d* testSquare = nullptr;
 	Camera* camera = nullptr;
@@ -107,8 +108,8 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 playerPos;
 	Vector3 playerScale;
 
-	Vector3 groundPos;
-	Vector3 groundScale;
+	Vector3 wavePos;
+	Vector3 waveScale;
 
 	Vector3 cameraPos;
 	Vector3 cameraTargetPos;

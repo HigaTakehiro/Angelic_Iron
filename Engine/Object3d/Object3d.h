@@ -35,6 +35,12 @@ public: // サブクラス
 		float time; //時間
 	};
 
+	// 頂点シェーダ番号
+	enum VSPipelineNo {
+		Normal,
+		Wave,
+	};
+
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化
@@ -65,12 +71,14 @@ public: // 静的メンバ関数
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
+	//頂点シェーダー数
+	static const int vsSize = 2;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate;
+	static ComPtr<ID3D12PipelineState> pipelinestate[vsSize];
 	//ライト
 	static LightGroup* light;
 
@@ -80,6 +88,20 @@ private:// 静的メンバ関数
 	/// </summary>
 	/// <returns>成否</returns>
 	static bool InitializeGraphicsPipeline();
+
+	/// <summary>
+	/// 頂点シェーダー読み込み
+	/// </summary>
+	/// <param name="vsName">頂点シェーダー名</param>
+	/// <param name="vsBlob">頂点シェーダーオブジェクト</param>
+	static void LoadVS(const wchar_t* vsName, ComPtr<ID3DBlob>& vsBlob);
+
+	/// <summary>
+	/// ピクセルシェーダー読み込み
+	/// </summary>
+	/// <param name="psName">ピクセルシェーダー名</param>
+	/// <param name="psBlob">ピクセルシェーダーオブジェクト</param>
+	static void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
 
 public: //静的メンバ関数
 	/// <summary>
@@ -98,7 +120,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw(VSPipelineNo vsPipeline = Normal);
 
 	/// <summary>
 	/// 座標の取得
@@ -129,7 +151,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	const XMFLOAT3& GetRotation() { return rotation; }
-	
+
 	/// <summary>
 	/// 回転角の設定
 	/// </summary>

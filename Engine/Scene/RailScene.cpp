@@ -85,6 +85,7 @@ void RailScene::Initialize() {
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
+	ground->SetAmbient({ 1, 1, 1 });
 
 	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
 	celetialSphere->SetPosition(spherePos);
