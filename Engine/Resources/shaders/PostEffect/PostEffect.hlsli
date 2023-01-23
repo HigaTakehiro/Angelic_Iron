@@ -1,6 +1,9 @@
 cbuffer cbuff0 : register(b0)
 {
+    //時間
     float time;
+    //最大時間
+    float maxTime;
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

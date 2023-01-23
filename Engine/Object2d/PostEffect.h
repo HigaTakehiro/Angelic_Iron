@@ -6,6 +6,7 @@ class PostEffect : public Sprite
 public: //構造体
 	struct ConstBuffDataB0 {
 		float time;
+		float maxTime;
 	};
 
 	enum PostEffectNo {
@@ -15,6 +16,8 @@ public: //構造体
 		DAMAGE,
 		SLOW,
 		DASH,
+		SHOUT,
+		POSTSHOUT,
 	};
 
 public: //メンバ関数
@@ -57,7 +60,7 @@ public: //メンバ関数
 	void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
 
 private: //静的メンバ変数
-	static const int texSize = 6;
+	static const int texSize = 8;
 
 public: //メンバ変数
 	//テクスチャバッファ

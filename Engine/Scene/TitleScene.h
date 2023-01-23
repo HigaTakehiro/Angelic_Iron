@@ -18,6 +18,7 @@
 #include "LightGroup.h"
 #include "DebugText.h"
 #include "TextDraw.h"
+#include "MotionMath.h"
 
 class TitleScene : public BaseScene
 {
@@ -70,6 +71,8 @@ private: //メンバ変数
 	TextDraw* textDraw = nullptr;
 
 	FBXObject3d* test;
+	//ポストエフェクト番号
+	PostEffect::PostEffectNo postEffectNo;
 
 	XMFLOAT2 titlePos;
 	XMFLOAT2 startButtonPos;
@@ -103,6 +106,7 @@ private: //メンバ変数
 	Object3d* testSquare = nullptr;
 	Camera* camera = nullptr;
 	LightGroup* light = nullptr;
+	ParticleManager* particle = nullptr;
 
 	Vector3 playerRot;
 	Vector3 playerPos;

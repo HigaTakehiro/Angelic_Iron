@@ -9,10 +9,6 @@ float4 main(VSOutput input) : SV_TARGET
     const float sampleCount = 8.0f;
     
     blurPower = (time / maxTime);
-    if (time >= maxTime / 2.0f)
-    {
-        blurPower = (maxTime / time) - 1.0f;
-    }
     
     float4 texcolor = 0;
     float2 symmetryUV = input.uv - 0.5f;

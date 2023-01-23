@@ -21,7 +21,7 @@ float4 main(VSOutput input) : SV_TARGET
         uvTimer *= -1;
     }
   
-    if (vignetteTimer < 30)
+    if (vignetteTimer < 30.0f)
     {
         uvPoint.x += 0.01 * uvTimer * 0.01;
         texcolor.r = tex0.Sample(smp, uvPoint).r;

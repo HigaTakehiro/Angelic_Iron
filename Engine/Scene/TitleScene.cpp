@@ -112,6 +112,9 @@ void TitleScene::Initialize()
 	test->SetScale({ 0.05f, 0.05f, 0.05f });
 	test->PlayAnimation(true);
 
+	postEffectNo = PostEffect::NONE;
+	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+
 	debugText.Initialize(0);
 }
 
@@ -140,6 +143,7 @@ void TitleScene::Update()
 
 	titlePlayer->Update();
 	wave->Update();
+	particle->Update();
 	aircraft_Carrier->Update();
 	celetialSphere->Update();
 	test->Update();
@@ -380,6 +384,15 @@ void TitleScene::Update()
 		if (startTimer <= startTime) {
 			startTimer++;
 		}
+		if (startTimer >= startTime / 2.0f) {
+			postEffectNo = PostEffect::DASH;
+			for (int i = 0; i < 8; i++) {
+				Vector3 particlePos = { 0.0f, 0.0f, 0.0f };
+				particlePos = MotionMath::GetIns()->CircularMotion(playerPos, particlePos, 45 * i, 10.0f, MotionMath::Y);
+				particlePos.normalize();
+				particle->Add(30, playerPos, particlePos, -particlePos, 3.0f);
+			}
+		}
 		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
 		Vector3 pointA = { -30, 50, 0 };
 		Vector3 pointB = { -30.0f, 50.0f, 200.0f };
@@ -412,7 +425,6 @@ void TitleScene::Draw()
 {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
-	static int postEffectNo = 0;
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -427,6 +439,7 @@ void TitleScene::Draw()
 	wave->Draw(Object3d::Wave);
 	celetialSphere->Draw();
 	aircraft_Carrier->Draw();
+	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//testSquare->Draw();
 	Object3d::PostDraw();
@@ -465,7 +478,7 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 20.0f, PostEffect::DASH, true);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 20.0f, postEffectNo);
 	DirectXSetting::GetIns()->PostDraw();
 
 }
@@ -493,4 +506,5 @@ void TitleScene::Finalize()
 	safe_delete(testSquareModel);
 	safe_delete(light);
 	safe_delete(textDraw);
+	safe_delete(particle);
 }

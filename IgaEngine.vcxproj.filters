@@ -476,5 +476,11 @@
     <FxCompile Include="Engine\Resources\shaders\PostEffect\RadialBlur.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\Shout.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\PostEffect\PostShout.hlsl">
+      <Filter>シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

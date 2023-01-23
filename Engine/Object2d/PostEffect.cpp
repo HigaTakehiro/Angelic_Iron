@@ -134,6 +134,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, P
 	result = constBuffB0->Map(0, nullptr, (void**)&constMapB0);
 	if (SUCCEEDED(result)) {
 		constMapB0->time = timer;
+		constMapB0->maxTime = maxTime;
 		constBuffB0->Unmap(0, nullptr);
 	}
 	
@@ -249,7 +250,12 @@ void PostEffect::CreateGraphicsPipelineState() {
 		else if (i == DASH) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/RadialBlur.hlsl", psBlob);
 		}
-		
+		else if (i == SHOUT) {
+			LoadPS(L"Engine/Resources/shaders/PostEffect/Shout.hlsl", psBlob);
+		}
+		else if (i == POSTSHOUT) {
+			LoadPS(L"Engine/Resources/shaders/PostEffect/PostShout.hlsl", psBlob);
+		}
 
 		// 頂点レイアウト
 		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
