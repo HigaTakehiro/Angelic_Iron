@@ -112,7 +112,7 @@ void TitleScene::Initialize()
 	test->SetScale({ 0.05f, 0.05f, 0.05f });
 	test->PlayAnimation(true);
 
-	postEffectNo = PostEffect::NONE;
+	postEffectNo = PostEffect::NORMAL;
 	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 
 	debugText.Initialize(0);
@@ -425,7 +425,7 @@ void TitleScene::Draw()
 {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
-
+	
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(”wŒi)
@@ -478,7 +478,7 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 20.0f, postEffectNo);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 40.0f, postEffectNo, true);
 	DirectXSetting::GetIns()->PostDraw();
 
 }

@@ -61,6 +61,11 @@ public: //メンバ関数
 	/// <returns>死亡フラグ</returns>
 	bool GetIsDead() { return isDead; }
 	/// <summary>
+	/// ダッシュフラグ取得
+	/// </summary>
+	/// <returns>ダッシュフラグ</returns>
+	bool GetIsDash() { return isDash; }
+	/// <summary>
 	/// アングル取得
 	/// </summary>
 	/// <returns>アングル</returns>

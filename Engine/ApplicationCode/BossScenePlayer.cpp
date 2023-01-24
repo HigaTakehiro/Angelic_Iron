@@ -5,7 +5,7 @@ const int32_t BossScenePlayer::dashTime = 30;
 const int32_t BossScenePlayer::shotCoolTime = 10;
 const int32_t BossScenePlayer::reloadTime = 60;
 const float BossScenePlayer::boostReloadTime = 80.0f;
-const int32_t BossScenePlayer::damageTime = 20;
+const int32_t BossScenePlayer::damageTime = 40;
 const int32_t BossScenePlayer::deadTime = 120;
 
 void BossScenePlayer::Initialize(Camera* camera)

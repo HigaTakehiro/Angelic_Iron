@@ -105,6 +105,7 @@ private: //メンバ変数
 	//ポストエフェクト
 	PostEffect* postEffect = nullptr;
 	PostEffect::PostEffectNo postEffectNo;
+	int postEffectTime;
 	//ライト
 	LightGroup* light = nullptr;
 	FaceGraphics faceType;

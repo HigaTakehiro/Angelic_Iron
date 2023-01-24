@@ -177,6 +177,7 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Object3d>> buildings; //ビルリスト
 	ParticleManager* bombParticle;
 	ParticleManager* enemyParticle;
+	ParticleManager* bulletParticle;
 	Sprite* background = nullptr; //背景画像
 	Sprite* pause = nullptr;
 	Sprite* titleBack = nullptr;

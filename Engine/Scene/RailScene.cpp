@@ -80,7 +80,12 @@ void RailScene::Initialize() {
 	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	if (SceneManager::GetStageNo() == 1) {
+		ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	}
+	else if (SceneManager::GetStageNo() == 2) {
+		ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Wave));
+	}
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
@@ -93,38 +98,41 @@ void RailScene::Initialize() {
 
 	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	bulletParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 
-	for (int i = 0; i < 90; i++) {
-		Vector3 pos = { 0, 20, 0 };
-		Vector3 rot = { 0, 270, 0 };
-		Vector3 scale = { 5, 5, 5 };
-		float angle = 20;
-		float length = 100;
-		if (i > 17) {
-			angle = 25;
-			length = 200;
+	if (SceneManager::GetStageNo() == 1) {
+		for (int i = 0; i < 90; i++) {
+			Vector3 pos = { 0, 20, 0 };
+			Vector3 rot = { 0, 270, 0 };
+			Vector3 scale = { 5, 5, 5 };
+			float angle = 20;
+			float length = 100;
+			if (i > 17) {
+				angle = 25;
+				length = 200;
+			}
+			if (i > 35) {
+				angle = 20;
+				length = 300;
+			}
+			if (i > 53) {
+				angle = 22;
+				length = 400;
+			}
+			if (i > 71) {
+				angle = 20;
+				length = 500;
+			}
+			pos = MotionMath::GetIns()->CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
+			pos.y = rand() % 20 - 40;
+			rot.y -= angle * i;
+			std::unique_ptr<Object3d> newBuilding;
+			newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
+			newBuilding->SetPosition(pos);
+			newBuilding->SetRotation(rot);
+			newBuilding->SetScale(scale);
+			buildings.push_back(std::move(newBuilding));
 		}
-		if (i > 35) {
-			angle = 20;
-			length = 300;
-		}
-		if (i > 53) {
-			angle = 22;
-			length = 400;
-		}
-		if (i > 71) {
-			angle = 20;
-			length = 500;
-		}
-		pos = MotionMath::GetIns()->CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
-		pos.y = rand() % 20 - 40;
-		rot.y -= angle * i;
-		std::unique_ptr<Object3d> newBuilding;
-		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
-		newBuilding->SetPosition(pos);
-		newBuilding->SetRotation(rot);
-		newBuilding->SetScale(scale);
-		buildings.push_back(std::move(newBuilding));
 	}
 
 	player = new Player;
@@ -338,10 +346,23 @@ void RailScene::Update() {
 					3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
 					{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
 			}
+
+			if (player->GetIsShot()) {
+				Vector3 gunPos = player->GetGunObject()->GetMatWorld().r[3];
+				bulletParticle->Add(2, gunPos,
+					{ 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f },
+					5.0f, 0.0f,
+					{ 0.5f, 0.0f, 0.0f },
+					{ 0.5f, 0.3f, 0.0f }
+				);
+			}
+
 		}
 
 		enemyParticle->Update();
 		bombParticle->Update();
+		bulletParticle->Update();
 
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			enemyBullet->Update(delayCount);
@@ -575,6 +596,7 @@ void RailScene::Draw() {
 	}
 	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	bulletParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//object1->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
@@ -649,6 +671,7 @@ void RailScene::Finalize() {
 	safe_delete(scoreSprite);
 	safe_delete(light);
 	safe_delete(bombParticle);
+	safe_delete(bulletParticle);
 	safe_delete(enemyParticle);
 	safe_delete(textDraw);
 	safe_delete(textWindow);

@@ -66,6 +66,12 @@ public: //メンバ関数
 	const XMFLOAT3 GetPlayerPos() { return playerLPos; }
 
 	/// <summary>
+	/// 銃オブジェクト取得
+	/// </summary>
+	/// <returns>銃オブジェクト</returns>
+	Object3d* GetGunObject() { return gun; }
+
+	/// <summary>
 	/// 3Dレティクルの位置取得
 	/// </summary>
 	/// <returns></returns>
@@ -128,6 +134,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>ボムフラグ</returns>
 	bool GetIsBomb() { return isBomb; }
+
+	/// <summary>
+	/// 発射フラグ取得
+	/// </summary>
+	/// <returns>発射フラグ</returns>
+	bool GetIsShot() { return isShot; }
 
 private: //メンバ関数
 	/// <summary>

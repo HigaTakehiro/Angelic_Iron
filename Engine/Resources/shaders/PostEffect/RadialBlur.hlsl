@@ -27,5 +27,9 @@ float4 main(VSOutput input) : SV_TARGET
     }
     texcolor /= sampleCount;
     
+    float vignette = length(float2(0.5, 0.5) - input.uv);
+    vignette = clamp(vignette - 0.45, 0, 1);
+    texcolor.rgb -= vignette;
+    
     return float4(texcolor.rgb, 1);
 }

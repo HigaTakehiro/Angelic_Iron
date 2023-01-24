@@ -43,7 +43,7 @@ void BossScene::Initialize()
 	postEffect->Initialize();
 
 	postEffectNo = PostEffect::NORMAL;
-	postEffectNo = PostEffect::NORMAL;
+	postEffectTime = 0;
 
 	player = new BossScenePlayer;
 	player->Initialize(camera);
@@ -152,7 +152,7 @@ void BossScene::Update()
 	}
 
 	for (int i = 0; i < 6; i++) {
-		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0}, {64, 64});
+		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0 }, { 64, 64 });
 	}
 
 	if (!isTextWindowOpen) {
@@ -362,9 +362,17 @@ void BossScene::Draw()
 		opeAnimeTimer = 0;
 	}
 
-	postEffectNo = PostEffect::NORMAL;
 	if (player->GetIsDamage()) {
 		postEffectNo = PostEffect::DAMAGE;
+		postEffectTime = 60.0f;
+	}
+	else if (player->GetIsDash()) {
+		postEffectNo = PostEffect::DASH;
+		postEffectTime = 28.0f;
+	}
+	else {
+		postEffectNo = PostEffect::NORMAL;
+		postEffectTime = 60.0f;
 	}
 	isRoop = true;
 
@@ -423,7 +431,7 @@ void BossScene::Draw()
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, isRoop);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectTime, postEffectNo, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 

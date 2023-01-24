@@ -110,9 +110,14 @@ void Player::Update(bool isClear) {
 		if (shotCoolTimer > shotCoolTimeOver) {
 			shotCoolTimer--;
 		}
+		else if (shotCoolTimer <= shotCoolTimeOver) {
+			isShot = false;
+			shotCoolTimer = 0.0f;
+		}
 
-		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && shotCoolTimer <= shotCoolTimeOver && !isBomb) {
+		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && !isBomb) {
 			isShot = true;
+			Shot();
 		}
 		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount != maxBulletCount) {
 			bulletCount = noneBulletCount;
@@ -127,9 +132,6 @@ void Player::Update(bool isClear) {
 
 		if (isBomb && MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			BombShot();
-		}
-		else if (isShot && isStart && hpCount > deadHp && !isBomb) {
-			Shot();
 		}
 
 		if (isDamage) {
@@ -264,7 +266,6 @@ void Player::Shot() {
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;
 	//sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
-	isShot = false;
 }
 
 void Player::BombShot() {
