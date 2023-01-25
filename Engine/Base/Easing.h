@@ -5,31 +5,23 @@ class Easing final
 private:
 	Easing() = default;
 	~Easing() = default;
-	Easing(const Easing & obj) = delete;
-	Easing& operator=(const Easing & obj) = delete;
-
-public: //静的メンバ関数
-	static Easing* GetIns() {
-		static Easing instans;
-		return &instans;
-	}
 
 public: //メンバ関数
-	inline float easeIn(float time, float maxTime, float maxPos, float nowPos) {
+	static inline float easeIn(float time, float maxTime, float maxPos, float nowPos) {
 		maxPos -= nowPos;
 		time /= maxTime;
 
 		return maxPos * time * time + nowPos;
 	}
 
-	inline float easeOut(float time, float maxTime, float maxPos, float nowPos) {
+	static inline float easeOut(float time, float maxTime, float maxPos, float nowPos) {
 		maxPos -= nowPos;
 		time /= maxTime;
 
 		return -maxPos * time * (time - 2.0f) + nowPos;
 	}
 
-	inline float easeInOut(float time, float maxTime, float maxPos, float nowPos) {
+	static inline float easeInOut(float time, float maxTime, float maxPos, float nowPos) {
 		maxPos -= nowPos;
 		time /= maxTime;
 
@@ -38,23 +30,19 @@ public: //メンバ関数
 		return -maxPos * time * (time - 2.0f) + nowPos;
 	}
 
-	inline float easeInBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
+	static inline float easeInBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
 		maxPos -= nowPos;
 		time /= maxTime;
 
 		return maxPos * time * time * ((back + 1) * time - back) + nowPos;
 	}
 
-	inline float easeOutBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
+	static inline float easeOutBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
 		maxPos -= nowPos;
 		time /= maxTime;
 		time -= 1;
 
 		return maxPos * (time * time * ((back + 1) * time + back) + 1) + nowPos;
-	}
-
-	inline float easeInOutBack() {
-
 	}
 };
 

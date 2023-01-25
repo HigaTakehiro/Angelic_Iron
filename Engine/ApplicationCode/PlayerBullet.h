@@ -2,7 +2,6 @@
 #include "Object3d.h"
 #include "Model.h"
 #include "Vector3.h"
-#include "MatCalc.h"
 #include "ModelManager.h"
 #include "safedelete.h"
 

@@ -46,7 +46,7 @@ void BossScenePlayer::Initialize(Camera* camera)
 
 	cameraAngle = 0.0f;
 	cameraPos = { 0, -20.0f, 0 };
-	cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+	cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
 	damageTimer = 0;
 
@@ -172,10 +172,10 @@ void BossScenePlayer::Move() {
 		if (cameraAngle <= 0.0f) {
 			cameraAngle = 360.0f;
 		}
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
 		if (rot.y <= leftRot) {
-			rot.y = Easing::GetIns()->easeIn(rotationTimer, rotationTime, leftRot, rot.y);
+			rot.y = Easing::easeIn(rotationTimer, rotationTime, leftRot, rot.y);
 		}
 		else {
 			rot.y = leftRot;
@@ -191,10 +191,10 @@ void BossScenePlayer::Move() {
 		if (cameraAngle >= 360.0f) {
 			cameraAngle = 0.0f;
 		}
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
 		if (rot.y >= rightRot) {
-			rot.y = Easing::GetIns()->easeIn(rotationTimer, rotationTime, rightRot, rot.y);
+			rot.y = Easing::easeIn(rotationTimer, rotationTime, rightRot, rot.y);
 		}
 		else {
 			rot.y = rightRot;
@@ -272,8 +272,8 @@ void BossScenePlayer::Dash()
 				cameraAngle = 360.0f + cameraAngle;
 			}
 		}
-		cameraAngle = Easing::GetIns()->easeIn(dashTimer, dashTime, initAngle - moveAngle, cameraAngle);
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+		cameraAngle = Easing::easeIn(dashTimer, dashTime, initAngle - moveAngle, cameraAngle);
+		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 	}
 	if (isRightDash) {
 		rot.y = -90.0f;
@@ -286,8 +286,8 @@ void BossScenePlayer::Dash()
 				cameraAngle = cameraAngle - 360.0f;
 			}
 		}
-		cameraAngle = Easing::GetIns()->easeIn(dashTimer, dashTime, initAngle + moveAngle, cameraAngle);
-		cameraPos = MotionMath::GetIns()->CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
+		cameraAngle = Easing::easeIn(dashTimer, dashTime, initAngle + moveAngle, cameraAngle);
+		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 	}
 
 }

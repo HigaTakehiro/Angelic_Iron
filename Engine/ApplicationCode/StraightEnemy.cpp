@@ -40,7 +40,7 @@ void StraightEnemy::Update(const int delayTime)
 		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-		spriteRot = Easing::GetIns()->easeOutBack(targetReactionTimer, targetReactionTime, maxSpriteRot, spriteRot, 1);
+		spriteRot = Easing::easeOutBack(targetReactionTimer, targetReactionTime, maxSpriteRot, spriteRot, 1);
 
 		target->SetPosition(spritePos);
 		target->SetRotation(spriteRot);
@@ -117,7 +117,7 @@ void StraightEnemy::Attack()
 		const float bulletSpeed = 0.001f;
 		XMVECTOR velocity = { 0, 0, 1 };
 
-		velocity = MatCalc::GetIns()->VecDivided(velocity, enemy->GetMatWorld());
+		velocity = XMVector3TransformNormal(velocity, enemy->GetMatWorld());
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);

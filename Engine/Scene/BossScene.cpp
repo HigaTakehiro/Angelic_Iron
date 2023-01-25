@@ -18,7 +18,7 @@ void BossScene::Initialize()
 			angle = 25;
 			length = 500;
 		}
-		pos = MotionMath::GetIns()->CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
+		pos = MotionMath::CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
 		pos.y = rand() % 20 - 30;
 		rot.y -= angle * i;
 		std::unique_ptr<Object3d> newBuilding;
@@ -160,9 +160,9 @@ void BossScene::Update()
 		if (closeWindowTimer >= closeWindowTime) {
 			closeWindowTimer = closeWindowTime;
 		}
-		textWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::GetIns()->easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
@@ -176,9 +176,9 @@ void BossScene::Update()
 		if (openWindowTimer >= openWindowTime) {
 			openWindowTimer = openWindowTime;
 		}
-		textWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::GetIns()->easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);

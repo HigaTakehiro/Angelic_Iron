@@ -63,7 +63,7 @@ void BaseScene::SceneChangeEffect()
 	}
 
 	for (int i = 0; i < 10; i++) {
-		sceneChangeEffectsPos[i].x = Easing::GetIns()->easeIn(sceneChangeTimer, sceneChangeTime, targetPosX, sceneChangeEffectsPos[i].x);
+		sceneChangeEffectsPos[i].x = Easing::easeIn(sceneChangeTimer, sceneChangeTime, targetPosX, sceneChangeEffectsPos[i].x);
 		sceneChangeEffects[i]->SetPosition(sceneChangeEffectsPos[i]);
 	}
 }
@@ -85,7 +85,7 @@ void BaseScene::SceneChangeCompleteEffect()
 	}
 
 	for (int i = 0; i < 10; i++) {
-		sceneChangeEffectsPos[i].x = Easing::GetIns()->easeOut(sceneChangeTimer,
+		sceneChangeEffectsPos[i].x = Easing::easeOut(sceneChangeTimer,
 			sceneChangeTime, sceneChangeInitPosX + (sceneChangeShiftX * i),
 			sceneChangeEffectsPos[i].x
 		);

@@ -1,7 +1,6 @@
 #pragma once
 #include "camera.h"
 #include "Vector3.h"
-#include "MatCalc.h"
 #include <DirectXMath.h>
 #include <vector>
 #include "KeyInput.h"

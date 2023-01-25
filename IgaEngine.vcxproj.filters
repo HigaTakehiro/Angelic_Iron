@@ -75,9 +75,6 @@
     <ClCompile Include="Engine\Base\DirectXSetting.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\MatCalc.cpp">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\Quaternion.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
@@ -228,9 +225,6 @@
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Easing.h">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\MatCalc.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Quaternion.h">

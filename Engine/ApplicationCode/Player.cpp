@@ -87,8 +87,8 @@ void Player::Update(bool isClear) {
 		isStart = true;
 	}
 	if (!isStart) {
-		playerLPos.y = Easing::GetIns()->easeIn(startTimer, startTime, 0, playerLPos.y);
-		playerRot.x = Easing::GetIns()->easeIn(startTimer, startTime * 2, 0, playerRot.x);
+		playerLPos.y = Easing::easeIn(startTimer, startTime, 0, playerLPos.y);
+		playerRot.x = Easing::easeIn(startTimer, startTime * 2, 0, playerRot.x);
 	}
 
 	if (!isClear) {
@@ -197,7 +197,7 @@ void Player::Move() {
 		if (playerLPos.y <= stopPosY) {
 			playerLPos.y += moveSpeed;
 		}
-		playerRot.x = Easing::GetIns()->easeOut(holdTimer[0], timeOver, initRot.x - stopRotX, playerRot.x);
+		playerRot.x = Easing::easeOut(holdTimer[0], timeOver, initRot.x - stopRotX, playerRot.x);
 	}
 	else {
 		holdTimer[0] = initTime;
@@ -209,7 +209,7 @@ void Player::Move() {
 		if (playerLPos.y >= -stopPosY) {
 			playerLPos.y -= moveSpeed;
 		}
-		playerRot.x = Easing::GetIns()->easeOut(holdTimer[1], timeOver, initRot.x + stopRotX, playerRot.x);
+		playerRot.x = Easing::easeOut(holdTimer[1], timeOver, initRot.x + stopRotX, playerRot.x);
 	}
 	else {
 		holdTimer[1] = initTime;
@@ -221,7 +221,7 @@ void Player::Move() {
 		if (playerLPos.x >= -stopPosX) {
 			playerLPos.x -= moveSpeed;
 		}
-		playerRot.y = Easing::GetIns()->easeOut(holdTimer[2], timeOver, initRot.y - stopRotY, playerRot.y);
+		playerRot.y = Easing::easeOut(holdTimer[2], timeOver, initRot.y - stopRotY, playerRot.y);
 	}
 	else {
 		holdTimer[2] = initTime;
@@ -233,7 +233,7 @@ void Player::Move() {
 		if (playerLPos.x <= stopPosX) {
 			playerLPos.x += moveSpeed;
 		}
-		playerRot.y = Easing::GetIns()->easeOut(holdTimer[3], timeOver, initRot.y + stopRotX, playerRot.y);
+		playerRot.y = Easing::easeOut(holdTimer[3], timeOver, initRot.y + stopRotX, playerRot.y);
 	}
 	else {
 		holdTimer[3] = initTime;
@@ -243,8 +243,8 @@ void Player::Move() {
 		if (returnTimer <= timeOver * 2) {
 			returnTimer++;
 		}
-		playerRot.x = Easing::GetIns()->easeInOut(returnTimer, timeOver * 2, initRot.x, playerRot.x);
-		playerRot.y = Easing::GetIns()->easeInOut(returnTimer, timeOver * 2, initRot.y, playerRot.y);
+		playerRot.x = Easing::easeInOut(returnTimer, timeOver * 2, initRot.x, playerRot.x);
+		playerRot.y = Easing::easeInOut(returnTimer, timeOver * 2, initRot.y, playerRot.y);
 	}
 	else {
 		returnTimer = initTime;
@@ -369,9 +369,9 @@ void Player::DeadPerformance() {
 void Player::ClearPerformance() {
 	const Vector3 endPos = { 0.0f, -40.0f, 0.0f };
 	clearTimer--;
-	playerWPos.x = Easing::GetIns()->easeInOut(clearTimer, clearTime, playerWPos.x, endPos.x);
-	playerWPos.y = Easing::GetIns()->easeOutBack(clearTimer, clearTime, playerWPos.y, endPos.y, 1);
-	playerWPos.z = Easing::GetIns()->easeInOut(clearTimer, clearTime, playerWPos.z, endPos.z);
+	playerWPos.x = Easing::easeInOut(clearTimer, clearTime, playerWPos.x, endPos.x);
+	playerWPos.y = Easing::easeOutBack(clearTimer, clearTime, playerWPos.y, endPos.y, 1);
+	playerWPos.z = Easing::easeInOut(clearTimer, clearTime, playerWPos.z, endPos.z);
 	player->SetCameraParent(nullptr);
 	player->SetPosition(playerWPos);
 	player->SetRotation(playerRot);

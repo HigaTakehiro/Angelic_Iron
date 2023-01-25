@@ -157,10 +157,10 @@ void RailCamera::UpdateMatWorld() {
 	matWorld *= matTrans;
 
 	XMVECTOR forward = { 0, 0, 1 };
-	forward = MatCalc::GetIns()->VecDivided(forward, matWorld);
+	forward = XMVector3TransformNormal(forward, matWorld);
 	target = eye + forward;
 	XMVECTOR up = { 0, 1, 0 };
-	up = MatCalc::GetIns()->VecDivided(up, matWorld);
+	up = XMVector3TransformNormal(up, matWorld);
 	Camera::SetTarget(target);
 	Camera::SetUp(XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]));
 	Camera::SetMatWorld(matWorld);

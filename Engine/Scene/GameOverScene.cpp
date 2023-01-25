@@ -81,14 +81,14 @@ void GameOverScene::Update()
 		scoreRollTimer = scoreRollTime;
 	}
 
-	cameraTargetPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, endPoint, cameraTargetPos.y);
-	playerPos.y = Easing::GetIns()->easeOut(scoreRollTimer, fallTime, endPoint, playerPos.y);
+	cameraTargetPos.y = Easing::easeOut(scoreRollTimer, fallTime, endPoint, cameraTargetPos.y);
+	playerPos.y = Easing::easeOut(scoreRollTimer, fallTime, endPoint, playerPos.y);
 
 	camera->SetTarget(cameraTargetPos);
 	resultPlayer->SetPosition(playerPos);
 
 	for (int i = 0; i < 6; i++) {
-		scoreRollPos[i].x = Easing::GetIns()->easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
+		scoreRollPos[i].x = Easing::easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
 	}
 	for (int i = 0; i < 6; i++) {
 		scoreNumbers[i]->SetTextureRect(scoreRollPos[i], scoreSize);
