@@ -153,6 +153,7 @@
     <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Bomb.cpp" />
     <ClCompile Include="Engine\ApplicationCode\BossScenePlayer.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\BulletCase.cpp" />
     <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\FirstBoss.cpp" />
     <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Bomb.h" />
     <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h" />
+    <ClInclude Include="Engine\ApplicationCode\BulletCase.h" />
     <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\FirstBoss.h" />
     <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h" />

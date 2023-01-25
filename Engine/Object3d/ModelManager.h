@@ -24,6 +24,8 @@ public: //ƒ‚ƒfƒ‹–¼
 		Player_Stand,
 		Player_Down,
 		Gun,
+		Bullet,
+		BulletCase,
 		Enemy,
 		Shot,
 		Ground,

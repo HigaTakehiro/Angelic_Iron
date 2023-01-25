@@ -133,16 +133,16 @@ void TitleScene::Update()
 	debugText.Print(lightPosText, 0, 0, 2);
 
 	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetCircleShadowDir(0, {0, -1, 0});
+	light->SetCircleShadowDir(0, { 0, -1, 0 });
 	light->SetCircleShadowCasterPos(0, playerPos);
-	light->SetCircleShadowAtten(0, {0.0f, 0.01f, 0.0f});
+	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
 	light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
 	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 
 	titlePlayer->SetPosition(playerPos);
 
 	titlePlayer->Update();
-	wave->Update();
+	wave->Update(1200.0f);
 	particle->Update();
 	aircraft_Carrier->Update();
 	celetialSphere->Update();
@@ -380,7 +380,7 @@ void TitleScene::Update()
 	}
 
 	//シーン切り替え
-	if (isStage1) {
+	if (isStageChoice) {
 		if (startTimer <= startTime) {
 			startTimer++;
 		}
@@ -408,24 +408,22 @@ void TitleScene::Update()
 		}
 
 		if (isSceneChange) {
-			SceneManager::SceneChange(SceneManager::Stage1_Rail);
+			if (isStage1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+			}
+			else if (isStage2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			}
 		}
 	}
-	else if (isStage2) {
-		startTimer++;
-		playerPos.z = Easing::GetIns()->easeIn(startTimer, startTime / 2, 200, playerPos.z);
-		titlePlayer->SetPosition(playerPos);
-		if (startTimer >= startTime) {
-			SceneManager::SceneChange(SceneManager::Stage2_Rail);
-		}
-	}
+
 }
 
 void TitleScene::Draw()
 {
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
-	
+
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
@@ -478,7 +476,7 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 40.0f, postEffectNo, true);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, true);
 	DirectXSetting::GetIns()->PostDraw();
 
 }

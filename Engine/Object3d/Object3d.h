@@ -115,7 +115,8 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	/// <param name="maxTime">定数バッファに送る最大時間</param>
+	void Update(const float maxTime = 0.0f);
 
 	/// <summary>
 	/// 描画

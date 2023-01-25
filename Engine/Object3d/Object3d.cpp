@@ -217,9 +217,8 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
+void Object3d::Update(const float maxTime)
 {
-	const float maxTime = 120.0f;
 	timer++;
 	if (timer >= maxTime) {
 		timer = 0.0f;
@@ -265,7 +264,7 @@ void Object3d::Update()
 		constMap0->world = matWorld;
 		constMap0->color = color;
 		constMap0->cameraPos = camera->GetEye();
-		constMap0->time = timer;
+		constMap0->time = timer / maxTime;
 		constBuffB0->Unmap(0, nullptr);
 	}
 

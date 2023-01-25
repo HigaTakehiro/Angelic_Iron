@@ -34,6 +34,7 @@
 #include "LightGroup.h"
 #include "ParticleManager.h"
 #include "TextDraw.h"
+#include "BulletCase.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -125,6 +126,12 @@ public: //メンバ関数
 	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
 
 	/// <summary>
+	/// 薬莢を追加
+	/// </summary>
+	/// <param name="bulletCase">薬莢</param>
+	void AddBulletCase(std::unique_ptr<BulletCase> bulletCase);
+
+	/// <summary>
 	/// ボムの弾を追加
 	/// </summary>
 	/// <param name="bomb"></param>
@@ -174,6 +181,7 @@ private: //メンバ変数
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets; //プレイヤーの弾リスト
 	std::list<std::unique_ptr<Particle2d>> particles2d; //2dパーティクルのリスト
 	std::list<std::unique_ptr<Bomb>> bombs; //ボムの弾リスト
+	std::list<std::unique_ptr<BulletCase>> bulletCases; //薬莢リスト 
 	std::list<std::unique_ptr<Object3d>> buildings; //ビルリスト
 	ParticleManager* bombParticle;
 	ParticleManager* enemyParticle;

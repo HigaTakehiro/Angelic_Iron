@@ -21,6 +21,7 @@
 #include "BaseEnemy.h"
 #include "RailScene.h"
 #include "ParticleManager.h"
+#include "BulletCase.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

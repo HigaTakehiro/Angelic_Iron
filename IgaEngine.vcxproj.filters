@@ -216,6 +216,9 @@
     <ClCompile Include="Engine\Audio\SoundManager.cpp">
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\BulletCase.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -382,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Audio\SoundManager.h">
       <Filter>ソース ファイル\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\BulletCase.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

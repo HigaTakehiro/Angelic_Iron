@@ -22,6 +22,8 @@ void ModelManager::Initialize() {
 	LoadModel("Player_Stand");
 	LoadModel("Player_Down");
 	LoadModel("Gun");
+	LoadModel("Bullet");
+	LoadModel("BulletCase");
 	LoadModel("Enemy", true);
 	LoadModel("Block");
 	LoadModel("ground");

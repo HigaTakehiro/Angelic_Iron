@@ -261,7 +261,17 @@ void Player::Shot() {
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos, velocity);
 
+	Vector3 gunPos = gun->GetMatWorld().r[3];
+	XMVECTOR gunForward = { 0.0f, 0.0f, 1.0f };
+	gunForward = XMVector3TransformNormal( gunForward, gun->GetMatWorld() );
+	velocity = { 1.0f, 0.4f, 0.0f };
+	velocity = XMVector3TransformNormal(velocity, camera->GetMatWorld());
+
+	std::unique_ptr<BulletCase> newBulletCase = std::make_unique<BulletCase>();
+	newBulletCase->Initialize(gunPos, velocity, gunForward);
+
 	railScene->AddPlayerBullet(std::move(newBullet));
+	railScene->AddBulletCase(std::move(newBulletCase));
 
 	bulletCount--;
 	shotCoolTimer = shotCoolTime;

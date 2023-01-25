@@ -198,6 +198,7 @@ void RailScene::Update() {
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
+	bulletCases.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 
 	light->SetCircleShadowCasterPos(0, { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
@@ -372,6 +373,9 @@ void RailScene::Update() {
 		}
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
 			particle2d->Update();
+		}
+		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
+			bulletCase->Update(delayCount);
 		}
 
 		for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
@@ -594,6 +598,9 @@ void RailScene::Draw() {
 	for (std::unique_ptr<Object3d>& building : buildings) {
 		building->Draw();
 	}
+	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
+		bulletCase->Draw();
+	}
 	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bulletParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
@@ -783,6 +790,11 @@ void RailScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
 
 void RailScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
 	playerBullets.push_back(std::move(playerBullet));
+}
+
+void RailScene::AddBulletCase(std::unique_ptr<BulletCase> bulletCase)
+{
+	bulletCases.push_back(std::move(bulletCase));
 }
 
 void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
