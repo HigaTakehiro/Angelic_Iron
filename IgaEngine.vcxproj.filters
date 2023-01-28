@@ -227,7 +227,7 @@
     <ClCompile Include="Engine\ApplicationCode\Effects\Particle2d.cpp">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp">
+    <ClCompile Include="Engine\ApplicationCode\Maths\MotionMath.cpp">
       <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
     </ClCompile>
   </ItemGroup>
@@ -394,7 +394,7 @@
     <ClInclude Include="Engine\ApplicationCode\Effects\Particle2d.h">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\MotionMath.h">
+    <ClInclude Include="Engine\ApplicationCode\Maths\MotionMath.h">
       <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
     </ClInclude>
   </ItemGroup>

@@ -79,13 +79,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)External\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -160,7 +160,7 @@
     <ClCompile Include="Engine\ApplicationCode\Enemies\EnemyBullet.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Enemies\HomingEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Enemies\StraightEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Maths\MotionMath.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Players\Bomb.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Players\BossScenePlayer.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Players\Player.cpp" />
@@ -212,7 +212,7 @@
     <ClInclude Include="Engine\ApplicationCode\Enemies\EnemyBullet.h" />
     <ClInclude Include="Engine\ApplicationCode\Enemies\HomingEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\Enemies\StraightEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\MotionMath.h" />
+    <ClInclude Include="Engine\ApplicationCode\Maths\MotionMath.h" />
     <ClInclude Include="Engine\ApplicationCode\Players\Bomb.h" />
     <ClInclude Include="Engine\ApplicationCode\Players\BossScenePlayer.h" />
     <ClInclude Include="Engine\ApplicationCode\Players\Player.h" />

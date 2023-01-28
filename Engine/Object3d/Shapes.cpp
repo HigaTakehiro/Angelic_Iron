@@ -1,7 +1,5 @@
 #include "Shapes.h"
 
-
-
 Model* Shapes::CreateTriangle(const XMFLOAT2& vertices_1, const XMFLOAT2& vertices_2, const XMFLOAT2& vertices_3, const std::string& textureName)
 {
     Model* triangleModel = nullptr;
