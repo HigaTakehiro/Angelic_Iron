@@ -1,15 +1,5 @@
 #include "FirstBoss.h"
 
-const int32_t FirstBoss::rotationTime = 15;
-const int32_t FirstBoss::actionCoolTime = 60;
-const int32_t FirstBoss::rollingShotTime = 180;
-const int32_t FirstBoss::deadTime = 180;
-const int32_t FirstBoss::leftHandDeadTime = 180;
-const int32_t FirstBoss::rightHandDeadTime = 180;
-const int32_t FirstBoss::guardTime = 90;
-const int32_t FirstBoss::stompTime = 100;
-const int32_t FirstBoss::punchTime = 180;
-
 void FirstBoss::Initialize(ModelManager::ModelName model, const Vector3& pos) {
 	boss = Object3d::Create(ModelManager::GetIns()->GetModel(model));
 	this->pos = pos;

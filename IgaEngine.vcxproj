@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\lib\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,6 +127,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,23 +147,31 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\ApplicationCode\BaseBoss.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\BaseEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Bomb.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\BossScenePlayer.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\BulletCase.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\FirstBoss.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\HomingEnemy.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Bosses\BaseBoss.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Bosses\FirstBoss.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\CameraMove\RailCamera.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Effects\BulletCase.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Effects\Particle2d.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Enemies\BaseEnemy.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Enemies\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Enemies\HomingEnemy.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Enemies\StraightEnemy.cpp" />
     <ClCompile Include="Engine\ApplicationCode\MotionMath.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\StraightEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Particle2d.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Player.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\PlayerBullet.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\RailCamera.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Players\Bomb.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Players\BossScenePlayer.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Players\Player.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Players\PlayerBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\BossScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\GameOverScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\RailScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneManager.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -191,30 +200,30 @@
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp" />
     <ClCompile Include="Engine\Object3d\Shapes.cpp" />
-    <ClCompile Include="Engine\Scene\BaseScene.cpp" />
-    <ClCompile Include="Engine\Scene\BossScene.cpp" />
-    <ClCompile Include="Engine\Scene\GameOverScene.cpp" />
-    <ClCompile Include="Engine\Scene\RailScene.cpp" />
-    <ClCompile Include="Engine\Scene\ResultScene.cpp" />
-    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
-    <ClCompile Include="Engine\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\ApplicationCode\BaseBoss.h" />
-    <ClInclude Include="Engine\ApplicationCode\BaseEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\Bomb.h" />
-    <ClInclude Include="Engine\ApplicationCode\BossScenePlayer.h" />
-    <ClInclude Include="Engine\ApplicationCode\BulletCase.h" />
-    <ClInclude Include="Engine\ApplicationCode\EnemyBullet.h" />
-    <ClInclude Include="Engine\ApplicationCode\FirstBoss.h" />
-    <ClInclude Include="Engine\ApplicationCode\HomingEnemy.h" />
+    <ClInclude Include="Engine\ApplicationCode\Bosses\BaseBoss.h" />
+    <ClInclude Include="Engine\ApplicationCode\Bosses\FirstBoss.h" />
+    <ClInclude Include="Engine\ApplicationCode\CameraMove\RailCamera.h" />
+    <ClInclude Include="Engine\ApplicationCode\Effects\BulletCase.h" />
+    <ClInclude Include="Engine\ApplicationCode\Effects\Particle2d.h" />
+    <ClInclude Include="Engine\ApplicationCode\Enemies\BaseEnemy.h" />
+    <ClInclude Include="Engine\ApplicationCode\Enemies\EnemyBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\Enemies\HomingEnemy.h" />
+    <ClInclude Include="Engine\ApplicationCode\Enemies\StraightEnemy.h" />
     <ClInclude Include="Engine\ApplicationCode\MotionMath.h" />
-    <ClInclude Include="Engine\ApplicationCode\StraightEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\Particle2d.h" />
-    <ClInclude Include="Engine\ApplicationCode\Player.h" />
-    <ClInclude Include="Engine\ApplicationCode\PlayerBullet.h" />
-    <ClInclude Include="Engine\ApplicationCode\RailCamera.h" />
+    <ClInclude Include="Engine\ApplicationCode\Players\Bomb.h" />
+    <ClInclude Include="Engine\ApplicationCode\Players\BossScenePlayer.h" />
+    <ClInclude Include="Engine\ApplicationCode\Players\Player.h" />
+    <ClInclude Include="Engine\ApplicationCode\Players\PlayerBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\BossScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\GameOverScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\RailScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\ResultScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneManager.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
@@ -249,13 +258,6 @@
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Object3d\ParticleManager.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
-    <ClInclude Include="Engine\Scene\BaseScene.h" />
-    <ClInclude Include="Engine\Scene\BossScene.h" />
-    <ClInclude Include="Engine\Scene\GameOverScene.h" />
-    <ClInclude Include="Engine\Scene\RailScene.h" />
-    <ClInclude Include="Engine\Scene\ResultScene.h" />
-    <ClInclude Include="Engine\Scene\SceneManager.h" />
-    <ClInclude Include="Engine\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc" />

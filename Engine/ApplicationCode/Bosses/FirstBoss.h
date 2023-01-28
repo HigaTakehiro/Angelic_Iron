@@ -104,12 +104,16 @@ private: //メンバ関数
 	void RightHandDeadReaction();
 
 private: //静的メンバ変数
-	static const int32_t rollingShotTime;
-	static const int32_t leftHandDeadTime;
-	static const int32_t rightHandDeadTime;
-	static const int32_t guardTime;
-	static const int32_t stompTime;
-	static const int32_t punchTime;
+
+	const int32_t FirstBoss::rotationTime = 15;
+	const int32_t FirstBoss::actionCoolTime = 60;
+	const int32_t FirstBoss::rollingShotTime = 180;
+	const int32_t FirstBoss::deadTime = 180;
+	const int32_t FirstBoss::leftHandDeadTime = 180;
+	const int32_t FirstBoss::rightHandDeadTime = 180;
+	const int32_t FirstBoss::guardTime = 90;
+	const int32_t FirstBoss::stompTime = 100;
+	const int32_t FirstBoss::punchTime = 180;
 
 private: //メンバ変数
 	// 左手
