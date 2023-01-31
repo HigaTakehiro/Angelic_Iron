@@ -16,7 +16,7 @@ void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vect
 	oldPos = pos;
 	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
-	delayTimer = 0.0f;
+	delayTimer = 0;
 	hp = 1;
 	shotIntervalTime = 60;
 	shotIntervalTimer = 0;
@@ -32,7 +32,7 @@ void HomingEnemy::Update(const int delayTime)
 	delayTimer++;
 
 	if (isTarget) {
-		int spriteRot = 0;
+		float spriteRot = 0.0f;
 		const float maxSpriteRot = 360.0f;
 		if (targetReactionTimer <= targetReactionTime) {
 			targetReactionTimer++;
@@ -42,13 +42,13 @@ void HomingEnemy::Update(const int delayTime)
 		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
 
 		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-		spriteRot = Easing::easeOutBack(targetReactionTimer, targetReactionTime, maxSpriteRot, spriteRot, 1);
+		spriteRot = Easing::easeOutBack(targetReactionTimer, targetReactionTime, maxSpriteRot, spriteRot, 1.0f);
 
 		target->SetPosition(spritePos);
 		target->SetRotation(spriteRot);
 	}
 	else {
-		targetReactionTimer = 0;
+		targetReactionTimer = 0.0f;
 	}
 
 	if (delayTimer >= delayTime) {

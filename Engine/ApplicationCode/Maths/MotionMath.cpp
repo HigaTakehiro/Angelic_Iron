@@ -19,6 +19,8 @@ Vector3 MotionMath::CircularMotion(const Vector3& centerPos, const Vector3& rotP
 		pos.y = centerPos.y + length * cos(radius);
 		return pos;
 	}
+
+	return pos;
 }
 
 Vector3 MotionMath::Leap(const Vector3& startPos, const Vector3& endPos, const float timeRate)

@@ -68,7 +68,7 @@ void RailCamera::Update(float delayCount) {
 }
 
 Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, float t) {
-	int n = points.size() - 2;
+	int n = (int)points.size() - 2;
 
 	if (startIndex > n) return points[n];
 	if (startIndex < 1) return points[1];
@@ -114,8 +114,8 @@ void RailCamera::SplineMove() {
 		Vector3 distance;
 		float xRot, yRot;
 		distance = Vector3(points[startIndex + 1].x - eye.x, points[startIndex + 1].y - eye.y, points[startIndex + 1].z - eye.z);
-		xRot = -(atan2(distance.y, sqrtf(pow(distance.z, 2)) + pow(distance.x, 2)) * 180.0f / 3.14f);
-		yRot = (atan2(distance.x, distance.z) * 180.0f / 3.14f);
+		xRot = (atan2f(distance.y, sqrtf((float)pow(distance.z, 2)) + (float)pow(distance.x, 2)) * 180.0f / 3.14f);
+		yRot = (atan2f(distance.x, distance.z) * 180.0f / 3.14f);
 		xRot = roundf(xRot * 10.0f) / 10.0f;
 		yRot = roundf(yRot * 10.0f) / 10.0f;
 		rot.x = roundf(rot.x * 10.0f) / 10.0f;

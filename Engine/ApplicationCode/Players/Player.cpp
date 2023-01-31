@@ -37,7 +37,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	}
 
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
-	gun->SetPosition(Vector3(1, 0.6, 1.1));
+	gun->SetPosition(Vector3(1.0f, 0.6f, 1.1f));
 	gun->SetParent(player);
 
 	bulletCount = 0;
@@ -87,8 +87,8 @@ void Player::Update(bool isClear) {
 		isStart = true;
 	}
 	if (!isStart) {
-		playerLPos.y = Easing::easeIn(startTimer, startTime, 0, playerLPos.y);
-		playerRot.x = Easing::easeIn(startTimer, startTime * 2, 0, playerRot.x);
+		playerLPos.y = Easing::easeIn((float)startTimer, (float)startTime, 0, playerLPos.y);
+		playerRot.x = Easing::easeIn((float)startTimer, (float)startTime * 2, 0, playerRot.x);
 	}
 
 	if (!isClear) {
@@ -112,7 +112,7 @@ void Player::Update(bool isClear) {
 		}
 		else if (shotCoolTimer <= shotCoolTimeOver) {
 			isShot = false;
-			shotCoolTimer = 0.0f;
+			shotCoolTimer = 0;
 		}
 
 		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot && bulletCount > noneBulletCount && !isBomb) {
@@ -173,7 +173,7 @@ void Player::SpriteDraw() {
 }
 
 void Player::ObjectDraw() {
-	const int32_t liveTime = deadTime / 1.2;
+	const int32_t liveTime = (int32_t)(deadTime / 1.2);
 	if (deadTimer >= liveTime) {
 		player->Draw();
 		gun->Draw();
@@ -315,7 +315,7 @@ void Player::Reset() {
 void Player::AimUpdate() {
 
 	//2D→3D
-	aimPos = XMFLOAT2(MouseInput::GetIns()->GetMousePoint().x, MouseInput::GetIns()->GetMousePoint().y);
+	aimPos = XMFLOAT2((float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y);
 
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
@@ -354,7 +354,7 @@ void Player::DamageEffect() {
 }
 
 void Player::DeadPerformance() {
-	const int32_t deadTimeOver = 0.0f;
+	const int32_t deadTimeOver = 0;
 
 	deadTimer--;
 

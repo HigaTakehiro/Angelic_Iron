@@ -300,11 +300,11 @@ void TitleScene::Update()
 		if (stageSelectTimer >= manualComeTime) {
 			stageSelectTimer = manualComeTime;
 		}
-		cameraTargetPos.y = Easing::easeOut(stageSelectTimer, stage1ComeTime, 1, cameraTargetPos.y);
-		titlePos.x = Easing::easeInBack(stageSelectTimer, titleOutTime, outPos, titlePos.x, 1);
-		stage1Pos.x = Easing::easeIn(stageSelectTimer, stage1ComeTime, comePos, stage1Pos.x);
-		stage2Pos.x = Easing::easeIn(stageSelectTimer, stage2ComeTime, comePos, stage2Pos.x);
-		manualButtonPos.x = Easing::easeIn(stageSelectTimer, manualComeTime, comePos, manualButtonPos.x);
+		cameraTargetPos.y = Easing::easeOut((float)stageSelectTimer, (float)stage1ComeTime, 1, cameraTargetPos.y);
+		titlePos.x = Easing::easeInBack((float)stageSelectTimer, (float)titleOutTime, outPos, titlePos.x, 1);
+		stage1Pos.x = Easing::easeIn((float)stageSelectTimer, (float)stage1ComeTime, comePos, stage1Pos.x);
+		stage2Pos.x = Easing::easeIn((float)stageSelectTimer, (float)stage2ComeTime, comePos, stage2Pos.x);
+		manualButtonPos.x = Easing::easeIn((float)stageSelectTimer, (float)manualComeTime, comePos, manualButtonPos.x);
 
 		camera->SetTarget(cameraTargetPos);
 		title->SetPosition(titlePos);
@@ -335,8 +335,8 @@ void TitleScene::Update()
 			isNextPage = false;
 			isPrevPage = false;
 		}
-		manualSize.x = Easing::easeOut(manualTimer, manualOpenTime, openWidth, manualSize.x);
-		manualSize.y = Easing::easeOut(manualTimer, manualOpenTime, openHeight, manualSize.y);
+		manualSize.x = Easing::easeOut((float)manualTimer, (float)manualOpenTime, openWidth, manualSize.x);
+		manualSize.y = Easing::easeOut((float)manualTimer, (float)manualOpenTime, openHeight, manualSize.y);
 
 		if (pageNumber != prePageNumber) {
 			isNextPage = false;
@@ -353,10 +353,10 @@ void TitleScene::Update()
 			prePageNumber = pageNumber;
 		}
 		if (isNextPage) {
-			manualPos.x = Easing::easeOut(manualSlideTimer, manualSlideTime, manualOutPos, manualPos.x);
+			manualPos.x = Easing::easeOut((float)manualSlideTimer, (float)manualSlideTime, manualOutPos, manualPos.x);
 		}
 		else if (isPrevPage) {
-			manualPos.x = Easing::easeOut(manualSlideTimer, manualSlideTime, manualInPos, manualPos.x);
+			manualPos.x = Easing::easeOut((float)manualSlideTimer, (float)manualSlideTime, manualInPos, manualPos.x);
 		}
 
 		manual->SetPosition(manualPos);
@@ -388,7 +388,7 @@ void TitleScene::Update()
 			postEffectNo = PostEffect::DASH;
 			for (int i = 0; i < 8; i++) {
 				Vector3 particlePos = { 0.0f, 0.0f, 0.0f };
-				particlePos = MotionMath::CircularMotion(playerPos, particlePos, 45 * i, 10.0f, MotionMath::Y);
+				particlePos = MotionMath::CircularMotion(playerPos, particlePos, (float)(45 * i), 10.0f, MotionMath::Y);
 				particlePos.normalize();
 				particle->Add(30, playerPos, particlePos, -particlePos, 3.0f);
 			}
@@ -400,8 +400,8 @@ void TitleScene::Update()
 		Vector3 easingPointA = easeIn(pointA, pointB, timeRate);
 		Vector3 easingPointB = easeIn(pointB, pointC, timeRate);
 		playerPos = easeIn(easingPointA, easingPointB, timeRate);
-		cameraPos.y = Easing::easeIn(startTimer, startTime / 2, 3, cameraPos.y);
-		cameraPos.z = Easing::easeIn(startTimer, startTime / 2, -150, cameraPos.z);
+		cameraPos.y = Easing::easeIn((float)startTimer, (float)startTime / 2, 3, cameraPos.y);
+		cameraPos.z = Easing::easeIn((float)startTimer, (float)startTime / 2, -150, cameraPos.z);
 		titlePlayer->SetPosition(playerPos);
 		if (startTimer >= startTime) {
 			isSceneChangeStart = true;

@@ -45,7 +45,7 @@ void ResultScene::Initialize()
 	resultPlayer->SetRotation(playerRot);
 
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
-	gun->SetPosition(Vector3(0.9, 0.6, 1.2));
+	gun->SetPosition(Vector3(0.9f, 0.6f, 1.2f));
 	gun->SetParent(resultPlayer);
 
 	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));

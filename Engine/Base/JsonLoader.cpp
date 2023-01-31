@@ -1,6 +1,6 @@
 #include "JsonLoader.h"
 
-const std::string JsonLoader::baseDirectory = "Engine\Resources\GameData";
+const std::string JsonLoader::baseDirectory = "Engine\\Resources\\GameData";
 const std::string JsonLoader::extension = ".json";
 
 void JsonLoader::JsonFileLoad(const std::string fileName) {

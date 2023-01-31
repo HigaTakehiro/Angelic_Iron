@@ -19,7 +19,7 @@ void BossScene::Initialize()
 			length = 500;
 		}
 		pos = MotionMath::CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
-		pos.y = rand() % 20 - 30;
+		pos.y = (float)(rand() % 20 - 30);
 		rot.y -= angle * i;
 		std::unique_ptr<Object3d> newBuilding;
 		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
@@ -160,9 +160,9 @@ void BossScene::Update()
 		if (closeWindowTimer >= closeWindowTime) {
 			closeWindowTimer = closeWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
@@ -176,9 +176,9 @@ void BossScene::Update()
 		if (openWindowTimer >= openWindowTime) {
 			openWindowTimer = openWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
@@ -364,15 +364,15 @@ void BossScene::Draw()
 
 	if (player->GetIsDamage()) {
 		postEffectNo = PostEffect::DAMAGE;
-		postEffectTime = 60.0f;
+		postEffectTime = 60;
 	}
 	else if (player->GetIsDash()) {
 		postEffectNo = PostEffect::DASH;
-		postEffectTime = 28.0f;
+		postEffectTime = 28;
 	}
 	else {
 		postEffectNo = PostEffect::NORMAL;
-		postEffectTime = 60.0f;
+		postEffectTime = 60;
 	}
 	isRoop = true;
 
@@ -431,7 +431,7 @@ void BossScene::Draw()
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), postEffectTime, postEffectNo, isRoop);
+	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime, postEffectNo, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 

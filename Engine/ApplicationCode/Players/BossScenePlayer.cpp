@@ -20,7 +20,7 @@ void BossScenePlayer::Initialize(Camera* camera)
 	scale = { 1.0f, 1.0f, 1.0f };
 
 	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
-	gun->SetPosition(Vector3(1, 0.6, 1.1));
+	gun->SetPosition(Vector3(1.0f, 0.6f, 1.1f));
 	gun->SetParent(player);
 
 	aimPos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
@@ -175,7 +175,7 @@ void BossScenePlayer::Move() {
 		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
 		if (rot.y <= leftRot) {
-			rot.y = Easing::easeIn(rotationTimer, rotationTime, leftRot, rot.y);
+			rot.y = Easing::easeIn((float)rotationTimer, (float)rotationTime, leftRot, rot.y);
 		}
 		else {
 			rot.y = leftRot;
@@ -194,7 +194,7 @@ void BossScenePlayer::Move() {
 		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 
 		if (rot.y >= rightRot) {
-			rot.y = Easing::easeIn(rotationTimer, rotationTime, rightRot, rot.y);
+			rot.y = Easing::easeIn((float)rotationTimer, (float)rotationTime, rightRot, rot.y);
 		}
 		else {
 			rot.y = rightRot;
@@ -272,7 +272,7 @@ void BossScenePlayer::Dash()
 				cameraAngle = 360.0f + cameraAngle;
 			}
 		}
-		cameraAngle = Easing::easeIn(dashTimer, dashTime, initAngle - moveAngle, cameraAngle);
+		cameraAngle = Easing::easeIn((float)dashTimer, (float)dashTime, initAngle - moveAngle, cameraAngle);
 		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 	}
 	if (isRightDash) {
@@ -286,7 +286,7 @@ void BossScenePlayer::Dash()
 				cameraAngle = cameraAngle - 360.0f;
 			}
 		}
-		cameraAngle = Easing::easeIn(dashTimer, dashTime, initAngle + moveAngle, cameraAngle);
+		cameraAngle = Easing::easeIn((float)dashTimer, (float)dashTime, initAngle + moveAngle, cameraAngle);
 		cameraPos = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, cameraPos, cameraAngle, 250.0f, MotionMath::Y);
 	}
 

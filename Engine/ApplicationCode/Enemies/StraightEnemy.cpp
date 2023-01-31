@@ -14,7 +14,7 @@ void StraightEnemy::Initialize(const ModelManager::ModelName modelName, const Ve
 	oldPos = pos;
 	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
-	delayTimer = 0.0f;
+	delayTimer = 0;
 	hp = 1;
 	shotIntervalTime = 60;
 	shotIntervalTimer = 0;
@@ -30,7 +30,7 @@ void StraightEnemy::Update(const int delayTime)
 	delayTimer++;
 
 	if (isTarget) {
-		int spriteRot = 0;
+		float spriteRot = 0.0f;
 		const float maxSpriteRot = 360.0f;
 		if (targetReactionTimer <= targetReactionTime) {
 			targetReactionTimer++;
@@ -46,7 +46,7 @@ void StraightEnemy::Update(const int delayTime)
 		target->SetRotation(spriteRot);
 	}
 	else {
-		targetReactionTimer = 0;
+		targetReactionTimer = 0.0f;
 	}
 
 	if (delayTimer >= delayTime) {

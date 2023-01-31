@@ -127,7 +127,7 @@ void RailScene::Initialize() {
 				length = 500;
 			}
 			pos = MotionMath::CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
-			pos.y = rand() % 20 - 40;
+			pos.y = (float)(rand() % 20 - 40);
 			rot.y -= angle * i;
 			std::unique_ptr<Object3d> newBuilding;
 			newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
@@ -251,9 +251,9 @@ void RailScene::Update() {
 		if (closeWindowTimer >= closeWindowTime) {
 			closeWindowTimer = closeWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut(closeWindowTimer, closeWindowTime, closeWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
@@ -269,9 +269,9 @@ void RailScene::Update() {
 		if (openWindowTimer >= openWindowTime) {
 			openWindowTimer = openWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut(openWindowTimer, openWindowTime, openWindowSizeY, operatorSize.y);
+		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
+		operatorSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, operatorSize.y);
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
@@ -332,7 +332,7 @@ void RailScene::Update() {
 				railCamera->Update(delayCount);
 			}
 			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-				enemy->Update(delayCount);
+				enemy->Update((int)delayCount);
 				if (enemy->GetHP() <= 0) {
 					XMFLOAT3 enemyPos;
 					enemyPos.x = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[0];
