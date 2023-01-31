@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <fstream>
 
+using namespace DirectX;
+using namespace Microsoft::WRL;
+
 void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);

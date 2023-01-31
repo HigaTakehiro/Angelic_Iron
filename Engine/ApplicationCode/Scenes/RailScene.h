@@ -36,8 +36,6 @@
 #include "TextDraw.h"
 #include "BulletCase.h"
 
-using namespace DirectX;
-using namespace Microsoft::WRL;
 class Player;
 
 class RailScene : public BaseScene

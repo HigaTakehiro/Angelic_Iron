@@ -2,7 +2,7 @@
 
 void TitleScene::Initialize()
 {
-	SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
+	//SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
 	isSceneChangeComplete = true;
 	SceneChangeInitialize();
 
