@@ -174,6 +174,24 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
+std::wstring Model::SeparatedExtension(const std::wstring& filePath)
+{
+	size_t pos1;
+	std::wstring fileExt;
+
+	//区切り文字'.'が出てくる一番最後の部分を検索
+	pos1 = filePath.rfind('.');
+	if (pos1 != std::wstring::npos) {
+		//区切り文字の後ろをファイル拡張子として保存
+		fileExt = filePath.substr(pos1 + 1, filePath.size() - pos1 - 1);
+	}
+	else {
+		fileExt = L"";
+	}
+
+	return fileExt;
+}
+
 void Model::InitializeDescriptorHeap() {
 	HRESULT result = S_FALSE;
 
@@ -371,15 +389,39 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	wchar_t wfilepath[128];
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	result = LoadFromWICFile(
-		wfilepath, WIC_FLAGS_NONE,
-		&metadata, scratchImg);
+	const std::wstring fileExt = SeparatedExtension(wfilepath);
 
-	if (FAILED(result)) {
-		assert(0);
+	if (fileExt == L"dds") {
+		result = LoadFromDDSFile(
+			wfilepath, DDS_FLAGS_NONE,
+			&metadata, scratchImg);
+
+		if (FAILED(result)) {
+			assert(0);
+		}
+	}
+	else {
+		result = LoadFromWICFile(
+			wfilepath, WIC_FLAGS_NONE,
+			&metadata, scratchImg);
+
+		if (FAILED(result)) {
+			assert(0);
+		}
 	}
 
-	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
+	ScratchImage mipChain{};
+	//ミップマップ生成
+	//result = GenerateMipMaps(
+	//	scratchImg.GetImages(), scratchImg.GetImageCount(),
+	//	scratchImg.GetMetadata(), TEX_FILTER_DEFAULT, 0, mipChain);
+	//if (SUCCEEDED(result)) {
+	//	scratchImg = std::move(mipChain);
+	//	metadata = scratchImg.GetMetadata();
+	//}
+	
+	//読み込んだテクスチャをSRGBとして扱う
+	metadata.format = MakeSRGB(metadata.format);
 
 	// リソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
@@ -403,15 +445,19 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	}
 
 	// テクスチャバッファにデータ転送
-	result = texbuff->WriteToSubresource(
-		0,
-		nullptr, // 全領域へコピー
-		img->pixels,    // 元データアドレス
-		(UINT)img->rowPitch,  // 1ラインサイズ
-		(UINT)img->slicePitch // 1枚サイズ
-	);
-	if (FAILED(result)) {
-		assert(0);
+	for (int i = 0; i < metadata.mipLevels; i++) {
+		const Image* img = scratchImg.GetImage(i, 0, 0); // 生データ抽出
+
+		result = texbuff->WriteToSubresource(
+			(UINT)i,
+			nullptr, // 全領域へコピー
+			img->pixels,    // 元データアドレス
+			(UINT)img->rowPitch,  // 1ラインサイズ
+			(UINT)img->slicePitch // 1枚サイズ
+		);
+		if (FAILED(result)) {
+			assert(0);
+		}
 	}
 
 	// シェーダリソースビュー作成
@@ -421,10 +467,10 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
 	D3D12_RESOURCE_DESC resDesc = texbuff->GetDesc();
 
-	srvDesc.Format = resDesc.Format;
+	srvDesc.Format = texresDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = texresDesc.MipLevels;
 
 	device->CreateShaderResourceView(texbuff.Get(), //ビューと関連付けるバッファ
 		&srvDesc, //テクスチャ設定情報

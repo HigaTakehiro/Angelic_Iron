@@ -44,6 +44,7 @@ public: //メンバ関数
 private: //メンバ関数
 
 private: //静的メンバ変数
+	//タイトルが画面外に
 	static const int32_t titleOutTime = 40;
 	static const int32_t stage1ComeTime = 150;
 	static const int32_t stage2ComeTime = 160;

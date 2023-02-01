@@ -176,5 +176,13 @@ public: //メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-};
 
+private: //メンバ関数
+	/// <summary>
+	/// 拡張子を分離する
+	/// </summary>
+	/// <param name="filePath">拡張子を分離したいファイルパス</param>
+	/// <returns>拡張子</returns>
+	std::wstring SeparatedExtension(const std::wstring& filePath);
+
+};
