@@ -126,9 +126,9 @@ private: //メンバ変数
 	Sprite* opeNormal[3] = {};
 	Sprite* opeSurprise[3] = {};
 	Sprite* opeSmile[3] = {};
-	XMFLOAT2 textWindowSize;
-	XMFLOAT2 faceWindowSize;
-	XMFLOAT2 operatorSize;
+	DirectX::XMFLOAT2 textWindowSize;
+	DirectX::XMFLOAT2 faceWindowSize;
+	DirectX::XMFLOAT2 operatorSize;
 
 	TextDraw* textDraw = nullptr;
 	int textSpeed;
@@ -153,8 +153,8 @@ private: //メンバ変数
 	//BaseBoss* boss;
 	FirstBoss* firstBoss;
 
-	XMFLOAT2 titleBackSize;
-	XMFLOAT2 backSize;
+	DirectX::XMFLOAT2 titleBackSize;
+	DirectX::XMFLOAT2 backSize;
 	//スコア
 	int score;
 

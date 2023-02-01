@@ -1,5 +1,7 @@
 #include "BossScenePlayer.h"
 
+using namespace DirectX;
+
 const int32_t BossScenePlayer::rotationTime = 30;
 const int32_t BossScenePlayer::dashTime = 30;
 const int32_t BossScenePlayer::shotCoolTime = 10;

@@ -67,10 +67,10 @@ private: //ÉÅÉìÉoïœêî
 	LightGroup* light = nullptr;
 
 	float scoreRollTimer;
-	XMFLOAT2 scoreRollPos[6] = {};
-	XMFLOAT2 titleBackSize;
-	XMFLOAT2 restartSize;
-	XMFLOAT2 mousePos;
+	DirectX::XMFLOAT2 scoreRollPos[6] = {};
+	DirectX::XMFLOAT2 titleBackSize;
+	DirectX::XMFLOAT2 restartSize;
+	DirectX::XMFLOAT2 mousePos;
 	float titleBackAlpha;
 	float restartAlpha;
 

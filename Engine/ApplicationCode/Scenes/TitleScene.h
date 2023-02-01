@@ -74,23 +74,23 @@ private: //メンバ変数
 	//ポストエフェクト番号
 	PostEffect::PostEffectNo postEffectNo;
 
-	XMFLOAT2 titlePos;
-	XMFLOAT2 startButtonPos;
-	XMFLOAT2 startButtonSize;
-	XMFLOAT2 stage1Pos;
-	XMFLOAT2 stage1Size;
-	XMFLOAT2 stage2Pos;
-	XMFLOAT2 stage2Size;
-	XMFLOAT2 manualButtonPos;
-	XMFLOAT2 manualButtonSize;
-	XMFLOAT2 manualSize;
-	XMFLOAT2 manualMaxSize;
-	XMFLOAT2 manualPos;
-	XMFLOAT2 allowPos;
-	XMFLOAT2 allowSize;
-	XMFLOAT2 closePos;
-	XMFLOAT2 closeSize;
-	XMFLOAT2 mousePos;
+	DirectX::XMFLOAT2 titlePos;
+	DirectX::XMFLOAT2 startButtonPos;
+	DirectX::XMFLOAT2 startButtonSize;
+	DirectX::XMFLOAT2 stage1Pos;
+	DirectX::XMFLOAT2 stage1Size;
+	DirectX::XMFLOAT2 stage2Pos;
+	DirectX::XMFLOAT2 stage2Size;
+	DirectX::XMFLOAT2 manualButtonPos;
+	DirectX::XMFLOAT2 manualButtonSize;
+	DirectX::XMFLOAT2 manualSize;
+	DirectX::XMFLOAT2 manualMaxSize;
+	DirectX::XMFLOAT2 manualPos;
+	DirectX::XMFLOAT2 allowPos;
+	DirectX::XMFLOAT2 allowSize;
+	DirectX::XMFLOAT2 closePos;
+	DirectX::XMFLOAT2 closeSize;
+	DirectX::XMFLOAT2 mousePos;
 
 	int32_t stageSelectTimer;
 	int32_t manualTimer;

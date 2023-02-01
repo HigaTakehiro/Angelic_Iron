@@ -156,7 +156,7 @@ private: //メンバ関数
 	/// <param name="enemyPos">敵の画面上の位置</param>
 	/// <param name="aimPos">マウスカーソルの位置</param>
 	/// <returns>敵の位置にカーソルがあるかどうか</returns>
-	bool IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos);
+	bool IsTargetCheck(DirectX::XMFLOAT2 enemyPos, DirectX::XMFLOAT2 aimPos);
 
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
@@ -196,12 +196,12 @@ private: //メンバ変数
 	Sprite* opeSurprise[3] = {};
 	Sprite* opeSmile[3] = {};
 	Sprite* scoreNumber[6] = {};
-	XMFLOAT2 titleBackSize;
-	XMFLOAT2 backSize;
-	XMFLOAT2 restartSize;
-	XMFLOAT2 textWindowSize;
-	XMFLOAT2 faceWindowSize;
-	XMFLOAT2 operatorSize;
+	DirectX::XMFLOAT2 titleBackSize;
+	DirectX::XMFLOAT2 backSize;
+	DirectX::XMFLOAT2 restartSize;
+	DirectX::XMFLOAT2 textWindowSize;
+	DirectX::XMFLOAT2 faceWindowSize;
+	DirectX::XMFLOAT2 operatorSize;
 
 	Object3d* celetialSphere = nullptr; //天球オブジェクト
 	Object3d* ground = nullptr; //地面オブジェクト

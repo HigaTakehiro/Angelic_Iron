@@ -41,14 +41,14 @@ private: //メンバ変数
 
 	LightGroup* light = nullptr;
 
-	XMFLOAT2 mousePos;
-	XMFLOAT2 titleBackSize;
+	DirectX::XMFLOAT2 mousePos;
+	DirectX::XMFLOAT2 titleBackSize;
 	float titleBackAlpha;
 
 	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
 
 	float scoreRollTimer;
-	XMFLOAT2 scoreRollPos[6] = {};
+	DirectX::XMFLOAT2 scoreRollPos[6] = {};
 
 	Object3d* resultPlayer = nullptr;
 	Object3d* ground = nullptr;

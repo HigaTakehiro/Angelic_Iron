@@ -194,7 +194,7 @@ private: //メンバ変数
 	//リロード時間
 	int32_t reloadTimer;
 	//レティクル座標
-	XMFLOAT2 aimPos;
+	DirectX::XMFLOAT2 aimPos;
 	//レティクル3D座標
 	Vector3 aim3dPos;
 	//ローカル座標

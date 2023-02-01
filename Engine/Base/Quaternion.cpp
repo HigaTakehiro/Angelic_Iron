@@ -1,6 +1,8 @@
 #include "Quaternion.h"
 #include <cmath>
 
+using namespace DirectX;
+
 //成分を指定して、クォータニオンを作成
 Quaternion quaternion(float x, float y, float z, float w) {
 	Quaternion result{ x, y, z, w };

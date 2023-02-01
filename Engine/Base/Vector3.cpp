@@ -1,6 +1,8 @@
 #include "Vector3.h"
 #include <cmath>
 
+using namespace DirectX;
+
 //コンストラクタ
 Vector3::Vector3() : Vector3(0, 0, 0)
 {

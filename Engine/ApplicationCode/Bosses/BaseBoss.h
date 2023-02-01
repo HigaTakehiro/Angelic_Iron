@@ -76,7 +76,7 @@ protected: //静的メンバ変数
 	//死亡時間
 	static const int32_t deadTime;
 	//ダメージカラー
-	static const XMFLOAT4 damageColor;
+	static const DirectX::XMFLOAT4 damageColor;
 	//死亡HP
 	static const int deadHP;
 

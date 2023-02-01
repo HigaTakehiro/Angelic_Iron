@@ -2,8 +2,6 @@
 #include "Vector3.h"
 #include <DirectXMath.h>
 
-using namespace DirectX;
-
 struct Quaternion
 {
 	float x;
@@ -49,6 +47,6 @@ Quaternion operator / (const Quaternion& q, float s);
 
 Quaternion slerp(const Quaternion& q1, const Quaternion& q2, float t);
 Quaternion lerp(const Quaternion& q1, const Quaternion& q2, float t);
-XMMATRIX rotate(const Quaternion& q);
-Quaternion quaternion(const XMMATRIX& m);
+DirectX::XMMATRIX rotate(const Quaternion& q);
+Quaternion quaternion(const DirectX::XMMATRIX& m);
 Vector3 getAxis(const Quaternion& q);

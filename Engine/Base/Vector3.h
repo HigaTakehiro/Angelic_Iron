@@ -2,16 +2,14 @@
 #include <DirectXMath.h>
 #include <cmath>
 
-using namespace DirectX;
-
-class Vector3 : public XMFLOAT3
+class Vector3 : public DirectX::XMFLOAT3
 {
 
 public:
 	//コンストラクタ
 	Vector3();
 	Vector3(float x, float y, float z);
-	Vector3(const XMVECTOR& vec);
+	Vector3(const DirectX::XMVECTOR& vec);
 
 	//メンバ関数
 	float length() const;

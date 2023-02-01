@@ -1,6 +1,8 @@
 #include "RailCamera.h"
 #include "DirectXSetting.h"
 
+using namespace DirectX;
+
 void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime, bool isRoop) {
 	this->eye = eye;
 	initPos = eye;

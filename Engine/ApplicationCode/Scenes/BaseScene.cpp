@@ -6,7 +6,7 @@ bool BaseScene::isSceneChangeStart = false;
 bool BaseScene::isSceneChange = false;
 bool BaseScene::isSceneChangeComplete = false;
 Sprite* BaseScene::sceneChangeEffects[] = {};
-XMFLOAT2 BaseScene::sceneChangeEffectsPos[] = {};
+DirectX::XMFLOAT2 BaseScene::sceneChangeEffectsPos[] = {};
 
 void BaseScene::SceneChangeInitialize()
 {

@@ -19,7 +19,7 @@ public: //静的メンバ関数
 	/// <param name="vertices_2">頂点2</param>
 	/// <param name="vertices_3">頂点3</param>
 	/// <returns>平面の三角形</returns>
-	static Model* CreateTriangle(const XMFLOAT2& vertices_1, const XMFLOAT2& vertices_2, const XMFLOAT2& vertices_3, const std::string& textureName = "white1x1.png");
+	static Model* CreateTriangle(const DirectX::XMFLOAT2& vertices_1, const DirectX::XMFLOAT2& vertices_2, const DirectX::XMFLOAT2& vertices_3, const std::string& textureName = "white1x1.png");
 
 	/// <summary>
 	/// 平面の四角形を生成
@@ -27,7 +27,7 @@ public: //静的メンバ関数
 	/// <param name="upperLeft">左上座標</param>
 	/// <param name="lowerBottom">右下座標</param>
 	/// <returns>平面の四角形</returns>
-	static Model* CreateSquare(XMFLOAT2 upperLeft, XMFLOAT2 lowerBottom, const std::string& textureName = "white1x1.png");
+	static Model* CreateSquare(DirectX::XMFLOAT2 upperLeft, DirectX::XMFLOAT2 lowerBottom, const std::string& textureName = "white1x1.png");
 
 private: //メンバ変数
 

@@ -104,7 +104,7 @@ protected: //静的メンバ変数
 	//シーン切り替え用スプライト
 	static Sprite* sceneChangeEffects[10];
 	//シーン切り替え用スプライト座標
-	static XMFLOAT2 sceneChangeEffectsPos[10];
+	static DirectX::XMFLOAT2 sceneChangeEffectsPos[10];
 	//シーン切り替え演出用タイマー
 	static int32_t sceneChangeTimer;
 	//シーン切り替え開始フラグ

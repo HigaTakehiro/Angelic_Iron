@@ -1,5 +1,7 @@
 #include "BossScene.h"
 
+using namespace DirectX;
+
 void BossScene::Initialize()
 {
 	camera = new Camera;
