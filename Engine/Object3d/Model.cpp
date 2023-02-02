@@ -410,7 +410,8 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 		}
 	}
 
-	ScratchImage mipChain{};
+	//ScratchImage mipChain{};
+
 	//ミップマップ生成
 	//result = GenerateMipMaps(
 	//	scratchImg.GetImages(), scratchImg.GetImageCount(),
@@ -421,7 +422,7 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	//}
 	
 	//読み込んだテクスチャをSRGBとして扱う
-	metadata.format = MakeSRGB(metadata.format);
+	//metadata.format = MakeSRGB(metadata.format);
 
 	// リソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
