@@ -100,7 +100,6 @@ private: //メンバ変数
 	std::chrono::steady_clock::time_point reference;
 
 	float maxTime; //ポイント間を移動する時間
-	float preMaxTime; //スロー演出用ポイント間を移動する時間保存
 	float timeRate; //移動した時間を0~1で評価
 	int startIndex = 1; //移動したポイントをカウント
 

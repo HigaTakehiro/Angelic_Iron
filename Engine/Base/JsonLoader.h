@@ -3,12 +3,15 @@
 #include <json.hpp>
 #include <fstream>
 #include <vector>
+#include <list>
 #include "Vector3.h"
+#include "Object3d.h"
+#include "ModelManager.h"
 
 class JsonLoader
 {
 public:
-	struct LevelData {
+	struct StageData {
 		struct ObjectData {
 			std::string  fileName;
 			Vector3 transform;
@@ -18,20 +21,38 @@ public:
 		std::vector<ObjectData> objects;
 	};
 
+public:
+	JsonLoader() = default;
+	~JsonLoader();
+
 public: //メンバ関数
 	/// <summary>
-	/// jsonファイル読み込み
+	/// ステージデータjsonファイル読み込み及び生成
 	/// </summary>
 	/// <param name="fileName">jsonファイル</param>
-	void JsonFileLoad(const std::string fileName);
+	void StageDataLoadandSet(const std::string fileName);
 
+	/// <summary>
+	/// 敵データjsonファイル読み込み及び生成
+	/// </summary>
+	/// <param name="fileName"></param>
+	void EnemyDataFileLoad(const std::string fileName);
 
-	LevelData& LoadLevelData();
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw();
 
 private: //静的メンバ変数
 	static const std::string baseDirectory;
 	static const std::string extension;
 
 private: //メンバ変数
+	std::list<std::unique_ptr<Object3d>> allObjects;
 };
 

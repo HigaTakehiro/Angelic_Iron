@@ -1,9 +1,13 @@
 #include "JsonLoader.h"
 
-const std::string JsonLoader::baseDirectory = "Engine\\Resources\\GameData";
+const std::string JsonLoader::baseDirectory = "Engine/Resources/GameData/";
 const std::string JsonLoader::extension = ".json";
 
-void JsonLoader::JsonFileLoad(const std::string fileName) {
+JsonLoader::~JsonLoader() {
+
+}
+
+void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 	const std::string fullpath = baseDirectory + fileName + extension;
 
 	std::ifstream file;
@@ -25,7 +29,7 @@ void JsonLoader::JsonFileLoad(const std::string fileName) {
 
 	assert(name.compare("scene") == 0);
 
-	LevelData* levelData = new LevelData();
+	StageData* stageData = new StageData();
 
 	for (nlohmann::json& object : deserialised["objects"]) {
 		assert(object.contains("type"));
@@ -33,8 +37,8 @@ void JsonLoader::JsonFileLoad(const std::string fileName) {
 		std::string type = object["type"].get<std::string>();
 
 		if (type.compare("MESH") == 0) {
-			levelData->objects.emplace_back(LevelData::ObjectData{});
-			LevelData::ObjectData& objectData = levelData->objects.back();
+			stageData->objects.emplace_back(StageData::ObjectData{});
+			StageData::ObjectData& objectData = stageData->objects.back();
 
 			if (object.contains("file_name")) {
 				objectData.fileName = object["file_name"];
@@ -54,9 +58,37 @@ void JsonLoader::JsonFileLoad(const std::string fileName) {
 			objectData.scaling.y = (float)transform["scaling"][2];
 			objectData.scaling.z = (float)transform["scaling"][0];
 		}
+	}
 
-		if (object.contains("children")) {
+	for (auto& objectData : stageData->objects) {
+		//‰¼ƒ‚ƒfƒ‹‚Å¶¬(ŒãXƒ‚ƒfƒ‹‚à“Ç‚Ýž‚Þ‚æ‚¤‚É‚·‚é)
+		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
+		Vector3 pos;
+		pos = objectData.transform;
+		newObject->SetPosition(pos);
+		Vector3 rot;
+		rot = objectData.rotation;
+		newObject->SetRotation(rot);
+		Vector3 scale;
+		scale = objectData.scaling;
+		newObject->SetScale(scale);
+		allObjects.emplace_back(newObject);
+	}
 
-		}
+	delete(stageData);
+	stageData = nullptr;
+}
+
+void JsonLoader::Update()
+{
+	for (std::unique_ptr<Object3d>& object : allObjects) {
+		object->Update();
+	}
+}
+
+void JsonLoader::Draw()
+{
+	for (std::unique_ptr<Object3d>& object : allObjects) {
+		object->Draw();
 	}
 }

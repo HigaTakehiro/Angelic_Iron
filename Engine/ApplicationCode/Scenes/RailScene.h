@@ -1,11 +1,7 @@
 #pragma once
-#include "KeyInput.h"//
-#include "DirectXSetting.h"//
 #include "Object3d.h"
-#include "Model.h"
 #include "Sprite.h"
 #include "DebugText.h"
-#include "Sound.h"//
 #include "Camera.h"
 #include "MapChip.h"
 #include "SafeDelete.h"

@@ -146,9 +146,6 @@
     <ClCompile Include="Engine\Object2d\ImageManager.cpp">
       <Filter>ソース ファイル\Object2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\JsonLoader.cpp">
-      <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object3d\Shapes.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
@@ -230,6 +227,9 @@
     <ClCompile Include="Engine\ApplicationCode\Maths\MotionMath.cpp">
       <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\JsonLoader.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -300,9 +300,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Object2d\ImageManager.h">
       <Filter>ソース ファイル\Object2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\JsonLoader.h">
-      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Shapes.h">
       <Filter>ソース ファイル\Object3d</Filter>
@@ -396,6 +393,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\Maths\MotionMath.h">
       <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\JsonLoader.h">
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

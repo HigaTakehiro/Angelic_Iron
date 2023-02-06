@@ -1,5 +1,7 @@
 #include "RailScene.h"
 #include "FBXObject3d.h"
+#include "KeyInput.h"
+#include "DirectXSetting.h"
 #include <algorithm>
 #include <fstream>
 
@@ -726,7 +728,9 @@ void RailScene::EnemyDataUpdate() {
 	bool isStyle = false;
 
 	if (isWait) {
-		waitTimer--;
+		if (!isPause) {
+			waitTimer--;
+		}
 		if (waitTimer <= 0) {
 			isWait = false;
 		}
@@ -903,7 +907,7 @@ void RailScene::LoadRailPoint(const std::string filename) {
 			isCameraRoop = true;
 		}
 		else if (isTime) {
-			splineTime *= 1000;
+			splineTime *= 100;
 			isTime = false;
 		}
 		else if (isPoint) {

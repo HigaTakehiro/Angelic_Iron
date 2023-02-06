@@ -10,24 +10,15 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 	initRot = rot;
 	this->points = points;
 	this->maxTime = maxTime;
-	preMaxTime = maxTime;
 	this->isRoop = isRoop;
-	startTime = GetTickCount64();
+	startTime = 0;
 }
 
 void RailCamera::Update(float delayCount) {
 	this->delayCount++;
 	if (this->delayCount >= delayCount) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-			if (isStop) {
-				isStop = false;
-				startTime = GetTickCount64();
-				nowCount = GetTickCount64();
-			}
-			else {
-				isStop = true;
-
-			}
+			isStop = !isStop;
 		}
 
 		if (!isStop) {
@@ -91,18 +82,16 @@ Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, f
 }
 
 void RailCamera::SplineMove() {
-	nowCount = GetTickCount64();
-	elapsedCount = nowCount - startTime;
-
-	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
-
+	nowCount++;
+	elapsedCount = nowCount * 2.0f;
 	timeRate = elapsedCount / maxTime;
 
 	if (timeRate >= 1.0f) {
 		if (startIndex < points.size() - 3) {
 			startIndex += 1;
 			timeRate -= 1.0f;
-			startTime = GetTickCount64();
+			nowCount = 0;
+			startTime = 0;
 		}
 		else {
 			if (isRoop) {
