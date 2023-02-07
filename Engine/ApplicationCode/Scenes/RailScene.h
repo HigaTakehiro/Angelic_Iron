@@ -3,30 +3,18 @@
 #include "Sprite.h"
 #include "DebugText.h"
 #include "Camera.h"
-#include "MapChip.h"
-#include "SafeDelete.h"
-#include "FbxLoader.h"
 #include "FBXObject3d.h"
-#include "MouseInput.h"
-#include "PadInput.h"
 #include "Player.h"
-#include "Collision.h"
 #include "PlayerBullet.h"
 #include "EnemyBullet.h"
-#include "ModelManager.h"
 #include "RailCamera.h"
-#include "ImageManager.h"
 #include "PostEffect.h"
 #include "Particle2d.h"
 #include "Bomb.h"
 #include <sstream>
-#include <chrono>
 #include <thread>
 #include "BaseScene.h"
-#include "SceneManager.h"
 #include "BaseEnemy.h"
-#include "StraightEnemy.h"
-#include "HomingEnemy.h"
 #include "LightGroup.h"
 #include "ParticleManager.h"
 #include "TextDraw.h"
@@ -164,7 +152,6 @@ private: //メンバ変数
 	WinApp* winApp = nullptr; //ウィンドウ設定クラス
 	DebugText debugText; //デバッグテキスト表示用クラス
 	Camera* camera = nullptr; //カメラクラス
-	MapChip* mapchip = nullptr; //マップチップクラス
 	RailCamera* railCamera = nullptr; //レールカメラクラス
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
 
@@ -237,7 +224,6 @@ private: //メンバ変数
 	std::wstring drawMessage; //メッセージ内容出力用文字列
 	std::wstring message; //メッセージ内容格納文字列
 	std::vector<Vector3> points; //レールカメラ用スプライン指定点格納コンテナ
-	std::chrono::steady_clock::time_point referenceCount; //スロー演出用参照時間
 
 	int score;
 	int32_t opeAnimeTimer;

@@ -33,12 +33,6 @@ public: //メンバ関数
 	void StageDataLoadandSet(const std::string fileName);
 
 	/// <summary>
-	/// 敵データjsonファイル読み込み及び生成
-	/// </summary>
-	/// <param name="fileName"></param>
-	void EnemyDataFileLoad(const std::string fileName);
-
-	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update();

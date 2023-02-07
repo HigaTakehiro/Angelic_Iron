@@ -1,6 +1,15 @@
 #include "RailScene.h"
 #include "FBXObject3d.h"
 #include "KeyInput.h"
+#include "MouseInput.h"
+#include "PadInput.h"
+#include "Collision.h"
+#include "ModelManager.h"
+#include "ImageManager.h"
+#include "SceneManager.h"
+#include "SafeDelete.h"
+#include "StraightEnemy.h"
+#include "HomingEnemy.h"
 #include "DirectXSetting.h"
 #include <algorithm>
 #include <fstream>
@@ -185,8 +194,6 @@ void RailScene::Initialize() {
 	isTextDraw = false;
 
 	clearTimer = clearTime;
-
-	referenceCount = std::chrono::steady_clock::now();
 
 	faceType = FaceGraphics::OPE_NORMALFACE;
 
@@ -673,7 +680,6 @@ void RailScene::Finalize() {
 	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(object1);
-	safe_delete(mapchip);
 	safe_delete(railCamera);
 	safe_delete(postEffect);
 	safe_delete(pause);
@@ -696,7 +702,6 @@ void RailScene::Finalize() {
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
-	//FbxLoader::GetInstance()->Finalize();
 }
 
 void RailScene::LoadEnemyData(const std::string filename) {
