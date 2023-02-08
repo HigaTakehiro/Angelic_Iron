@@ -142,6 +142,12 @@ private: //メンバ関数
 	/// <returns>敵の位置にカーソルがあるかどうか</returns>
 	bool IsTargetCheck(DirectX::XMFLOAT2 enemyPos, DirectX::XMFLOAT2 aimPos);
 
+private: //メンバ関数
+	/// <summary>
+	/// シーン切り替え処理
+	/// </summary>
+	void SceneChange();
+
 private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 	static const int32_t opeAnimeTime = 6;

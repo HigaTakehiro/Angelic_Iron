@@ -77,6 +77,11 @@ private: //メンバ関数
 	/// <returns>wstring型のテキスト</returns>
 	std::wstring StringToWstring(const std::string& text);
 
+	/// <summary>
+	/// シーン切り替え処理
+	/// </summary>
+	void SceneChange();
+
 private: //静的メンバ変数
 	static const int32_t opeAnimeTime = 6;
 	static const int32_t closeWindowTime = 120;

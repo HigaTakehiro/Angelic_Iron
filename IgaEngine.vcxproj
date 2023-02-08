@@ -175,6 +175,7 @@
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
+    <ClCompile Include="Engine\Base\ExternalFileLoader.cpp" />
     <ClCompile Include="Engine\Base\JsonLoader.cpp" />
     <ClCompile Include="Engine\Base\Quaternion.cpp" />
     <ClCompile Include="Engine\Base\Vector3.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
     <ClInclude Include="Engine\Base\Easing.h" />
+    <ClInclude Include="Engine\Base\ExternalFileLoader.h" />
     <ClInclude Include="Engine\Base\JsonLoader.h" />
     <ClInclude Include="Engine\Base\Quaternion.h" />
     <ClInclude Include="Engine\Base\SafeDelete.h" />

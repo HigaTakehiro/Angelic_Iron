@@ -42,6 +42,10 @@ public: //メンバ関数
 	void Finalize();
 
 private: //メンバ関数
+	/// <summary>
+	/// シーン切り替え処理
+	/// </summary>
+	void SceneChange();
 
 private: //静的メンバ変数
 	//タイトルが画面外に

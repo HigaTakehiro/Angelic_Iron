@@ -3,10 +3,6 @@
 const std::string JsonLoader::baseDirectory = "Engine/Resources/GameData/";
 const std::string JsonLoader::extension = ".json";
 
-JsonLoader::~JsonLoader() {
-
-}
-
 void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 	const std::string fullpath = baseDirectory + fileName + extension;
 

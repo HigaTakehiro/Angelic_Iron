@@ -32,6 +32,12 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+private: //メンバ関数
+	/// <summary>
+	/// シーン切り替え処理
+	/// </summary>
+	void SceneChange();
+
 private: //メンバ変数
 
 	PostEffect* postEffect = nullptr; //ポストエフェクトクラス

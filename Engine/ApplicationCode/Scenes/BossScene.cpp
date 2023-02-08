@@ -601,3 +601,7 @@ std::wstring BossScene::StringToWstring(const std::string& text)
 
 	return oRet;
 }
+
+void BossScene::SceneChange()
+{
+}

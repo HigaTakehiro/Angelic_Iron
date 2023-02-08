@@ -185,3 +185,7 @@ void ResultScene::Finalize()
 		safe_delete(scoreNumbers[i]);
 	}
 }
+
+void ResultScene::SceneChange()
+{
+}

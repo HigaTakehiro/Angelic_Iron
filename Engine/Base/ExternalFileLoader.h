@@ -33,5 +33,10 @@ private: //メンバ関数
 	/// </summary>
 	/// <param name="textMessageData">メッセージデータ</param>
 	void TextMessageDataUpdate(const std::stringstream& textMessageData);*/
+
+private: //メンバ変数
+	//敵データ
+	std::stringstream enemyData;
+
 };
 

@@ -46,6 +46,12 @@ public: //仮想関数
 	/// </summary>
 	virtual void Finalize() = 0;
 
+protected: //仮想メンバ関数
+	/// <summary>
+	/// シーン切り替え処理
+	/// </summary>
+	virtual void SceneChange() = 0;
+
 public: //メンバ関数
 
 	/// <summary>

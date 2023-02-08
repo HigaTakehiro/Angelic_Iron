@@ -1009,7 +1009,6 @@ void RailScene::TextMessageUpdate()
 
 void RailScene::TextMessageDraw()
 {
-
 	if (textSpeed <= 0) {
 		textSpeed = 1;
 	}
@@ -1057,4 +1056,8 @@ std::wstring RailScene::StringToWstring(const std::string& text)
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	const float aimPosCorrection = 20.0f;
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
+}
+
+void RailScene::SceneChange()
+{
 }

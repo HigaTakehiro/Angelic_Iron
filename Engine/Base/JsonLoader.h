@@ -11,6 +11,7 @@
 class JsonLoader
 {
 public:
+	//ステージオブジェクトデータ
 	struct StageData {
 		struct ObjectData {
 			std::string  fileName;
@@ -23,7 +24,7 @@ public:
 
 public:
 	JsonLoader() = default;
-	~JsonLoader();
+	~JsonLoader() = default;
 
 public: //メンバ関数
 	/// <summary>

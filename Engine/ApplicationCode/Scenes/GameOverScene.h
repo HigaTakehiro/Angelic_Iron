@@ -46,13 +46,18 @@ public: //メンバ関数
 	void Finalize();
 
 private: //メンバ関数
+	///// <summary>
+	///// nの位の数字を判定する
+	///// </summary>
+	///// <param name="score">判定したいスコア</param>
+	///// <param name="place">判定したいスコアの位</param>
+	///// <returns></returns>
+	//ScoreNumber JudgeDigitNumber(int score, int digit);
+
 	/// <summary>
-	/// nの位の数字を判定する
+	/// シーン切り替え処理
 	/// </summary>
-	/// <param name="score">判定したいスコア</param>
-	/// <param name="place">判定したいスコアの位</param>
-	/// <returns></returns>
-	ScoreNumber JudgeDigitNumber(int score, int digit);
+	void SceneChange();
 
 private: //メンバ変数
 

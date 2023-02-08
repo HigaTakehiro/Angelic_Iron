@@ -506,3 +506,7 @@ void TitleScene::Finalize()
 	safe_delete(textDraw);
 	safe_delete(particle);
 }
+
+void TitleScene::SceneChange()
+{
+}
