@@ -3,18 +3,39 @@
 #include <string>
 #include <sstream>
 #include "BaseEnemy.h"
+#include "TextDraw.h"
+#include "ImageManager.h"
+#include "Sprite.h"
 
-class ExternalFileLoader
+class ExternalFileLoader final
 {
-public:
+private:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	ExternalFileLoader() = default;
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~ExternalFileLoader() = default;
+	/// <summary>
+	/// コピーコンストラクタを禁止
+	/// </summary>
+	ExternalFileLoader(const ExternalFileLoader& obj) = delete;
+	/// <summary>
+	/// 代入演算子を禁止
+	/// </summary>
+	ExternalFileLoader& operator=(const ExternalFileLoader& obj) = delete;
 
-private: //静的メンバ変数
-	//デフォルトファイルパス
-	const static std::string defaultDirectory;
+public: //静的メンバ関数
+	/// <summary>
+	/// インスタンスを取得
+	/// </summary>
+	/// <returns></returns>
+	static ExternalFileLoader* GetIns();
 
-private: //メンバ関数
+public: //メンバ関数
+
 	/// <summary>
 	/// 外部ファイル読み込み
 	/// </summary>
@@ -22,21 +43,21 @@ private: //メンバ関数
 	/// <returns>ファイルデータ</returns>
 	std::stringstream ExternalFileOpen(const std::string& fileName);
 
-	/*/// <summary>
-	/// 敵データ更新処理
-	/// </summary>
-	/// <param name="enemyData">敵データ</param>
-	void EnemyDataUpdate(const std::stringstream& enemyData);
-
 	/// <summary>
-	/// メッセージデータ更新処理
+	/// string型をwstring型に変換する(UTF-8)
 	/// </summary>
-	/// <param name="textMessageData">メッセージデータ</param>
-	void TextMessageDataUpdate(const std::stringstream& textMessageData);*/
+	/// <param name="text">変換したいテキスト</param>
+	/// <returns>wstring型のテキスト</returns>
+	std::wstring StringToWstring(const std::string& text);
+
+private: //静的メンバ変数
+	//デフォルトファイルパス
+	const static std::string defaultDirectory;
+
+private: //メンバ関数
+
 
 private: //メンバ変数
-	//敵データ
-	std::stringstream enemyData;
 
 };
 

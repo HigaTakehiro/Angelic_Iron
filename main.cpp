@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "LightGroup.h"
 #include "SoundManager.h"
+#include "ExternalFileLoader.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -23,6 +24,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXSetting* dxCommon = DirectXSetting::GetIns();
 	SceneManager* scene = nullptr;
 	Sound* sound = nullptr;
+	ExternalFileLoader* externalFileLoader = nullptr;
 
 	//WindowsAPIの初期化
 	winApp = new WinApp();

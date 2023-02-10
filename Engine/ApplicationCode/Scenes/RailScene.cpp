@@ -11,6 +11,7 @@
 #include "StraightEnemy.h"
 #include "HomingEnemy.h"
 #include "DirectXSetting.h"
+#include "ExternalFileLoader.h"
 #include <algorithm>
 #include <fstream>
 
@@ -29,8 +30,10 @@ void RailScene::Initialize() {
 	camera->SetTarget(XMFLOAT3(50, 0, 0));
 	railCamera = new RailCamera;
 
+	//デバッグテキスト初期化
 	debugText.Initialize(debugTextNumber);
 
+	//スプライト画像初期化
 	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
 	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
 	pause->SetAnchorPoint({ 0.5f, 0.5f });
@@ -58,7 +61,7 @@ void RailScene::Initialize() {
 	faceWindowSize.y = 0;
 	faceWindow->SetAlpha(0.4f);
 	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	operatorSize = { 160, 0 };
+	faceGraphicSize = { 160, 0 };
 	for (int i = 0; i < 3; i++) {
 		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
 		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
@@ -85,6 +88,7 @@ void RailScene::Initialize() {
 		scoreNumber[i]->SetSize({ 32, 32 });
 	}
 
+	//ライト初期化
 	light = LightGroup::Create();
 	for (int i = 0; i < 3; i++) {
 		light->SetDirLightActive(0, true);
@@ -92,8 +96,14 @@ void RailScene::Initialize() {
 		light->SetSpotLightActive(i, false);
 	}
 	light->SetCircleShadowActive(0, true);
+	light->SetDirLightDirection(0, { 0, -1, 0 });
+	light->SetCircleShadowDir(0, { 0, -1, 0 });
+	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 	Object3d::SetLight(light);
 
+	//3dオブジェクト初期化
 	if (SceneManager::GetStageNo() == 1) {
 		ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
 	}
@@ -110,11 +120,11 @@ void RailScene::Initialize() {
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
-	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	bulletParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	int stageNo;
+	stageNo = SceneManager::GetStageNo();
 
-	if (SceneManager::GetStageNo() == 1) {
+	//ステージ背景オブジェクト初期化
+	if (stageNo == 1) {
 		for (int i = 0; i < 90; i++) {
 			Vector3 pos = { 0, 20, 0 };
 			Vector3 rot = { 0, 270, 0 };
@@ -149,212 +159,105 @@ void RailScene::Initialize() {
 		}
 	}
 
+	//プレイヤー初期化
 	player = new Player;
 	player->Initialize(camera, clearTime);
 	player->SetRailScene(this);
 
-	int stageNo;
-	stageNo = SceneManager::GetStageNo();
+	//パーティクル初期化
+	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	gunParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+
+	//ステージデータ読み込み
 	if (stageNo == 1) {
 		LoadRailPoint("Stage1RailPoints.aid");
-		LoadEnemyData("Stage1EnemyData.aid");
-		LoadTextMessage("Stage1RailText.aid");
+		enemyData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1EnemyData.aid");
+		textData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
-		LoadEnemyData("Stage2EnemyData.aid");
+		enemyData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
 
-	//FBXの初期化
-	//FBXObject3d::SetCamera(camera);
-	object1 = new FBXObject3d;
-	object1->Initialize();
-	object1->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::Test));
-	object1->SetScale({ 1.0f, 1.0f, 1.0f });
-	object1->PlayAnimation();
-
-	railCamera->SetStartTime(GetTickCount64());
-
-	//PostEffectの初期化
+	//ポストエフェクトの初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-
 	postEffectNo = PostEffect::NORMAL;
 
-	score = 0;
-
 	//ゲームシーン用変数の初期化
-	//isDead = false;
-	//isClear = false;
-	//isWait = false;
-
 	textAddTimer = 0;
 	textSpeed = 1;
 	textCount = 0;
-	isTextDraw = false;
-
+	isTextDrawComplete = false;
+	score = 0;
 	clearTimer = clearTime;
-
 	faceType = FaceGraphics::OPE_NORMALFACE;
 
 }
 
 void RailScene::Update() {
-	// DirectX毎フレーム処理　ここから
-	const int32_t noneHP = 0;
-	const float closeWindowSizeY = 0.0f;
-	const float openWindowSizeY = 160.0f;
-	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
-
+	//オブジェクトリスト解放処理
 	enemies.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bulletCases.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
 	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
-
+	//丸影用プレイヤー座標セット
 	light->SetCircleShadowCasterPos(0, { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
-	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetCircleShadowDir(0, { 0, -1, 0 });
-	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
-	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
-	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
-
-	opeAnimeTimer++;
-	if (opeAnimeTimer >= opeAnimeTime) {
-		opeAnimeTimer = 0;
-		opeAnimeCount++;
-		if (opeAnimeCount >= 3) {
-			opeAnimeCount = 0;
-		}
-	}
-
-	if (isTextDraw) {
-		opeAnimeCount = 0;
-		opeAnimeTimer = 0;
-	}
-
-	char xPos[256];
-	char yPos[256];
-	char isSlowCheck[256];
-	sprintf_s(xPos, "PlayerWPos = (x : %f, y : %f, z : %f)", player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z);
-	sprintf_s(yPos, "aim3DPos = (x : %f, y : %f, z : %f)", player->Get3dAimPos().x, player->Get3dAimPos().y, player->Get3dAimPos().z);
-	if (!player->GetIsBomb()) {
-		sprintf_s(isSlowCheck, "false");
-	}
-	else {
-		sprintf_s(isSlowCheck, "true");
-	}
-	debugText.Print(xPos, 0, 0, 2.0f);
-	debugText.Print(yPos, 0, 50, 2.0f);
-	debugText.Print(isSlowCheck, 0, 100, 2.0f);
-
-	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
+	//ポーズ切り替え
+	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player->GetHPCount() != noneHP) {
 		isPause = !isPause;
 	}
-
-	EnemyDataUpdate();
-	if (!isTextWindowOpen) {
-		openWindowTimer = 0;
-		closeWindowTimer++;
-		if (closeWindowTimer >= closeWindowTime) {
-			closeWindowTimer = closeWindowTime;
-		}
-		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, operatorSize.y);
-
-		textWindow->SetSize(textWindowSize);
-		faceWindow->SetSize(faceWindowSize);
-		for (int i = 0; i < 3; i++) {
-			opeNormal[i]->SetSize(operatorSize);
-			opeSurprise[i]->SetSize(operatorSize);
-			opeSmile[i]->SetSize(operatorSize);
-		}
-	}
-	else if (isTextWindowOpen) {
-		closeWindowTimer = 0;
-		openWindowTimer++;
-		if (openWindowTimer >= openWindowTime) {
-			openWindowTimer = openWindowTime;
-		}
-		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, operatorSize.y);
-
-		textWindow->SetSize(textWindowSize);
-		faceWindow->SetSize(faceWindowSize);
-		for (int i = 0; i < 3; i++) {
-			opeNormal[i]->SetSize(operatorSize);
-			opeSurprise[i]->SetSize(operatorSize);
-			opeSmile[i]->SetSize(operatorSize);
-		}
-	}
-
-	if (railCamera->GetIsEnd()) {
-		clearTimer--;
-	}
-	if (clearTimer <= 0) {
-		isClear = true;
-		isSceneChangeStart = true;
-	}
-
-	for (int i = 0; i < 6; i++) {
-		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
-	}
-
-	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
-		XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
-		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-		playerPos = XMVector3TransformCoord(playerPos, matVPV);
-
-		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
-		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-		particles2d.push_back(std::move(new2DParticle));
-		isPlayerDead = true;
-		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
-	}
-
+	//プレイヤーが死亡しているか
 	if (player->GetIsDead()) {
 		isDead = true;
 		isSceneChangeStart = true;
 	}
 
+	//スロー演出用タイマー
 	float delayCount = 0.0f;
-
 	if (player->GetIsBomb()) {
 		delayCount = 3.0f;
 	}
 
-	if (!isPause) {
-		TextMessageUpdate();
+	//スコア表示
+	for (int i = 0; i < 6; i++) {
+		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
+	}
 
+	//エフェクト発生処理
+	AddEffect();
+
+	if (!isPause) {
+		//敵出現処理
+		EnemyDataUpdate();
+		//テキスト更新処理
+		TextMessageUpdate();
+		//当たり判定チェック
+		CollisionCheck();
+
+		//オブジェクト更新処理
 		celetialSphere->Update();
 		ground->Update();
 		for (std::unique_ptr<Object3d>& building : buildings) {
 			building->Update();
 		}
-
+		//プレイヤーが生きている場合に更新
 		if (player->GetHPCount() > 0) {
 			if (!railCamera->GetIsEnd()) {
 				railCamera->Update(delayCount);
 			}
 			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 				enemy->Update((int)delayCount);
-				if (enemy->GetHP() <= 0) {
-					XMFLOAT3 enemyPos;
-					enemyPos.x = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[0];
-					enemyPos.y = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[1];
-					enemyPos.z = enemy->GetEnemyObj()->GetMatWorld().r[3].m128_f32[2];
-					enemyParticle->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
-				}
+				EnemyReactions(enemy.get());
 			}
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
-				bombParticle->Add(20, { bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
-					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
-					bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2] },
+				//ボムの軌跡にパーティクルを発生させる
+				Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
+				bombParticle->Add(20, bombPos,
 					{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 					3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
 					{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
@@ -362,7 +265,8 @@ void RailScene::Update() {
 
 			if (player->GetIsShot()) {
 				Vector3 gunPos = player->GetGunObject()->GetMatWorld().r[3];
-				bulletParticle->Add(2, gunPos,
+				//マズルフラッシュを発生させる
+				gunParticle->Add(2, gunPos,
 					{ 0.0f, 0.0f, 0.0f },
 					{ 0.0f, 0.0f, 0.0f },
 					5.0f, 0.0f,
@@ -370,12 +274,11 @@ void RailScene::Update() {
 					{ 0.5f, 0.3f, 0.0f }
 				);
 			}
-
 		}
 
 		enemyParticle->Update();
 		bombParticle->Update();
-		bulletParticle->Update();
+		gunParticle->Update();
 
 		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
 			enemyBullet->Update(delayCount);
@@ -390,134 +293,15 @@ void RailScene::Update() {
 			bulletCase->Update(delayCount);
 		}
 
-		for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
-			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
-					score += 100;
-					enemy->OnCollision();
-					playerBullet->OnCollision();
-				}
-			}
-		}
-
-		for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
-				}
-				enemyBullet->OnCollision();
-				railCamera->SetIsDamage();
-			}
-		}
-
-		for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
-			for (const std::unique_ptr<Bomb>& bomb : bombs) {
-				if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
-					score += 100;
-					enemy->OnCollision();
-					for (int i = 0; i < 10; i++) {
-						XMFLOAT3 pos = {
-							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
-							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
-							bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2]
-						};
-						pos.x += rand() % 40 - 20;
-						pos.y += rand() % 40 - 20;
-						pos.z += rand() % 40 - 20;
-
-						const float rnd_vel = 0.1f;
-						XMFLOAT3 vel{};
-						vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-						vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-						vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-						XMFLOAT3 acc{};
-						const float rnd_acc = 0.01f;
-						acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-						acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-						acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-
-						bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
-					}
-					bomb->OnCollision();
-
-				}
-			}
-		}
-
-		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-			XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-			XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-			raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
-
-			DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-
-			XMFLOAT2 targetCheckHitPos = { spritePos.x - player->GetAimPos().x, spritePos.y - player->GetAimPos().y };
-
-			if (IsTargetCheck(spritePos, player->GetAimPos()) && player->GetIsBomb()) {
-				enemy->SetTarget(true);
-			}
-
-			if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
-				std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-				new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-				particles2d.push_back(std::move(new2DParticle));
-			}
-		}
-
 		player->Update(railCamera->GetIsEnd());
 	}
 	else {
-		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
-		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-		const float selectAlpha = 0.5f;
-		const float normalAlpha = 1.0f;
-		XMFLOAT2 selectSize;
-		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-			selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
-			titleBack->SetSize(selectSize);
-			titleBack->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				isTitleBack = true;
-				isSceneChangeStart = true;
-			}
-		}
-		else {
-			titleBack->SetSize(titleBackSize);
-			titleBack->SetAlpha(normalAlpha);
-		}
-
-		if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
-			selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
-			back->SetSize(selectSize);
-			back->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				isPause = !isPause;
-			}
-		}
-		else {
-			back->SetSize(backSize);
-			back->SetAlpha(normalAlpha);
-		}
-
-		if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
-			selectSize = { restartSize.x * 0.9f, restartSize.y * 0.9f };
-			restart->SetSize(selectSize);
-			restart->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				isRestart = true;
-				isSceneChangeStart = true;
-			}
-		}
-		else {
-			restart->SetSize(restartSize);
-			restart->SetAlpha(normalAlpha);
-		}
+		Pause();
 	}
 
 	light->Update();
-	//object1->Update();
 
+	//シーン切り替え処理
 	if (isSceneChangeComplete) {
 		SceneChangeCompleteEffect();
 	}
@@ -525,41 +309,7 @@ void RailScene::Update() {
 		SceneChangeEffect();
 	}
 
-	//シーン切り替え
-	if (isSceneChange) {
-		if (isDead && !isClear) {
-			SceneManager::AddScore(score);
-			SceneManager::SceneChange(SceneManager::GameOver);
-		}
-		else if (isClear && !isDead) {
-			SceneManager::AddScore(score);
-			if (SceneManager::GetStageNo() == 1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Boss);
-			}
-			else if (SceneManager::GetStageNo() == 2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Boss);
-			}
-			SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
-		}
-		else if (isTitleBack) {
-			SceneManager::SceneChange(SceneManager::Title);
-		}
-		else if (isRestart) {
-			if (SceneManager::GetStageNo() == 1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
-			}
-			else if (SceneManager::GetStageNo() == 2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
-			}
-		}
-	}
-
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	}
-
-	//player->SetEnemies(enemies);
+	SceneChange();
 }
 
 void RailScene::Draw() {
@@ -615,8 +365,7 @@ void RailScene::Draw() {
 	}
 	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	bulletParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	//object1->Draw(DirectXSetting::GetIns()->GetCmdList());
+	gunParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -630,13 +379,13 @@ void RailScene::Draw() {
 		faceWindow->Draw();
 		switch (faceType) {
 		case FaceGraphics::OPE_NORMALFACE:
-			opeNormal[opeAnimeCount]->Draw();
+			opeNormal[faceAnimeCount]->Draw();
 			break;
 		case FaceGraphics::OPE_SURPRISEFACE:
-			opeSurprise[opeAnimeCount]->Draw();
+			opeSurprise[faceAnimeCount]->Draw();
 			break;
 		case FaceGraphics::OPE_SMILEFACE:
-			opeSmile[opeAnimeCount]->Draw();
+			opeSmile[faceAnimeCount]->Draw();
 			break;
 		}
 	}
@@ -655,7 +404,6 @@ void RailScene::Draw() {
 		restart->Draw();
 
 	}
-	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
 	SceneChangeEffectDraw();
 	Sprite::PostDraw();
 
@@ -679,7 +427,6 @@ void RailScene::Finalize() {
 	safe_delete(background);
 	safe_delete(celetialSphere);
 	safe_delete(camera);
-	safe_delete(object1);
 	safe_delete(railCamera);
 	safe_delete(postEffect);
 	safe_delete(pause);
@@ -689,7 +436,7 @@ void RailScene::Finalize() {
 	safe_delete(scoreSprite);
 	safe_delete(light);
 	safe_delete(bombParticle);
-	safe_delete(bulletParticle);
+	safe_delete(gunParticle);
 	safe_delete(enemyParticle);
 	safe_delete(textDraw);
 	safe_delete(textWindow);
@@ -702,24 +449,6 @@ void RailScene::Finalize() {
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
-}
-
-void RailScene::LoadEnemyData(const std::string filename) {
-	//ファイルストリーム
-	std::ifstream file;
-	enemyData.str("");
-	enemyData.clear(std::stringstream::goodbit);
-	enemies.clear();
-
-	const std::string directory = "Engine/Resources/GameData/";
-	file.open(directory + filename);
-	if (file.fail()) {
-		assert(0);
-	}
-
-	enemyData << file.rdbuf();
-
-	file.close();
 }
 
 void RailScene::EnemyDataUpdate() {
@@ -813,23 +542,10 @@ void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
 	bombs.push_back(std::move(bomb));
 }
 
-void RailScene::LoadRailPoint(const std::string filename) {
+void RailScene::LoadRailPoint(const std::string& filename) {
 	//ファイルストリーム
-	std::ifstream file;
 	std::stringstream railcameraPointsData;
-	railcameraPointsData.str("");
-	railcameraPointsData.clear(std::stringstream::goodbit);
-	points.clear();
-
-	const std::string directory = "Engine/Resources/GameData/";
-	file.open(directory + filename);
-	if (file.fail()) {
-		assert(0);
-	}
-
-	railcameraPointsData << file.rdbuf();
-
-	file.close();
+	railcameraPointsData = ExternalFileLoader::GetIns()->ExternalFileOpen(filename);
 
 	std::string line;
 	Vector3 pos{};
@@ -912,7 +628,7 @@ void RailScene::LoadRailPoint(const std::string filename) {
 			isCameraRoop = true;
 		}
 		else if (isTime) {
-			splineTime *= 100;
+			splineTime *= 60;
 			isTime = false;
 		}
 		else if (isPoint) {
@@ -927,24 +643,6 @@ void RailScene::LoadRailPoint(const std::string filename) {
 
 }
 
-void RailScene::LoadTextMessage(const std::string fileName)
-{
-	//ファイルストリーム
-	std::ifstream file;
-	textData.str("");
-	textData.clear(std::stringstream::goodbit);
-
-	const std::string directory = "Engine/Resources/GameData/";
-	file.open(directory + fileName);
-	if (file.fail()) {
-		assert(0);
-	}
-
-	textData << file.rdbuf();
-
-	file.close();
-}
-
 void RailScene::TextMessageUpdate()
 {
 	std::string line;
@@ -953,7 +651,7 @@ void RailScene::TextMessageUpdate()
 	std::wstring messageDataW;
 
 	if (isMessageWait) {
-		if (isTextDraw) {
+		if (isTextDrawComplete) {
 			waitMessageTimer--;
 		}
 		if (waitMessageTimer <= 0) {
@@ -990,7 +688,7 @@ void RailScene::TextMessageUpdate()
 		}
 		if (word == "TEXT") {
 			line_stream >> messageData;
-			messageDataW = StringToWstring(messageData);
+			messageDataW = ExternalFileLoader::GetIns()->StringToWstring(messageData);
 			message = messageDataW;
 		}
 		if (word == "SPEED") {
@@ -1009,16 +707,71 @@ void RailScene::TextMessageUpdate()
 
 void RailScene::TextMessageDraw()
 {
+	//ウィンドウサイズ(クローズ時)
+	const float closeWindowSizeY = 0.0f;
+	//ウィンドウサイズ(オープン時)
+	const float openWindowSizeY = 160.0f;
+
+	//メッセージウィンドウ開閉処理
+	//メッセージウィンドウ閉鎖処理
+	if (!isTextWindowOpen) {
+		openWindowTimer = 0;
+		closeWindowTimer++;
+		if (closeWindowTimer >= closeWindowTime) {
+			closeWindowTimer = closeWindowTime;
+		}
+		//イーズインアウトでメッセージウィンドウを閉じる
+		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
+		faceGraphicSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceGraphicSize.y);
+	}
+	//メッセージウィンドウ開放処理
+	else if (isTextWindowOpen) {
+		closeWindowTimer = 0;
+		openWindowTimer++;
+		if (openWindowTimer >= openWindowTime) {
+			openWindowTimer = openWindowTime;
+		}
+		//イーズインアウトでメッセージウィンドウを開く
+		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
+		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
+		faceGraphicSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceGraphicSize.y);
+	}
+
+	//メッセージウィンドウサイズを変更
+	textWindow->SetSize(textWindowSize);
+	faceWindow->SetSize(faceWindowSize);
+	for (int i = 0; i < 3; i++) {
+		opeNormal[i]->SetSize(faceGraphicSize);
+		opeSurprise[i]->SetSize(faceGraphicSize);
+		opeSmile[i]->SetSize(faceGraphicSize);
+	}
+
+	//顔グラフィックアニメーション時間加算
+	faceAnimeTimer++;
+	if (faceAnimeTimer >= faceAnimeTime) {
+		faceAnimeTimer = 0;
+		faceAnimeCount++;
+		if (faceAnimeCount >= 3) {
+			faceAnimeCount = 0;
+		}
+	}
+	//読み込んだテキスト描画が完了していたら
+	if (isTextDrawComplete) {
+		faceAnimeCount = 0;
+		faceAnimeTimer = 0;
+	}
+	//テキストスピードが0以下にならないようにする
 	if (textSpeed <= 0) {
 		textSpeed = 1;
 	}
-
+	//テキスト描画範囲
 	D2D1_RECT_F textDrawPos = {
 		200, 560, 950, 700
 	};
-
+	//テキストを1文字ずつ指定時間ごとに追加する
 	textAddTimer++;
-	isTextDraw = false;
+	isTextDrawComplete = false;
 	if (textAddTimer >= textSpeed) {
 		textAddTimer = 0;
 		if (textCount < message.size()) {
@@ -1030,27 +783,13 @@ void RailScene::TextMessageDraw()
 			}
 			textCount++;
 		}
-
+		//読み込んだテキスト描画が完了したら
 		if (textCount >= message.size()) {
-			isTextDraw = true;
+			isTextDrawComplete = true;
 		}
 	}
-
+	//現在追加されている文字を全て描画する
 	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
-}
-
-std::wstring RailScene::StringToWstring(const std::string& text)
-{
-	//文字サイズを取得
-	int iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
-	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
-	//SJISからwstringに変換
-	MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, cpUCS2, iBufferSize);
-	std::wstring oRet(cpUCS2, cpUCS2 + iBufferSize - 1);
-
-	delete[] cpUCS2;
-
-	return oRet;
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
@@ -1058,6 +797,218 @@ bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
 }
 
+void RailScene::ClearPaformance()
+{
+	//レールカメラが最終地点に到達したとき
+	if (railCamera->GetIsEnd()) {
+		clearTimer--;
+	}
+	//クリア演出後シーンを切り替える
+	if (clearTimer <= 0) {
+		isClear = true;
+		isSceneChangeStart = true;
+	}
+
+
+}
+
+void RailScene::CollisionCheck()
+{
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
+		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+				score += 100;
+				enemy->OnCollision();
+				playerBullet->OnCollision();
+			}
+		}
+	}
+
+	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
+			if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
+				player->OnCollision();
+			}
+			enemyBullet->OnCollision();
+			railCamera->SetIsDamage();
+		}
+	}
+
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
+		for (const std::unique_ptr<Bomb>& bomb : bombs) {
+			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
+				score += 100;
+				enemy->OnCollision();
+				for (int i = 0; i < 10; i++) {
+					XMFLOAT3 pos = {
+						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
+						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
+						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2]
+					};
+					pos.x += rand() % 40 - 20;
+					pos.y += rand() % 40 - 20;
+					pos.z += rand() % 40 - 20;
+
+					const float rnd_vel = 0.1f;
+					XMFLOAT3 vel{};
+					vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+					vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+					vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+					XMFLOAT3 acc{};
+					const float rnd_acc = 0.01f;
+					acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+					acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+					acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+
+					bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+				}
+				bomb->OnCollision();
+
+			}
+		}
+	}
+}
+
+void RailScene::EnemyReactions(BaseEnemy* enemy)
+{
+	//敵のHPが0ならパーティクルを発生させる
+	if (enemy->GetHP() <= 0) {
+		Vector3 enemyPos;
+		enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
+		enemyParticle->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
+	}
+
+	//ロックオン処理
+	XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
+	raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
+
+	DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+
+	XMFLOAT2 targetCheckHitPos = { spritePos.x - player->GetAimPos().x, spritePos.y - player->GetAimPos().y };
+
+	if (IsTargetCheck(spritePos, player->GetAimPos()) && player->GetIsBomb()) {
+		enemy->SetTarget(true);
+	}
+
+	//敵が死亡したらエフェクトを発生させる
+	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
+		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+		new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+		particles2d.push_back(std::move(new2DParticle));
+	}
+}
+
+void RailScene::AddEffect()
+{
+	//プレイヤーのHPが0ならエフェクトを発生させる
+	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
+		XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
+		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+		playerPos = XMVector3TransformCoord(playerPos, matVPV);
+
+		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
+		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+		particles2d.push_back(std::move(new2DParticle));
+		isPlayerDead = true;
+		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+	}
+}
+
+void RailScene::Pause()
+{
+	SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+	XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+	//ボタン選択中アルファ値
+	const float selectAlpha = 0.5f;
+	//ボタン通常時アルファ値
+	const float normalAlpha = 1.0f;
+	//選択中ボタンサイズ
+	XMFLOAT2 selectSize;
+	//タイトルバックボタンを選択中
+	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+		selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
+		titleBack->SetSize(selectSize);
+		titleBack->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isTitleBack = true;
+			isSceneChangeStart = true;
+		}
+	}
+	else {
+		titleBack->SetSize(titleBackSize);
+		titleBack->SetAlpha(normalAlpha);
+	}
+	//ポーズ解除ボタンを選択中
+	if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
+		selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
+		back->SetSize(selectSize);
+		back->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isPause = !isPause;
+		}
+	}
+	else {
+		back->SetSize(backSize);
+		back->SetAlpha(normalAlpha);
+	}
+	//リスタートボタンを選択中
+	if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
+		selectSize = { restartSize.x * 0.9f, restartSize.y * 0.9f };
+		restart->SetSize(selectSize);
+		restart->SetAlpha(selectAlpha);
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			isRestart = true;
+			isSceneChangeStart = true;
+		}
+	}
+	else {
+		restart->SetSize(restartSize);
+		restart->SetAlpha(normalAlpha);
+	}
+}
+
 void RailScene::SceneChange()
 {
+	//シーン切り替え
+	if (isSceneChange) {
+		//死亡フラグが立っている場合
+		if (isDead && !isClear) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::GameOver);
+		}
+		//クリアフラグが立っている場合
+		else if (isClear && !isDead) {
+			SceneManager::AddScore(score);
+			//ステージ番号により派生
+			if (SceneManager::GetStageNo() == 1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Boss);
+			}
+			else if (SceneManager::GetStageNo() == 2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Boss);
+			}
+			SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+		}
+		//タイトルバックボタンが押された場合
+		else if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
+		//リスタートボタンが押された場合
+		else if (isRestart) {
+			//ステージ番号により派生
+			if (SceneManager::GetStageNo() == 1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+			}
+			else if (SceneManager::GetStageNo() == 2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			}
+		}
+	}
+	
+	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+		SceneManager::AddScore(score);
+		SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	}
 }

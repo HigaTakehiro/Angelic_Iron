@@ -36,11 +36,6 @@ public: //メンバ関数
 	void Reset(std::vector<Vector3>& points);
 
 	/// <summary>
-	/// 開始時間のセット
-	/// </summary>
-	void SetStartTime(long long startTime) { this->startTime = startTime; }
-
-	/// <summary>
 	/// ダメージエフェクト発生用フラグを立てる
 	/// </summary>
 	void SetIsDamage() { isDamage = true; }
