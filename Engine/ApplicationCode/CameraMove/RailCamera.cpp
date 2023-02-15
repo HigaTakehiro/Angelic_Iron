@@ -49,10 +49,6 @@ void RailCamera::Update(float delayCount) {
 			}
 		}
 
-		if (isDamage) {
-			//DamageCameraEffect();
-		}
-
 		this->delayCount = 0;
 		UpdateMatWorld();
 
@@ -155,17 +151,6 @@ void RailCamera::UpdateMatWorld() {
 	Camera::SetTarget(target);
 	Camera::SetUp(XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]));
 	Camera::SetMatWorld(matWorld);
-}
-
-void RailCamera::Reset(std::vector<Vector3>& points) {
-	eye = initPos;
-	rot = initRot;
-	this->points.clear();
-	this->points = points;
-	startIndex = 1;
-	startTime = GetTickCount64();
-	isDamage = false;
-	damageEffectTimer = damageEffectTime;
 }
 
 void RailCamera::DamageCameraEffect() {

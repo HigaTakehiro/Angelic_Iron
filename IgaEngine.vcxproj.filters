@@ -233,6 +233,12 @@
     <ClCompile Include="Engine\Base\ExternalFileLoader.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChange.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -403,6 +409,8 @@
     <ClInclude Include="Engine\Base\ExternalFileLoader.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChange.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

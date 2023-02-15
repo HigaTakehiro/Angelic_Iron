@@ -31,11 +31,6 @@ public: //メンバ関数
 	void Update(float delayCount = 60.0f);
 
 	/// <summary>
-	/// リセット
-	/// </summary>
-	void Reset(std::vector<Vector3>& points);
-
-	/// <summary>
 	/// ダメージエフェクト発生用フラグを立てる
 	/// </summary>
 	void SetIsDamage() { isDamage = true; }

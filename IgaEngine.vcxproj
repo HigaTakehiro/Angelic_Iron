@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -165,11 +165,13 @@
     <ClCompile Include="Engine\ApplicationCode\Players\BossScenePlayer.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Players\Player.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Players\PlayerBullet.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\BaseScene.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\BossScene.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\GameOverScene.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\RailScene.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp" />
+    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChange.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\SceneManager.cpp" />
     <ClCompile Include="Engine\ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
@@ -218,11 +220,13 @@
     <ClInclude Include="Engine\ApplicationCode\Players\BossScenePlayer.h" />
     <ClInclude Include="Engine\ApplicationCode\Players\Player.h" />
     <ClInclude Include="Engine\ApplicationCode\Players\PlayerBullet.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\BaseScene.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\BossScene.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\GameOverScene.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\RailScene.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\ResultScene.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChange.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\SceneManager.h" />
     <ClInclude Include="Engine\ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />

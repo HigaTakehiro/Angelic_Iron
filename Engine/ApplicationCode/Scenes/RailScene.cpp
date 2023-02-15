@@ -255,24 +255,6 @@ void RailScene::Update() {
 			}
 			for (std::unique_ptr<Bomb>& bomb : bombs) {
 				bomb->Update();
-				//ボムの軌跡にパーティクルを発生させる
-				Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
-				bombParticle->Add(20, bombPos,
-					{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-					3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
-					{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
-			}
-
-			if (player->GetIsShot()) {
-				Vector3 gunPos = player->GetGunObject()->GetMatWorld().r[3];
-				//マズルフラッシュを発生させる
-				gunParticle->Add(2, gunPos,
-					{ 0.0f, 0.0f, 0.0f },
-					{ 0.0f, 0.0f, 0.0f },
-					5.0f, 0.0f,
-					{ 0.5f, 0.0f, 0.0f },
-					{ 0.5f, 0.3f, 0.0f }
-				);
 			}
 		}
 
@@ -914,6 +896,27 @@ void RailScene::AddEffect()
 		particles2d.push_back(std::move(new2DParticle));
 		isPlayerDead = true;
 		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+	}
+
+	//マズルフラッシュを発生させる
+	if (player->GetIsShot()) {
+		Vector3 gunPos = player->GetGunObject()->GetMatWorld().r[3];
+		gunParticle->Add(2, gunPos,
+			{ 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f },
+			5.0f, 0.0f,
+			{ 0.5f, 0.0f, 0.0f },
+			{ 0.5f, 0.3f, 0.0f }
+		);
+	}
+
+	for (std::unique_ptr<Bomb>& bomb : bombs) {
+		//ボムの軌跡にパーティクルを発生させる
+		Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
+		bombParticle->Add(20, bombPos,
+			{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
+			3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
+			{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
 	}
 }
 
