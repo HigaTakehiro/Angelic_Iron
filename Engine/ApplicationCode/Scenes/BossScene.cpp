@@ -8,8 +8,7 @@ void BossScene::Initialize()
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(0, 100, 0));
 	camera->SetTarget(XMFLOAT3(0, 10, 0));
-	isSceneChangeComplete = true;
-	SceneChangeInitialize();
+	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
 
 	for (int i = 0; i < 36; i++) {
 		Vector3 pos = { 0, 20, 0 };
@@ -209,7 +208,7 @@ void BossScene::Update()
 			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
 			isDead = true;
-			isSceneChangeStart = true;
+			SceneChange::GetIns()->SetIsSceneChangeStart(true);
 		}
 
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
@@ -288,7 +287,7 @@ void BossScene::Update()
 			titleBack->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				isTitleBack = true;
-				isSceneChangeStart = true;
+				SceneChange::GetIns()->SetIsSceneChangeStart(true);
 			}
 		}
 		else {
@@ -310,39 +309,12 @@ void BossScene::Update()
 		}
 
 	}
-
+	//ライト更新処理
 	light->Update();
 
-	if (isSceneChangeComplete) {
-		SceneChangeCompleteEffect();
-	}
-	if (isSceneChangeStart) {
-		SceneChangeEffect();
-	}
-
 	//シーン変更
-	if (firstBoss->GetIsDead()) {
-		isSceneChangeStart = true;
-	}
-
-	if (isSceneChange) {
-		if (player->GetIsDead()) {
-			SceneManager::AddScore(score);
-			SceneManager::SceneChange(SceneManager::GameOver);
-		}
-		else if (firstBoss->GetIsDead()) {
-			SceneManager::AddScore(score);
-			SceneManager::SceneChange(SceneManager::Result);
-		}
-		else if (isTitleBack) {
-			SceneManager::SceneChange(SceneManager::Title);
-		}
-	}
-
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
-	//	SceneManager::SceneChange(SceneManager::Result);
-	//}
+	SceneChange::GetIns()->Update();
+	SceneChange();
 }
 
 void BossScene::Draw()
@@ -422,7 +394,7 @@ void BossScene::Draw()
 		faceWindow->Draw();
 		opeNormal[opeAnimeCount]->Draw();
 	}
-	SceneChangeEffectDraw();
+	SceneChange::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -604,4 +576,26 @@ std::wstring BossScene::StringToWstring(const std::string& text)
 
 void BossScene::SceneChange()
 {
+	if (firstBoss->GetIsDead()) {
+		SceneChange::GetIns()->SetIsSceneChangeStart(true);
+	}
+
+	if (SceneChange::GetIns()->GetIsSceneChange()) {
+		if (player->GetIsDead()) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::GameOver);
+		}
+		else if (firstBoss->GetIsDead()) {
+			SceneManager::AddScore(score);
+			SceneManager::SceneChange(SceneManager::Result);
+		}
+		else if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
+	}
+
+	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	//	SceneManager::AddScore(score);
+	//	SceneManager::SceneChange(SceneManager::Result);
+	//}
 }

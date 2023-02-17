@@ -197,9 +197,6 @@
     <ClCompile Include="Engine\ApplicationCode\Scenes\RailScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\Scenes\SceneManager.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
@@ -233,11 +230,14 @@
     <ClCompile Include="Engine\Base\ExternalFileLoader.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChange.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,8 +409,12 @@
     <ClInclude Include="Engine\Base\ExternalFileLoader.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChange.h" />
+    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChange.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

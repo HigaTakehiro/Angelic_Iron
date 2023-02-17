@@ -21,8 +21,7 @@ using namespace Microsoft::WRL;
 void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
-	isSceneChangeComplete = true;
-	SceneChangeInitialize();
+	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -207,13 +206,15 @@ void RailScene::Update() {
 	//丸影用プレイヤー座標セット
 	light->SetCircleShadowCasterPos(0, { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
 	//ポーズ切り替え
-	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player->GetHPCount() != noneHP) {
+	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player->GetHPCount() != noneHP && !railCamera->GetIsEnd()) {
 		isPause = !isPause;
 	}
+	//レールの最後までいったらクリア
+	ClearPaformance();
 	//プレイヤーが死亡しているか
 	if (player->GetIsDead()) {
 		isDead = true;
-		isSceneChangeStart = true;
+		SceneChange::GetIns()->SetIsSceneChangeStart(true);
 	}
 
 	//スロー演出用タイマー
@@ -284,13 +285,7 @@ void RailScene::Update() {
 	light->Update();
 
 	//シーン切り替え処理
-	if (isSceneChangeComplete) {
-		SceneChangeCompleteEffect();
-	}
-	if (isSceneChangeStart) {
-		SceneChangeEffect();
-	}
-
+	SceneChange::GetIns()->Update();
 	SceneChange();
 }
 
@@ -386,7 +381,7 @@ void RailScene::Draw() {
 		restart->Draw();
 
 	}
-	SceneChangeEffectDraw();
+	SceneChange::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -788,10 +783,8 @@ void RailScene::ClearPaformance()
 	//クリア演出後シーンを切り替える
 	if (clearTimer <= 0) {
 		isClear = true;
-		isSceneChangeStart = true;
+		SceneChange::GetIns()->SetIsSceneChangeStart(true);
 	}
-
-
 }
 
 void RailScene::CollisionCheck()
@@ -937,7 +930,7 @@ void RailScene::Pause()
 		titleBack->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isTitleBack = true;
-			isSceneChangeStart = true;
+			SceneChange::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
@@ -964,7 +957,7 @@ void RailScene::Pause()
 		restart->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isRestart = true;
-			isSceneChangeStart = true;
+			SceneChange::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
@@ -976,7 +969,7 @@ void RailScene::Pause()
 void RailScene::SceneChange()
 {
 	//シーン切り替え
-	if (isSceneChange) {
+	if (SceneChange::GetIns()->GetIsSceneChange()) {
 		//死亡フラグが立っている場合
 		if (isDead && !isClear) {
 			SceneManager::AddScore(score);

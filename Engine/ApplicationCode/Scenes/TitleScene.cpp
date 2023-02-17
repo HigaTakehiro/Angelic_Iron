@@ -3,8 +3,7 @@
 void TitleScene::Initialize()
 {
 	//SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
-	isSceneChangeComplete = true;
-	SceneChangeInitialize();
+	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
 
 	cameraPos = { -100, 50, 200 };
 	cameraTargetPos = { 0, 500, 0 };
@@ -371,52 +370,10 @@ void TitleScene::Update()
 	if (isStageChoice) {
 		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
 	}
-
-	if (isSceneChangeComplete) {
-		SceneChangeCompleteEffect();
-	}
-	if (isSceneChangeStart) {
-		SceneChangeEffect();
-	}
-
+	//シーン切り替え演出を更新
+	SceneChange::GetIns()->Update();
 	//シーン切り替え
-	if (isStageChoice) {
-		if (startTimer <= startTime) {
-			startTimer++;
-		}
-		if (startTimer >= startTime / 2.0f) {
-			postEffectNo = PostEffect::DASH;
-			for (int i = 0; i < 8; i++) {
-				Vector3 particlePos = { 0.0f, 0.0f, 0.0f };
-				particlePos = MotionMath::CircularMotion(playerPos, particlePos, (float)(45 * i), 10.0f, MotionMath::Y);
-				particlePos.normalize();
-				particle->Add(30, playerPos, particlePos, -particlePos, 3.0f);
-			}
-		}
-		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
-		Vector3 pointA = { -30, 50, 0 };
-		Vector3 pointB = { -30.0f, 50.0f, 200.0f };
-		Vector3 pointC = { -30, 300, 200 };
-		Vector3 easingPointA = easeIn(pointA, pointB, timeRate);
-		Vector3 easingPointB = easeIn(pointB, pointC, timeRate);
-		playerPos = easeIn(easingPointA, easingPointB, timeRate);
-		cameraPos.y = Easing::easeIn((float)startTimer, (float)startTime / 2, 3, cameraPos.y);
-		cameraPos.z = Easing::easeIn((float)startTimer, (float)startTime / 2, -150, cameraPos.z);
-		titlePlayer->SetPosition(playerPos);
-		if (startTimer >= startTime) {
-			isSceneChangeStart = true;
-		}
-
-		if (isSceneChange) {
-			if (isStage1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
-			}
-			else if (isStage2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
-			}
-		}
-	}
-
+	SceneChange();
 }
 
 void TitleScene::Draw()
@@ -463,7 +420,7 @@ void TitleScene::Draw()
 	title->Draw();
 	aim->Draw();
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
-	SceneChangeEffectDraw();
+	SceneChange::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -509,4 +466,55 @@ void TitleScene::Finalize()
 
 void TitleScene::SceneChange()
 {
+	//シーン切り替え
+	//ステージ選択フラグが立っていれば
+	if (isStageChoice) {
+		if (startTimer <= startTime) {
+			startTimer++;
+		}
+		//開始演出時間が半分過ぎたら
+		if (startTimer >= startTime / 2.0f) {
+			//ブラーをかける
+			postEffectNo = PostEffect::DASH;
+			//パーティクルを発生させる
+			for (int i = 0; i < 8; i++) {
+				Vector3 particlePos = { 0.0f, 0.0f, 0.0f };
+				particlePos = MotionMath::CircularMotion(playerPos, particlePos, (float)(45 * i), 10.0f, MotionMath::Y);
+				particlePos.normalize();
+				particle->Add(30, playerPos, particlePos, -particlePos, 3.0f);
+			}
+		}
+		//時間を0~1の値をとるようにする
+		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
+		//線分補間用座標
+		Vector3 point[3];
+		point[0] = {-30, 50, 0};
+		point[1] = {-30.0f, 50.0f, 200.0f};
+		point[2] = {-30, 300, 200};
+
+		//弧を描くように移動させる
+		Vector3 easingPointA = easeIn(point[0], point[1], timeRate);
+		Vector3 easingPointB = easeIn(point[1], point[2], timeRate);
+		playerPos = easeIn(easingPointA, easingPointB, timeRate);
+
+		//カメラ位置を変更する
+		cameraPos.y = Easing::easeIn((float)startTimer, (float)startTime / 2, 3, cameraPos.y);
+		cameraPos.z = Easing::easeIn((float)startTimer, (float)startTime / 2, -150, cameraPos.z);
+		//プレイヤー座標を更新する
+		titlePlayer->SetPosition(playerPos);
+
+		//シーン切り替え演出開始フラグを立てる
+		if (startTimer >= startTime) {
+			SceneChange::GetIns()->SetIsSceneChangeStart(true);
+		}
+		//シーンを切り替える
+		if (SceneChange::GetIns()->GetIsSceneChange()) {
+			if (isStage1) {
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+			}
+			else if (isStage2) {
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+			}
+		}
+	}
 }

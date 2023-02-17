@@ -5,8 +5,7 @@ void GameOverScene::Initialize()
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
 
-	isSceneChangeComplete = true;
-	SceneChangeInitialize();
+	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
 
 	camera = new Camera;
 	camera->SetEye(cameraPos);
@@ -107,64 +106,9 @@ void GameOverScene::Update()
 
 	light->Update();
 
-	if (isSceneChangeComplete) {
-		SceneChangeCompleteEffect();
-	}
-	if (isSceneChangeStart) {
-		SceneChangeEffect();
-	}
-
 	//ƒV[ƒ“•ÏX
-	if (!isSelectedButton) {
-		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-			titleBackAlpha = 0.5f;
-			XMFLOAT2 spriteSize = titleBackSize;
-			spriteSize.x *= 0.9f;
-			spriteSize.y *= 0.9f;
-			titleBack->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				ground->SetAmbient({ 1, 1, 1 });
-				celetialSphere->SetAmbient({ 1, 1, 1 });
-				isSceneChangeStart = true;
-				isTitleBack = true;
-				isSelectedButton = true;
-			}
-		}
-		else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
-			restartAlpha = 0.5f;
-			XMFLOAT2 spriteSize = restartSize;
-			spriteSize.x *= 0.9f;
-			spriteSize.y *= 0.9f;
-			restart->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				ground->SetAmbient({ 1, 1, 1 });
-				celetialSphere->SetAmbient({ 1, 1, 1 });
-				isSceneChangeStart = true;
-				isRestart = true;
-				isSelectedButton = true;
-			}
-		}
-	}
-
-	if (isSceneChange) {
-		if (isTitleBack) {
-			SceneManager::SceneChange(SceneManager::Title);
-		}
-		else if (isRestart) {
-			switch (SceneManager::GetStageNo())  
-			{
-			case 1:
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
-				break;
-			case 2:
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
-				break;
-			default:
-				SceneManager::SceneChange(SceneManager::Title);
-				break;
-			}
-		}
-	}
+	SceneChange::GetIns()->Update();
+	SceneChange();
 }
 
 void GameOverScene::Draw()
@@ -196,7 +140,7 @@ void GameOverScene::Draw()
 		titleBack->Draw();
 		restart->Draw();
 	}
-	SceneChangeEffectDraw();
+	SceneChange::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -226,14 +170,54 @@ void GameOverScene::Finalize()
 
 void GameOverScene::SceneChange()
 {
-}
+	if (!isSelectedButton) {
+		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
+			titleBackAlpha = 0.5f;
+			XMFLOAT2 spriteSize = titleBackSize;
+			spriteSize.x *= 0.9f;
+			spriteSize.y *= 0.9f;
+			titleBack->SetSize(spriteSize);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				ground->SetAmbient({ 1, 1, 1 });
+				celetialSphere->SetAmbient({ 1, 1, 1 });
+				SceneChange::GetIns()->SetIsSceneChangeStart(true);
+				isTitleBack = true;
+				isSelectedButton = true;
+			}
+		}
+		else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
+			restartAlpha = 0.5f;
+			XMFLOAT2 spriteSize = restartSize;
+			spriteSize.x *= 0.9f;
+			spriteSize.y *= 0.9f;
+			restart->SetSize(spriteSize);
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+				ground->SetAmbient({ 1, 1, 1 });
+				celetialSphere->SetAmbient({ 1, 1, 1 });
+				SceneChange::GetIns()->SetIsSceneChangeStart(true);
+				isRestart = true;
+				isSelectedButton = true;
+			}
+		}
+	}
 
-//GameOverScene::ScoreNumber GameOverScene::JudgeDigitNumber(int score, int digit) {
-//	if (score >= 1000000) {
-//		return nine;
-//	}
-//
-//	int num = (score / (int)pow(10, digit)) % 10;
-//
-//	return (ScoreNumber)(64 * num);
-//}
+	if (SceneChange::GetIns()->GetIsSceneChange()) {
+		if (isTitleBack) {
+			SceneManager::SceneChange(SceneManager::Title);
+		}
+		else if (isRestart) {
+			switch (SceneManager::GetStageNo())
+			{
+			case 1:
+				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				break;
+			case 2:
+				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+				break;
+			default:
+				SceneManager::SceneChange(SceneManager::Title);
+				break;
+			}
+		}
+	}
+}

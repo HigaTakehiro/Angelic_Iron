@@ -37,24 +37,59 @@ public: //メンバ関数
 	void Initialize();
 
 	/// <summary>
-	/// シーン変更フラグを取得する
+	/// 更新処理
 	/// </summary>
-	/// <returns></returns>
+	void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw();
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
+
+	/// <summary>
+	/// シーン切り替えフラグを取得する
+	/// </summary>
+	/// <returns>シーン切り替えフラグ</returns>
 	bool GetIsSceneChange() { return isSceneChange; }
 
 	/// <summary>
-	/// シーン変更完了フラグを立てる
+	/// シーン切り替え開始フラグを立てる
 	/// </summary>
-	/// <param name="isSceneChangeComplete"></param>
+	/// <param name="isSceneChangeStart">シーン切り替え開始フラグ</param>
+	void SetIsSceneChangeStart(bool isSceneChangeStart) { this->isSceneChangeStart = isSceneChangeStart; }
+
+	/// <summary>
+	/// シーン切り替え完了フラグを立てる
+	/// </summary>
+	/// <param name="isSceneChangeComplete">シーン切り替え完了フラグ</param>
 	void SetIsSceneChangeComplete(bool isSceneChangeComplete) { this->isSceneChangeComplete = isSceneChangeComplete; }
 
-public: //静的メンバ変数
-	//シーン切り替え時間
+private: //メンバ関数
+
+	/// <summary>
+	/// シーン切り替え演出
+	/// </summary>
+	void SceneChangePerformance();
+
+	/// <summary>
+	/// シーン切り替え完了演出
+	/// </summary>
+	void SceneChangeCompletePerformance();
+
+private: //静的メンバ変数
+	//シーン切り替え演出時間
+	const static int32_t sceneChangeTime;
+	//シーン切り替えタイマー
 	static int32_t sceneChangeTimer;
 	//シーン切り替え用スプライト
 	static Sprite* sceneChangeEffects[10];
 	//シーン切り替え用スプライト座標
-	static DirectX::XMFLOAT2 sceneChangeEffectPos[10];
+	static DirectX::XMFLOAT2 sceneChangeEffectsPos[10];
 	//シーン切り替え開始フラグ
 	static bool isSceneChangeStart;
 	//シーン切り替えフラグ

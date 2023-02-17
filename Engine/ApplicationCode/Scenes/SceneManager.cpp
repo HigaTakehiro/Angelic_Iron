@@ -1,10 +1,12 @@
 #include "SceneManager.h"
+#include "SceneChange.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
 int SceneManager::stageNo = 1;
 int SceneManager::score = 0;
 
 void SceneManager::Initialize() {
+	SceneChange::GetIns()->Initialize();
 	SceneChange(Title);
 }
 
@@ -18,7 +20,7 @@ void SceneManager::Draw() {
 
 void SceneManager::Finalize() {
 	nowScene->Finalize();
-	nowScene->SceneChangeFinalize();
+	SceneChange::GetIns()->Finalize();
 	safe_delete(nowScene);
 }
 

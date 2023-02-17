@@ -4,6 +4,7 @@
 #include "FBXObject3d.h"
 #include "SoundManager.h"
 #include "ImageManager.h"
+#include "SceneChange.h"
 #include "Sprite.h"
 #include "Easing.h"
 #include "SafeDelete.h"
@@ -55,11 +56,6 @@ protected: //仮想メンバ関数
 public: //メンバ関数
 
 	/// <summary>
-	/// シーン切り替え用変数の初期化
-	/// </summary>
-	void SceneChangeInitialize();
-
-	/// <summary>
 	/// マウスがスプライトに触れているか(画像の中心が基準)
 	/// </summary>
 	/// <param name="mousePos">マウスの位置</param>
@@ -77,46 +73,6 @@ public: //メンバ関数
 	/// <returns></returns>
 	ScoreNumber JudgeDigitNumber(int score, int digit);
 
-	/// <summary>
-	/// シーン切り替え用演出
-	/// </summary>
-	void SceneChangeEffect();
-
-	/// <summary>
-	/// シーン切り替え完了演出
-	/// </summary>
-	void SceneChangeCompleteEffect();
-
-	/// <summary>
-	/// シーン切り替え演出描画
-	/// </summary>
-	void SceneChangeEffectDraw();
-
-	/// <summary>
-	/// シーン切り替え完了フラグ
-	/// </summary>
-	/// <param name="isSceneChangeComplete">シーン切り替え完了フラグ</param>
-	void SetSceneChangeComplete(const bool isSceneChangeComplete) { this->isSceneChangeComplete = isSceneChangeComplete; }
-
-	/// <summary>
-	/// シーン切り替え終了処理
-	/// </summary>
-	void SceneChangeFinalize();
-
 protected: //静的メンバ変数
-	//シーン切り替え演出用時間
-	static int32_t sceneChangeTime;
 
-	//シーン切り替え用スプライト
-	static Sprite* sceneChangeEffects[10];
-	//シーン切り替え用スプライト座標
-	static DirectX::XMFLOAT2 sceneChangeEffectsPos[10];
-	//シーン切り替え演出用タイマー
-	static int32_t sceneChangeTimer;
-	//シーン切り替え開始フラグ
-	static bool isSceneChangeStart;
-	//シーン切り替えフラグ
-	static bool isSceneChange;
-	//シーン切り替え完了フラグ
-	static bool isSceneChangeComplete;
 };
