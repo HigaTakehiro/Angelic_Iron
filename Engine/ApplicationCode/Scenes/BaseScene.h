@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "Easing.h"
 #include "SafeDelete.h"
+#include "Reticle.h"
 
 class BaseScene
 {

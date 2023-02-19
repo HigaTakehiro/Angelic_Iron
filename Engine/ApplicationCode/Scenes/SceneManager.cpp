@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "SceneChangeEffect.h"
+#include "Reticle.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
 int SceneManager::stageNo = 1;
@@ -8,7 +9,11 @@ int SceneManager::score = 0;
 void SceneManager::Initialize() {
 	//マウスカーソルを非表示にする
 	ShowCursor(false);
+	//レティクル初期化
+	Reticle::GetIns()->Initialize();
+	//シーン切り替え演出初期化
 	SceneChangeEffect::GetIns()->Initialize();
+	//シーン切り替え
 	SceneChange(Title);
 }
 
@@ -21,9 +26,15 @@ void SceneManager::Draw() {
 }
 
 void SceneManager::Finalize() {
+	//現在のシーンの終了処理
 	nowScene->Finalize();
+	//レティクル解放
+	Reticle::GetIns()->Finalize();
+	//シーン切り替え演出終了処理
 	SceneChangeEffect::GetIns()->Finalize();
+	//ベースシーン解放
 	safe_delete(nowScene);
+	//カーソル可視化
 	ShowCursor(true);
 }
 

@@ -148,6 +148,8 @@ void BossScene::Update()
 	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
 	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
 	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+	//レティクル更新処理
+	Reticle::GetIns()->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
@@ -394,6 +396,7 @@ void BossScene::Draw()
 		faceWindow->Draw();
 		opeNormal[opeAnimeCount]->Draw();
 	}
+	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 

@@ -144,7 +144,9 @@ void TitleScene::Update()
 	test->Update();
 	testSquare->Update();
 	light->Update();
-
+	//レティクル更新処理
+	Reticle::GetIns()->Update();
+	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	const float cameraSpeed = 10.0f;
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
@@ -186,6 +188,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		startButton->SetSize(spriteSize);
 		startButton->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isStageSelect = true;
 		}
@@ -201,6 +204,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		stage1->SetSize(spriteSize);
 		stage1->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isStage1 = true;
 			isStageChoice = true;
@@ -217,6 +221,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		stage2->SetSize(spriteSize);
 		stage2->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isStage2 = true;
 			isStageChoice = true;
@@ -233,6 +238,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		manualButton->SetSize(spriteSize);
 		manualButton->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
 			isManual = true;
 		}
@@ -248,6 +254,7 @@ void TitleScene::Update()
 		spriteSize.y *= 0.9f;
 		close->SetSize(spriteSize);
 		close->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isManual = false;
 		}
@@ -264,6 +271,7 @@ void TitleScene::Update()
 		float spriteRot = 90;
 		allow->SetSize(spriteSize);
 		allow->SetAlpha(selectAlpha);
+		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && pageNumber == 1) {
 			pageNumber += 1;
 		}
@@ -415,6 +423,7 @@ void TitleScene::Draw()
 	}
 	title->Draw();
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
+	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 

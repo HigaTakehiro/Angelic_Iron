@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+#include "ImageManager.h"
 #include "DirectXMath.h"
 
 class Reticle final
@@ -48,12 +49,33 @@ public: //メンバ関数
 	/// </summary>
 	void Draw();
 
-private: //メンバ変数
-	//レティクル
-	Sprite* reticle;
-	//レティクル座標
-	DirectX::XMFLOAT2 reticlePos;
-	//レティクルサイズ
-	DirectX::XMFLOAT2 reticleSize;
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
 
+	/// <summary>
+	/// レティクルがボタンまたは敵にあっているフラグを立てる
+	/// </summary>
+	/// <param name="isSelectReticle">レティクルがボタンまたは敵にあっているフラグ</param>
+	void SetIsSelectReticle(bool isSelectReticle) { this->isSeletctReticle = isSelectReticle; }
+
+private: //静的メンバ変数
+	//レティクル回転時間
+	const static int32_t rotTime;
+
+	//レティクル
+	static Sprite* reticle;
+	//レティクル座標
+	static DirectX::XMFLOAT2 reticlePos;
+	//レティクルサイズ
+	static DirectX::XMFLOAT2 reticleSize;
+	//レティクル角度
+	static float reticleRot;
+	//レティクルがボタンまたは敵にあっているフラグ
+	static bool isSeletctReticle;
+
+private: //メンバ変数
+	//レティクル回転タイマー
+	int32_t rotTimer;
 };

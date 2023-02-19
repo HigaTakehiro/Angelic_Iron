@@ -26,8 +26,6 @@ void BossScenePlayer::Initialize(Camera* camera)
 	gun->SetParent(player);
 
 	aimPos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-	aim = Sprite::Create(ImageManager::aim, aimPos, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
 	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
@@ -131,13 +129,11 @@ void BossScenePlayer::SpriteDraw()
 	if (isReload) {
 		reloadUI->Draw();
 	}
-	aim->Draw();
 }
 
 void BossScenePlayer::Finalize() {
 	safe_delete(player);
 	safe_delete(gun);
-	safe_delete(aim);
 	safe_delete(playerUI);
 	for (int i = 0; i < maxHp; i++) {
 		safe_delete(hpUI[i]);
@@ -365,8 +361,6 @@ void BossScenePlayer::AimUpdate()
 		isShot = true;
 		Shot(aim3dPos);
 	}
-
-	aim->SetPosition(aimPos);
 
 }
 

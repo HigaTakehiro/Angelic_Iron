@@ -77,6 +77,8 @@ void ResultScene::Update()
 	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
 	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
 	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+	//レティクル更新処理
+	Reticle::GetIns()->Update();
 
 	scoreRollTimer++;
 	if (scoreRollTimer >= scoreRollTime) {
@@ -138,6 +140,7 @@ void ResultScene::Draw()
 		scoreNumbers[i]->Draw();
 	}
 	titleBack->Draw();
+	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 

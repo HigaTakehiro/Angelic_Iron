@@ -12,7 +12,7 @@ DirectX::XMFLOAT2 SceneChangeEffect::sceneChangeEffectsPos[] = {};
 
 SceneChangeEffect* SceneChangeEffect::GetIns()
 {
-	SceneChangeEffect instance;
+	static SceneChangeEffect instance;
 	return &instance;
 }
 

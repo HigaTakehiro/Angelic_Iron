@@ -105,6 +105,8 @@ void GameOverScene::Update()
 	restartAlpha = 1.0f;
 
 	light->Update();
+	//レティクル更新処理
+	Reticle::GetIns()->Update();
 
 	//シーン変更
 	SceneChangeEffect::GetIns()->Update();
@@ -140,6 +142,7 @@ void GameOverScene::Draw()
 		titleBack->Draw();
 		restart->Draw();
 	}
+	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 

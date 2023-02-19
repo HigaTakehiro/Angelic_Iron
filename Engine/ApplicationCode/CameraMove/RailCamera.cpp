@@ -79,7 +79,7 @@ Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, f
 
 void RailCamera::SplineMove() {
 	nowCount++;
-	elapsedCount = nowCount * 2.0f;
+	elapsedCount = nowCount * 2;
 	timeRate = elapsedCount / maxTime;
 
 	if (timeRate >= 1.0f) {

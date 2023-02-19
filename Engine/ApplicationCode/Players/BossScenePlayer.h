@@ -145,7 +145,6 @@ private: //メンバ変数
 
 	//2Dスプライト
 	//レティクル
-	Sprite* aim;
 	Sprite* playerUI;
 	Sprite* hpUI[maxHp];
 	Sprite* bulletUI[maxBulletCount];

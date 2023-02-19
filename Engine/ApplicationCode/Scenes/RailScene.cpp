@@ -230,6 +230,8 @@ void RailScene::Update() {
 
 	//エフェクト発生処理
 	AddEffect();
+	//レティクル更新処理
+	Reticle::GetIns()->Update();
 
 	if (!isPause) {
 		//敵出現処理
@@ -381,6 +383,7 @@ void RailScene::Draw() {
 		restart->Draw();
 
 	}
+	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
