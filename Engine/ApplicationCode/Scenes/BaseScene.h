@@ -4,7 +4,7 @@
 #include "FBXObject3d.h"
 #include "SoundManager.h"
 #include "ImageManager.h"
-#include "SceneChange.h"
+#include "SceneChangeEffect.h"
 #include "Sprite.h"
 #include "Easing.h"
 #include "SafeDelete.h"

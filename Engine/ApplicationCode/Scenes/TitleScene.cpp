@@ -3,7 +3,7 @@
 void TitleScene::Initialize()
 {
 	//SoundManager::GetIns()->PlayBGM(SoundManager::TITLE, true, 0.1f);
-	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
+	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 	cameraPos = { -100, 50, 200 };
 	cameraTargetPos = { 0, 500, 0 };
@@ -46,9 +46,6 @@ void TitleScene::Initialize()
 	allow->SetRotation(90.0f);
 	close = Sprite::Create(ImageManager::ImageName::Close, closePos);
 	close->SetAnchorPoint(spriteCenter);
-	aim = Sprite::Create(ImageManager::aim, { 0, 0 });
-	aim->SetAnchorPoint({ 0.5f, 0.5f });
-	aim->SetSize({ aim->GetSize().x / 2, aim->GetSize().y / 2 });
 
 	startButtonSize = startButton->GetSize();
 	stage1Size = stage1->GetSize();
@@ -120,7 +117,6 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-	aim->SetPosition(mousePos);
 
 	sphereRot.y += 0.1f;
 	celetialSphere->SetRotation(sphereRot);
@@ -371,7 +367,7 @@ void TitleScene::Update()
 		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
 	}
 	//シーン切り替え演出を更新
-	SceneChange::GetIns()->Update();
+	SceneChangeEffect::GetIns()->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -418,9 +414,8 @@ void TitleScene::Draw()
 		startButton->Draw();
 	}
 	title->Draw();
-	aim->Draw();
 	//debugText.DrawAll(DirectXSetting::GetIns()->GetCmdList());
-	SceneChange::GetIns()->Draw();
+	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -453,7 +448,6 @@ void TitleScene::Finalize()
 	safe_delete(manual);
 	safe_delete(celetialSphere);
 	safe_delete(close);
-	safe_delete(aim);
 	safe_delete(manual2);
 	safe_delete(allow);
 	safe_delete(test);
@@ -505,10 +499,10 @@ void TitleScene::SceneChange()
 
 		//シーン切り替え演出開始フラグを立てる
 		if (startTimer >= startTime) {
-			SceneChange::GetIns()->SetIsSceneChangeStart(true);
+			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 		//シーンを切り替える
-		if (SceneChange::GetIns()->GetIsSceneChange()) {
+		if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 			if (isStage1) {
 				SceneManager::SceneChange(SceneManager::Stage1_Rail);
 			}

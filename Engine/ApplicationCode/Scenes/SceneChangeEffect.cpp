@@ -1,22 +1,22 @@
-#include "SceneChange.h"
+#include "SceneChangeEffect.h"
 #include "Easing.h"
 #include "SafeDelete.h"
 
-const int32_t SceneChange::sceneChangeTime = 60;
-int32_t SceneChange::sceneChangeTimer = 0;
-bool SceneChange::isSceneChangeStart = false;
-bool SceneChange::isSceneChange = false;
-bool SceneChange::isSceneChangeComplete = false;
-Sprite* SceneChange::sceneChangeEffects[] = {};
-DirectX::XMFLOAT2 SceneChange::sceneChangeEffectsPos[] = {};
+const int32_t SceneChangeEffect::sceneChangeTime = 60;
+int32_t SceneChangeEffect::sceneChangeTimer = 0;
+bool SceneChangeEffect::isSceneChangeStart = false;
+bool SceneChangeEffect::isSceneChange = false;
+bool SceneChangeEffect::isSceneChangeComplete = false;
+Sprite* SceneChangeEffect::sceneChangeEffects[] = {};
+DirectX::XMFLOAT2 SceneChangeEffect::sceneChangeEffectsPos[] = {};
 
-SceneChange* SceneChange::GetIns()
+SceneChangeEffect* SceneChangeEffect::GetIns()
 {
-	SceneChange instance;
+	SceneChangeEffect instance;
 	return &instance;
 }
 
-void SceneChange::Initialize()
+void SceneChangeEffect::Initialize()
 {
 	//シーン切り替えスプライト初期座標
 	const float sceneChangeEffectInitPosX = 1280.0;
@@ -34,7 +34,7 @@ void SceneChange::Initialize()
 	}
 }
 
-void SceneChange::Update()
+void SceneChangeEffect::Update()
 {
 	//シーン切り替え演出
 	if (isSceneChangeStart && !isSceneChangeComplete) {
@@ -46,21 +46,21 @@ void SceneChange::Update()
 	}
 }
 
-void SceneChange::Draw()
+void SceneChangeEffect::Draw()
 {
 	for (int i = 0; i < 10; i++) {
 		sceneChangeEffects[i]->Draw();
 	}
 }
 
-void SceneChange::Finalize()
+void SceneChangeEffect::Finalize()
 {
 	for (int i = 0; i < 10; i++) {
 		safe_delete(sceneChangeEffects[i]);
 	}
 }
 
-void SceneChange::SceneChangePerformance()
+void SceneChangeEffect::SceneChangePerformance()
 {
 	//イージング目標座標
 	const float targetPosX = -150.0f;
@@ -82,7 +82,7 @@ void SceneChange::SceneChangePerformance()
 	}
 }
 
-void SceneChange::SceneChangeCompletePerformance()
+void SceneChangeEffect::SceneChangeCompletePerformance()
 {
 	//シーン切り替えフラグをfalseにする
 	isSceneChange = false;

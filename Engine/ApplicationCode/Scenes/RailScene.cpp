@@ -21,7 +21,7 @@ using namespace Microsoft::WRL;
 void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
-	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
+	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -214,7 +214,7 @@ void RailScene::Update() {
 	//プレイヤーが死亡しているか
 	if (player->GetIsDead()) {
 		isDead = true;
-		SceneChange::GetIns()->SetIsSceneChangeStart(true);
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
 	//スロー演出用タイマー
@@ -285,7 +285,7 @@ void RailScene::Update() {
 	light->Update();
 
 	//シーン切り替え処理
-	SceneChange::GetIns()->Update();
+	SceneChangeEffect::GetIns()->Update();
 	SceneChange();
 }
 
@@ -381,7 +381,7 @@ void RailScene::Draw() {
 		restart->Draw();
 
 	}
-	SceneChange::GetIns()->Draw();
+	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -783,7 +783,7 @@ void RailScene::ClearPaformance()
 	//クリア演出後シーンを切り替える
 	if (clearTimer <= 0) {
 		isClear = true;
-		SceneChange::GetIns()->SetIsSceneChangeStart(true);
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 }
 
@@ -930,7 +930,7 @@ void RailScene::Pause()
 		titleBack->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isTitleBack = true;
-			SceneChange::GetIns()->SetIsSceneChangeStart(true);
+			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
@@ -957,7 +957,7 @@ void RailScene::Pause()
 		restart->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 			isRestart = true;
-			SceneChange::GetIns()->SetIsSceneChangeStart(true);
+			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
@@ -969,7 +969,7 @@ void RailScene::Pause()
 void RailScene::SceneChange()
 {
 	//シーン切り替え
-	if (SceneChange::GetIns()->GetIsSceneChange()) {
+	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		//死亡フラグが立っている場合
 		if (isDead && !isClear) {
 			SceneManager::AddScore(score);

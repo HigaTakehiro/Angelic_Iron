@@ -5,7 +5,7 @@ void GameOverScene::Initialize()
 	cameraPos = { -50, 0, 100 };
 	cameraTargetPos = { 0, 500, 0 };
 
-	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
+	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 	camera = new Camera;
 	camera->SetEye(cameraPos);
@@ -107,7 +107,7 @@ void GameOverScene::Update()
 	light->Update();
 
 	//ƒV[ƒ“•ÏX
-	SceneChange::GetIns()->Update();
+	SceneChangeEffect::GetIns()->Update();
 	SceneChange();
 }
 
@@ -140,7 +140,7 @@ void GameOverScene::Draw()
 		titleBack->Draw();
 		restart->Draw();
 	}
-	SceneChange::GetIns()->Draw();
+	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -180,7 +180,7 @@ void GameOverScene::SceneChange()
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				ground->SetAmbient({ 1, 1, 1 });
 				celetialSphere->SetAmbient({ 1, 1, 1 });
-				SceneChange::GetIns()->SetIsSceneChangeStart(true);
+				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 				isTitleBack = true;
 				isSelectedButton = true;
 			}
@@ -194,14 +194,14 @@ void GameOverScene::SceneChange()
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				ground->SetAmbient({ 1, 1, 1 });
 				celetialSphere->SetAmbient({ 1, 1, 1 });
-				SceneChange::GetIns()->SetIsSceneChangeStart(true);
+				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 				isRestart = true;
 				isSelectedButton = true;
 			}
 		}
 	}
 
-	if (SceneChange::GetIns()->GetIsSceneChange()) {
+	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		if (isTitleBack) {
 			SceneManager::SceneChange(SceneManager::Title);
 		}

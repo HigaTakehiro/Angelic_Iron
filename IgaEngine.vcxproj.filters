@@ -233,11 +233,14 @@
     <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChange.cpp">
+    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ApplicationCode\Players\Reticle.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,11 +412,14 @@
     <ClInclude Include="Engine\Base\ExternalFileLoader.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChange.h">
+    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ApplicationCode\Players\Reticle.h">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

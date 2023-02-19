@@ -69,7 +69,6 @@ private: //メンバ変数
 	Sprite* manual = nullptr;
 	Sprite* manual2 = nullptr;
 	Sprite* close = nullptr;
-	Sprite* aim = nullptr;
 	Sprite* allow = nullptr;
 	DebugText debugText; //デバッグテキスト表示用クラス
 

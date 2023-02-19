@@ -1,12 +1,14 @@
 #include "SceneManager.h"
-#include "SceneChange.h"
+#include "SceneChangeEffect.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
 int SceneManager::stageNo = 1;
 int SceneManager::score = 0;
 
 void SceneManager::Initialize() {
-	SceneChange::GetIns()->Initialize();
+	//マウスカーソルを非表示にする
+	ShowCursor(false);
+	SceneChangeEffect::GetIns()->Initialize();
 	SceneChange(Title);
 }
 
@@ -20,8 +22,9 @@ void SceneManager::Draw() {
 
 void SceneManager::Finalize() {
 	nowScene->Finalize();
-	SceneChange::GetIns()->Finalize();
+	SceneChangeEffect::GetIns()->Finalize();
 	safe_delete(nowScene);
+	ShowCursor(true);
 }
 
 void SceneManager::AddScore(const int score) {

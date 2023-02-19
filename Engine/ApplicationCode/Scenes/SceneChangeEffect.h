@@ -3,32 +3,32 @@
 #include "ImageManager.h"
 #include <DirectXMath.h>
 
-class SceneChange
+class SceneChangeEffect final
 {
 public: 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	SceneChange() = default;
+	SceneChangeEffect() = default;
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~SceneChange() = default;
+	~SceneChangeEffect() = default;
 	/// <summary>
 	/// コピーコンストラクタを禁止
 	/// </summary>
-	SceneChange(const SceneChange& obj) = delete;
+	SceneChangeEffect(const SceneChangeEffect& obj) = delete;
 	/// <summary>
 	/// 代入演算子を禁止
 	/// </summary>
-	SceneChange& operator=(const SceneChange& obj) = delete;
+	SceneChangeEffect& operator=(const SceneChangeEffect& obj) = delete;
 
 public: //静的メンバ関数
 	/// <summary>
 	/// インスタンスを取得
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static SceneChange* GetIns();
+	static SceneChangeEffect* GetIns();
 
 public: //メンバ関数
 	/// <summary>

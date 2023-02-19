@@ -6,9 +6,6 @@
 void Player::Initialize(Camera* camera, float clearTime) {
 	this->camera = camera;
 
-	aim = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
-	aim->SetSize(XMFLOAT2(100.0f, 100.0f));
-	aim->SetAnchorPoint({ 0.5f, 0.5f });
 	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
@@ -61,7 +58,6 @@ void Player::Initialize(Camera* camera, float clearTime) {
 void Player::Finalize() {
 	safe_delete(player);
 	safe_delete(gun);
-	safe_delete(aim);
 	safe_delete(playerUI);
 	for (int i = 0; i < 3; i++) {
 		safe_delete(bomb[i]);
@@ -169,7 +165,6 @@ void Player::SpriteDraw() {
 	if (isReload) {
 		reloadUI->Draw();
 	}
-	aim->Draw();
 }
 
 void Player::ObjectDraw() {
@@ -334,7 +329,6 @@ void Player::AimUpdate() {
 	raticle3D = posNear + mouseDirection * kDistanceTestObject;
 	aimPos3d = raticle3D;
 
-	aim->SetPosition(XMFLOAT2(aimPos.x, aimPos.y));
 }
 
 void Player::OnCollision() {

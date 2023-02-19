@@ -8,7 +8,7 @@ void BossScene::Initialize()
 	camera = new Camera;
 	camera->SetEye(XMFLOAT3(0, 100, 0));
 	camera->SetTarget(XMFLOAT3(0, 10, 0));
-	SceneChange::GetIns()->SetIsSceneChangeComplete(true);
+	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 	for (int i = 0; i < 36; i++) {
 		Vector3 pos = { 0, 20, 0 };
@@ -208,7 +208,7 @@ void BossScene::Update()
 			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 			particles2d.push_back(std::move(new2DParticle));
 			isDead = true;
-			SceneChange::GetIns()->SetIsSceneChangeStart(true);
+			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
@@ -287,7 +287,7 @@ void BossScene::Update()
 			titleBack->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 				isTitleBack = true;
-				SceneChange::GetIns()->SetIsSceneChangeStart(true);
+				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 			}
 		}
 		else {
@@ -313,7 +313,7 @@ void BossScene::Update()
 	light->Update();
 
 	//ƒV[ƒ“•ÏX
-	SceneChange::GetIns()->Update();
+	SceneChangeEffect::GetIns()->Update();
 	SceneChange();
 }
 
@@ -394,7 +394,7 @@ void BossScene::Draw()
 		faceWindow->Draw();
 		opeNormal[opeAnimeCount]->Draw();
 	}
-	SceneChange::GetIns()->Draw();
+	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -577,10 +577,10 @@ std::wstring BossScene::StringToWstring(const std::string& text)
 void BossScene::SceneChange()
 {
 	if (firstBoss->GetIsDead()) {
-		SceneChange::GetIns()->SetIsSceneChangeStart(true);
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
-	if (SceneChange::GetIns()->GetIsSceneChange()) {
+	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		if (player->GetIsDead()) {
 			SceneManager::AddScore(score);
 			SceneManager::SceneChange(SceneManager::GameOver);
