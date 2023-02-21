@@ -19,7 +19,6 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 public: //‰æ‘œ–¼
 	enum ImageName {
 		aim = 1,
-		background,
 		title,
 		score,
 		scoreNumbers,

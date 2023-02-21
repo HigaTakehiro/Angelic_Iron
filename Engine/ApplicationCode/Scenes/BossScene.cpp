@@ -221,7 +221,7 @@ void BossScene::Update()
 			firstBoss->Update(player->GetPlayerObj()->GetMatWorld().r[3]);
 
 			for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-				playerBullet->Update(delayTime);
+				playerBullet->Update();
 			}
 
 			for (std::unique_ptr<Object3d>& building : buildings) {
@@ -229,7 +229,7 @@ void BossScene::Update()
 			}
 
 			for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
-				bossBullet->Update(0);
+				bossBullet->Update();
 			}
 
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {

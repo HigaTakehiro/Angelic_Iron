@@ -31,7 +31,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの座標</param>
 	/// <param name="delayTime">スロー演出用遅延時間</param>
-	virtual void Update(const int delayTime = 0) = 0;
+	virtual void Update() = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -99,6 +99,11 @@ protected: //メンバ関数
 	/// </summary>
 	virtual void Attack() = 0;
 
+	/// <summary>
+	/// ロックオン演出
+	/// </summary>
+	void RockOnPerformance();
+
 protected: //静的メンバ変数
 	//ロックオン演出用時間
 	static const float targetReactionTime;
@@ -142,6 +147,4 @@ protected: //メンバ変数
 	int32_t deadTimer;
 	//ロックオン演出用時間
 	float targetReactionTimer;
-	//スロー演出用タイマー
-	int delayTimer;
 };

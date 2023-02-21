@@ -33,7 +33,6 @@ void RailScene::Initialize() {
 	debugText.Initialize(debugTextNumber);
 
 	//スプライト画像初期化
-	background = Sprite::Create(ImageManager::ImageName::background, { 0, 0 });
 	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
 	pause->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
@@ -217,12 +216,6 @@ void RailScene::Update() {
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
-	//スロー演出用タイマー
-	float delayCount = 0.0f;
-	if (player->GetIsBomb()) {
-		delayCount = 3.0f;
-	}
-
 	//スコア表示
 	for (int i = 0; i < 6; i++) {
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
@@ -234,49 +227,20 @@ void RailScene::Update() {
 	Reticle::GetIns()->Update();
 
 	if (!isPause) {
-		//敵出現処理
-		EnemyDataUpdate();
-		//テキスト更新処理
-		TextMessageUpdate();
 		//当たり判定チェック
 		CollisionCheck();
-
 		//オブジェクト更新処理
 		celetialSphere->Update();
 		ground->Update();
 		for (std::unique_ptr<Object3d>& building : buildings) {
 			building->Update();
 		}
-		//プレイヤーが生きている場合に更新
-		if (player->GetHPCount() > 0) {
-			if (!railCamera->GetIsEnd()) {
-				railCamera->Update(delayCount);
-			}
-			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
-				enemy->Update((int)delayCount);
-				EnemyReactions(enemy.get());
-			}
-			for (std::unique_ptr<Bomb>& bomb : bombs) {
-				bomb->Update();
-			}
-		}
+		//ボム攻撃時にスローにする更新処理
+		DelayUpdates();
 
 		enemyParticle->Update();
 		bombParticle->Update();
 		gunParticle->Update();
-
-		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-			enemyBullet->Update(delayCount);
-		}
-		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			playerBullet->Update(delayCount);
-		}
-		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
-			particle2d->Update();
-		}
-		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
-			bulletCase->Update(delayCount);
-		}
 
 		player->Update(railCamera->GetIsEnd());
 	}
@@ -404,7 +368,6 @@ void RailScene::Finalize() {
 	player->Finalize();
 	safe_delete(player);
 	safe_delete(ground);
-	safe_delete(background);
 	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(railCamera);
@@ -775,6 +738,55 @@ void RailScene::TextMessageDraw()
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 	const float aimPosCorrection = 20.0f;
 	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
+}
+
+void RailScene::DelayUpdates()
+{
+	//スロー演出用タイマー
+	float delayTime = 0.0f;
+	if (player->GetIsBomb()) {
+		delayTime = 3.0f;
+	}
+	delayTimer++;
+
+	//スロー演出
+	if (delayTimer >= delayTime) {
+		//敵出現処理
+		EnemyDataUpdate();
+		//テキスト更新処理
+		TextMessageUpdate();
+
+		//プレイヤーが生きている場合に更新
+		if (player->GetHPCount() > 0) {
+			if (!railCamera->GetIsEnd()) {
+				railCamera->Update();
+			}
+			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+				enemy->Update();
+				EnemyReactions(enemy.get());
+			}
+			for (std::unique_ptr<Bomb>& bomb : bombs) {
+				bomb->Update();
+			}
+		}
+
+		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+			enemyBullet->Update();
+		}
+		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			playerBullet->Update();
+		}
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+			particle2d->Update();
+		}
+		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
+			bulletCase->Update();
+		}
+
+		delayTimer = 0;
+	}
+
+
 }
 
 void RailScene::ClearPaformance()

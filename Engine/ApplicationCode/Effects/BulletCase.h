@@ -24,8 +24,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	/// <param name="delayTime">スロー演出用時間</param>
-	void Update(const float delayTime);
+	void Update();
 
 	/// <summary>
 	/// 描画処理
@@ -47,5 +46,4 @@ private: //メンバ変数
 	bool isDead;
 	int32_t lifeTimer = lifeTime;
 	Vector3 velocity;
-	float delayCount;
 };

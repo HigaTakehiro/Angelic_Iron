@@ -125,6 +125,11 @@ private: //メンバ関数
 	bool IsTargetCheck(DirectX::XMFLOAT2 enemyPos, DirectX::XMFLOAT2 aimPos);
 
 	/// <summary>
+	/// スローにする更新処理
+	/// </summary>
+	void DelayUpdates();
+
+	/// <summary>
 	/// レールシューティングパートクリア演出
 	/// </summary>
 	void ClearPaformance();
@@ -203,8 +208,6 @@ private: //メンバ変数
 	ParticleManager* enemyParticle;
 	//マズルフラッシュ用パーティクル
 	ParticleManager* gunParticle;
-	//背景画像
-	Sprite* background = nullptr;
 	//ポーズテキスト
 	Sprite* pause = nullptr;
 	//タイトルバックボタン
@@ -314,6 +317,8 @@ private: //メンバ変数
 	int faceAnimeCount;
 	//顔グラフィックタイプ
 	FaceGraphics faceType;
+	//スロー演出用タイマー
+	int32_t delayTimer;
 	//ポストエフェクト番号
 	PostEffect::PostEffectNo postEffectNo;
 };

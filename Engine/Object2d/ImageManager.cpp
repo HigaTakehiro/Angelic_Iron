@@ -8,7 +8,6 @@ ImageManager* ImageManager::GetIns()
 
 void ImageManager::Initialize() {
 	Sprite::LoadTexture(aim, L"Engine/Resources/Images/Aim.png");
-	Sprite::LoadTexture(background, L"Engine/Resources/Images/background.png");
 	Sprite::LoadTexture(title, L"Engine/Resources/Images/TitleLogo.png");
 	Sprite::LoadTexture(score, L"Engine/Resources/Images/Score.png");
 	Sprite::LoadTexture(scoreNumbers, L"Engine/Resources/Images/ScoreNumbers.png");

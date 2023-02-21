@@ -21,7 +21,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(float delayTime);
+	void Update();
 
 	/// <summary>
 	/// 描画処理
@@ -58,6 +58,5 @@ private: //メンバ変数
 	bool isHoming;
 	int32_t lifeTimer = lifeTime;
 	int32_t homingTimer = homingTime;
-	float delayCount;
 };
 

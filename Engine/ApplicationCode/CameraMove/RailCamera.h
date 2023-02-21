@@ -28,7 +28,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(float delayCount = 60.0f);
+	void Update();
 
 	/// <summary>
 	/// ダメージエフェクト発生用フラグを立てる

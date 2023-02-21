@@ -51,7 +51,7 @@ void Reticle::Update()
     if (isSeletctReticle) {
         const float selectReticleRot = 45.0f;
         const DirectX::XMFLOAT2 selectReticleSize = { 90.0f, 90.0f };
-        const DirectX::XMFLOAT3 selectReticleColor = { 0.7f, 0.7f, 0.4f };
+        const DirectX::XMFLOAT3 selectReticleColor = { 0.7f, 0.4f, 0.4f };
         //レティクル回転タイマー加算
         rotTimer++;
         if (rotTimer >= rotTime) {

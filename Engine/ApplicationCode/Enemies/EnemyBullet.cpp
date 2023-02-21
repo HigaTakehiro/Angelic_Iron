@@ -19,34 +19,22 @@ void EnemyBullet::Initialize(const Vector3& pos, const Vector3& velocity, bool i
 	initVelocity = velocity;
 	this->isHoming = isHoming;
 	enemyBullet->SetPosition(pos);
-	delayCount = 0;
 }
 
-void EnemyBullet::Update(float delayTime) {
+void EnemyBullet::Update() {
 	const int timeOver = 0;
-	delayCount++;
 
-	if (delayCount >= delayTime) {
-		if (delayTime != 0 && velocity.x == initVelocity.x && velocity.y == initVelocity.y && velocity.z == initVelocity.z) {
-			velocity /= 5;
-		}
-		else if (delayTime == 0 && velocity.x != initVelocity.x && velocity.y != initVelocity.y && velocity.z != initVelocity.z) {
-			velocity = initVelocity;
-		}
-
-		if (--lifeTimer <= timeOver) {
-			isDead = true;
-		}
-		else {
-			pos += velocity;
-		}
-
-		if (enemyBullet != nullptr) {
-			enemyBullet->SetPosition(pos);
-			enemyBullet->Update();
-		}
+	if (--lifeTimer <= timeOver) {
+		isDead = true;
+	}
+	else {
+		pos += velocity;
 	}
 
+	if (enemyBullet != nullptr) {
+		enemyBullet->SetPosition(pos);
+		enemyBullet->Update();
+	}
 }
 
 void EnemyBullet::Draw() {

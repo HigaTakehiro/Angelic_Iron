@@ -15,29 +15,23 @@ void BulletCase::Initialize(const Vector3& pos, const Vector3& velocity, const V
 	this->pos = pos;
 	bulletCase->SetPosition(this->pos);
 	this->velocity = velocity;
-	delayCount = 0;
 }
 
-void BulletCase::Update(const float delayTime)
+void BulletCase::Update()
 {
 	const int timeOver = 0;
-	delayCount++;
 
-	if (delayCount >= delayTime) {
-		if (--lifeTimer <= timeOver) {
-			isDead = true;
-		}
-		else {
-			velocity.y -= 0.2f;
-			pos += velocity;
-		}
+	if (--lifeTimer <= timeOver) {
+		isDead = true;
+	}
+	else {
+		velocity.y -= 0.2f;
+		pos += velocity;
+	}
 
-		if (bulletCase != nullptr) {
-			bulletCase->SetPosition(pos);
-			bulletCase->Update();
-		}
-
-		delayCount = 0;
+	if (bulletCase != nullptr) {
+		bulletCase->SetPosition(pos);
+		bulletCase->Update();
 	}
 }
 

@@ -16,7 +16,6 @@ void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vect
 	oldPos = pos;
 	enemy->SetRotation(rot);
 	enemy->SetScale(scale);
-	delayTimer = 0;
 	hp = 1;
 	shotIntervalTime = 60;
 	shotIntervalTimer = 0;
@@ -25,52 +24,29 @@ void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vect
 	targetReactionTimer = 0;
 }
 
-void HomingEnemy::Update(const int delayTime)
+void HomingEnemy::Update()
 {
 	const int32_t lifeTimeOver = 0;
 
-	delayTimer++;
+	RockOnPerformance();
 
-	if (isTarget) {
-		float spriteRot = 0.0f;
-		const float maxSpriteRot = 360.0f;
-		if (targetReactionTimer <= targetReactionTime) {
-			targetReactionTimer++;
-		}
-		XMVECTOR raticle2D = { enemy->GetMatWorld().r[3] }; //ワールド座標
-		XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-		raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
-
-		DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
-		spriteRot = Easing::easeOutBack(targetReactionTimer, targetReactionTime, maxSpriteRot, spriteRot, 1.0f);
-
-		target->SetPosition(spritePos);
-		target->SetRotation(spriteRot);
+	if (hp <= 0) {
+		DeadPerformance();
 	}
-	else {
-		targetReactionTimer = 0.0f;
+	if (++lifeTimer >= lifeTime) {
+		isDead = true;
 	}
 
-	if (delayTimer >= delayTime) {
-
-		if (hp <= 0) {
-			DeadPerformance();
+	if (enemy != nullptr && hp > 0) {
+		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
+			pos = oldPos;
 		}
-		if (++lifeTimer >= lifeTime) {
-			isDead = true;
-		}
-
-		if (enemy != nullptr && hp > 0) {
-			if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
-				pos = oldPos;
-			}
-			Move();
-			Attack();
-		}
-
-		enemy->Update();
-		delayTimer = 0;
+		Move();
+		Attack();
 	}
+
+	enemy->Update();
+
 }
 
 void HomingEnemy::Draw()
