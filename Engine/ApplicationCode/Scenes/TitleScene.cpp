@@ -66,7 +66,7 @@ void TitleScene::Initialize()
 	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Stand));
+	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Stand"));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 50, 0 };
 	playerRot = { 0, 0, 0 };
@@ -74,14 +74,14 @@ void TitleScene::Initialize()
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
 
-	wave = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Wave));
+	wave = Object3d::Create(ModelManager::GetIns()->GetModel("wave"));
 	wavePos = { 0, -50, 0 };
 	wave->SetPosition(wavePos);
 	waveScale = { 10, 10, 10 };
 	wave->SetScale(waveScale);
 	wave->SetAmbient({ 1, 1, 1 });
 
-	aircraft_Carrier = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Aircraft_Carrier));
+	aircraft_Carrier = Object3d::Create(ModelManager::GetIns()->GetModel("aircraft_Carrier"));
 	aircraft_Carrier->SetScale({ 10, 10, 10 });
 	aircraft_Carrier->SetAmbient({ 1, 1, 1 });
 
@@ -90,7 +90,7 @@ void TitleScene::Initialize()
 	testSquare->SetRotation({ 0.0f, 180.0f, 0.0f });
 	testSquare->SetIsBillboard(true);
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };

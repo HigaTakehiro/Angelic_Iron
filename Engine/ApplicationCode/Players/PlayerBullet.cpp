@@ -11,7 +11,7 @@ PlayerBullet::~PlayerBullet() {
 void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
 	const Vector3 bulletSize = { 1.0f, 1.0f, 1.0f };
 
-	bullet = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
+	bullet = Object3d::Create(ModelManager::GetIns()->GetModel("bullet"));
 	bullet->SetScale(bulletSize);
 	bullet->SetRotation(Vector3(0, 0, 0));
 	this->pos = pos;

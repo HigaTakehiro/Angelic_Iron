@@ -14,7 +14,7 @@ void Bomb::Initialize(const Vector3& playerPos, Object3d* target) {
 	const Vector3 bulletScale = { 2, 2, 2 };
 	const Vector3 bulletRot = { 0, 0, 0 };
 
-	bullet = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
+	bullet = Object3d::Create(ModelManager::GetIns()->GetModel("bullet"));
 	bullet->SetScale(bulletScale);
 	bullet->SetRotation(bulletRot);
 	bulletPos = playerPos;

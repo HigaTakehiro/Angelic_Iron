@@ -9,7 +9,7 @@ void BulletCase::Initialize(const Vector3& pos, const Vector3& velocity, const V
 {
 	const Vector3 bulletCaseSize = { 0.2f, 0.2f, 0.2f };
 
-	bulletCase = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::BulletCase));
+	bulletCase = Object3d::Create(ModelManager::GetIns()->GetModel("bulletCase"));
 	bulletCase->SetScale(bulletCaseSize);
 	bulletCase->SetRotation(rot);
 	this->pos = pos;

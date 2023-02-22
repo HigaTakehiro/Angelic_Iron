@@ -58,7 +58,7 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 
 	for (auto& objectData : stageData->objects) {
 		//‰¼ƒ‚ƒfƒ‹‚Å¶¬(ŒãXƒ‚ƒfƒ‹‚à“Ç‚Ýž‚Þ‚æ‚¤‚É‚·‚é)
-		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
+		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel("building"));
 		Vector3 pos;
 		pos = objectData.transform;
 		newObject->SetPosition(pos);

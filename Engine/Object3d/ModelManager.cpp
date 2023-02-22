@@ -1,8 +1,8 @@
 #include "ModelManager.h"
 
 ModelManager::~ModelManager() {
-	for (Model* model : models) {
-		delete model;
+	for (auto model : models) {
+		delete model.second;
 	}
 	for (FBXModel* model : fbxModels) {
 		delete model;
@@ -18,29 +18,29 @@ ModelManager* ModelManager::GetIns()
 }
 
 void ModelManager::Initialize() {
-	LoadModel("Player_Normal");
-	LoadModel("Player_Stand");
-	LoadModel("Player_Down");
-	LoadModel("Gun");
-	LoadModel("Bullet");
-	LoadModel("BulletCase");
-	LoadModel("Enemy", true);
-	LoadModel("Block");
-	LoadModel("ground");
-	LoadModel("CelestialSphere", true);
-	LoadModel("Building");
-	LoadModel("BossBody");
-	LoadModel("BossHand");
-	LoadModel("Aircraft_Carrier", true);
-	LoadModel("Wave");
-	LoadModel("Shadow");
+	LoadModel("Player_Normal", "player_Normal");
+	LoadModel("Player_Stand", "player_Stand");
+	LoadModel("Player_Down", "player_Down");
+	LoadModel("Gun", "gun");
+	LoadModel("Bullet", "bullet");
+	LoadModel("BulletCase", "bulletCase");
+	LoadModel("Enemy", "enemy1", true);
+	LoadModel("Block", "block");
+	LoadModel("ground", "ground");
+	LoadModel("CelestialSphere", "celetialSphere", true);
+	LoadModel("Building", "building");
+	LoadModel("BossBody", "boss1_Body");
+	LoadModel("BossHand", "boss1_Hand");
+	LoadModel("Aircraft_Carrier", "aircraft_Carrier", true);
+	LoadModel("Wave", "wave");
+	LoadModel("Shadow", "shadow");
 	LoadFBXModel("Player_Attack");
 }
 
-void ModelManager::LoadModel(const std::string modelName, bool isSmoothing) {
+void ModelManager::LoadModel(const std::string modelName, const std::string modelKey, bool isSmoothing) {
 	Model* newModel = nullptr;
 	newModel = Model::CreateModel(modelName, isSmoothing);
-	models.push_back(newModel);
+	models[modelKey] = newModel;
 	newModel = nullptr;
 	delete newModel;
 }

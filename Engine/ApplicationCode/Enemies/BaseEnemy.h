@@ -22,10 +22,10 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	/// <param name="modelName">モデル名</param>
+	/// <param name="modelKey">モデルのキー</param>
 	/// <param name="pos">座標</param>
 	/// <param name="rot">回転</param>
-	virtual void Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot) = 0;
+	virtual void Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot) = 0;
 	/// <summary>
 	/// 更新処理
 	/// </summary>

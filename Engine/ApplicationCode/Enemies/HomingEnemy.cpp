@@ -6,9 +6,9 @@ HomingEnemy::~HomingEnemy()
 	safe_delete(target);
 }
 
-void HomingEnemy::Initialize(const ModelManager::ModelName modelName, const Vector3& pos, const Vector3& rot)
+void HomingEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot)
 {
-	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
+	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
 	enemy->SetPosition(pos);
 	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
 	target->SetSize(XMFLOAT2(100.0f, 100.0f));

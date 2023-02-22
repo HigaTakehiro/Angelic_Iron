@@ -19,7 +19,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	}
 	reloadUI = Sprite::Create(ImageManager::ImageName::reload, { 1065, 652 });
 
-	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
+	player = Object3d::Create(ModelManager::GetIns()->GetModel("player_Normal"));
 	playerScale = { 2, 2, 2 };
 	playerLPos = { 0, 200, 50 };
 	playerRot = { 90, 0, 0 };
@@ -33,7 +33,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 		bomb[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
 
-	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel("gun"));
 	gun->SetPosition(Vector3(1.0f, 0.6f, 1.1f));
 	gun->SetParent(player);
 

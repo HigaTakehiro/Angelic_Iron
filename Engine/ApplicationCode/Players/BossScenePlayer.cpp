@@ -15,13 +15,13 @@ void BossScenePlayer::Initialize(Camera* camera)
 	//カメラをセット
 	this->camera = camera;
 
-	player = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
+	player = Object3d::Create(ModelManager::GetIns()->GetModel("player_Normal"));
 	player->SetCameraParent(this->camera);
 	pos = { 0.0f, -10.0f, -25.0f };
 	rot = { 0.0f, 90.0f, 0.0f };
 	scale = { 1.0f, 1.0f, 1.0f };
 
-	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel("gun"));
 	gun->SetPosition(Vector3(1.0f, 0.6f, 1.1f));
 	gun->SetParent(player);
 

@@ -35,7 +35,7 @@ void ResultScene::Initialize()
 	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
-	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Normal));
+	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Normal"));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 0, -500 };
 	playerRot = { 0, 0, 0 };
@@ -43,17 +43,17 @@ void ResultScene::Initialize()
 	resultPlayer->SetPosition(playerPos);
 	resultPlayer->SetRotation(playerRot);
 
-	gun = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Gun));
+	gun = Object3d::Create(ModelManager::GetIns()->GetModel("gun"));
 	gun->SetPosition(Vector3(0.9f, 0.6f, 1.2f));
 	gun->SetParent(resultPlayer);
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
 	celetialSphere->SetScale({ 15, 15, 15 });
 
 	//PostEffect‚Ì‰Šú‰»

@@ -1,7 +1,7 @@
 #include "FirstBoss.h"
 
-void FirstBoss::Initialize(ModelManager::ModelName model, const Vector3& pos) {
-	boss = Object3d::Create(ModelManager::GetIns()->GetModel(model));
+void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos) {
+	boss = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
 	this->pos = pos;
 	scale = { 10, 10, 10 };
 	rot = { 0, 90, 0 };
@@ -17,10 +17,10 @@ void FirstBoss::Initialize(ModelManager::ModelName model, const Vector3& pos) {
 	boss->SetRotation(rot);
 	boss->SetScale(scale);
 
-	leftHand = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::BossHand));
-	rightHand = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::BossHand));
-	leftHandShadow = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shadow));
-	rightHandShadow = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shadow));
+	leftHand = Object3d::Create(ModelManager::GetIns()->GetModel("boss1_Hand"));
+	rightHand = Object3d::Create(ModelManager::GetIns()->GetModel("boss1_Hand"));
+	leftHandShadow = Object3d::Create(ModelManager::GetIns()->GetModel("shadow"));
+	rightHandShadow = Object3d::Create(ModelManager::GetIns()->GetModel("shadow"));
 	leftHandShadow->SetScale({ 30.0f, 30.0f, 30.0f });
 	rightHandShadow->SetScale({ 30.0f, 30.0f, 30.0f });
 

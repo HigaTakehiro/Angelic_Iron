@@ -1,6 +1,7 @@
 #pragma once
 #include "Model.h"
 #include "FBXLoader.h"
+#include <map>
 #include <vector>
 
 class ModelManager
@@ -52,7 +53,10 @@ public: //メンバ関数
 	/// <summary>
 	/// モデル追加
 	/// </summary>
-	void LoadModel(const std::string modelName, bool isSmoothing = false);
+	/// <param name="modelName">読み込みたいモデル名</param>
+	/// <param name="modelKey">アクセスするモデルのキー</param>
+	/// <param name="isSmoothing">スムージング処理するかどうか</param>
+	void LoadModel(const std::string modelName, const std::string modelKey, bool isSmoothing = false);
 
 	/// <summary>
 	/// FBXモデル追加
@@ -63,9 +67,9 @@ public: //メンバ関数
 	/// <summary>
 	/// モデル取得
 	/// </summary>
-	/// <param name="modelName">モデル名</param>
+	/// <param name="modelKey">モデルキー</param>
 	/// <returns>モデル</returns>
-	Model* GetModel(const ModelName modelName) { return models[modelName]; }
+	Model* GetModel(const std::string modelKey) { return models[modelKey]; }
 
 	/// <summary>
 	/// FBXモデル取得
@@ -75,7 +79,8 @@ public: //メンバ関数
 	FBXModel* GetFBXModel(const FBXModelName modelName) { return fbxModels[modelName]; }
 
 private: //メンバ変数
-	std::vector<Model*> models;
+	//std::vector<Model*> models;
+	std::map<std::string, Model*> models;
 	std::vector<FBXModel*> fbxModels;
 };
 

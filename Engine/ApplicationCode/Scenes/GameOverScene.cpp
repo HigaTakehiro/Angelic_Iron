@@ -42,7 +42,7 @@ void GameOverScene::Initialize()
 		scoreRollPos[i] = { -640, 0 };
 	}
 
-	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Player_Down));
+	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Down"));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 500, 0 };
 	playerRot = { 0, 0, 0 };
@@ -50,14 +50,14 @@ void GameOverScene::Initialize()
 	resultPlayer->SetPosition(playerPos);
 	resultPlayer->SetRotation(playerRot);
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 	ground->SetAmbient({ 0, 0, 0 });
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
 	celetialSphere->SetAmbient({ 0, 0, 0 });
 	celetialSphere->SetScale({ 15, 15, 15 });
 

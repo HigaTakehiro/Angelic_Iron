@@ -24,20 +24,20 @@ void BossScene::Initialize()
 		pos.y = (float)(rand() % 20 - 30);
 		rot.y -= angle * i;
 		std::unique_ptr<Object3d> newBuilding;
-		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
+		newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel("building"));
 		newBuilding->SetPosition(pos);
 		newBuilding->SetRotation(rot);
 		newBuilding->SetScale(scale);
 		buildings.push_back(std::move(newBuilding));
 	}
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+	ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
 	groundScale = { 10, 10, 10 };
 	ground->SetScale(groundScale);
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
@@ -92,7 +92,7 @@ void BossScene::Initialize()
 	//boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
 
 	firstBoss = new FirstBoss;
-	firstBoss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
+	firstBoss->Initialize("boss1_Body", {0, 0, 0});
 	firstBoss->SetBossScene(this);
 	firstBoss->SetPlayer(player);
 

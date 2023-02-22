@@ -21,7 +21,6 @@ using namespace Microsoft::WRL;
 void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
-	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 	//カメラ初期化
 	camera = new Camera;
@@ -103,10 +102,10 @@ void RailScene::Initialize() {
 
 	//3dオブジェクト初期化
 	if (SceneManager::GetStageNo() == 1) {
-		ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Ground));
+		ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
 	}
 	else if (SceneManager::GetStageNo() == 2) {
-		ground = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Wave));
+		ground = Object3d::Create(ModelManager::GetIns()->GetModel("wave"));
 	}
 	groundPos = { 0, -50, 0 };
 	ground->SetPosition(groundPos);
@@ -114,7 +113,7 @@ void RailScene::Initialize() {
 	ground->SetScale(groundScale);
 	ground->SetAmbient({ 1, 1, 1 });
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::CelestialSphere));
+	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
@@ -149,7 +148,7 @@ void RailScene::Initialize() {
 			pos.y = (float)(rand() % 20 - 40);
 			rot.y -= angle * i;
 			std::unique_ptr<Object3d> newBuilding;
-			newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Building));
+			newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel("building"));
 			newBuilding->SetPosition(pos);
 			newBuilding->SetRotation(rot);
 			newBuilding->SetScale(scale);
@@ -191,6 +190,8 @@ void RailScene::Initialize() {
 	score = 0;
 	clearTimer = clearTime;
 	faceType = FaceGraphics::OPE_NORMALFACE;
+
+	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
 }
 
@@ -449,13 +450,13 @@ void RailScene::EnemyDataUpdate() {
 
 			if (type == "STR") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
-				newEnemy->Initialize(ModelManager::Enemy, pos, rot);
+				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
 				enemies.push_back(std::move(newEnemy));
 			}
 			if (type == "HOM") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
-				newEnemy->Initialize(ModelManager::Enemy, pos, rot);
+				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
 				newEnemy->SetPlayer(player);
 				enemies.push_back(std::move(newEnemy));
@@ -732,7 +733,7 @@ void RailScene::TextMessageDraw()
 		}
 	}
 	//現在追加されている文字を全て描画する
-	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
+	//textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {

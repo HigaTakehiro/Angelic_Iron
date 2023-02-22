@@ -28,8 +28,42 @@ public: //メンバ関数
 
 protected: //メンバ関数
 	/// <summary>
-	/// 
+	/// 文字描画更新処理
 	/// </summary>
-	virtual void TextMessageUpdate();
-};
+	void TextMessageUpdate();
 
+	/// <summary>
+	/// 薬莢を追加
+	/// </summary>
+	void AddBulletCase();
+
+	/// <summary>
+	/// ポーズ処理
+	/// </summary>
+	virtual void Pause();
+
+	/// <summary>
+	/// シーン切り替え
+	/// </summary>
+	virtual void SceneChange();
+
+	/// <summary>
+	/// 敵の弾を追加
+	/// </summary>
+	virtual void AddEnemyBullet();
+
+	/// <summary>
+	/// プレイヤーの弾を追加
+	/// </summary>
+	virtual void AddPlayerBullet();
+
+	/// <summary>
+	/// 当たり判定チェック
+	/// </summary>
+	virtual void CollisionCheck();
+
+	/// <summary>
+	/// 敵の更新処理
+	/// </summary>
+	virtual void EnemyUpdates();
+};

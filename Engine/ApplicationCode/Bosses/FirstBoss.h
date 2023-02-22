@@ -19,7 +19,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»ˆ—
 	/// </summary>
-	void Initialize(const ModelManager::ModelName model, const Vector3& pos);
+	void Initialize(const std::string modelKey, const Vector3& pos);
 	/// <summary>
 	/// XVˆ—
 	/// </summary>

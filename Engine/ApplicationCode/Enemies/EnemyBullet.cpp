@@ -11,7 +11,7 @@ EnemyBullet::~EnemyBullet() {
 void EnemyBullet::Initialize(const Vector3& pos, const Vector3& velocity, bool isHoming) {
 	const Vector3 bulletSize = { 2, 2, 2 };
 
-	enemyBullet = Object3d::Create(ModelManager::GetIns()->GetModel(ModelManager::Shot));
+	enemyBullet = Object3d::Create(ModelManager::GetIns()->GetModel("block"));
 	enemyBullet->SetScale(bulletSize);
 	enemyBullet->SetRotation(Vector3(0, 0, 0));
 	this->pos = pos;
