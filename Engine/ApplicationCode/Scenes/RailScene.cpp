@@ -216,12 +216,10 @@ void RailScene::Update() {
 		isDead = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
-
 	//スコア表示
 	for (int i = 0; i < 6; i++) {
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
 	}
-
 	//エフェクト発生処理
 	AddEffect();
 	//レティクル更新処理
@@ -235,6 +233,9 @@ void RailScene::Update() {
 		ground->Update();
 		for (std::unique_ptr<Object3d>& building : buildings) {
 			building->Update();
+		}
+		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+			enemy->RockOnPerformance();
 		}
 		//ボム攻撃時にスローにする更新処理
 		DelayUpdates();
@@ -733,7 +734,7 @@ void RailScene::TextMessageDraw()
 		}
 	}
 	//現在追加されている文字を全て描画する
-	//textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
+	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
@@ -883,6 +884,10 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 		enemy->SetTarget(true);
 	}
 
+	float spriteRot = 0.0f;
+	const float maxSpriteRot = 360.0f;
+	const DirectX::XMFLOAT3 reticleColor = { 0.8f, 0.4f, 0.4f };
+
 	//敵が死亡したらエフェクトを発生させる
 	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
 		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
@@ -1018,7 +1023,7 @@ void RailScene::SceneChange()
 			}
 		}
 	}
-	
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 		SceneManager::AddScore(score);
 		SceneManager::SceneChange(SceneManager::Stage1_Boss);

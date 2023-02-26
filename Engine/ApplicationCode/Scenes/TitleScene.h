@@ -19,6 +19,7 @@
 #include "DebugText.h"
 #include "TextDraw.h"
 #include "MotionMath.h"
+#include "JsonLoader.h"
 
 class TitleScene : public BaseScene
 {
@@ -111,6 +112,7 @@ private: //ƒƒ“ƒo•Ï”
 	Camera* camera = nullptr;
 	LightGroup* light = nullptr;
 	ParticleManager* particle = nullptr;
+	JsonLoader* jsonLoader = nullptr;
 
 	Vector3 playerRot;
 	Vector3 playerPos;

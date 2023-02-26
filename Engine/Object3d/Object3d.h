@@ -121,7 +121,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(VSPipelineNo vsPipeline = Normal);
+	void Draw();
 
 	/// <summary>
 	/// 座標の取得
@@ -204,6 +204,11 @@ public: // メンバ関数
 	void SetIsBillboardY(bool isBillboardY) { this->isBillboardY = isBillboardY; }
 
 	/// <summary>
+	/// 波用シェーダー適用フラグをセット
+	/// </summary>
+	void SetIsWave(bool isWave) { this->isWave = isWave; }
+
+	/// <summary>
 	/// 親オブジェクト取得
 	/// </summary>
 	/// <returns>親オブジェクト</returns>
@@ -239,6 +244,8 @@ private: // メンバ変数
 	bool isBillboard;
 	//Y軸ビルボード行列フラグ
 	bool isBillboardY;
+	//波用シェーダー適用フラグ
+	bool isWave;
 	//シェーダー用タイマー
 	float timer = 0.0f;
 };

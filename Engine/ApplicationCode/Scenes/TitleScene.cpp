@@ -66,6 +66,9 @@ void TitleScene::Initialize()
 	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
+	jsonLoader = new JsonLoader;
+	jsonLoader->StageDataLoadandSet("TitleScene_Stage");
+
 	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Stand"));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 50, 0 };
@@ -371,6 +374,8 @@ void TitleScene::Update()
 		manualSize = { 0.0f, 0.0f };
 	}
 
+	jsonLoader->Update();
+
 	if (isStageChoice) {
 		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
 	}
@@ -395,9 +400,10 @@ void TitleScene::Draw()
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	titlePlayer->Draw();
-	wave->Draw(Object3d::Wave);
-	celetialSphere->Draw();
-	aircraft_Carrier->Draw();
+	//wave->Draw(Object3d::Wave);
+	//celetialSphere->Draw();
+	//aircraft_Carrier->Draw();
+	jsonLoader->Draw();
 	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
 	//testSquare->Draw();
@@ -465,6 +471,8 @@ void TitleScene::Finalize()
 	safe_delete(light);
 	safe_delete(textDraw);
 	safe_delete(particle);
+	jsonLoader->Finalize();
+	safe_delete(jsonLoader);
 }
 
 void TitleScene::SceneChange()

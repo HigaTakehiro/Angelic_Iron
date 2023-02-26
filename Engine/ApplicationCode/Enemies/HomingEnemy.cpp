@@ -28,7 +28,7 @@ void HomingEnemy::Update()
 {
 	const int32_t lifeTimeOver = 0;
 
-	RockOnPerformance();
+	//RockOnPerformance();
 
 	if (hp <= 0) {
 		DeadPerformance();

@@ -88,6 +88,10 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>敵オブジェクト</returns>
 	Object3d* GetEnemyObj() { return enemy; }
+	/// <summary>
+	/// ロックオン演出
+	/// </summary>
+	void RockOnPerformance();
 
 protected: //メンバ関数
 	/// <summary>
@@ -98,11 +102,6 @@ protected: //メンバ関数
 	/// 攻撃処理
 	/// </summary>
 	virtual void Attack() = 0;
-
-	/// <summary>
-	/// ロックオン演出
-	/// </summary>
-	void RockOnPerformance();
 
 protected: //静的メンバ変数
 	//ロックオン演出用時間

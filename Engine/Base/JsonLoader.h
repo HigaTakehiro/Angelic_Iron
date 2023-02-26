@@ -18,6 +18,7 @@ public:
 			Vector3 transform;
 			Vector3 rotation;
 			Vector3 scaling;
+			bool isWave;
 		};
 		std::vector<ObjectData> objects;
 	};
@@ -42,6 +43,11 @@ public: //メンバ関数
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
 
 private: //静的メンバ変数
 	static const std::string baseDirectory;

@@ -25,7 +25,7 @@ void StraightEnemy::Initialize(const std::string modelKey, const Vector3& pos, c
 void StraightEnemy::Update()
 {
 	const int32_t lifeTimeOver = 0;
-	RockOnPerformance();
+	//RockOnPerformance();
 
 	if (hp <= 0) {
 		DeadPerformance();

@@ -271,14 +271,19 @@ void Object3d::Update(const float maxTime)
 	model->Update(model->GetMaterial());
 }
 
-void Object3d::Draw(VSPipelineNo vsPipelineNo)
+void Object3d::Draw()
 {
 	// nullptrチェック
 	assert(device);
 	assert(Object3d::cmdList);
 
 	//パイプラインステートの設定
-	cmdList->SetPipelineState(pipelinestate[vsPipelineNo].Get());
+	if (isWave) {
+		cmdList->SetPipelineState(pipelinestate[Wave].Get());
+	}
+	else {
+		cmdList->SetPipelineState(pipelinestate[Normal].Get());
+	}
 	//ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	//定数バッファビューをセット

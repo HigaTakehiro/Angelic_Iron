@@ -39,6 +39,12 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 			if (object.contains("file_name")) {
 				objectData.fileName = object["file_name"];
 			}
+			if (object["shader_type"] == "Wave") {
+				objectData.isWave = true;
+			}
+			else {
+				objectData.isWave = false;
+			}
 
 			nlohmann::json& transform = object["transform"];
 			//平行移動
@@ -58,7 +64,8 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 
 	for (auto& objectData : stageData->objects) {
 		//仮モデルで生成(後々モデルも読み込むようにする)
-		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel("building"));
+		std::string modelName = objectData.fileName;
+		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
 		Vector3 pos;
 		pos = objectData.transform;
 		newObject->SetPosition(pos);
@@ -68,6 +75,9 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 		Vector3 scale;
 		scale = objectData.scaling;
 		newObject->SetScale(scale);
+		if (objectData.isWave == true) {
+			newObject->SetIsWave(true);
+		}
 		allObjects.emplace_back(newObject);
 	}
 
@@ -78,7 +88,7 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 void JsonLoader::Update()
 {
 	for (std::unique_ptr<Object3d>& object : allObjects) {
-		object->Update();
+		object->Update(1200.0f);
 	}
 }
 
@@ -87,4 +97,9 @@ void JsonLoader::Draw()
 	for (std::unique_ptr<Object3d>& object : allObjects) {
 		object->Draw();
 	}
+}
+
+void JsonLoader::Finalize()
+{
+	allObjects.clear();
 }
