@@ -87,8 +87,9 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 
 void JsonLoader::Update()
 {
+	const float waveTimer = 1200.0f;
 	for (std::unique_ptr<Object3d>& object : allObjects) {
-		object->Update(1200.0f);
+		object->Update(waveTimer);
 	}
 }
 
