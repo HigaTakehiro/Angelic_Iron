@@ -10,6 +10,7 @@
 #include "Sound.h"
 #include "KeyInput.h"
 #include "SafeDelete.h"
+#include "TextDraw.h"
 
 class SceneManager
 {
@@ -85,4 +86,7 @@ private: //Ã“Iƒƒ“ƒo•Ï”
 	static BaseScene* nowScene;
 	static int stageNo;
 	static int score;
+
+private: //ƒƒ“ƒo•Ï”
+	std::unique_ptr<TextDraw> textDraw;
 };

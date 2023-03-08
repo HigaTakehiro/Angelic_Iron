@@ -11,7 +11,6 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::v
 	this->points = points;
 	this->maxTime = maxTime;
 	this->isRoop = isRoop;
-	startTime = 0;
 }
 
 void RailCamera::Update() {
@@ -80,7 +79,6 @@ void RailCamera::SplineMove() {
 			startIndex += 1;
 			timeRate -= 1.0f;
 			nowCount = 0;
-			startTime = 0;
 		}
 		else {
 			if (isRoop) {

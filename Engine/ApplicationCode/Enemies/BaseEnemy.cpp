@@ -7,6 +7,32 @@ void BaseEnemy::OnCollision()
 	hp--;
 }
 
+void BaseEnemy::Move() {
+	Vector3 enemyPos = enemy->GetPosition();
+
+	if (movePoints.size() >= 1) {
+		nowTimer++;
+		elapsedTimer = nowTimer * 2;
+		timeRate = elapsedTimer / maxTime;
+		if (timeRate >= 1.0f) {
+			if (movedPoint < movePoints.size() - 1) {
+				movedPoint++;
+				timeRate = 0.0f;
+				nowTimer = 0;
+			}
+			else {
+				timeRate = 1.0f;
+			}
+		}
+
+		if (movedPoint < movePoints.size() - 1) {
+			enemyPos = lerp(movePoints[movedPoint], movePoints[movedPoint + 1], timeRate);
+		}
+	}
+
+	enemy->SetPosition(enemyPos);
+}
+
 void BaseEnemy::RockOnPerformance()
 {
 	if (isTarget) {

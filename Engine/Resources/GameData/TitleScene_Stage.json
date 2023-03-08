@@ -48,8 +48,8 @@
             "name": "立方体.002",
             "transform": {
                 "translation": [
+                    -22.0,
                     0.0,
-                    -30.0,
                     0.0
                 ],
                 "rotation": [
@@ -72,8 +72,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    0.0,
-                    -18.0
+                    20.0,
+                    0.0
                 ],
                 "rotation": [
                     0.0,

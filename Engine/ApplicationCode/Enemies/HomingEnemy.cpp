@@ -26,8 +26,6 @@ void HomingEnemy::Initialize(const std::string modelKey, const Vector3& pos, con
 
 void HomingEnemy::Update()
 {
-	const int32_t lifeTimeOver = 0;
-
 	//RockOnPerformance();
 
 	if (hp <= 0) {
@@ -74,18 +72,6 @@ void HomingEnemy::DeadPerformance() {
 	if (deadTimer >= deadTime) {
 		isDead = true;
 	}
-}
-
-void HomingEnemy::Move()
-{
-	XMFLOAT3 enemyPos = enemy->GetPosition();
-	if (lifeTimer <= 180.0f) {
-		enemyPos.z += 0.01f;
-	}
-	else {
-		enemyPos.x += 1.5f;
-	}
-	enemy->SetPosition(enemyPos);
 }
 
 void HomingEnemy::Attack()

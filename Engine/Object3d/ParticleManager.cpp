@@ -48,6 +48,20 @@ ParticleManager* ParticleManager::Create(ID3D12Device* device, Camera* camera, b
 	return partMan;
 }
 
+std::unique_ptr<ParticleManager> ParticleManager::UniquePtrCreate(ID3D12Device* device, Camera* camera, bool isSubBlend)
+{
+	// 3Dオブジェクトのインスタンスを生成
+	std::unique_ptr<ParticleManager> partMan = std::make_unique<ParticleManager>(device, camera);
+	if (partMan == nullptr) {
+		return nullptr;
+	}
+
+	// 初期化
+	partMan->Initialize(isSubBlend);
+
+	return partMan;
+}
+
 void ParticleManager::Initialize(bool isSubBlend)
 {
 	// nullptrチェック

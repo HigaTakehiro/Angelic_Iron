@@ -401,10 +401,15 @@ void RailScene::EnemyDataUpdate() {
 	Vector3 pos{};
 	Vector3 rot{};
 	Vector3 scale{};
+	Vector3 movePoint{};
+	std::vector<Vector3> movePoints{};
 	std::string type;
+	float moveTime = 120.0f;//2[s]
+	int32_t lifeTime = 240;//4[s]
 	bool isPos = false;
 	bool isRot = false;
 	bool isStyle = false;
+	bool isMovePoint = false;
 
 	if (isWait) {
 		if (!isPause) {
@@ -440,6 +445,24 @@ void RailScene::EnemyDataUpdate() {
 			line_stream >> type;
 			isStyle = true;
 		}
+		if (word == "Move") {
+			line_stream >> movePoint.x;
+			line_stream >> movePoint.y;
+			line_stream >> movePoint.z;
+			movePoints.push_back(movePoint);
+		}
+		if (word == "End") {
+			isMovePoint = true;
+		}
+		if (word == "MoveTime") {
+			line_stream >> moveTime;
+			//•b”Š·ŽZ‚È‚Ì‚Å60”{‚·‚é
+			moveTime *= 60.0f;
+		}
+		if (word == "LifeTime") {
+			line_stream >> lifeTime;
+			lifeTime *= 60;
+		}
 		if (word == "Wait") {
 			isWait = true;
 			line_stream >> waitTimer;
@@ -448,11 +471,16 @@ void RailScene::EnemyDataUpdate() {
 		}
 
 		if (isPos && isRot && isStyle) {
-
 			if (type == "STR") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
+				newEnemy->SetLifeTime(lifeTime);
+				if (isMovePoint) {
+					movePoints.insert(movePoints.begin(), pos);
+					newEnemy->SetMaxTime(moveTime);
+					newEnemy->SetMovePoints(movePoints);
+				}
 				enemies.push_back(std::move(newEnemy));
 			}
 			if (type == "HOM") {
@@ -460,12 +488,19 @@ void RailScene::EnemyDataUpdate() {
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
 				newEnemy->SetPlayer(player);
+				newEnemy->SetLifeTime(lifeTime);
+				if (isMovePoint) {
+					movePoints.insert(movePoints.begin(), pos);
+					newEnemy->SetMaxTime(moveTime);
+					newEnemy->SetMovePoints(movePoints);
+				}
 				enemies.push_back(std::move(newEnemy));
 			}
 
 			isPos = false;
 			isRot = false;
 			isStyle = false;
+			isMovePoint = false;
 		}
 	}
 }

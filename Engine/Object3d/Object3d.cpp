@@ -77,6 +77,25 @@ Object3d* Object3d::Create(Model* model)
 	return object3d;
 }
 
+std::unique_ptr<Object3d> Object3d::UniquePtrCreate(Model* model)
+{
+	// 3Dオブジェクトのインスタンスを生成
+	std::unique_ptr<Object3d> object3d = std::make_unique<Object3d>();
+	if (object3d == nullptr) {
+		return nullptr;
+	}
+
+	object3d->SetModel(model);
+
+	// 初期化
+	if (!object3d->Initialize()) {
+		assert(0);
+		return nullptr;
+	}
+
+	return object3d;
+}
+
 bool Object3d::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;

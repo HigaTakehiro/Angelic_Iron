@@ -73,18 +73,6 @@ void StraightEnemy::DeadPerformance()
 	}
 }
 
-void StraightEnemy::Move()
-{
-	Vector3 nowPos = { enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z };
-	if (lifeTimer <= 180.0f) {
-		nowPos.z += 0.01f;
-	}
-	else {
-		nowPos.x -= 1.5f;
-	}
-	enemy->SetPosition(nowPos);
-}
-
 void StraightEnemy::Attack()
 {
 	if (++shotIntervalTimer >= shotIntervalTime) {

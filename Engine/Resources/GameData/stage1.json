@@ -1,0 +1,71 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Plane001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "ground"
+        },
+        {
+            "type": "MESH",
+            "name": "Sphere001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "celetialSphere"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.003",
+            "transform": {
+                "translation": [
+                    90.0,
+                    -20.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    90.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building"
+        }
+    ]
+}

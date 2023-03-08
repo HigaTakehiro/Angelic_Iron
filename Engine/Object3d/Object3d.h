@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
+#include <memory>
 #include "Model.h"
 #include "Camera.h"
 #include "LightGroup.h"
@@ -67,6 +68,13 @@ public: // 静的メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	static Object3d* Create(Model* model);
+
+	/// <summary>
+	/// 3Dオブジェクト生成
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <returns></returns>
+	static std::unique_ptr<Object3d> UniquePtrCreate(Model* model);
 
 private: // 静的メンバ変数
 	// デバイス

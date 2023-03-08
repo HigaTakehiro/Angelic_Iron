@@ -3,6 +3,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include <memory>
 
 class Sprite
 {
@@ -63,6 +64,18 @@ public: //静的メンバ関数
 	/// <param name="isFlipY">上下反転</param>
 	/// <returns></returns>
 	static Sprite* Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
+
+	/// <summary>
+	/// スプライト生成(unique_ptr)
+	/// </summary>
+	/// <param name="texNumber">テクスチャ番号</param>
+	/// <param name="position">座標</param>
+	/// <param name="color">色</param>
+	/// <param name="anchorpoint"><アンカーポイント/param>
+	/// <param name="isFlipX">左右反転</param>
+	/// <param name="isFlipY">上下反転</param>
+	/// <returns></returns>
+	static std::unique_ptr<Sprite> UniquePtrCreate(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
 
 protected: //静的メンバ変数
 	//テクスチャの最大枚数

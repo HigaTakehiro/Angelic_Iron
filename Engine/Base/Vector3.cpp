@@ -14,6 +14,12 @@ Vector3::Vector3(float x, float y, float z) : XMFLOAT3{ x, y, z }
 
 }
 
+Vector3::Vector3(const XMFLOAT3& vec) : XMFLOAT3{ x, y, z } {
+	this->x = vec.x;
+	this->y = vec.y;
+	this->z = vec.z;
+}
+
 Vector3::Vector3(const XMVECTOR& vec) : XMFLOAT3{ x, y, z } {
 	XMStoreFloat3(this, vec);
 }

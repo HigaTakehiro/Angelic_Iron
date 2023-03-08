@@ -9,6 +9,7 @@ public:
 	//コンストラクタ
 	Vector3();
 	Vector3(float x, float y, float z);
+	Vector3(const DirectX::XMFLOAT3& vec);
 	Vector3(const DirectX::XMVECTOR& vec);
 
 	//メンバ関数

@@ -35,10 +35,7 @@ public: //ƒƒ“ƒoŠÖ”
 	void DeadPerformance() override;
 
 private: //ƒƒ“ƒoŠÖ”
-	/// <summary>
-	/// ˆÚ“®ˆ—
-	/// </summary>
-	void Move() override;
+
 	/// <summary>
 	/// UŒ‚ˆ—
 	/// </summary>

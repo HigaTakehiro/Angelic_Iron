@@ -3,8 +3,12 @@
 #Type ←敵の行動タイプ
 #Wait ←敵のポップ待機時間
 #STR ←直進弾を発射する敵タイプ
-#HOM　←追尾弾を発射する敵タイプ
+#HOM ←追尾弾を発射する敵タイプ
 #TAG ←自機狙い弾を発射する敵タイプ
+#Move ←移動するポイント
+#MoveTime ←移動時間[s]
+#LifeTime ←出現させている時間[s]
+#End ←移動するポイントはここまで
 
 Wait 720
 
@@ -12,6 +16,12 @@ Wait 720
 
 Pos 50.0 50.0 0.0
 Rot 0.0 0.0 0.0
+Move 50.0 80.0 0.0
+Move 70.0 80.0 0.0
+Move 0.0 0.0 0.0
+End
+MoveTime 2
+LifeTime 5
 Type STR
 Wait 0
 
@@ -19,6 +29,13 @@ Wait 0
 
 Pos 50.0 30.0 0.0
 Rot 0.0 0.0 0.0
+Move 0.0 30.0 0.0
+Move 0.0 70.0 0.0
+Move 70.0 70.0 0.0
+Move 50.0 30.0 0.0
+End
+MoveTime 5
+LifeTime 5
 Type HOM
 Wait 0
 
@@ -26,6 +43,11 @@ Wait 0
 
 Pos 50.0 70.0 0.0
 Rot 0.0 0.0 0.0
+Move 70.0 70.0 0.0
+Move 50.0 70.0 0.0
+End
+MoveTime 3
+LifeTime 5
 Type HOM
 Wait 500
 

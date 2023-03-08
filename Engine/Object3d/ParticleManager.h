@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <forward_list>
+#include <memory>
 
 #include "Camera.h"
 
@@ -90,7 +91,23 @@ public: // 静的メンバ関数
 	/// <returns>インスタンス</returns>
 	static ParticleManager* Create(ID3D12Device* device, Camera* camera, bool isSubBlend = false);
 
-public: // メンバ関数	
+	/// <summary>
+	/// インスタンス生成
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	/// <param name="camera">カメラ</param>
+	/// <param name="isSubBlend">減算合成フラグ</param>
+	/// <returns>インスタンス</returns>
+	static std::unique_ptr<ParticleManager> UniquePtrCreate(ID3D12Device* device, Camera* camera, bool isSubBlend = false);
+
+public: // メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	/// <param name="camera">カメラ</param>
+	ParticleManager(ID3D12Device* device, Camera* camera);
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -171,12 +188,6 @@ private: // メンバ変数
 	std::forward_list<Particle> particles;
 	// カメラ
 	Camera* camera = nullptr;
-private:
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	/// <param name="device">デバイス</param>
-	/// <param name="camera">カメラ</param>
-	ParticleManager(ID3D12Device* device, Camera* camera);
+
 };
 

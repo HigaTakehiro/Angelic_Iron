@@ -17,6 +17,13 @@ LightGroup* LightGroup::Create()
 	return instance;
 }
 
+std::unique_ptr<LightGroup> LightGroup::UniquePtrCreate()
+{
+	std::unique_ptr<LightGroup> instance = std::make_unique<LightGroup>();
+	instance->Initialize();
+	return instance;
+}
+
 void LightGroup::Initialize() 
 {
 	assert(device);

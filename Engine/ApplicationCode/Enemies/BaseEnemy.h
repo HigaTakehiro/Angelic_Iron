@@ -79,6 +79,21 @@ public: //メンバ関数
 	/// <param name="isTarget">ロックオンフラグ</param>
 	void SetTarget(bool isTarget) { this->isTarget = isTarget; }
 	/// <summary>
+	/// 移動時間をセット
+	/// </summary>
+	/// <param name="maxTime">移動時間</param>
+	void SetMaxTime(float maxTime) { this->maxTime = maxTime; }
+	/// <summary>
+	/// 最大生存時間をセット
+	/// </summary>
+	/// <param name="lifeTime">生存時間</param>
+	void SetLifeTime(int32_t lifeTime) { this->lifeTime = lifeTime; }
+	/// <summary>
+	/// 移動するポイントをセット
+	/// </summary>
+	/// <param name="movePoints">移動ポイント</param>
+	void SetMovePoints(const std::vector<Vector3>& movePoints) { this->movePoints = movePoints; }
+	/// <summary>
 	/// ロックオンフラグを取得
 	/// </summary>
 	/// <returns>ロックオンフラグ</returns>
@@ -97,7 +112,7 @@ protected: //メンバ関数
 	/// <summary>
 	/// 移動処理
 	/// </summary>
-	virtual void Move() = 0;
+	void Move();
 	/// <summary>
 	/// 攻撃処理
 	/// </summary>
@@ -128,6 +143,18 @@ protected: //メンバ変数
 	bool isTarget;
 	//ゲームシーンのポインタ
 	RailScene* railScene;
+	//移動するポイント
+	std::vector<Vector3> movePoints;
+	//現在時間
+	float nowTimer;
+	//経過時間
+	float elapsedTimer;
+	//移動時間
+	float maxTime = 1.0f;
+	//評価時間
+	float timeRate;
+	//移動完了したポイント
+	int movedPoint = 0;
 	//プレイヤーのポインタ
 	Player* player;
 	//体力

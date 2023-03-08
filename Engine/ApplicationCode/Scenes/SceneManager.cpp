@@ -9,6 +9,9 @@ int SceneManager::score = 0;
 void SceneManager::Initialize() {
 	//マウスカーソルを非表示にする
 	ShowCursor(false);
+	//DirectWrite初期化
+	textDraw = std::make_unique<TextDraw>();
+	textDraw->Initialize();
 	//レティクル初期化
 	Reticle::GetIns()->Initialize();
 	//シーン切り替え演出初期化

@@ -8,11 +8,9 @@ void TitleScene::Initialize()
 	cameraPos = { -100, 50, 200 };
 	cameraTargetPos = { 0, 500, 0 };
 
-	camera = new Camera;
+	camera = std::make_unique<Camera>();
 	camera->SetEye(cameraPos);
 	camera->SetTarget(cameraTargetPos);
-
-	textDraw->Initialize();
 
 	titlePos = { 300, 200 };
 	startButtonPos = { 640, 550 };
@@ -27,24 +25,24 @@ void TitleScene::Initialize()
 	prePageNumber = 1;
 
 	const XMFLOAT2 spriteCenter = { 0.5f, 0.5f };
-	title = Sprite::Create(ImageManager::ImageName::title, titlePos);
+	title = Sprite::UniquePtrCreate(ImageManager::ImageName::title, titlePos);
 	title->SetAnchorPoint(spriteCenter);
-	startButton = Sprite::Create(ImageManager::ImageName::StartButton, startButtonPos);
+	startButton = Sprite::UniquePtrCreate(ImageManager::ImageName::StartButton, startButtonPos);
 	startButton->SetAnchorPoint(spriteCenter);
-	stage1 = Sprite::Create(ImageManager::ImageName::Stage1, stage1Pos);
+	stage1 = Sprite::UniquePtrCreate(ImageManager::ImageName::Stage1, stage1Pos);
 	stage1->SetAnchorPoint(spriteCenter);
-	stage2 = Sprite::Create(ImageManager::ImageName::Stage2, stage2Pos);
+	stage2 = Sprite::UniquePtrCreate(ImageManager::ImageName::Stage2, stage2Pos);
 	stage2->SetAnchorPoint(spriteCenter);
-	manualButton = Sprite::Create(ImageManager::ImageName::ManualButton, manualButtonPos);
+	manualButton = Sprite::UniquePtrCreate(ImageManager::ImageName::ManualButton, manualButtonPos);
 	manualButton->SetAnchorPoint(spriteCenter);
-	manual = Sprite::Create(ImageManager::ImageName::Manual, manualPos);
+	manual = Sprite::UniquePtrCreate(ImageManager::ImageName::Manual, manualPos);
 	manual->SetAnchorPoint(spriteCenter);
-	manual2 = Sprite::Create(ImageManager::Manual_2, { manualPos.x * (pageNumber + 2), manualPos.y });
+	manual2 = Sprite::UniquePtrCreate(ImageManager::Manual_2, { manualPos.x * (pageNumber + 2), manualPos.y });
 	manual2->SetAnchorPoint(spriteCenter);
-	allow = Sprite::Create(ImageManager::Allow, allowPos);
+	allow = Sprite::UniquePtrCreate(ImageManager::Allow, allowPos);
 	allow->SetAnchorPoint(spriteCenter);
 	allow->SetRotation(90.0f);
-	close = Sprite::Create(ImageManager::ImageName::Close, closePos);
+	close = Sprite::UniquePtrCreate(ImageManager::ImageName::Close, closePos);
 	close->SetAnchorPoint(spriteCenter);
 
 	startButtonSize = startButton->GetSize();
@@ -57,19 +55,19 @@ void TitleScene::Initialize()
 	allowSize = allow->GetSize();
 	startTimer = 0;
 
-	light = LightGroup::Create();
+	light = LightGroup::UniquePtrCreate();
 	for (int i = 0; i < 3; i++) {
 		light->SetDirLightActive(0, true);
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(i, false);
 	}
 	light->SetCircleShadowActive(0, true);
-	Object3d::SetLight(light);
+	Object3d::SetLight(light.get());
 
-	jsonLoader = new JsonLoader;
+	jsonLoader = std::make_unique<JsonLoader>();
 	jsonLoader->StageDataLoadandSet("TitleScene_Stage");
 
-	titlePlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Stand"));
+	titlePlayer = Object3d::UniquePtrCreate(ModelManager::GetIns()->GetModel("player_Stand"));
 	playerScale = { 20, 20, 20 };
 	playerPos = { -30, 50, 0 };
 	playerRot = { 0, 0, 0 };
@@ -77,42 +75,14 @@ void TitleScene::Initialize()
 	titlePlayer->SetPosition(playerPos);
 	titlePlayer->SetRotation(playerRot);
 
-	wave = Object3d::Create(ModelManager::GetIns()->GetModel("wave"));
-	wavePos = { 0, -50, 0 };
-	wave->SetPosition(wavePos);
-	waveScale = { 10, 10, 10 };
-	wave->SetScale(waveScale);
-	wave->SetAmbient({ 1, 1, 1 });
-
-	aircraft_Carrier = Object3d::Create(ModelManager::GetIns()->GetModel("aircraft_Carrier"));
-	aircraft_Carrier->SetScale({ 10, 10, 10 });
-	aircraft_Carrier->SetAmbient({ 1, 1, 1 });
-
-	testSquareModel = Shapes::CreateSquare({ 0.0f, 0.0f }, { 15.0f, 15.0f }, "Bomb.png");
-	testSquare = Object3d::Create(testSquareModel);
-	testSquare->SetRotation({ 0.0f, 180.0f, 0.0f });
-	testSquare->SetIsBillboard(true);
-
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
-	celetialSphere->SetScale({ 15, 15, 15 });
-
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	stageSelectTimer = 0;
 
-	postEffect = new PostEffect();
+	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 
-	sphereRot = { 0, 0, 0 };
-
-	FBXObject3d::SetCamera(camera);
-	test = new FBXObject3d;
-	test->Initialize();
-	test->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::Test));
-	test->SetScale({ 0.05f, 0.05f, 0.05f });
-	test->PlayAnimation(true);
-
 	postEffectNo = PostEffect::NORMAL;
-	particle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	particle = ParticleManager::UniquePtrCreate(DirectXSetting::GetIns()->GetDev(), camera.get());
 
 	debugText.Initialize(0);
 }
@@ -120,9 +90,6 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-
-	sphereRot.y += 0.1f;
-	celetialSphere->SetRotation(sphereRot);
 
 	static Vector3 lightPos = { 0, 0, 0 };
 
@@ -140,12 +107,7 @@ void TitleScene::Update()
 	titlePlayer->SetPosition(playerPos);
 
 	titlePlayer->Update();
-	wave->Update(1200.0f);
 	particle->Update();
-	aircraft_Carrier->Update();
-	celetialSphere->Update();
-	test->Update();
-	testSquare->Update();
 	light->Update();
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
@@ -185,7 +147,7 @@ void TitleScene::Update()
 	camera->SetEye(cameraPos);
 	//testSquare->SetPosition(lightPos);
 
-	if (!isStageSelect && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
+	if (!isStageSelectMenu && IsMouseHitSprite(mousePos, startButtonPos, 256, 128)) {
 		XMFLOAT2 spriteSize = startButtonSize;
 		spriteSize.x *= 0.9f;
 		spriteSize.y *= 0.9f;
@@ -193,7 +155,7 @@ void TitleScene::Update()
 		startButton->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			isStageSelect = true;
+			isStageSelectMenu = true;
 		}
 	}
 	else {
@@ -299,7 +261,7 @@ void TitleScene::Update()
 		allow->SetAlpha(initAlpha);
 	}
 
-	if (isStageSelect) {
+	if (isStageSelectMenu) {
 		const float outPos = -300;
 		const float comePos = 200;
 		stageSelectTimer++;
@@ -394,19 +356,13 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	//background->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	titlePlayer->Draw();
-	//wave->Draw(Object3d::Wave);
-	//celetialSphere->Draw();
-	//aircraft_Carrier->Draw();
 	jsonLoader->Draw();
 	particle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	//test->Draw(DirectXSetting::GetIns()->GetCmdList());
-	//testSquare->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -418,13 +374,13 @@ void TitleScene::Draw()
 		close->Draw();
 	}
 
-	if (isStageSelect && !isManual && !isStageChoice) {
+	if (isStageSelectMenu && !isManual && !isStageChoice) {
 		stage1->Draw();
 		stage2->Draw();
 		manualButton->Draw();
 	}
 
-	if (!isStageSelect) {
+	if (!isStageSelectMenu) {
 		startButton->Draw();
 	}
 	title->Draw();
@@ -450,29 +406,7 @@ void TitleScene::Draw()
 
 void TitleScene::Finalize()
 {
-	safe_delete(postEffect);
-	safe_delete(title);
-	safe_delete(titlePlayer);
-	safe_delete(camera);
-	safe_delete(wave);
-	safe_delete(aircraft_Carrier);
-	safe_delete(startButton);
-	safe_delete(stage1);
-	safe_delete(stage2);
-	safe_delete(manualButton);
-	safe_delete(manual);
-	safe_delete(celetialSphere);
-	safe_delete(close);
-	safe_delete(manual2);
-	safe_delete(allow);
-	safe_delete(test);
-	safe_delete(testSquare);
-	safe_delete(testSquareModel);
-	safe_delete(light);
-	safe_delete(textDraw);
-	safe_delete(particle);
 	jsonLoader->Finalize();
-	safe_delete(jsonLoader);
 }
 
 void TitleScene::SceneChange()

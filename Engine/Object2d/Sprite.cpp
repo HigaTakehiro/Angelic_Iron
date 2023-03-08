@@ -292,6 +292,32 @@ Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOA
 	return sprite;
 }
 
+std::unique_ptr<Sprite> Sprite::UniquePtrCreate(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+{
+	XMFLOAT2 size = { 100.0f, 100.0f };
+
+	if (texBuff[texNumber]) {
+		//テクスチャ情報取得
+		D3D12_RESOURCE_DESC resDesc = texBuff[texNumber]->GetDesc();
+		//スプライトのサイズをテクスチャのサイズに設定
+		size = { (float)resDesc.Width, (float)resDesc.Height };
+	}
+
+	//Spriteのインスタンスを生成
+	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>(texNumber, position, size, color, anchorpoint, isFlipX, isFlipY);
+	if (sprite == nullptr) {
+		return nullptr;
+	}
+
+	//初期化
+	if (!sprite->Initialize()) {
+		assert(0);
+		return nullptr;
+	}
+
+	return sprite;
+}
+
 Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY) {
 	this->position = position;
 	this->size = size;

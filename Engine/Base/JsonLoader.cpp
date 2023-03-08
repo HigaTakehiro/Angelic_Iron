@@ -48,13 +48,13 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 
 			nlohmann::json& transform = object["transform"];
 			//平行移動
-			objectData.transform.x = (float)transform["translation"][1];
-			objectData.transform.y = (float)transform["translation"][2];
-			objectData.transform.z = -(float)transform["translation"][0];
+			objectData.transform.x = (float)transform["translation"][0];
+			objectData.transform.y = -(float)transform["translation"][1];
+			objectData.transform.z = (float)transform["translation"][2];
 			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][1];
-			objectData.rotation.y = -(float)transform["rotation"][2];
-			objectData.rotation.z = (float)transform["rotation"][0];
+			objectData.rotation.x = -(float)transform["rotation"][0];
+			objectData.rotation.y = -(float)transform["rotation"][1];
+			objectData.rotation.z = (float)transform["rotation"][2];
 			//スケーリング
 			objectData.scaling.x = (float)transform["scaling"][1];
 			objectData.scaling.y = (float)transform["scaling"][2];
@@ -75,6 +75,7 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 		Vector3 scale;
 		scale = objectData.scaling;
 		newObject->SetScale(scale);
+		newObject->SetAmbient({ 1.0f, 1.0f, 1.0f });
 		if (objectData.isWave == true) {
 			newObject->SetIsWave(true);
 		}

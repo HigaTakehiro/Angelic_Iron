@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
+#include <memory>
 #include "DirectXSetting.h"
 
 #include "DirectionalLight.h"
@@ -48,6 +49,12 @@ public: //静的メンバ関数
 	/// </summary>
 	/// <returns>インスタンス</returns>
 	static LightGroup* Create();
+
+	/// <summary>
+	/// インスタンス生成(unique_ptr)
+	/// </summary>
+	/// <returns>インスタンス</returns>
+	static std::unique_ptr<LightGroup> UniquePtrCreate();
 
 public: //メンバ関数
 

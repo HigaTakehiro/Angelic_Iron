@@ -84,10 +84,8 @@ private: //メンバ変数
 	XMMATRIX matWorld; //ワールド行列
 	std::vector<Vector3> points; //スプライン補間用の各ポイント
 
-	long long startTime; //開始時間
 	long long nowCount; //現在時間
 	long long elapsedCount; //経過時間 
-	std::chrono::steady_clock::time_point reference;
 
 	float maxTime; //ポイント間を移動する時間
 	float timeRate; //移動した時間を0~1で評価
