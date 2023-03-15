@@ -15,13 +15,15 @@ Wait 720
 #Enemy1
 
 Pos 50.0 50.0 0.0
-Rot 0.0 0.0 0.0
+Rot 0.0 0.0 0.0a
 Move 50.0 80.0 0.0
 Move 70.0 80.0 0.0
 Move 0.0 0.0 0.0
 End
 MoveTime 2
-LifeTime 5
+LifeTime 15
+Hp 2
+ShotCoolTime 5
 Type STR
 Wait 0
 
@@ -35,7 +37,8 @@ Move 70.0 70.0 0.0
 Move 50.0 30.0 0.0
 End
 MoveTime 5
-LifeTime 5
+LifeTime 15
+Hp 10
 Type HOM
 Wait 0
 
@@ -47,7 +50,7 @@ Move 70.0 70.0 0.0
 Move 50.0 70.0 0.0
 End
 MoveTime 3
-LifeTime 5
+LifeTime 15
 Type HOM
 Wait 500
 

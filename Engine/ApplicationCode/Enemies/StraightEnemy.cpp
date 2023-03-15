@@ -40,6 +40,7 @@ void StraightEnemy::Update()
 		}
 		Move();
 		Attack();
+		Damage();
 	}
 
 	enemy->Update();

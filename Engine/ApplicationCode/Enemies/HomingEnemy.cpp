@@ -41,6 +41,7 @@ void HomingEnemy::Update()
 		}
 		Move();
 		Attack();
+		Damage();
 	}
 
 	enemy->Update();

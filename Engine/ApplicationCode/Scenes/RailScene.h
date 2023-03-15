@@ -208,6 +208,8 @@ private: //メンバ変数
 	ParticleManager* enemyParticle;
 	//マズルフラッシュ用パーティクル
 	ParticleManager* gunParticle;
+	//スラスター用パーティクル
+	ParticleManager* thrusterParticle;
 	//ポーズテキスト
 	Sprite* pause = nullptr;
 	//タイトルバックボタン

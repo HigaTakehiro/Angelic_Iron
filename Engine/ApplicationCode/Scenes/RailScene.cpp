@@ -165,6 +165,7 @@ void RailScene::Initialize() {
 	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 	gunParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	thrusterParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
 
 	//ステージデータ読み込み
 	if (stageNo == 1) {
@@ -243,6 +244,7 @@ void RailScene::Update() {
 		enemyParticle->Update();
 		bombParticle->Update();
 		gunParticle->Update();
+		thrusterParticle->Update();
 
 		player->Update(railCamera->GetIsEnd());
 	}
@@ -311,6 +313,7 @@ void RailScene::Draw() {
 	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	gunParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	thrusterParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -382,6 +385,7 @@ void RailScene::Finalize() {
 	safe_delete(light);
 	safe_delete(bombParticle);
 	safe_delete(gunParticle);
+	safe_delete(thrusterParticle);
 	safe_delete(enemyParticle);
 	safe_delete(textDraw);
 	safe_delete(textWindow);
@@ -406,6 +410,8 @@ void RailScene::EnemyDataUpdate() {
 	std::string type;
 	float moveTime = 120.0f;//2[s]
 	int32_t lifeTime = 240;//4[s]
+	int32_t shotIntervalTime = 60;//1[s]
+	int hp = 1;
 	bool isPos = false;
 	bool isRot = false;
 	bool isStyle = false;
@@ -463,6 +469,13 @@ void RailScene::EnemyDataUpdate() {
 			line_stream >> lifeTime;
 			lifeTime *= 60;
 		}
+		if (word == "ShotCoolTime") {
+			line_stream >> shotIntervalTime;
+			shotIntervalTime *= 60;
+		}
+		if (word == "Hp") {
+			line_stream >> hp;
+		}
 		if (word == "Wait") {
 			isWait = true;
 			line_stream >> waitTimer;
@@ -476,6 +489,8 @@ void RailScene::EnemyDataUpdate() {
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
 				newEnemy->SetLifeTime(lifeTime);
+				newEnemy->SetHP(hp);
+				newEnemy->SetShotIntervalTime(shotIntervalTime);
 				if (isMovePoint) {
 					movePoints.insert(movePoints.begin(), pos);
 					newEnemy->SetMaxTime(moveTime);
@@ -489,6 +504,8 @@ void RailScene::EnemyDataUpdate() {
 				newEnemy->SetRailScene(this);
 				newEnemy->SetPlayer(player);
 				newEnemy->SetLifeTime(lifeTime);
+				newEnemy->SetHP(hp);
+				newEnemy->SetShotIntervalTime(shotIntervalTime);
 				if (isMovePoint) {
 					movePoints.insert(movePoints.begin(), pos);
 					newEnemy->SetMaxTime(moveTime);
@@ -933,6 +950,22 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 void RailScene::AddEffect()
 {
+	//プレイヤーのHPが1以上ならエフェクトを発生させる
+	if (player->GetHPCount() > noneHP) {
+		Vector3 playerPos = player->GetPlayerObject()->GetMatWorld().r[3];
+		playerPos += {0.0f, 2.0f, -1.0f};
+		Vector3 playerRot = player->GetPlayerObject()->GetMatWorld().r[1];
+		playerRot *= {0.0f, 180.0f, 0.0f};
+		playerRot.normalize();
+		thrusterParticle->Add(3, playerPos,
+			-playerRot,
+			{ 0.0f, 0.0f, 0.0f },
+			3.0f, 0.0f,
+			{ 0.0f, 0.0f, 0.6f },
+			{ 1.0f, 1.0f, 1.0f }
+		);
+	}
+
 	//プレイヤーのHPが0ならエフェクトを発生させる
 	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
 		XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };

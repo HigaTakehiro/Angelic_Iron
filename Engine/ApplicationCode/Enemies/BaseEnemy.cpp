@@ -4,7 +4,10 @@ const float BaseEnemy::targetReactionTime = 60.0f;
 
 void BaseEnemy::OnCollision()
 {
-	hp--;
+	if (!isDamage) {
+		hp--;
+		isDamage = true;
+	}
 }
 
 void BaseEnemy::Move() {
@@ -31,6 +34,25 @@ void BaseEnemy::Move() {
 	}
 
 	enemy->SetPosition(enemyPos);
+}
+
+void BaseEnemy::Damage()
+{
+	//定数
+	const DirectX::XMFLOAT4 damageColor = { 0.7f, 0.0f, 0.0f, 1.0f };
+	const DirectX::XMFLOAT4 normalColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	//ダメージ処理
+	if (isDamage) {
+		damageTimer++;
+		enemy->SetColor(damageColor);
+		//ダメージ処理時間が過ぎたら
+		if (damageTimer >= damageTime) {
+			isDamage = false;
+			enemy->SetColor(normalColor);
+			damageTimer = 0;
+		}
+	}
 }
 
 void BaseEnemy::RockOnPerformance()

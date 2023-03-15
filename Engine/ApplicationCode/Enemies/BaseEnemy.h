@@ -89,6 +89,16 @@ public: //メンバ関数
 	/// <param name="lifeTime">生存時間</param>
 	void SetLifeTime(int32_t lifeTime) { this->lifeTime = lifeTime; }
 	/// <summary>
+	/// 弾発射間隔をセット
+	/// </summary>
+	/// <param name="shotIntervalTime">弾発射間隔</param>
+	void SetShotIntervalTime(int32_t shotIntervalTime) { this->shotIntervalTime = shotIntervalTime; }
+	/// <summary>
+	/// HPをセット
+	/// </summary>
+	/// <param name="hp">HP</param>
+	void SetHP(int hp) { this->hp = hp; }
+	/// <summary>
 	/// 移動するポイントをセット
 	/// </summary>
 	/// <param name="movePoints">移動ポイント</param>
@@ -114,6 +124,10 @@ protected: //メンバ関数
 	/// </summary>
 	void Move();
 	/// <summary>
+	/// ダメージ処理
+	/// </summary>
+	void Damage();
+	/// <summary>
 	/// 攻撃処理
 	/// </summary>
 	virtual void Attack() = 0;
@@ -123,6 +137,8 @@ protected: //静的メンバ変数
 	static const float targetReactionTime;
 	//死亡時演出用時間
 	static const int32_t deadTime = 30;
+	//ダメージ演出用時間
+	static const int32_t damageTime = 12;
 
 protected: //メンバ変数
 	//敵オブジェクト
@@ -141,6 +157,8 @@ protected: //メンバ変数
 	bool isDead;
 	//ロックオンフラグ
 	bool isTarget;
+	//ダメージフラグ
+	bool isDamage;
 	//ゲームシーンのポインタ
 	RailScene* railScene;
 	//移動するポイント
@@ -171,6 +189,8 @@ protected: //メンバ変数
 	int32_t shotIntervalTime;
 	//死亡時演出用時間
 	int32_t deadTimer;
+	//ダメージ演出用時間
+	int32_t damageTimer;
 	//ロックオン演出用時間
 	float targetReactionTimer;
 };
