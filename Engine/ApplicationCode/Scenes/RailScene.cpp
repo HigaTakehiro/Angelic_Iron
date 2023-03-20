@@ -950,20 +950,45 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 void RailScene::AddEffect()
 {
+	//最終的な大きさ
+	const float endScale = 0.0f;
+	//デフォルト加速度
+	const Vector3 defaultAcc = { 0.0f, 0.0f, 0.0f };
+
 	//プレイヤーのHPが1以上ならエフェクトを発生させる
 	if (player->GetHPCount() > noneHP) {
-		Vector3 playerPos = player->GetPlayerObject()->GetMatWorld().r[3];
-		playerPos += {0.0f, 2.0f, -1.0f};
-		Vector3 playerRot = player->GetPlayerObject()->GetMatWorld().r[1];
-		playerRot *= {0.0f, 180.0f, 0.0f};
-		playerRot.normalize();
-		thrusterParticle->Add(3, playerPos,
-			-playerRot,
-			{ 0.0f, 0.0f, 0.0f },
-			3.0f, 0.0f,
-			{ 0.0f, 0.0f, 0.6f },
-			{ 1.0f, 1.0f, 1.0f }
-		);
+		//乱数上限
+		const int randMax = 5;
+		//パーティクル生成時間
+		int particleLife = 3;
+		//初期アルファ値
+		Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
+		//最終的なアルファ値
+		Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
+
+		//プレイヤーのワールド行列からパーティクルの生成位置を求める
+		XMVECTOR playerPos = { 0.0f, 1.2f, -1.0f };
+		playerPos = XMVector3TransformCoord(playerPos, player->GetPlayerObject()->GetMatWorld());
+		Vector3 thrusterPos = playerPos;
+
+		for (int i = 0; i < 10; i++) {
+			float thrusterPower = (float)(rand() % randMax);
+			thrusterPower *= -0.1f;
+			float startScale = (float)(rand() % (randMax - 2));
+			XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
+			playerBack = XMVector3TransformNormal(playerBack, player->GetPlayerObject()->GetMatWorld());
+			Vector3 thrusterDir = playerBack;
+			thrusterParticle->Add(
+				particleLife,
+				thrusterPos,
+				thrusterDir,
+				defaultAcc,
+				startScale,
+				endScale,
+				initAlpha,
+				endAlpha
+			);
+		}
 	}
 
 	//プレイヤーのHPが0ならエフェクトを発生させる
