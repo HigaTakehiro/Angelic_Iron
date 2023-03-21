@@ -11,6 +11,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
+#include "ShadowMap.h"
 
 class LightGroup
 {
@@ -26,6 +27,7 @@ private: //静的メンバ変数
 	static const int PointLightNum = 3;
 	static const int SpotLightNum = 3;
 	static const int CircleShadowNum = 1;
+	static const int ShadowMapNum = 1;
 	static ID3D12Device* device;
 
 public: //サブクラス
@@ -36,6 +38,7 @@ public: //サブクラス
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
 		CircleShadow::ConstBufferData circleShadow[CircleShadowNum];
+		ShadowMap::ConstBufferData shadowMap[ShadowMapNum];
 	};
 
 public: //静的メンバ関数
@@ -223,6 +226,20 @@ public: //メンバ関数
 	/// <param name="angle">角度減衰</param>
 	void SetCircleShadowAngle(int index, const XMFLOAT2& angle);
 
+	/// <summary>
+	/// シャドウマップライト方向をセット
+	/// </summary>
+	/// <param name="index">シャドウマップ番号</param>
+	/// <param name="lightDir">ライト方向</param>
+	void SetShadowMapLightDir(int index, const XMVECTOR& lightDir);
+
+	/// <summary>
+	/// シャドウマップを有効化
+	/// </summary>
+	/// <param name="index">シャドウマップ番号</param>
+	/// <param name="isActive">有効化フラグ</param>
+	void SetShadowMapActive(int index, const bool isActive);
+
 private: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
@@ -236,6 +253,8 @@ private: //メンバ変数
 	SpotLight spotLights[SpotLightNum];
 	//丸影配列
 	CircleShadow circleShadows[CircleShadowNum];
+	//シャドウマップ配列
+	ShadowMap shadowMaps[ShadowMapNum];
 	//ダーティフラグ
 	bool isDirty;
 };

@@ -76,6 +76,8 @@ void PostEffect::Initialize() {
 	assert(SUCCEEDED(result));
 
 	this->color = XMFLOAT4(1, 1, 1, 1); // 色指定（RGBA）
+	blurCenter = { -0.5f, -0.5f };
+	mask = 0.0f;
 
 	//テクスチャ作成
 	TexCreate();
@@ -121,7 +123,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, P
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	// 定数バッファに転送
+	//定数バッファに転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
@@ -135,6 +137,9 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, P
 	if (SUCCEEDED(result)) {
 		constMapB0->time = timer;
 		constMapB0->maxTime = maxTime;
+		constMapB0->mask = mask;
+		constMapB0->blurCenterX = blurCenter.x;
+		constMapB0->blurCenterY = blurCenter.y;
 		constBuffB0->Unmap(0, nullptr);
 	}
 	

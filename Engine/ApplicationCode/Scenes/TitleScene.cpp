@@ -61,7 +61,8 @@ void TitleScene::Initialize()
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(i, false);
 	}
-	light->SetCircleShadowActive(0, true);
+	//light->SetCircleShadowActive(0, true);
+	light->SetShadowMapActive(0, true);
 	Object3d::SetLight(light.get());
 
 	jsonLoader = std::make_unique<JsonLoader>();
@@ -92,17 +93,19 @@ void TitleScene::Update()
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
 	static Vector3 lightPos = { 0, 0, 0 };
+	static Vector3 lightDir = { 0, -1, 0 };
 
 	char lightPosText[256];
 	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
 	debugText.Print(lightPosText, 0, 0, 2);
 
 	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetCircleShadowDir(0, { 0, -1, 0 });
+	light->SetShadowMapLightDir(0, { 0, -1, 0 });
+	/*light->SetCircleShadowDir(0, { 0, -1, 0 });
 	light->SetCircleShadowCasterPos(0, playerPos);
 	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
 	light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
-	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });*/
 
 	titlePlayer->SetPosition(playerPos);
 
@@ -115,33 +118,28 @@ void TitleScene::Update()
 
 	const float cameraSpeed = 10.0f;
 	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-		if (camera->GetTarget().z < cameraPos.z) {
-			cameraPos.x += cameraSpeed;
-		}
-		else {
-			cameraPos.x -= cameraSpeed;
-		}
+		lightDir.x += 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-		XMFLOAT3 camraPos = camera->GetEye();
-		if (camera->GetTarget().z < cameraPos.z) {
-			cameraPos.x -= cameraSpeed;
-		}
-		else {
-			cameraPos.x += cameraSpeed;
-		}
+		lightDir.x -= 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_UP) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		cameraPos.y += cameraSpeed;
+		lightDir.z += 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 	else if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-		cameraPos.z -= cameraSpeed;
+		lightDir.z -= 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		cameraPos.y -= cameraSpeed;
+		lightDir.y -= 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 	else if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-		cameraPos.z += cameraSpeed;
+		lightDir.y += 1.0f;
+		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
 	}
 
 	camera->SetEye(cameraPos);
@@ -351,6 +349,11 @@ void TitleScene::Draw()
 {
 	//”wŒiF
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
+
+	if (postEffectNo == PostEffect::DASH) {
+		postEffect->SetBlurCenter({ -0.5f, -0.5f });
+		postEffect->SetMask(0.0f);
+	}
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 

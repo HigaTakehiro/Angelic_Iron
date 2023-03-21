@@ -7,6 +7,9 @@ public: //構造体
 	struct ConstBuffDataB0 {
 		float time;
 		float maxTime;
+		float mask;
+		float blurCenterX;
+		float blurCenterY;
 	};
 
 	enum PostEffectNo {
@@ -59,6 +62,18 @@ public: //メンバ関数
 	/// </summary>
 	void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
 
+	/// <summary>
+	/// ブラーが適用されない範囲セット
+	/// </summary>
+	/// <param name="mask">ブラーが適用されない範囲</param>
+	void SetMask(float mask) { this->mask = mask; }
+
+	/// <summary>
+	///	ブラー発生中心位置をセット
+	/// </summary>
+	/// <param name="blurCenter">ブラー発生中心位置</param>
+	void SetBlurCenter(DirectX::XMFLOAT2 blurCenter) { this->blurCenter = blurCenter; }
+
 private: //静的メンバ変数
 	static const int texSize = 8;
 
@@ -85,6 +100,10 @@ private: //静的メンバ変数
 private: //メンバ変数
 	int nowPipelineNo = 0;
 	float timer = 0.0f;
+	//ブラーが適用されない範囲
+	float mask;
+	//ブラーの中心
+	DirectX::XMFLOAT2 blurCenter;
 	//定数バッファ転送用
 	ComPtr<ID3D12Resource> constBuffB0;
 

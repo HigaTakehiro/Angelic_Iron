@@ -66,6 +66,16 @@ public: //メンバ関数
 	/// <returns>ダッシュフラグ</returns>
 	bool GetIsDash() { return isDash; }
 	/// <summary>
+	/// 左ダッシュフラグ取得
+	/// </summary>
+	/// <returns>左ダッシュフラグ</returns>
+	bool GetIsLeftDash() { return isLeftDash; }
+	/// <summary>
+	/// 右ダッシュフラグ取得
+	/// </summary>
+	/// <returns>右ダッシュフラグ</returns>
+	bool GetIsRightDash() { return isRightDash; }
+	/// <summary>
 	/// アングル取得
 	/// </summary>
 	/// <returns>アングル</returns>

@@ -252,6 +252,7 @@
     <ClInclude Include="Engine\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Light\LightGroup.h" />
     <ClInclude Include="Engine\Light\PointLight.h" />
+    <ClInclude Include="Engine\Light\ShadowMap.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />

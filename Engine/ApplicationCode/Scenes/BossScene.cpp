@@ -43,6 +43,7 @@ void BossScene::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+	postEffect->SetMask(1.2f);
 
 	postEffectNo = PostEffect::NORMAL;
 	postEffectTime = 0;
@@ -211,6 +212,13 @@ void BossScene::Update()
 			particles2d.push_back(std::move(new2DParticle));
 			isDead = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
+		}
+
+		if (player->GetIsLeftDash()) {
+			postEffect->SetBlurCenter({ +0.5f, -0.5f });
+		}
+		else if (player->GetIsRightDash()) {
+			postEffect->SetBlurCenter({ -1.5f, -0.5f });
 		}
 
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {

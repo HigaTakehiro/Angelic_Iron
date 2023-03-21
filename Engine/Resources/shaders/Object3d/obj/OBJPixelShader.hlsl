@@ -93,5 +93,27 @@ float4 main(VSOutput input) : SV_TARGET
         }
     }
     
+    if (ShadowMapNum != 0)
+    {
+        for (int i = 0; i < ShadowMapNum; i++)
+        {
+            if (shadowMaps[i].isActive)
+            {
+                float3 lightDir = normalize(shadowMaps[i].dir);
+                float atten = dot(input.normal, -lightDir);
+                float zValue = texColor.z / texColor.w;
+                float2 transTexCoord;
+                transTexCoord.x = (1.0f + texColor.x / texColor.w) * 0.5f;
+                transTexCoord.y = (1.0f - texColor.y / texColor.w) * 0.5f;
+                float sm_z = tex.Sample(smp, transTexCoord).x;
+                if (zValue > sm_z + 0.005f)
+                {
+                    shadeColor.rgb -= atten;
+                }
+            }
+        }
+
+    }
+    
     return shadeColor * texColor * color;
 }

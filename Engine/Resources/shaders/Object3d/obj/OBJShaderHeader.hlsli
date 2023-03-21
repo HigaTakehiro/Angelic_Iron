@@ -58,6 +58,14 @@ struct CircleShadow
     uint isActive;
 };
 
+static const int ShadowMapNum = 1;
+
+struct ShadowMap
+{
+    float3 dir;
+    uint isActive;
+};
+
 cbuffer cbuff2 : register(b2)
 {
     float3 ambientColor;
@@ -65,6 +73,7 @@ cbuffer cbuff2 : register(b2)
     PointLight pointLights[PointLightNum];
     SpotLight spotLights[SpotLightNum];
     CircleShadow circleShadows[CircleShadowNum];
+    ShadowMap shadowMaps[ShadowMapNum];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

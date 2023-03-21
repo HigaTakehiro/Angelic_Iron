@@ -421,6 +421,9 @@
     <ClInclude Include="Engine\ApplicationCode\Players\Reticle.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Light\ShadowMap.h">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">
