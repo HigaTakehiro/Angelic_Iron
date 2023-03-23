@@ -142,6 +142,9 @@ private: //メンバ変数
 
 	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
 	int32_t openWindowTimer; //ウィンドウ解放時間
+	int32_t movieTimer; //ムービー時間
+
+	Vector3 cameraPos; //カメラ座標
 
 	bool isMessageWait; //メッセージデータ読み込み待機フラグ
 	bool isTextWindowOpen; //テキストウィンドウオープンフラグ

@@ -129,6 +129,9 @@ void BossScene::Initialize()
 	isPause = false;
 	isTitleBack = false;
 	isDead = false;
+
+	movieTimer = 0;
+	cameraPos = { 220.0f, 0.0f, 0.0f };
 }
 
 void BossScene::Update()
@@ -141,6 +144,10 @@ void BossScene::Update()
 	const int noneHP = 0;
 	const float closeWindowSizeY = 0.0f;
 	const float openWindowSizeY = 160.0f;
+	const Vector3 movieCameraPos = { 220.0f, 0.0f, 0.0f };
+	const Vector3 initCameraPos = { 250.0f, -20.0f, 0.0f };
+	const Vector3 movieCameraTarget = { 0.0f, 0.0f, 0.0f };
+	const int32_t cameraMoveTime = 60;
 
 	XMFLOAT3 playerPos = { player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
 	light->SetCircleShadowCasterPos(0, playerPos);
@@ -151,6 +158,20 @@ void BossScene::Update()
 	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
+	postEffectNo = PostEffect::NORMAL;
+
+	if (firstBoss->GetIsMovie()) {
+		if (firstBoss->GetIsCameraMoveTiming() && firstBoss->GetIsMovie()) {
+			movieTimer++;
+			float timeRate = min((float)movieTimer / (float)cameraMoveTime, 1.0f);
+			cameraPos = easeIn(movieCameraPos, initCameraPos, timeRate);
+			camera->SetEye(cameraPos);
+		}
+		else {
+			camera->SetEye(movieCameraPos);
+			camera->SetTarget(movieCameraTarget);
+		}
+	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
 		isPause = !isPause;
@@ -199,7 +220,9 @@ void BossScene::Update()
 
 		ground->Update();
 		celetialSphere->Update();
-		player->Update();
+		if (!firstBoss->GetIsMovie()) {
+			player->Update();
+		}
 
 		if (player->GetHPCount() <= noneHP && !isDead) {
 			XMVECTOR playerPos = player->GetPlayerObj()->GetMatWorld().r[3];
@@ -319,6 +342,7 @@ void BossScene::Update()
 		}
 
 	}
+
 	//ライト更新処理
 	light->Update();
 
@@ -359,7 +383,19 @@ void BossScene::Draw()
 		postEffectNo = PostEffect::NORMAL;
 		postEffectTime = 60;
 	}
+
 	isRoop = true;
+
+	if (firstBoss->GetIsMovieEffectTiming() && firstBoss->GetIsMovie()) {
+		postEffectNo = PostEffect::DASH;
+		postEffect->SetBlurCenter({ -0.5f, -0.5f });
+		postEffect->SetMask(0.2f);
+		postEffectTime = 60;
+		isRoop = false;
+	}
+	else {
+		postEffect->SetMask(1.2f);
+	}
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 

@@ -37,6 +37,10 @@ public: //メンバ関数
 	/// </summary>
 	void Action();
 	/// <summary>
+	/// ムービー演出行動
+	/// </summary>
+	void MovieAction();
+	/// <summary>
 	/// 左手ヒット時コールバック関数
 	/// </summary>
 	void LeftHandOnCollision();
@@ -62,6 +66,16 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsRightHandDead() { return isRightHandDead; }
+	/// <summary>
+	/// エフェクトタイミングフラグ取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsMovieEffectTiming() { return isMoviePoint_2; }
+	/// <summary>
+	/// カメラ移動タイミングフラグ取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsCameraMoveTiming() { return isCameraMoveTiming; }
 	/// <summary>
 	/// 左手オブジェクト取得
 	/// </summary>
@@ -144,6 +158,13 @@ private: //メンバ変数
 	int32_t rightHandDeadTimer;
 	float rightHandAngle;
 	Vector3 rightHandShadowPos;
+
+	//ムービー関連変数
+	int32_t movieTimer;
+	bool isMoviePoint_1 = false;
+	bool isMoviePoint_2 = false;
+	bool isMoviePoint_3 = false;
+	bool isCameraMoveTiming = false;
 
 	//攻撃関連変数
 	int32_t rollingShotTimer;

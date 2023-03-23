@@ -99,16 +99,17 @@ float4 main(VSOutput input) : SV_TARGET
         {
             if (shadowMaps[i].isActive)
             {
-                float3 lightDir = normalize(shadowMaps[i].dir);
-                float atten = dot(input.normal, -lightDir);
-                float zValue = texColor.z / texColor.w;
+                float zValue = input.svpos.z / input.svpos.w;
                 float2 transTexCoord;
-                transTexCoord.x = (1.0f + texColor.x / texColor.w) * 0.5f;
-                transTexCoord.y = (1.0f - texColor.y / texColor.w) * 0.5f;
-                float sm_z = tex.Sample(smp, transTexCoord).x;
+                transTexCoord.x = (1.0f + input.svpos.x / input.svpos.w) * 0.5f;
+                transTexCoord.y = (1.0f + input.svpos.y / input.svpos.w) * 0.5f;
+
+                float sm_z = tex.Sample(smp, transTexCoord);
+                shadeColor.rgb = float4(0.0, 0.6, 1.0, 1.0) * (0.3 + dot(normalize(input.worldpos).xyz, -shadowMaps[i].dir) * (1 - 0.3f));
+                texColor = shadeColor;
                 if (zValue > sm_z + 0.005f)
                 {
-                    shadeColor.rgb -= atten;
+                    shadeColor.rgb = shadeColor.rgb * 0.5f;
                 }
             }
         }

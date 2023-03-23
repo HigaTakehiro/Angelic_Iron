@@ -12,6 +12,7 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos) {
 	rotationTimer = 0;
 	actionPreTimer = 0;
 	deadTimer = 0;
+	isMovie = true;
 
 	boss->SetPosition(this->pos);
 	boss->SetRotation(rot);
@@ -58,12 +59,29 @@ void FirstBoss::Update(const Vector3& playerPos, const int delayTime)
 	leftHandShadowPos.y = -50.0f;
 	rightHandShadowPos.y = -50.0f;
 
-	this->playerPos = playerPos;
-	if (leftHandHP <= deadHP) {
-		LeftHandDeadReaction();
+	if (isMovie) {
+		MovieAction();
 	}
-	if (rightHandHP <= deadHP) {
-		RightHandDeadReaction();
+	else {
+		this->playerPos = playerPos;
+		if (leftHandHP <= deadHP) {
+			LeftHandDeadReaction();
+		}
+		if (rightHandHP <= deadHP) {
+			RightHandDeadReaction();
+		}
+
+		if (hp > deadHP) {
+			Action();
+			DamageReaction();
+			LeftHandDamageReaction();
+			RightHandDamageReaction();
+		}
+		else {
+			leftHandHP = deadHP;
+			rightHandHP = deadHP;
+			DeadReaction();
+		}
 	}
 
 	boss->Update();
@@ -79,18 +97,6 @@ void FirstBoss::Update(const Vector3& playerPos, const int delayTime)
 	rightHand->Update();
 	leftHandShadow->Update();
 	rightHandShadow->Update();
-	if (hp > deadHP) {
-		Action();
-		DamageReaction();
-		LeftHandDamageReaction();
-		RightHandDamageReaction();
-	}
-	else {
-		leftHandHP = deadHP;
-		rightHandHP = deadHP;
-		DeadReaction();
-	}
-
 }
 
 void FirstBoss::Draw()
@@ -144,6 +150,76 @@ void FirstBoss::Action()
 		default:
 			break;
 		}
+	}
+}
+
+void FirstBoss::MovieAction()
+{
+	//初期座標
+	const Vector3 initLeftHandPos = { 15.0f, 0.0f, 0.0f };
+	const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
+	const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
+	//移動する各ポイント
+	const Vector3 movieLeftHandPointPos_1 = { 7.0f, 0.0f, 10.0f };
+	const Vector3 movieRightHandPointPos_1 = { -7.0f, 0.0f, 10.0f };
+	const Vector3 movieLeftHandPointPos_2 = { 18.0f, 0.0f, -5.0f };
+	const Vector3 movieRightHandPointPos_2 = { -18.0f, 0.0f, -5.0f };
+	//各ポイント角度
+	const Vector3 movieLeftHandPointRot_1 = { -135.0f, -90.0f, 0.0f };
+	const Vector3 movieRightHandPointRot_1 = { -135.0f, 90.0f, 0.0f };
+	const Vector3 movieLeftHandPointRot_2 = { 45.0f, -90.0f, 0.0f };
+	const Vector3 movieRightHandPointRot_2 = { 45.0f, 90.0f, 0.0f };
+
+	int32_t movieTime = 0;
+
+	movieTimer++;
+	if (!isMoviePoint_1) {
+		movieTime = 60;
+	}
+	else if (!isMoviePoint_2) {
+		movieTime = 40;
+	}
+	else if (!isMoviePoint_3) {
+		movieTime = 120;
+	}
+
+	if (movieTimer >= movieTime / 2 && isMoviePoint_2) {
+		isCameraMoveTiming = true;
+	}
+	if (movieTimer >= movieTime) {
+		if (!isMoviePoint_1) {
+			movieTimer = 0;
+			isMoviePoint_1 = true;
+		}
+		else if (!isMoviePoint_2) {
+			movieTimer = 0;
+			isMoviePoint_2 = true;
+		}
+		else if (!isMoviePoint_3) {
+			movieTimer = 0;
+			isMoviePoint_3 = true;
+			isMovie = false;
+		}
+	}
+
+	float timeRate = min((float)movieTimer / (float)movieTime, 1.0f);
+	if (!isMoviePoint_1) {
+		leftHandPos = easeIn(initLeftHandPos, movieLeftHandPointPos_1, timeRate);
+		rightHandPos = easeIn(initRightHandPos, movieRightHandPointPos_1, timeRate);
+		leftHandRot = easeIn(initHandRot, movieLeftHandPointRot_1, timeRate);
+		rightHandRot = easeIn(initHandRot, movieRightHandPointRot_1, timeRate);
+	}
+	else if (!isMoviePoint_2) {
+		leftHandPos = easeIn(movieLeftHandPointPos_1, movieLeftHandPointPos_2, timeRate);
+		rightHandPos = easeIn(movieRightHandPointPos_1, movieRightHandPointPos_2, timeRate);
+		leftHandRot = easeIn(movieLeftHandPointRot_1, movieLeftHandPointRot_2, timeRate);
+		rightHandRot = easeIn(movieRightHandPointRot_1, movieRightHandPointRot_2, timeRate);
+	}
+	else if (!isMoviePoint_3) {
+		leftHandPos = easeIn(movieLeftHandPointPos_2, initLeftHandPos, timeRate);
+		rightHandPos = easeIn(movieRightHandPointPos_2, initRightHandPos, timeRate);
+		leftHandRot = easeIn(movieLeftHandPointRot_2, initHandRot, timeRate);
+		rightHandRot = easeIn(movieRightHandPointRot_2, initHandRot, timeRate);
 	}
 }
 

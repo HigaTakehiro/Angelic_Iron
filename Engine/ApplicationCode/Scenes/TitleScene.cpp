@@ -93,7 +93,7 @@ void TitleScene::Update()
 	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
 	static Vector3 lightPos = { 0, 0, 0 };
-	static Vector3 lightDir = { 0, -1, 0 };
+	static Vector3 lightDir = { 1, 0, 0 };
 
 	char lightPosText[256];
 	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
@@ -101,11 +101,11 @@ void TitleScene::Update()
 
 	light->SetDirLightDirection(0, { 0, -1, 0 });
 	light->SetShadowMapLightDir(0, { 0, -1, 0 });
-	/*light->SetCircleShadowDir(0, { 0, -1, 0 });
-	light->SetCircleShadowCasterPos(0, playerPos);
-	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
-	light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
-	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });*/
+	//light->SetCircleShadowDir(0, { 0, -1, 0 });
+	//light->SetCircleShadowCasterPos(0, playerPos);
+	//light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	//light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
+	//light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 
 	titlePlayer->SetPosition(playerPos);
 

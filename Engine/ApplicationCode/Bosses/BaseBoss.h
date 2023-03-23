@@ -38,6 +38,10 @@ public: //メンバ関数
 	/// </summary>
 	virtual void Action() = 0;
 	/// <summary>
+	/// ムービー演出行動
+	/// </summary>
+	virtual void MovieAction() = 0;
+	/// <summary>
 	/// 攻撃ヒット時コールバック関数
 	/// </summary>
 	void OnCollision();
@@ -55,6 +59,11 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
 	bool GetIsDead() { return isDead; }
+	/// <summary>
+	/// ムービーフラグ取得
+	/// </summary>
+	/// <returns>ムービーフラグ</returns>
+	bool GetIsMovie() { return isMovie; }
 	/// <summary>
 	/// ボスシーンをセット
 	/// </summary>
@@ -113,6 +122,8 @@ protected: //メンバ変数
 	bool isDamage = false;
 	//死亡フラグ
 	bool isDead = false;
+	//ムービーフラグ
+	bool isMovie = false;
 	//死亡タイマー
 	int32_t deadTimer;
 };
