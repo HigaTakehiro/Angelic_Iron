@@ -882,7 +882,7 @@ void RailScene::CollisionCheck()
 		for (const std::unique_ptr<Bomb>& bomb : bombs) {
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 				score += 100;
-				enemy->OnCollision();
+				enemy->BombHitCollision();
 				for (int i = 0; i < 10; i++) {
 					XMFLOAT3 pos = {
 						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
@@ -916,10 +916,14 @@ void RailScene::CollisionCheck()
 
 void RailScene::EnemyReactions(BaseEnemy* enemy)
 {
+	const int randMax = 4;
+
+	//敵座標
+	Vector3 enemyPos;
+	enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
+
 	//敵のHPが0ならパーティクルを発生させる
 	if (enemy->GetHP() <= 0) {
-		Vector3 enemyPos;
-		enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
 		enemyParticle->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
 	}
 
@@ -942,9 +946,41 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 	//敵が死亡したらエフェクトを発生させる
 	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
-		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
+		const Vector3 explosionAcc = { 0.0f, 0.0f, 0.0f };
+		const float startScale = 10.0f;
+		const float endScale = 0.0f;
+		const Vector3 startColor = { 1.0f, 1.0f, 1.0f };
+		const Vector3 endColor = { 1.0f, 0.2f, 0.0f };
+		for (int i = 0; i < 32; i++) {
+			const float rnd_vel = 2.0f;
+
+			Vector3 particlePos = enemyPos;
+			particlePos.x += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			particlePos.y += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			particlePos.z += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+			XMFLOAT3 vel{};
+			vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+			XMFLOAT3 acc{};
+			const float rnd_acc = 0.01f;
+			acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+			acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+			acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+			enemyParticle->Add(20,
+				particlePos,
+				vel,
+				acc,
+				startScale,
+				endScale,
+				startColor,
+				endColor);
+		}
+		/*std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 		new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-		particles2d.push_back(std::move(new2DParticle));
+		particles2d.push_back(std::move(new2DParticle));*/
 	}
 }
 

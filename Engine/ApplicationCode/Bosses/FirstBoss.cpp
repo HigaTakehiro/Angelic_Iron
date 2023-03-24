@@ -160,8 +160,8 @@ void FirstBoss::MovieAction()
 	const Vector3 initRightHandPos = { -15.0f, 0.0f, 0.0f };
 	const Vector3 initHandRot = { -90.0f, 0.0f, 0.0f };
 	//移動する各ポイント
-	const Vector3 movieLeftHandPointPos_1 = { 7.0f, 0.0f, 10.0f };
-	const Vector3 movieRightHandPointPos_1 = { -7.0f, 0.0f, 10.0f };
+	const Vector3 movieLeftHandPointPos_1 = { 7.0f, 0.0f, 15.0f };
+	const Vector3 movieRightHandPointPos_1 = { -7.0f, 0.0f, 15.0f };
 	const Vector3 movieLeftHandPointPos_2 = { 18.0f, 0.0f, -5.0f };
 	const Vector3 movieRightHandPointPos_2 = { -18.0f, 0.0f, -5.0f };
 	//各ポイント角度
@@ -174,7 +174,7 @@ void FirstBoss::MovieAction()
 
 	movieTimer++;
 	if (!isMoviePoint_1) {
-		movieTime = 60;
+		movieTime = 120;
 	}
 	else if (!isMoviePoint_2) {
 		movieTime = 40;

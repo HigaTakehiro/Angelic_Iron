@@ -49,6 +49,10 @@ public: //メンバ関数
 	/// </summary>
 	void OnCollision();
 	/// <summary>
+	/// ボム攻撃ヒット時コールバック関数
+	/// </summary>
+	void BombHitCollision();
+	/// <summary>
 	/// ロックオンフラグをセット
 	/// </summary>
 	/// <param name="isTarget"></param>

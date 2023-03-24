@@ -87,6 +87,12 @@ void BossScene::Initialize()
 		opeSmile[i]->SetColor({ 2, 2, 2 });
 		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
+	for (int i = 0; i < 2; i++) {
+		movieBarPos[i] = { 600.0f, 710.0f * (float)i };
+		movieBar[i] = Sprite::Create(ImageManager::SceneChangeBar, movieBarPos[i]);
+		movieBar[i]->SetSize({ 1680, 200 });
+		movieBar[i]->SetAnchorPoint({ 0.5f, 0.5f });
+	}
 	textAddTimer = 0;
 	textSpeed = 1;
 	//boss = new FirstBoss;
@@ -144,9 +150,10 @@ void BossScene::Update()
 	const int noneHP = 0;
 	const float closeWindowSizeY = 0.0f;
 	const float openWindowSizeY = 160.0f;
-	const Vector3 movieCameraPos = { 220.0f, 0.0f, 0.0f };
+	const Vector3 movieCameraPos = { 240.0f, 30.0f, 0.0f };
 	const Vector3 initCameraPos = { 250.0f, -20.0f, 0.0f };
-	const Vector3 movieCameraTarget = { 0.0f, 0.0f, 0.0f };
+	const Vector3 movieCameraTarget = { 0.0f, 30.0f, 0.0f };
+	const Vector3 initCameraTarget = { 0.0f, 0.0f, 0.0f };
 	const int32_t cameraMoveTime = 60;
 
 	XMFLOAT3 playerPos = { player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
@@ -165,7 +172,14 @@ void BossScene::Update()
 			movieTimer++;
 			float timeRate = min((float)movieTimer / (float)cameraMoveTime, 1.0f);
 			cameraPos = easeIn(movieCameraPos, initCameraPos, timeRate);
+			Vector3 cameraTarget = easeIn(movieCameraTarget, initCameraTarget, timeRate);
+			movieBarPos[0].y = Easing::easeIn((float)movieTimer, (float)cameraMoveTime, -180.0f, movieBarPos[0].y);
+			movieBarPos[1].y = Easing::easeIn((float)movieTimer, (float)cameraMoveTime, 900.0f, movieBarPos[1].y);
 			camera->SetEye(cameraPos);
+			camera->SetTarget(cameraTarget);
+			for (int i = 0; i < 2; i++) {
+				movieBar[i]->SetPosition(movieBarPos[i]);
+			}
 		}
 		else {
 			camera->SetEye(movieCameraPos);
@@ -422,9 +436,16 @@ void BossScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	scoreText->Draw();
-	for (int i = 0; i < 6; i++) {
-		scoreNumber[i]->Draw();
+	if (!firstBoss->GetIsMovie()) {
+		scoreText->Draw();
+		for (int i = 0; i < 6; i++) {
+			scoreNumber[i]->Draw();
+		}
+	}
+	for (int i = 0; i < 2; i++) {
+		if (firstBoss->GetIsMovie()) {
+			movieBar[i]->Draw();
+		}
 	}
 	player->SpriteDraw();
 	if (isPause) {
@@ -479,6 +500,9 @@ void BossScene::Finalize()
 		safe_delete(opeNormal[i]);
 		safe_delete(opeSurprise[i]);
 		safe_delete(opeSmile[i]);
+	}
+	for (int i = 0; i < 2; i++) {
+		safe_delete(movieBar[i]);
 	}
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);

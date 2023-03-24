@@ -425,20 +425,50 @@ void TitleScene::SceneChange()
 			//ブラーをかける
 			postEffectNo = PostEffect::DASH;
 			//パーティクルを発生させる
-			for (int i = 0; i < 8; i++) {
-				Vector3 particlePos = { 0.0f, 0.0f, 0.0f };
-				particlePos = MotionMath::CircularMotion(playerPos, particlePos, (float)(45 * i), 10.0f, MotionMath::Y);
-				particlePos.normalize();
-				particle->Add(30, playerPos, particlePos, -particlePos, 3.0f);
+			//乱数上限
+			const int randMax = 18;
+			//パーティクル生成時間
+			int particleLife = 3;
+			//加速度
+			Vector3 acc = { 0.0f, 0.0f, 0.0f };
+			//初期アルファ値
+			Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
+			//最終的なアルファ値
+			Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
+			//最終的な大きさ
+			float endScale = 0.0f;
+
+			//プレイヤーのワールド行列からパーティクルの生成位置を求める
+			XMVECTOR playerPos = { 0.0f, 1.2f, -1.0f };
+			playerPos = XMVector3TransformCoord(playerPos, titlePlayer->GetMatWorld());
+			Vector3 thrusterPos = playerPos;
+
+			for (int i = 0; i < 10; i++) {
+				float thrusterPower = (float)(rand() % randMax);
+				thrusterPower *= -0.1f;
+				float startScale = (float)(rand() % (randMax - 2));
+				XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
+				playerBack = XMVector3TransformNormal(playerBack, titlePlayer->GetMatWorld());
+				Vector3 thrusterDir = playerBack;
+				particle->Add(
+					particleLife,
+					thrusterPos,
+					thrusterDir,
+					acc,
+					startScale,
+					endScale,
+					initAlpha,
+					endAlpha
+				);
 			}
 		}
 		//時間を0~1の値をとるようにする
 		float timeRate = min((float)startTimer / (float)startTime, 1.0f);
 		//線分補間用座標
 		Vector3 point[3];
-		point[0] = {-30, 50, 0};
-		point[1] = {-30.0f, 50.0f, 200.0f};
-		point[2] = {-30, 300, 200};
+		point[0] = { -30, 50, 0 };
+		point[1] = { -30.0f, 50.0f, 200.0f };
+		point[2] = { -30, 300, 200 };
 
 		//弧を描くように移動させる
 		Vector3 easingPointA = easeIn(point[0], point[1], timeRate);

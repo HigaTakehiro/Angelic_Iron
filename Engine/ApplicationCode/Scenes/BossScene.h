@@ -131,9 +131,11 @@ private: //ÉÅÉìÉoïœêî
 	Sprite* opeNormal[3] = {};
 	Sprite* opeSurprise[3] = {};
 	Sprite* opeSmile[3] = {};
+	Sprite* movieBar[2] = {};
 	DirectX::XMFLOAT2 textWindowSize;
 	DirectX::XMFLOAT2 faceWindowSize;
 	DirectX::XMFLOAT2 operatorSize;
+	DirectX::XMFLOAT2 movieBarPos[2] = {};
 
 	TextDraw* textDraw = nullptr;
 	int textSpeed;

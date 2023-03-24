@@ -10,6 +10,12 @@ void BaseEnemy::OnCollision()
 	}
 }
 
+void BaseEnemy::BombHitCollision()
+{
+	hp = 0;
+	isDamage = true;
+}
+
 void BaseEnemy::Move() {
 	Vector3 enemyPos = enemy->GetPosition();
 
