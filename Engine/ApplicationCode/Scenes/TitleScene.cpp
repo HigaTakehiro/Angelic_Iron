@@ -211,7 +211,7 @@ void TitleScene::Update()
 		manualButton->SetAlpha(initAlpha);
 	}
 
-	if (IsMouseHitSprite(mousePos, closePos, 270, 128)) {
+	if (IsMouseHitSprite(mousePos, closePos, 270, 128) && isManual) {
 		XMFLOAT2 spriteSize = closeSize;
 		spriteSize.x *= 0.9f;
 		spriteSize.y *= 0.9f;
@@ -227,7 +227,7 @@ void TitleScene::Update()
 		close->SetAlpha(initAlpha);
 	}
 
-	if (IsMouseHitSprite(mousePos, allowPos, 64, 64)) {
+	if (IsMouseHitSprite(mousePos, allowPos, 64, 64) && isManual) {
 		XMFLOAT2 spriteSize = allowSize;
 		spriteSize.x *= 0.9f;
 		spriteSize.y *= 0.9f;

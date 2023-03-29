@@ -191,6 +191,7 @@ void RailScene::Initialize() {
 	score = 0;
 	clearTimer = clearTime;
 	faceType = FaceGraphics::OPE_NORMALFACE;
+	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
@@ -936,8 +937,14 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 	XMFLOAT2 targetCheckHitPos = { spritePos.x - player->GetAimPos().x, spritePos.y - player->GetAimPos().y };
 
-	if (IsTargetCheck(spritePos, player->GetAimPos()) && player->GetIsBomb()) {
-		enemy->SetTarget(true);
+	if (IsTargetCheck(spritePos, Reticle::GetIns()->GetPos())) {
+		Reticle::GetIns()->SetIsSelectReticle(true);
+		if (player->GetIsBomb()) {
+			enemy->SetTarget(true);
+		}
+	}
+	else {
+		Reticle::GetIns()->SetIsSelectReticle(false);
 	}
 
 	float spriteRot = 0.0f;
@@ -978,6 +985,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 				startColor,
 				endColor);
 		}
+
 		/*std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 		new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 		particles2d.push_back(std::move(new2DParticle));*/

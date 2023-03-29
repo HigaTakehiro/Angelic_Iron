@@ -55,6 +55,12 @@ public: //メンバ関数
 	void Finalize();
 
 	/// <summary>
+	/// レティクル座標を取得
+	/// </summary>
+	/// <returns>レティクル座標</returns>
+	DirectX::XMFLOAT2 GetPos() { return reticlePos; }
+
+	/// <summary>
 	/// レティクルがボタンまたは敵にあっているフラグを立てる
 	/// </summary>
 	/// <param name="isSelectReticle">レティクルがボタンまたは敵にあっているフラグ</param>
