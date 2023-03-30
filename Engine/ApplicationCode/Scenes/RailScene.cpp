@@ -226,6 +226,7 @@ void RailScene::Update() {
 	AddEffect();
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
+	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	if (!isPause) {
 		//当たり判定チェック
@@ -929,27 +930,18 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 	}
 
 	//ロックオン処理
-	XMVECTOR raticle2D = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
+	XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
 	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	raticle2D = XMVector3TransformCoord(raticle2D, matViewProjectionViewport); //スクリーン座標
+	enemy3dPos = XMVector3TransformCoord(enemy3dPos, matViewProjectionViewport); //スクリーン座標
 
-	DirectX::XMFLOAT2 spritePos = { raticle2D.m128_f32[0], raticle2D.m128_f32[1] };
+	DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
 
-	XMFLOAT2 targetCheckHitPos = { spritePos.x - player->GetAimPos().x, spritePos.y - player->GetAimPos().y };
-
-	if (IsTargetCheck(spritePos, Reticle::GetIns()->GetPos())) {
+	if (IsTargetCheck(enemy2dPos, Reticle::GetIns()->GetPos())) {
 		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (player->GetIsBomb()) {
 			enemy->SetTarget(true);
 		}
 	}
-	else {
-		Reticle::GetIns()->SetIsSelectReticle(false);
-	}
-
-	float spriteRot = 0.0f;
-	const float maxSpriteRot = 360.0f;
-	const DirectX::XMFLOAT3 reticleColor = { 0.8f, 0.4f, 0.4f };
 
 	//敵が死亡したらエフェクトを発生させる
 	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
@@ -985,10 +977,6 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 				startColor,
 				endColor);
 		}
-
-		/*std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-		new2DParticle->Initialize(spritePos, { 50, 50 }, 24, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-		particles2d.push_back(std::move(new2DParticle));*/
 	}
 }
 

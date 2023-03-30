@@ -61,6 +61,12 @@ public: //メンバ関数
 	DirectX::XMFLOAT2 GetPos() { return reticlePos; }
 
 	/// <summary>
+	/// レティクルがボタンまたは敵にあっているフラグを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsSelectReticle() { return isSeletctReticle; }
+
+	/// <summary>
 	/// レティクルがボタンまたは敵にあっているフラグを立てる
 	/// </summary>
 	/// <param name="isSelectReticle">レティクルがボタンまたは敵にあっているフラグ</param>
