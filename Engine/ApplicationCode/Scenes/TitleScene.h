@@ -52,8 +52,6 @@ private: //静的メンバ変数
 	static const int32_t titleOutTime = 40;
 	//ステージ1ボタン表示時間
 	static const int32_t stage1ComeTime = 150;
-	//ステージ2ボタン表示時間
-	static const int32_t stage2ComeTime = 160;
 	//マニュアルボタン表示時間
 	static const int32_t manualComeTime = 170;
 	//マニュアル開く時間
@@ -76,8 +74,6 @@ private: //メンバ変数
 	std::unique_ptr<Sprite> startButton = nullptr;
 	//ステージ1ボタン
 	std::unique_ptr<Sprite> stage1 = nullptr;
-	//ステージ2ボタン
-	std::unique_ptr<Sprite> stage2 = nullptr;
 	//マニュアルボタン
 	std::unique_ptr<Sprite> manualButton = nullptr;
 	//操作説明1
@@ -104,10 +100,6 @@ private: //メンバ変数
 	DirectX::XMFLOAT2 stage1Pos;
 	//ステージ1サイズ
 	DirectX::XMFLOAT2 stage1Size;
-	//ステージ2座標
-	DirectX::XMFLOAT2 stage2Pos;
-	//ステージ2サイズ
-	DirectX::XMFLOAT2 stage2Size;
 	//マニュアルボタン座標
 	DirectX::XMFLOAT2 manualButtonPos;
 	//マニュアルボタンサイズ
@@ -171,8 +163,6 @@ private: //メンバ変数
 	bool isManual;
 	//ステージ1選択フラグ
 	bool isStage1;
-	//ステージ2選択フラグ
-	bool isStage2;
 	//ページ変更フラグ(次のページ)
 	bool isNextPage;
 	//ページ変更フラグ(前のページ)

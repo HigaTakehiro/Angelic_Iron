@@ -15,7 +15,6 @@ void TitleScene::Initialize()
 	titlePos = { 300, 200 };
 	startButtonPos = { 640, 550 };
 	stage1Pos = { -300, 100 };
-	stage2Pos = { -300, 300 };
 	manualButtonPos = { -300, 500 };
 	closePos = { 640, 550 };
 	allowPos = { 1240, 330 };
@@ -31,8 +30,6 @@ void TitleScene::Initialize()
 	startButton->SetAnchorPoint(spriteCenter);
 	stage1 = Sprite::UniquePtrCreate(ImageManager::ImageName::Stage1, stage1Pos);
 	stage1->SetAnchorPoint(spriteCenter);
-	stage2 = Sprite::UniquePtrCreate(ImageManager::ImageName::Stage2, stage2Pos);
-	stage2->SetAnchorPoint(spriteCenter);
 	manualButton = Sprite::UniquePtrCreate(ImageManager::ImageName::ManualButton, manualButtonPos);
 	manualButton->SetAnchorPoint(spriteCenter);
 	manual = Sprite::UniquePtrCreate(ImageManager::ImageName::Manual, manualPos);
@@ -47,7 +44,6 @@ void TitleScene::Initialize()
 
 	startButtonSize = startButton->GetSize();
 	stage1Size = stage1->GetSize();
-	stage2Size = stage2->GetSize();
 	manualButtonSize = manualButton->GetSize();
 	manualSize = { 0, 0 };
 	manualMaxSize = manual->GetSize();
@@ -178,23 +174,6 @@ void TitleScene::Update()
 		stage1->SetAlpha(initAlpha);
 	}
 
-	if (IsMouseHitSprite(mousePos, stage2Pos, 300, 128)) {
-		XMFLOAT2 spriteSize = stage2Size;
-		spriteSize.x *= 0.9f;
-		spriteSize.y *= 0.9f;
-		stage2->SetSize(spriteSize);
-		stage2->SetAlpha(selectAlpha);
-		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
-			isStage2 = true;
-			isStageChoice = true;
-		}
-	}
-	else {
-		stage2->SetSize(stage2Size);
-		stage2->SetAlpha(initAlpha);
-	}
-
 	if (IsMouseHitSprite(mousePos, manualButtonPos, 300, 128)) {
 		XMFLOAT2 spriteSize = manualButtonSize;
 		spriteSize.x *= 0.9f;
@@ -269,13 +248,11 @@ void TitleScene::Update()
 		cameraTargetPos.y = Easing::easeOut((float)stageSelectTimer, (float)stage1ComeTime, 1, cameraTargetPos.y);
 		titlePos.x = Easing::easeInBack((float)stageSelectTimer, (float)titleOutTime, outPos, titlePos.x, 1);
 		stage1Pos.x = Easing::easeIn((float)stageSelectTimer, (float)stage1ComeTime, comePos, stage1Pos.x);
-		stage2Pos.x = Easing::easeIn((float)stageSelectTimer, (float)stage2ComeTime, comePos, stage2Pos.x);
 		manualButtonPos.x = Easing::easeIn((float)stageSelectTimer, (float)manualComeTime, comePos, manualButtonPos.x);
 
 		camera->SetTarget(cameraTargetPos);
 		title->SetPosition(titlePos);
 		stage1->SetPosition(stage1Pos);
-		stage2->SetPosition(stage2Pos);
 		manualButton->SetPosition(manualButtonPos);
 	}
 
@@ -288,7 +265,6 @@ void TitleScene::Update()
 
 		stageSelectTimer = titleOutTime;
 		stage1Pos.x = outPos;
-		stage2Pos.x = outPos;
 		manualButtonPos.x = outPos;
 
 		manualTimer++;
@@ -379,7 +355,6 @@ void TitleScene::Draw()
 
 	if (isStageSelectMenu && !isManual && !isStageChoice) {
 		stage1->Draw();
-		stage2->Draw();
 		manualButton->Draw();
 	}
 
@@ -489,9 +464,6 @@ void TitleScene::SceneChange()
 		if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 			if (isStage1) {
 				SceneManager::SceneChange(SceneManager::Stage1_Rail);
-			}
-			else if (isStage2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
 			}
 		}
 	}
