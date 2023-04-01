@@ -33,8 +33,8 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 		std::string type = object["type"].get<std::string>();
 
 		if (type.compare("MESH") == 0) {
-			stageData->objects.emplace_back(StageData::ObjectData{});
-			StageData::ObjectData& objectData = stageData->objects.back();
+			stageData->stageObjects.emplace_back(StageData::ObjectData{});
+			StageData::ObjectData& objectData = stageData->stageObjects.back();
 
 			if (object.contains("file_name")) {
 				objectData.fileName = object["file_name"];
@@ -49,20 +49,20 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 			nlohmann::json& transform = object["transform"];
 			//平行移動
 			objectData.transform.x = (float)transform["translation"][0];
-			objectData.transform.y = -(float)transform["translation"][1];
+			objectData.transform.y = (float)transform["translation"][1];
 			objectData.transform.z = (float)transform["translation"][2];
 			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][0];
-			objectData.rotation.y = -(float)transform["rotation"][1];
+			objectData.rotation.x = (float)transform["rotation"][0];
+			objectData.rotation.y = (float)transform["rotation"][1];
 			objectData.rotation.z = (float)transform["rotation"][2];
 			//スケーリング
-			objectData.scaling.x = (float)transform["scaling"][1];
-			objectData.scaling.y = (float)transform["scaling"][2];
-			objectData.scaling.z = (float)transform["scaling"][0];
+			objectData.scaling.x = (float)transform["scaling"][0];
+			objectData.scaling.y = (float)transform["scaling"][1];
+			objectData.scaling.z = (float)transform["scaling"][2];
 		}
 	}
 
-	for (auto& objectData : stageData->objects) {
+	for (auto& objectData : stageData->stageObjects) {
 		//仮モデルで生成(後々モデルも読み込むようにする)
 		std::string modelName = objectData.fileName;
 		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
