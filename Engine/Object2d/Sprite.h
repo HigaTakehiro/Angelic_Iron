@@ -170,6 +170,16 @@ public: //メンバ関数
 	/// <param name="alpha"></param>
 	void SetAlpha(float alpha) { this->alpha = alpha; }
 	/// <summary>
+	/// 画像左の補正設定
+	/// </summary>
+	/// <param name="isLeftSizeCorrection"></param>
+	void SetLeftSizeCorrection(bool isLeftSizeCorrection) { this->isLeftSizeCorrection = isLeftSizeCorrection; }
+	/// <summary>
+	/// 画像右の補正設定
+	/// </summary>
+	/// <param name="isRightSizeCorrection"></param>
+	void SetRightSizeCorrection(bool isRightSizeCorrection) { this->isRightSizeCorrection = isRightSizeCorrection; }
+	/// <summary>
 	/// テクスチャ範囲設定
 	/// </summary>
 	/// <param name="texBase">テクスチャ左上座標</param>
@@ -201,6 +211,10 @@ protected: //メンバ変数
 	UINT texNumber = 0;
 	// 大きさ
 	XMFLOAT2 size = { 100, 100 };
+	//左サイズ補正フラグ
+	bool isLeftSizeCorrection = true;
+	//右サイズ補正フラグ
+	bool isRightSizeCorrection = true;
 	// アンカーポイント
 	XMFLOAT2 anchorpoint = { 0.5f, 0.5f };
 	// 左右反転

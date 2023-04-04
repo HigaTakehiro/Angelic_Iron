@@ -50,6 +50,10 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos) {
 	rollingShotTimer = 0;
 	leftHandAngle = 0.0f;
 	rightHandAngle = 180.0f;
+
+	hpBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	hpRedBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+
 }
 
 void FirstBoss::Update(const Vector3& playerPos, const int delayTime)

@@ -7,6 +7,8 @@
 #include "SafeDelete.h"
 #include "EnemyBullet.h"
 #include "MotionMath.h"
+#include "ImageManager.h"
+#include "Sprite.h"
 
 class BossScene;
 class BossScenePlayer;
@@ -126,4 +128,8 @@ protected: //メンバ変数
 	bool isMovie = false;
 	//死亡タイマー
 	int32_t deadTimer;
+	//HPバー
+	Sprite* hpBar;
+	Sprite* hpRedBar;
+	Sprite* hpBarPos;
 };

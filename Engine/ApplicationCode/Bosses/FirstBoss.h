@@ -133,9 +133,13 @@ private: //メンバ変数
 	// 左手
 	Object3d* leftHand;
 	Object3d* leftHandShadow;
+	Sprite* leftHpBar;
+	Sprite* leftHpRedBar;
 	//右手
 	Object3d* rightHand;
 	Object3d* rightHandShadow;
+	Sprite* rightHpBar;
+	Sprite* rightHpRedBar;
 	//左手関連変数
 	Vector3 leftHandPos;
 	Vector3 leftHandScale;
@@ -147,6 +151,7 @@ private: //メンバ変数
 	int32_t leftHandDeadTimer;
 	float leftHandAngle;
 	Vector3 leftHandShadowPos;
+	XMFLOAT2 leftHpBarPos;
 	//右手関連変数
 	Vector3 rightHandPos;
 	Vector3 rightHandScale;
@@ -158,6 +163,7 @@ private: //メンバ変数
 	int32_t rightHandDeadTimer;
 	float rightHandAngle;
 	Vector3 rightHandShadowPos;
+	XMFLOAT2 rightHpBarPos;
 
 	//ムービー関連変数
 	int32_t movieTimer;

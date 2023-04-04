@@ -474,8 +474,14 @@ void Sprite::TransferVertices() {
 	enum { LB, LT, RB, RT };
 
 	//ç∂âEîΩì]
-	float left = (0.0f - anchorpoint.x) * size.x;
-	float right = (1.0f - anchorpoint.x) * size.x;
+	float left = (0.0f - anchorpoint.x);
+	if (isLeftSizeCorrection) {
+		left *= size.x;
+	}
+	float right = (1.0f - anchorpoint.x);
+	if (isRightSizeCorrection) {
+		right *= size.x;
+	}
 	float top = (0.0f - anchorpoint.y) * size.y;
 	float bottom = (1.0f - anchorpoint.y) * size.y;
 	if (isFlipX) {
