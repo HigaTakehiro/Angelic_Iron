@@ -212,7 +212,12 @@ void GameOverScene::SceneChange()
 			switch (SceneManager::GetStageNo())
 			{
 			case 1:
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				if (SceneManager::GetIsBossScene()) {
+					SceneManager::SceneChange(SceneManager::Stage1_Boss);
+				}
+				else {
+					SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				}
 				break;
 			case 2:
 				SceneManager::SceneChange(SceneManager::Stage2_Rail);

@@ -9,6 +9,7 @@ void BossScene::Initialize()
 	camera->SetEye(XMFLOAT3(0, 100, 0));
 	camera->SetTarget(XMFLOAT3(0, 10, 0));
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
+	SceneManager::SetIsBossScene(true);
 
 	for (int i = 0; i < 36; i++) {
 		Vector3 pos = { 0, 20, 0 };
@@ -279,9 +280,11 @@ void BossScene::Update()
 
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
 				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetBossObj(), 1.0f, 100.0f)) {
-					score += 100;
-					firstBoss->OnCollision();
-					playerBullet->OnCollision();
+					if (firstBoss->GetBossHp() > 0) {
+						score += 100;
+						firstBoss->OnCollision();
+						playerBullet->OnCollision();
+					}
 				}
 
 				if (!firstBoss->GetIsLeftHandDead()) {
@@ -408,7 +411,7 @@ void BossScene::Draw()
 		isRoop = false;
 	}
 	else {
-		postEffect->SetMask(1.2f);
+		postEffect->SetMask(0.7f);
 	}
 
 	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -659,9 +662,11 @@ void BossScene::SceneChange()
 		}
 		else if (firstBoss->GetIsDead()) {
 			SceneManager::AddScore(score);
+			SceneManager::SetIsBossScene(false);
 			SceneManager::SceneChange(SceneManager::Result);
 		}
 		else if (isTitleBack) {
+			SceneManager::SetIsBossScene(false);
 			SceneManager::SceneChange(SceneManager::Title);
 		}
 	}

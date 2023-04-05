@@ -5,8 +5,8 @@ SamplerState smp : register(s0); // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-    float blurPower = 0.5f;
-    const int sampleCount = 16;
+    float blurPower = 0.5;
+    const int sampleCount = 8;
     
     blurPower = (time / maxTime);
     if (time >= maxTime / 2.0f)

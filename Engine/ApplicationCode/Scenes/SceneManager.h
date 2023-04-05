@@ -71,6 +71,12 @@ public: //静的メンバ関数
 	static void SetScore(const int score);
 
 	/// <summary>
+	/// ボスシーンフラグをセット
+	/// </summary>
+	/// <param name="isBossScene">ボスシーンフラグ</param>
+	static void SetIsBossScene(const bool isBossScene) { SceneManager::isBossScene = isBossScene; }
+
+	/// <summary>
 	/// ステージ番号取得
 	/// </summary>
 	/// <returns>ステージ番号</returns>
@@ -82,10 +88,17 @@ public: //静的メンバ関数
 	/// <returns>スコア</returns>
 	static int GetScore() { return score; }
 
+	/// <summary>
+	/// ボスシーンフラグを取得
+	/// </summary>
+	/// <returns>ボスシーンフラグ</returns>
+	static bool GetIsBossScene() { return isBossScene; }
+
 private: //静的メンバ変数
 	static BaseScene* nowScene;
 	static int stageNo;
 	static int score;
+	static bool isBossScene;
 
 private: //メンバ変数
 	std::unique_ptr<TextDraw> textDraw;

@@ -638,34 +638,38 @@ void FirstBoss::HPBarUpdate()
 	XMFLOAT2 hpBarPos = { 0.0f, 0.0f };
 
 	//HPバーサイズセット
+	bossHpBarSize.x *= 10.0f;
+	leftHandHpBarSize.x *= 5.0f;
+	rightHandHpBarSize.x *= 5.0f;
+
 	hpRedBar->SetSize(bossHpBarSize);
 	leftHpRedBar->SetSize(leftHandHpBarSize);
 	rightHpRedBar->SetSize(rightHandHpBarSize);
 
-	bossHpBarSize.x = (float)bossMaxHp * (float)(hp / bossMaxHp);
+	bossHpBarSize.x = (float)bossMaxHp * (float)(hp / bossMaxHp) * 10.0f;
 	hpBar->SetSize(bossHpBarSize);
-	leftHandHpBarSize.x = (float)handMaxHp * ((float)leftHandHP / (float)handMaxHp);
+	leftHandHpBarSize.x = (float)handMaxHp * ((float)leftHandHP / (float)handMaxHp) * 5.0f;
 	leftHpBar->SetSize(leftHandHpBarSize);
-	rightHandHpBarSize.x = (float)handMaxHp * ((float)rightHandHP / (float)handMaxHp);
+	rightHandHpBarSize.x = (float)handMaxHp * ((float)rightHandHP / (float)handMaxHp) * 5.0f;
 	rightHpBar->SetSize(rightHandHpBarSize);
 
 	//HPバー座標計算&セット
 	XMVECTOR bossPos = { boss->GetMatWorld().r[3].m128_f32[0], boss->GetMatWorld().r[3].m128_f32[1], boss->GetMatWorld().r[3].m128_f32[2]};
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	bossPos = XMVector3TransformCoord(bossPos, matVPV);
-	hpBarPos = { bossPos.m128_f32[0], bossPos.m128_f32[1] - 100.0f };
+	hpBarPos = { bossPos.m128_f32[0] - 250.0f, bossPos.m128_f32[1] - 300.0f };
 	hpBar->SetPosition(hpBarPos);
 	hpRedBar->SetPosition(hpBarPos);
 
 	XMVECTOR handPos = { leftHand->GetMatWorld().r[3].m128_f32[0], leftHand->GetMatWorld().r[3].m128_f32[1], leftHand->GetMatWorld().r[3].m128_f32[2] };
 	handPos = XMVector3TransformCoord(handPos, matVPV);
-	hpBarPos = { handPos.m128_f32[0], handPos.m128_f32[1] - 100.0f };
+	hpBarPos = { handPos.m128_f32[0] - 100.0f, handPos.m128_f32[1] - 100.0f };
 	leftHpBar->SetPosition(hpBarPos);
 	leftHpRedBar->SetPosition(hpBarPos);
 
 	handPos = { rightHand->GetMatWorld().r[3].m128_f32[0], rightHand->GetMatWorld().r[3].m128_f32[1], rightHand->GetMatWorld().r[3].m128_f32[2] };
 	handPos = XMVector3TransformCoord(handPos, matVPV);
-	hpBarPos = { handPos.m128_f32[0], handPos.m128_f32[1] - 100.0f };
+	hpBarPos = { handPos.m128_f32[0] - 100.0f, handPos.m128_f32[1] - 100.0f };
 	rightHpBar->SetPosition(hpBarPos);
 	rightHpRedBar->SetPosition(hpBarPos);
 }

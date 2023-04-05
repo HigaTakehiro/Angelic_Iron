@@ -61,6 +61,11 @@ public: //メンバ関数
 	/// <returns></returns>
 	Object3d* GetBossObj() { return boss; }
 	/// <summary>
+	/// ボス本体HPを取得
+	/// </summary>
+	/// <returns>ボスHP</returns>
+	float GetBossHp() { return hp; }
+	/// <summary>
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
