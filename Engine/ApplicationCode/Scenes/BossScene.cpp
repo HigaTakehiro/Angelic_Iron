@@ -460,6 +460,7 @@ void BossScene::Draw()
 		textWindow->Draw();
 		faceWindow->Draw();
 		opeNormal[opeAnimeCount]->Draw();
+		firstBoss->SpriteDraw();
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();

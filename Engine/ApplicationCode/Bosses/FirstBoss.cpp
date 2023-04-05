@@ -52,8 +52,31 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos) {
 	rightHandAngle = 180.0f;
 
 	hpBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	hpBar->SetAnchorPoint({ 0.5f, 0.5f });
+	hpBar->SetLeftSizeCorrection(false);
+	hpBar->SetColor({ 0.0f, 0.7f, 0.0f });
 	hpRedBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	hpRedBar->SetAnchorPoint({ 0.5f, 0.5f });
+	hpRedBar->SetLeftSizeCorrection(false);
+	hpRedBar->SetColor({ 0.7f, 0.0f, 0.0f });
 
+	leftHpBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	leftHpBar->SetAnchorPoint({ 0.5f, 0.5f });
+	leftHpBar->SetLeftSizeCorrection(false);
+	leftHpBar->SetColor({ 0.0f, 0.7f, 0.0f });
+	leftHpRedBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	leftHpRedBar->SetAnchorPoint({ 0.5f, 0.5f });
+	leftHpRedBar->SetLeftSizeCorrection(false);
+	leftHpRedBar->SetColor({ 0.7f, 0.0f, 0.0f });
+
+	rightHpBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	rightHpBar->SetAnchorPoint({ 0.5f, 0.5f });
+	rightHpBar->SetLeftSizeCorrection(false);
+	rightHpBar->SetColor({ 0.0f, 0.7f, 0.0f });
+	rightHpRedBar = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	rightHpRedBar->SetAnchorPoint({ 0.5f, 0.5f });
+	rightHpRedBar->SetLeftSizeCorrection(false);
+	rightHpRedBar->SetColor({ 0.7f, 0.0f, 0.0f });
 }
 
 void FirstBoss::Update(const Vector3& playerPos, const int delayTime)
@@ -88,6 +111,7 @@ void FirstBoss::Update(const Vector3& playerPos, const int delayTime)
 		}
 	}
 
+	HPBarUpdate();
 	boss->Update();
 	boss->SetPosition(pos);
 	boss->SetRotation(rot);
@@ -120,6 +144,22 @@ void FirstBoss::Draw()
 	}
 }
 
+void FirstBoss::SpriteDraw()
+{
+	if (!isDead) {
+		hpRedBar->Draw();
+		hpBar->Draw();
+	}
+	if (!isLeftHandDead) {
+		leftHpRedBar->Draw();
+		leftHpBar->Draw();
+	}
+	if (!isRightHandDead) {
+		rightHpRedBar->Draw();
+		rightHpBar->Draw();
+	}
+}
+
 void FirstBoss::Finalize()
 {
 	safe_delete(boss);
@@ -127,6 +167,12 @@ void FirstBoss::Finalize()
 	safe_delete(rightHand);
 	safe_delete(leftHandShadow);
 	safe_delete(rightHandShadow);
+	safe_delete(hpBar);
+	safe_delete(hpRedBar);
+	safe_delete(leftHpBar);
+	safe_delete(leftHpRedBar);
+	safe_delete(rightHpBar);
+	safe_delete(rightHpRedBar);
 }
 
 void FirstBoss::Action()
@@ -558,20 +604,68 @@ void FirstBoss::DeadReaction()
 
 void FirstBoss::LeftHandDeadReaction()
 {
-	leftHandPos.y -= 0.1f;
-	leftHandDeadTimer++;
-	leftHand->SetColor(damageColor);
 	if (leftHandDeadTimer >= leftHandDeadTime) {
 		isLeftHandDead = true;
+	}
+	else {
+		leftHandPos.y -= 0.1f;
+		leftHandDeadTimer++;
+		leftHand->SetColor(damageColor);
 	}
 }
 
 void FirstBoss::RightHandDeadReaction()
 {
-	rightHandPos.y -= 0.1f;
-	rightHandDeadTimer++;
-	rightHand->SetColor(damageColor);
 	if (rightHandDeadTimer >= rightHandDeadTime) {
 		isRightHandDead = true;
 	}
+	else {
+		rightHandPos.y -= 0.1f;
+		rightHandDeadTimer++;
+		rightHand->SetColor(damageColor);
+	}
+}
+
+void FirstBoss::HPBarUpdate()
+{
+	//最大HP(後々外部ファイルで管理するので仮)
+	const int handMaxHp = 50;
+	const int bossMaxHp = 100;
+	//HPバーサイズセット用変数
+	XMFLOAT2 bossHpBarSize = { 100.0f, 20.0f };
+	XMFLOAT2 leftHandHpBarSize = { 50.0f, 20.0f };
+	XMFLOAT2 rightHandHpBarSize = { 50.0f, 20.0f };
+	XMFLOAT2 hpBarPos = { 0.0f, 0.0f };
+
+	//HPバーサイズセット
+	hpRedBar->SetSize(bossHpBarSize);
+	leftHpRedBar->SetSize(leftHandHpBarSize);
+	rightHpRedBar->SetSize(rightHandHpBarSize);
+
+	bossHpBarSize.x = (float)bossMaxHp * (float)(hp / bossMaxHp);
+	hpBar->SetSize(bossHpBarSize);
+	leftHandHpBarSize.x = (float)handMaxHp * ((float)leftHandHP / (float)handMaxHp);
+	leftHpBar->SetSize(leftHandHpBarSize);
+	rightHandHpBarSize.x = (float)handMaxHp * ((float)rightHandHP / (float)handMaxHp);
+	rightHpBar->SetSize(rightHandHpBarSize);
+
+	//HPバー座標計算&セット
+	XMVECTOR bossPos = { boss->GetMatWorld().r[3].m128_f32[0], boss->GetMatWorld().r[3].m128_f32[1], boss->GetMatWorld().r[3].m128_f32[2]};
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	bossPos = XMVector3TransformCoord(bossPos, matVPV);
+	hpBarPos = { bossPos.m128_f32[0], bossPos.m128_f32[1] - 100.0f };
+	hpBar->SetPosition(hpBarPos);
+	hpRedBar->SetPosition(hpBarPos);
+
+	XMVECTOR handPos = { leftHand->GetMatWorld().r[3].m128_f32[0], leftHand->GetMatWorld().r[3].m128_f32[1], leftHand->GetMatWorld().r[3].m128_f32[2] };
+	handPos = XMVector3TransformCoord(handPos, matVPV);
+	hpBarPos = { handPos.m128_f32[0], handPos.m128_f32[1] - 100.0f };
+	leftHpBar->SetPosition(hpBarPos);
+	leftHpRedBar->SetPosition(hpBarPos);
+
+	handPos = { rightHand->GetMatWorld().r[3].m128_f32[0], rightHand->GetMatWorld().r[3].m128_f32[1], rightHand->GetMatWorld().r[3].m128_f32[2] };
+	handPos = XMVector3TransformCoord(handPos, matVPV);
+	hpBarPos = { handPos.m128_f32[0], handPos.m128_f32[1] - 100.0f };
+	rightHpBar->SetPosition(hpBarPos);
+	rightHpRedBar->SetPosition(hpBarPos);
 }

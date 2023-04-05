@@ -29,6 +29,10 @@ public: //メンバ関数
 	/// </summary>
 	void Draw();
 	/// <summary>
+	/// 画像描画処理
+	/// </summary>
+	void SpriteDraw();
+	/// <summary>
 	/// 終了処理
 	/// </summary>
 	void Finalize();
@@ -116,6 +120,10 @@ private: //メンバ関数
 	/// 右手死亡演出
 	/// </summary>
 	void RightHandDeadReaction();
+	/// <summary>
+	/// HPバー座標更新
+	/// </summary>
+	void HPBarUpdate();
 
 private: //静的メンバ変数
 
@@ -151,7 +159,6 @@ private: //メンバ変数
 	int32_t leftHandDeadTimer;
 	float leftHandAngle;
 	Vector3 leftHandShadowPos;
-	XMFLOAT2 leftHpBarPos;
 	//右手関連変数
 	Vector3 rightHandPos;
 	Vector3 rightHandScale;
@@ -163,7 +170,6 @@ private: //メンバ変数
 	int32_t rightHandDeadTimer;
 	float rightHandAngle;
 	Vector3 rightHandShadowPos;
-	XMFLOAT2 rightHpBarPos;
 
 	//ムービー関連変数
 	int32_t movieTimer;

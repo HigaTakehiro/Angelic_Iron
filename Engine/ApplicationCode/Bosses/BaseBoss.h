@@ -32,6 +32,10 @@ public: //メンバ関数
 	/// </summary>
 	virtual void Draw() = 0;
 	/// <summary>
+	/// 画像描画処理
+	/// </summary>
+	virtual void SpriteDraw() = 0;
+	/// <summary>
 	/// 終了処理
 	/// </summary>
 	virtual void Finalize() = 0;
@@ -131,5 +135,4 @@ protected: //メンバ変数
 	//HPバー
 	Sprite* hpBar;
 	Sprite* hpRedBar;
-	Sprite* hpBarPos;
 };
