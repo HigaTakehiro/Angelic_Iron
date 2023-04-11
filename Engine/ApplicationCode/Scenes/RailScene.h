@@ -155,6 +155,11 @@ private: //メンバ関数
 	/// </summary>
 	void Pause();
 
+	/// <summary>
+	/// チュートリアル処理
+	/// </summary>
+	void Tutorial();
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
@@ -232,6 +237,12 @@ private: //メンバ変数
 	Sprite* opeSmile[3] = {};
 	//スコア数字
 	Sprite* scoreNumber[6] = {};
+	//チュートリアルアイコン
+	Sprite* how_to_up_;
+	Sprite* how_to_down_;
+	Sprite* how_to_left_;
+	Sprite* how_to_right_;
+	Sprite* how_to_shot_;
 	//タイトルバックボタンサイズ
 	DirectX::XMFLOAT2 titleBackSize;
 	//ポーズ画面クローズボタンサイズ
@@ -291,6 +302,18 @@ private: //メンバ変数
 	bool isTextWindowOpen;
 	//リスタートフラグ
 	bool isRestart;
+	//チュートリアル完了フラグ
+	bool isMoveUp_;
+	bool isMoveDown_;
+	bool isMoveLeft_;
+	bool isMoveRight_;
+	bool isShot_;
+	//チュートリアルアイコンアルファ値
+	float how_to_up_alpha_;
+	float how_to_down_alpha_;
+	float how_to_left_alpha_;
+	float how_to_right_alpha_;
+	float how_to_shot_alpha_;
 	//エネミー読み込み待機時間
 	int32_t waitTimer;
 	//メッセージデータ読み込み待機時間

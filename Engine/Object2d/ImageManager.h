@@ -47,7 +47,14 @@ public: //‰æ‘œ–¼
 		OPE_SMILE,
 		SceneChangeBar,
 		Bomb,
-		HPBar
+		HPBar,
+		SecondTimer,
+		How_to_Bomb,
+		How_to_Shot,
+		How_to_Up,
+		How_to_Down,
+		How_to_Left,
+		How_to_Right
 	};
 
 public: //ƒƒ“ƒoŠÖ”

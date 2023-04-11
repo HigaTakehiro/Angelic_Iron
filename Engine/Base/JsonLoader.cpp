@@ -33,75 +33,143 @@ void JsonLoader::StageDataLoadandSet(const std::string fileName) {
 		std::string type = object["type"].get<std::string>();
 
 		if (type.compare("MESH") == 0) {
-			stageData->stageObjects.emplace_back(StageData::ObjectData{});
-			StageData::ObjectData& objectData = stageData->stageObjects.back();
+			stageData->stageObjects_.emplace_back(StageData::ObjectData{});
+			StageData::ObjectData& objectData = stageData->stageObjects_.back();
 
 			if (object.contains("file_name")) {
-				objectData.fileName = object["file_name"];
+				objectData.fileName_ = object["file_name"];
 			}
 			if (object["shader_type"] == "Wave") {
-				objectData.isWave = true;
+				objectData.isWave_ = true;
 			}
 			else {
-				objectData.isWave = false;
+				objectData.isWave_ = false;
 			}
 
 			nlohmann::json& transform = object["transform"];
 			//平行移動
-			objectData.transform.x = (float)transform["translation"][0];
-			objectData.transform.y = (float)transform["translation"][1];
-			objectData.transform.z = (float)transform["translation"][2];
+			objectData.transform_.x = (float)transform["translation"][0];
+			objectData.transform_.y = (float)transform["translation"][1];
+			objectData.transform_.z = (float)transform["translation"][2];
 			//回転角
-			objectData.rotation.x = (float)transform["rotation"][0];
-			objectData.rotation.y = (float)transform["rotation"][1];
-			objectData.rotation.z = (float)transform["rotation"][2];
+			objectData.rotation_.x = (float)transform["rotation"][0];
+			objectData.rotation_.y = (float)transform["rotation"][1];
+			objectData.rotation_.z = (float)transform["rotation"][2];
 			//スケーリング
-			objectData.scaling.x = (float)transform["scaling"][0];
-			objectData.scaling.y = (float)transform["scaling"][1];
-			objectData.scaling.z = (float)transform["scaling"][2];
+			objectData.scaling_.x = (float)transform["scaling"][0];
+			objectData.scaling_.y = (float)transform["scaling"][1];
+			objectData.scaling_.z = (float)transform["scaling"][2];
 		}
 	}
 
-	for (auto& objectData : stageData->stageObjects) {
-		//仮モデルで生成(後々モデルも読み込むようにする)
-		std::string modelName = objectData.fileName;
+	for (auto& objectData : stageData->stageObjects_) {
+		std::string modelName = objectData.fileName_;
 		Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
 		Vector3 pos;
-		pos = objectData.transform;
+		pos = objectData.transform_;
 		newObject->SetPosition(pos);
 		Vector3 rot;
-		rot = objectData.rotation;
+		rot = objectData.rotation_;
 		newObject->SetRotation(rot);
 		Vector3 scale;
-		scale = objectData.scaling;
+		scale = objectData.scaling_;
 		newObject->SetScale(scale);
 		newObject->SetAmbient({ 1.0f, 1.0f, 1.0f });
-		if (objectData.isWave == true) {
+		if (objectData.isWave_ == true) {
 			newObject->SetIsWave(true);
 		}
-		allObjects.emplace_back(newObject);
+		allObjects_.emplace_back(newObject);
 	}
 
 	delete(stageData);
 	stageData = nullptr;
 }
 
+void JsonLoader::EnemyDataLoad(const std::string fileName)
+{
+	const std::string fullpath = baseDirectory + fileName + extension;
+
+	std::ifstream file;
+
+	file.open(fullpath);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	file >> enemyJsonData_;
+}
+
+void JsonLoader::EnemyDataUpdate(bool isPause)
+{
+	std::string name = enemyJsonData_["name"].get<std::string>();
+
+	assert(name.compare("scene") == 0);
+
+	EnemyData* enemyData = new EnemyData();
+
+	for (nlohmann::json& object : enemyJsonData_["objects"]) {
+		assert(object.contains("type"));
+
+		std::string type = object["type"].get<std::string>();
+
+		if (type.compare("MESH") == 0) {
+			enemyData->enemyObjects_.emplace_back(EnemyData::EnemyStatus{});
+			EnemyData::EnemyStatus& enemyStatus = enemyData->enemyObjects_.back();
+
+			if (object.contains("file_name")) {
+				enemyStatus.fileName_ = object["file_name"];
+			}
+
+			nlohmann::json& transform = object["transform"];
+			//平行移動
+			enemyStatus.transform_.x = (float)transform["translation"][0];
+			enemyStatus.transform_.y = (float)transform["translation"][1];
+			enemyStatus.transform_.z = (float)transform["translation"][2];
+			//回転角
+			enemyStatus.rotation_.x = (float)transform["rotation"][0];
+			enemyStatus.rotation_.y = (float)transform["rotation"][1];
+			enemyStatus.rotation_.z = (float)transform["rotation"][2];
+			//スケーリング
+			enemyStatus.scaling_.x = (float)transform["scaling"][0];
+			enemyStatus.scaling_.y = (float)transform["scaling"][1];
+			enemyStatus.scaling_.z = (float)transform["scaling"][2];
+		}
+	}
+
+	for (auto& enemyData : enemyData->enemyObjects_) {
+		//std::string modelName = enemyData.fileName_;
+		//Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
+		//Vector3 pos;
+		//pos = enemyData.transform_;
+		//newObject->SetPosition(pos);
+		//Vector3 rot;
+		//rot = enemyData.rotation_;
+		//newObject->SetRotation(rot);
+		//Vector3 scale;
+		//scale = enemyData.scaling_;
+		//newObject->SetScale(scale);
+		//newObject->SetAmbient({ 1.0f, 1.0f, 1.0f });
+		//allEnemies_.emplace_back(newObject);
+	}
+}
+
 void JsonLoader::Update()
 {
 	const float waveTimer = 1200.0f;
-	for (std::unique_ptr<Object3d>& object : allObjects) {
+	for (std::unique_ptr<Object3d>& object : allObjects_) {
 		object->Update(waveTimer);
 	}
 }
 
 void JsonLoader::Draw()
 {
-	for (std::unique_ptr<Object3d>& object : allObjects) {
+	for (std::unique_ptr<Object3d>& object : allObjects_) {
 		object->Draw();
 	}
 }
 
 void JsonLoader::Finalize()
 {
-	allObjects.clear();
+	allObjects_.clear();
+	allEnemies_.clear();
 }

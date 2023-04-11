@@ -35,8 +35,6 @@ void GameOverScene::Initialize()
 	light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light);
 
-
-
 	scoreRollTimer = 0;
 	for (int i = 0; i < 6; i++) {
 		scoreRollPos[i] = { -640, 0 };

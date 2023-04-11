@@ -15,27 +15,27 @@ public:
 	//ステージオブジェクトデータ
 	struct StageData {
 		struct ObjectData {
-			std::string fileName;
-			Vector3 transform;
-			Vector3 rotation;
-			Vector3 scaling;
-			bool isWave;
+			std::string fileName_;
+			Vector3 transform_;
+			Vector3 rotation_;
+			Vector3 scaling_;
+			bool isWave_;
 		};
-		std::vector<ObjectData> stageObjects;
+		std::vector<ObjectData> stageObjects_;
 	};
 
 	struct EnemyData {
 		struct EnemyStatus {
-			std::string fileName;
-			Vector3 transform;
-			Vector3 rotation;
-			Vector3 scaling;
-			int32_t waitTime;
-			int32_t lifeTime;
-			int32_t shotCoolTime;
-			int hp;
+			std::string fileName_;
+			Vector3 transform_;
+			Vector3 rotation_;
+			Vector3 scaling_;
+			int32_t waitTime_;
+			int32_t lifeTime_;
+			int32_t shotCoolTime_;
+			int hp_;
 		};
-		std::vector<EnemyStatus> enemyObjects;
+		std::vector<EnemyStatus> enemyObjects_;
 	};
 
 public:
@@ -82,13 +82,13 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	//ステージオブジェクト
-	std::list<std::unique_ptr<Object3d>> allObjects;
+	std::list<std::unique_ptr<Object3d>> allObjects_;
 	//エネミーオブジェクト
-	std::list<std::unique_ptr<BaseEnemy>> allEnemies;
+	std::list<std::unique_ptr<BaseEnemy>> allEnemies_;
 	//エネミーjsonデータ
-	nlohmann::json enemyJsonData;
+	nlohmann::json enemyJsonData_;
 	//ポップ待機フラグ
-	bool isWait;
+	bool isWait_;
 	//ポップ待機タイマー
-	int32_t waitTimer;
+	int32_t waitTimer_;
 };

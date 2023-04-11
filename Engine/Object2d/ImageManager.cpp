@@ -37,4 +37,11 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(SceneChangeBar, L"Engine/Resources/Images/SceneChangeBar.png");
 	Sprite::LoadTexture(Bomb, L"Engine/Resources/Images/Bomb.png");
 	Sprite::LoadTexture(HPBar, L"Engine/Resources/Images/HPBar.png");
+	Sprite::LoadTexture(SecondTimer, L"Engine/Resources/Images/Bomb_timer.png");
+	Sprite::LoadTexture(How_to_Bomb, L"Engine/Resources/Images/How_to_bomb.png");
+	Sprite::LoadTexture(How_to_Shot, L"Engine/Resources/Images/How_to_shot.png");
+	Sprite::LoadTexture(How_to_Up, L"Engine/Resources/Images/How_to_up.png");
+	Sprite::LoadTexture(How_to_Down, L"Engine/Resources/Images/How_to_down.png");
+	Sprite::LoadTexture(How_to_Left, L"Engine/Resources/Images/How_to_left.png");
+	Sprite::LoadTexture(How_to_Right, L"Engine/Resources/Images/How_to_right.png");
 }

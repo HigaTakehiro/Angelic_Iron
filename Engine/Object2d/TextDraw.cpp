@@ -4,6 +4,7 @@ const std::wstring TextDraw::defaultFont = L"ƒƒCƒŠƒI";
 
 void TextDraw::Initialize() {
 	DirectXSetting::GetIns()->registerSolidColorBrush("white", D2D1::ColorF::White);
+	DirectXSetting::GetIns()->registerSolidColorBrush("orange", D2D1::ColorF::Orange);
 	DirectXSetting::GetIns()->registerTextFormat("meiryo", defaultFont, defaultFontSize);
 }
 

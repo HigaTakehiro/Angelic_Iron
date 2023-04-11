@@ -84,6 +84,27 @@ void RailScene::Initialize() {
 		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		scoreNumber[i]->SetSize({ 32, 32 });
 	}
+	how_to_up_ = Sprite::Create(ImageManager::How_to_Up, { 0, 0 });
+	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_up_->SetSize({ 64.0f, 64.0f });
+	how_to_up_alpha_ = 1.0f;
+	how_to_down_ = Sprite::Create(ImageManager::How_to_Down, { 0, 0 });
+	how_to_down_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_down_->SetSize({ 64.0f, 64.0f });
+	how_to_down_alpha_ = 1.0f;
+	how_to_left_ = Sprite::Create(ImageManager::How_to_Left, { 0, 0 });
+	how_to_left_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_left_->SetSize({ 64.0f, 64.0f });
+	how_to_left_alpha_ = 1.0f;
+	how_to_right_ = Sprite::Create(ImageManager::How_to_Right, { 0, 0 });
+	how_to_right_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_right_->SetSize({ 64.0f, 64.0f });
+	how_to_right_alpha_ = 1.0f;
+	how_to_shot_ = Sprite::Create(ImageManager::How_to_Shot, { 0, 0 });
+	how_to_shot_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_shot_->SetSize({ 64.0f, 64.0f });
+	how_to_shot_alpha_ = 1.0f;
+
 
 	//ライト初期化
 	light = LightGroup::Create();
@@ -242,6 +263,8 @@ void RailScene::Update() {
 		}
 		//ボム攻撃時にスローにする更新処理
 		DelayUpdates();
+		//チュートリアル更新処理
+		Tutorial();
 
 		enemyParticle->Update();
 		bombParticle->Update();
@@ -339,7 +362,11 @@ void RailScene::Draw() {
 			break;
 		}
 	}
-
+	how_to_up_->Draw();
+	how_to_down_->Draw();
+	how_to_left_->Draw();
+	how_to_right_->Draw();
+	how_to_shot_->Draw();
 	player->SpriteDraw();
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -352,7 +379,6 @@ void RailScene::Draw() {
 		titleBack->Draw();
 		back->Draw();
 		restart->Draw();
-
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
@@ -400,6 +426,11 @@ void RailScene::Finalize() {
 	for (int i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
+	safe_delete(how_to_up_);
+	safe_delete(how_to_down_);
+	safe_delete(how_to_left_);
+	safe_delete(how_to_right_);
+	safe_delete(how_to_shot_);
 }
 
 void RailScene::EnemyDataUpdate() {
@@ -1109,6 +1140,63 @@ void RailScene::Pause()
 	else {
 		restart->SetSize(restartSize);
 		restart->SetAlpha(normalAlpha);
+	}
+}
+
+void RailScene::Tutorial()
+{
+	//定数
+	const float iconSlidePos = 100.0f;
+
+	//プレイヤーキャラの画面上の位置を求める
+	XMVECTOR playerPos = { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	playerPos = XMVector3TransformCoord(playerPos, matVPV);
+	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
+
+	//チュートリアルアイコンの座標を求める
+	how_to_up_->SetPosition({ player2dPos.x, player2dPos.y - iconSlidePos });
+	how_to_down_->SetPosition({ player2dPos.x, player2dPos.y + iconSlidePos });
+	how_to_left_->SetPosition({ player2dPos.x - iconSlidePos, player2dPos.y });
+	how_to_right_->SetPosition({ player2dPos.x + iconSlidePos, player2dPos.y });
+	how_to_shot_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
+
+	//チュートリル完了したら透明にする
+	if (KeyInput::GetIns()->TriggerKey(DIK_W)) {
+		isMoveUp_ = true;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
+		isMoveDown_ = true;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_A)) {
+		isMoveLeft_ = true;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_D)) {
+		isMoveRight_ = true;
+	}
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		isShot_ = true;
+	}
+
+	if (isMoveUp_ && how_to_up_alpha_ > 0) {
+		how_to_up_alpha_ -= 0.05f;
+		how_to_up_->SetAlpha(how_to_up_alpha_);
+	}
+	if (isMoveDown_ && how_to_down_alpha_ > 0) {
+		how_to_down_alpha_ -= 0.05f;
+		how_to_down_->SetAlpha(how_to_down_alpha_);
+	}
+	if (isMoveLeft_ && how_to_left_alpha_ > 0) {
+		how_to_left_alpha_ -= 0.05f;
+		how_to_left_->SetAlpha(how_to_left_alpha_);
+	}
+	if (isMoveRight_ && how_to_right_alpha_ > 0) {
+		how_to_right_alpha_ -= 0.05f;
+		how_to_right_->SetAlpha(how_to_right_alpha_);
+	}
+	if (isShot_ && how_to_shot_alpha_ > 0) {
+		how_to_shot_alpha_ -= 0.05f;
+		how_to_shot_->SetAlpha(how_to_shot_alpha_);
 	}
 }
 
