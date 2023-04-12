@@ -26,7 +26,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update(const Vector3& playerPos, const int delayTime = 0) = 0;
+	virtual void Update(const Vector3& playerPos, const int32_t delayTime = 0) = 0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -98,7 +98,7 @@ protected: //静的メンバ変数
 	//ダメージカラー
 	static const DirectX::XMFLOAT4 damageColor;
 	//死亡HP
-	static const int deadHP;
+	static const int32_t deadHP;
 
 protected: //メンバ変数
 	//ボスオブジェクト
@@ -126,9 +126,9 @@ protected: //メンバ変数
 	//回転時間
 	int32_t rotationTimer;
 	//スロー演出用タイマー
-	int delayTimer;
+	int32_t delayTimer;
 	//攻撃パターン
-	int actionPattern;
+	int32_t actionPattern;
 	//ダメージフラグ
 	bool isDamage = false;
 	//死亡フラグ

@@ -129,7 +129,7 @@ void ParticleManager::Update()
 	}
 
 	// 頂点バッファへデータ転送
-	int vertCount = 0;
+	int32_t vertCount = 0;
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
@@ -151,7 +151,7 @@ void ParticleManager::Update()
 	}
 
 	// 定数バッファへデータ転送
-	int constMapCount = 0;
+	int32_t constMapCount = 0;
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->mat = camera->GetMatView() * camera->GetMatProjection();
@@ -196,7 +196,7 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced(drawNum, 1, 0, 0);
 }
 
-void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale, XMFLOAT3 start_Color, XMFLOAT3 end_Color, float start_alpha, float end_alpha)
+void ParticleManager::Add(int32_t life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale, XMFLOAT3 start_Color, XMFLOAT3 end_Color, float start_alpha, float end_alpha)
 {
 	// リストに要素を追加
 	particles.emplace_front();
@@ -425,7 +425,7 @@ void ParticleManager::LoadTexture(const std::string& textureName)
 	const std::string ext = ".png";
 	std::string filePath = directoryPath + textureName + ext;
 	wchar_t wfilepath[128];
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filePath.c_str(), -1, wfilepath, _countof(wfilepath));
+	int32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, filePath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	// WICテクスチャのロード
 	TexMetadata metadata{};

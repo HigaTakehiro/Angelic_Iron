@@ -167,7 +167,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, P
 void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
 
 	//リソースバリアを変更
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		cmdList->ResourceBarrier(1,
 			&CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(),
 				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
@@ -198,7 +198,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
 
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList) {
 	//リソースバリアを変更
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 	}
 }
@@ -210,7 +210,7 @@ void PostEffect::CreateGraphicsPipelineState() {
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		// 頂点シェーダの読み込みとコンパイル
 		result = D3DCompileFromFile(
 			L"Engine/Resources/shaders/PostEffect/PostEffectVS.hlsl",  // シェーダファイル名
@@ -350,7 +350,7 @@ void PostEffect::TexCreate() {
 	);
 
 	//テクスチャバッファの生成
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		result = device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
 			D3D12_HEAP_FLAG_NONE,
@@ -366,7 +366,7 @@ void PostEffect::TexCreate() {
 		const UINT rowPitch = sizeof(UINT) * WinApp::window_width;
 		const UINT depthPicth = rowPitch * WinApp::window_height;
 		UINT* img = new UINT[pixelCount];
-		for (int j = 0; j < pixelCount; j++) { img[j] = 0xff0000ff; }
+		for (int32_t j = 0; j < pixelCount; j++) { img[j] = 0xff0000ff; }
 
 		//テクスチャバッファにデータ転送
 		result = texBuff[i]->WriteToSubresource(0, nullptr, img, rowPitch, depthPicth);
@@ -396,7 +396,7 @@ void PostEffect::SRVCreate() {
 	srvDesc.Texture2D.MipLevels = 1;
 
 	//デスクリプタヒープにSRVを作成
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		device->CreateShaderResourceView(texBuff[i].Get(), &srvDesc, descHeapSRV->GetCPUDescriptorHandleForHeapStart());
 	}
 
@@ -413,7 +413,7 @@ void PostEffect::RTVCreate() {
 	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
 	//デスクリプタヒープにRTV作成
-	for (int i = 0; i < texSize; i++) {
+	for (int32_t i = 0; i < texSize; i++) {
 		device->CreateRenderTargetView(texBuff[i].Get(), nullptr, descHeapRTV->GetCPUDescriptorHandleForHeapStart());
 	}
 }

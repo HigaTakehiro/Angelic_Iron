@@ -23,7 +23,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(const Vector3& playerPos, const int delayTime = 0);
+	void Update(const Vector3& playerPos, const int32_t delayTime = 0);
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -152,7 +152,7 @@ private: //メンバ変数
 	Vector3 leftHandPos;
 	Vector3 leftHandScale;
 	Vector3 leftHandRot;
-	int leftHandHP;
+	int32_t leftHandHP;
 	bool isLeftHandDamage;
 	bool isLeftHandDead;
 	int32_t leftHandDamageTimer;
@@ -163,7 +163,7 @@ private: //メンバ変数
 	Vector3 rightHandPos;
 	Vector3 rightHandScale;
 	Vector3 rightHandRot;
-	int rightHandHP;
+	int32_t rightHandHP;
 	bool isRightHandDamage;
 	bool isRightHandDead;
 	int32_t rightHandDamageTimer;

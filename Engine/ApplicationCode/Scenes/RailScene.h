@@ -26,7 +26,7 @@ class RailScene : public BaseScene
 {
 private: //静的メンバ変数
 	//デバックテキスト用テクスチャ番号
-	static const int debugTextNumber = 0;
+	static const int32_t debugTextNumber = 0;
 
 private: //サブクラス
 	enum FaceGraphics {
@@ -160,6 +160,11 @@ private: //メンバ関数
 	/// </summary>
 	void Tutorial();
 
+	/// <summary>
+	/// ボム攻撃演出
+	/// </summary>
+	void BombPerformance();
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
@@ -176,7 +181,9 @@ private: //静的メンバ変数
 	//テキストウィンドウ開放時間
 	static const int32_t openWindowTime = 120;
 	//ゲームオーバー条件HP
-	static const int noneHP = 0;
+	static const int32_t noneHP = 0;
+	//ボム攻撃時間
+	static const int32_t bombTime = 60 * 5;
 
 private: //メンバ変数
 	//ウィンドウ設定クラス
@@ -237,12 +244,15 @@ private: //メンバ変数
 	Sprite* opeSmile[3] = {};
 	//スコア数字
 	Sprite* scoreNumber[6] = {};
+	//ボム攻撃タイマー数字
+	Sprite* bombTimerNumber[3] = {};
 	//チュートリアルアイコン
 	Sprite* how_to_up_;
 	Sprite* how_to_down_;
 	Sprite* how_to_left_;
 	Sprite* how_to_right_;
 	Sprite* how_to_shot_;
+	Sprite* how_to_bomb_;
 	//タイトルバックボタンサイズ
 	DirectX::XMFLOAT2 titleBackSize;
 	//ポーズ画面クローズボタンサイズ
@@ -275,11 +285,11 @@ private: //メンバ変数
 	//DirectWriteテキスト描画クラス
 	TextDraw* textDraw = nullptr;
 	//テキストスピード
-	int textSpeed;
+	int32_t textSpeed;
 	//テキスト数
-	int textCount;
+	int32_t textCount;
 	//テキスト追加時間
-	int textAddTimer;
+	int32_t textAddTimer;
 
 	//ゲームシーン用変数
 	//プレイヤー死亡フラグ
@@ -308,12 +318,14 @@ private: //メンバ変数
 	bool isMoveLeft_;
 	bool isMoveRight_;
 	bool isShot_;
+	bool isBomb_;
 	//チュートリアルアイコンアルファ値
 	float how_to_up_alpha_;
 	float how_to_down_alpha_;
 	float how_to_left_alpha_;
 	float how_to_right_alpha_;
 	float how_to_shot_alpha_;
+	float how_to_bomb_alpha_;
 	//エネミー読み込み待機時間
 	int32_t waitTimer;
 	//メッセージデータ読み込み待機時間
@@ -335,11 +347,11 @@ private: //メンバ変数
 	//レールカメラ用スプライン指定点格納コンテナ
 	std::vector<Vector3> points;
 	//スコア
-	int score;
+	int32_t score;
 	//顔グラフィックアニメーションタイマー
 	int32_t faceAnimeTimer;
 	//顔グラフィックアニメーション番号
-	int faceAnimeCount;
+	int32_t faceAnimeCount;
 	//顔グラフィックタイプ
 	FaceGraphics faceType;
 	//スロー演出用タイマー

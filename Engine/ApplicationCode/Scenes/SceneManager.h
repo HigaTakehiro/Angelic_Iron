@@ -62,13 +62,13 @@ public: //静的メンバ関数
 	/// スコアを加算
 	/// </summary>
 	/// <param name="score">スコア</param>
-	static void AddScore(const int score);
+	static void AddScore(const int32_t score);
 
 	/// <summary>
 	/// スコアをセット
 	/// </summary>
 	/// <param name="score"></param>
-	static void SetScore(const int score);
+	static void SetScore(const int32_t score);
 
 	/// <summary>
 	/// ボスシーンフラグをセット
@@ -80,13 +80,13 @@ public: //静的メンバ関数
 	/// ステージ番号取得
 	/// </summary>
 	/// <returns>ステージ番号</returns>
-	static int GetStageNo() { return stageNo; }
+	static int32_t GetStageNo() { return stageNo; }
 
 	/// <summary>
 	/// スコア取得
 	/// </summary>
 	/// <returns>スコア</returns>
-	static int GetScore() { return score; }
+	static int32_t GetScore() { return score; }
 
 	/// <summary>
 	/// ボスシーンフラグを取得
@@ -96,8 +96,8 @@ public: //静的メンバ関数
 
 private: //静的メンバ変数
 	static BaseScene* nowScene;
-	static int stageNo;
-	static int score;
+	static int32_t stageNo;
+	static int32_t score;
 	static bool isBossScene;
 
 private: //メンバ変数

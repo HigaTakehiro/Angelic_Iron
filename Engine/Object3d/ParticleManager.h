@@ -76,13 +76,13 @@ public: // サブクラス
 		float e_rotation = 0.0f;
 		float e_alpha = 0.0f;
 		// 現在フレーム
-		int frame = 0;
+		int32_t frame = 0;
 		// 終了フレーム
-		int num_frame = 0;
+		int32_t num_frame = 0;
 	};
 
 private: // 定数
-	static const int vertexCount = 65536;		// 頂点数
+	static const int32_t vertexCount = 65536;		// 頂点数
 
 public: // 静的メンバ関数
 	/// <summary>
@@ -136,7 +136,7 @@ public: // メンバ関数
 	/// <param name="end_color">終了時カラー</param>
 	/// <param name="start_alpha">開始時アルファ値</param>
 	/// <param name="end_alpha">終了時アルファ値</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale = 1.0f, float end_scale = 0.0f, XMFLOAT3 start_color = {1.0f, 1.0f, 1.0f}, XMFLOAT3 end_color = {0.0f, 0.0f, 0.0f}, float start_alpha = 1.0f, float end_alpha = 0.0f);
+	void Add(int32_t life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale = 1.0f, float end_scale = 0.0f, XMFLOAT3 start_color = {1.0f, 1.0f, 1.0f}, XMFLOAT3 end_color = {0.0f, 0.0f, 0.0f}, float start_alpha = 1.0f, float end_alpha = 0.0f);
 
 	/// <summary>
 	/// デスクリプタヒープの初期化

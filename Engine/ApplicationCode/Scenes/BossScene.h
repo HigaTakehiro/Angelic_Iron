@@ -110,7 +110,7 @@ private: //メンバ変数
 	//ポストエフェクト
 	PostEffect* postEffect = nullptr;
 	PostEffect::PostEffectNo postEffectNo;
-	int postEffectTime;
+	int32_t postEffectTime;
 	//ライト
 	LightGroup* light = nullptr;
 	FaceGraphics faceType;
@@ -138,9 +138,9 @@ private: //メンバ変数
 	DirectX::XMFLOAT2 movieBarPos[2] = {};
 
 	TextDraw* textDraw = nullptr;
-	int textSpeed;
-	int textCount;
-	int textAddTimer;
+	int32_t textSpeed;
+	int32_t textCount;
+	int32_t textAddTimer;
 
 	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
 	int32_t openWindowTimer; //ウィンドウ解放時間
@@ -158,7 +158,7 @@ private: //メンバ変数
 	std::wstring message; //メッセージ内容格納文字列
 
 	int32_t opeAnimeTimer;
-	int opeAnimeCount;
+	int32_t opeAnimeCount;
 
 	//BaseBoss* boss;
 	FirstBoss* firstBoss;
@@ -166,7 +166,7 @@ private: //メンバ変数
 	DirectX::XMFLOAT2 titleBackSize;
 	DirectX::XMFLOAT2 backSize;
 	//スコア
-	int score;
+	int32_t score;
 
 	//ポーズフラグ
 	bool isPause;

@@ -56,7 +56,7 @@ private: //メンバ関数
 	/// <param name="startIndex">ポイントを通った時のカウント</param>
 	/// <param name="t">時間</param>
 	/// <returns>座標</returns>
-	Vector3 Spline(const std::vector<Vector3>& points, int startIndex, float t);
+	Vector3 Spline(const std::vector<Vector3>& points, int32_t startIndex, float t);
 
 	/// <summary>
 	/// スプライン補間の移動
@@ -75,7 +75,7 @@ private: //メンバ関数
 
 private: //静的メンバ変数
 	//ダメージエフェクト発生時間
-	static const int damageEffectTime = 20;
+	static const int32_t damageEffectTime = 20;
 
 private: //メンバ変数
 	Vector3 eye; //ワールド座標
@@ -89,7 +89,7 @@ private: //メンバ変数
 
 	float maxTime; //ポイント間を移動する時間
 	float timeRate; //移動した時間を0~1で評価
-	int startIndex = 1; //移動したポイントをカウント
+	int32_t startIndex = 1; //移動したポイントをカウント
 
 	Vector3 initPos; //初期座標
 	Vector3 initRot; //初期回転
@@ -100,6 +100,6 @@ private: //メンバ変数
 	bool isEnd = false; //終点フラグ
 	float delayCount = 0;
 
-	int  damageEffectTimer; //ダメージ演出用タイマー
+	int32_t  damageEffectTimer; //ダメージ演出用タイマー
 };
 

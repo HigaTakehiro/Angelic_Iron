@@ -33,7 +33,7 @@ public:
 			int32_t waitTime_;
 			int32_t lifeTime_;
 			int32_t shotCoolTime_;
-			int hp_;
+			int32_t hp_;
 		};
 		std::vector<EnemyStatus> enemyObjects_;
 	};

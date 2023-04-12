@@ -75,7 +75,7 @@ public: //メンバ関数
 	void SetBlurCenter(DirectX::XMFLOAT2 blurCenter) { this->blurCenter = blurCenter; }
 
 private: //静的メンバ変数
-	static const int texSize = 8;
+	static const int32_t texSize = 8;
 
 public: //メンバ変数
 	//テクスチャバッファ
@@ -98,7 +98,7 @@ private: //静的メンバ変数
 	static const float clearColor[4];
 
 private: //メンバ変数
-	int nowPipelineNo = 0;
+	int32_t nowPipelineNo = 0;
 	float timer = 0.0f;
 	//ブラーが適用されない範囲
 	float mask;

@@ -11,7 +11,7 @@ void BossScene::Initialize()
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 	SceneManager::SetIsBossScene(true);
 
-	for (int i = 0; i < 36; i++) {
+	for (int32_t i = 0; i < 36; i++) {
 		Vector3 pos = { 0, 20, 0 };
 		Vector3 rot = { 0, 270, 0 };
 		Vector3 scale = { 20, 20, 20 };
@@ -53,7 +53,7 @@ void BossScene::Initialize()
 	player->Initialize(camera);
 	player->SetBossScene(this);
 
-	int stageNo = 0;
+	int32_t stageNo = 0;
 	stageNo = SceneManager::GetStageNo();
 	if (stageNo == 1) {
 		LoadTextMessage("Stage1BossText.aid");
@@ -69,7 +69,7 @@ void BossScene::Initialize()
 	faceWindowSize.y = 0;
 	faceWindow->SetAlpha(0.4f);
 	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
 		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeNormal[i]->SetSize({ 160, 160 });
@@ -88,7 +88,7 @@ void BossScene::Initialize()
 		opeSmile[i]->SetColor({ 2, 2, 2 });
 		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
-	for (int i = 0; i < 2; i++) {
+	for (int32_t i = 0; i < 2; i++) {
 		movieBarPos[i] = { 600.0f, 710.0f * (float)i };
 		movieBar[i] = Sprite::Create(ImageManager::SceneChangeBar, movieBarPos[i]);
 		movieBar[i]->SetSize({ 1680, 200 });
@@ -115,7 +115,7 @@ void BossScene::Initialize()
 	scoreText = Sprite::Create(ImageManager::score, { 1180, 50 });
 	scoreText->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreText->SetSize({ scoreText->GetSize().x / 2.0f, scoreText->GetSize().y / 2.0f });
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
 		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
@@ -125,7 +125,7 @@ void BossScene::Initialize()
 	score = 0;
 
 	light = LightGroup::Create();
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		light->SetDirLightActive(0, true);
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(i, false);
@@ -147,8 +147,8 @@ void BossScene::Update()
 	bossBullets.remove_if([](std::unique_ptr<EnemyBullet>& bossBullet) { return bossBullet->IsDead(); });
 	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle2d) {return particle2d->IsDelete(); });
 
-	const int delayTime = 0;
-	const int noneHP = 0;
+	const int32_t delayTime = 0;
+	const int32_t noneHP = 0;
 	const float closeWindowSizeY = 0.0f;
 	const float openWindowSizeY = 160.0f;
 	const Vector3 movieCameraPos = { 240.0f, 30.0f, 0.0f };
@@ -178,7 +178,7 @@ void BossScene::Update()
 			movieBarPos[1].y = Easing::easeIn((float)movieTimer, (float)cameraMoveTime, 900.0f, movieBarPos[1].y);
 			camera->SetEye(cameraPos);
 			camera->SetTarget(cameraTarget);
-			for (int i = 0; i < 2; i++) {
+			for (int32_t i = 0; i < 2; i++) {
 				movieBar[i]->SetPosition(movieBarPos[i]);
 			}
 		}
@@ -192,7 +192,7 @@ void BossScene::Update()
 		isPause = !isPause;
 	}
 
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0 }, { 64, 64 });
 	}
 
@@ -207,7 +207,7 @@ void BossScene::Update()
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
-		for (int i = 0; i < 3; i++) {
+		for (int32_t i = 0; i < 3; i++) {
 			opeNormal[i]->SetSize(operatorSize);
 		}
 	}
@@ -223,7 +223,7 @@ void BossScene::Update()
 
 		textWindow->SetSize(textWindowSize);
 		faceWindow->SetSize(faceWindowSize);
-		for (int i = 0; i < 3; i++) {
+		for (int32_t i = 0; i < 3; i++) {
 			opeNormal[i]->SetSize(operatorSize);
 			opeSurprise[i]->SetSize(operatorSize);
 			opeSmile[i]->SetSize(operatorSize);
@@ -441,11 +441,11 @@ void BossScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (!firstBoss->GetIsMovie()) {
 		scoreText->Draw();
-		for (int i = 0; i < 6; i++) {
+		for (int32_t i = 0; i < 6; i++) {
 			scoreNumber[i]->Draw();
 		}
 	}
-	for (int i = 0; i < 2; i++) {
+	for (int32_t i = 0; i < 2; i++) {
 		if (firstBoss->GetIsMovie()) {
 			movieBar[i]->Draw();
 		}
@@ -500,15 +500,15 @@ void BossScene::Finalize()
 	safe_delete(textDraw);
 	safe_delete(textWindow);
 	safe_delete(faceWindow);
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		safe_delete(opeNormal[i]);
 		safe_delete(opeSurprise[i]);
 		safe_delete(opeSmile[i]);
 	}
-	for (int i = 0; i < 2; i++) {
+	for (int32_t i = 0; i < 2; i++) {
 		safe_delete(movieBar[i]);
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
 }
@@ -638,7 +638,7 @@ void BossScene::TextMessageDraw()
 std::wstring BossScene::StringToWstring(const std::string& text)
 {
 	//•¶ŽšƒTƒCƒY‚ðŽæ“¾
-	int iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
+	int32_t iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
 	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
 	//SJIS‚©‚çwstring‚É•ÏŠ·
 	MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, cpUCS2, iBufferSize);

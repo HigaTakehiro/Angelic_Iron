@@ -9,13 +9,13 @@ class DebugText
 public: //静的メンバ変数
 	//デバッグテキスト用のテクスチャ番号を指定
 	//最大文字数
-	static const int maxCharCount = 256;
+	static const int32_t maxCharCount = 256;
 	//フォント画像内1文字分の幅
-	static const int fontWidth = 9;
+	static const int32_t fontWidth = 9;
 	//フォント画像内1文字分の高さ
-	static const int fontHeight = 18;
+	static const int32_t fontHeight = 18;
 	//フォント画像内1行分の文字数
-	static const int fontLineCount = 14;
+	static const int32_t fontLineCount = 14;
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -45,6 +45,6 @@ private: //メンバ変数
 	//スプライトデータの配列
 	Sprite* spriteDatas[maxCharCount] = {};
 	//スプライトデータ配列の添え字番号
-	int spriteIndex = 0;
+	int32_t spriteIndex = 0;
 };
 

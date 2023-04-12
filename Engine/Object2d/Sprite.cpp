@@ -21,7 +21,7 @@ XMMATRIX Sprite::matProjection;
 ComPtr<ID3D12DescriptorHeap> Sprite::descHeap;
 ComPtr<ID3D12Resource> Sprite::texBuff[srvCount];
 
-bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window_height) {
+bool Sprite::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height) {
 	//nullチェック
 	assert(device);
 

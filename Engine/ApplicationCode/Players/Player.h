@@ -93,7 +93,7 @@ public: //メンバ関数
 	/// 残りHP取得
 	/// </summary>
 	/// <returns></returns>
-	int GetHPCount() { return hpCount; }
+	int32_t GetHPCount() { return hpCount; }
 
 	/// <summary>
 	/// 死亡フラグ取得
@@ -117,12 +117,6 @@ public: //メンバ関数
 	/// <param name="RailScene">ゲームシーン</param>
 	void SetRailScene(RailScene* RailScene) { this->railScene = RailScene; }
 
-	///// <summary>
-	///// エネミーリストをセット
-	///// </summary>
-	///// <param name="enemies"></param>
-	//void SetEnemies(std::list<std::unique_ptr<Enemy>> enemies) { this->enemies; }
-
 	/// <summary>
 	/// ダメージフラグ取得
 	/// </summary>
@@ -134,6 +128,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>ボムフラグ</returns>
 	bool GetIsBomb() { return isBomb; }
+
+	/// <summary>
+	/// ボム攻撃タイマー取得
+	/// </summary>
+	/// <returns>ボム攻撃</returns>
+	int32_t GetBombTimer() { return bombTimer; }
 
 	/// <summary>
 	/// 発射フラグ取得
@@ -186,19 +186,21 @@ private: //メンバ関数
 
 private: //静的メンバ変数
 	//最大残弾数
-	static const int maxBulletCount = 16;
+	static const int32_t maxBulletCount = 16;
 	//最大HP
-	static const int maxHp = 3;
+	static const int32_t maxHp = 3;
 	//リロード時間
-	static const int reloadTime = 20;
+	static const int32_t reloadTime = 20;
 	//弾発射クールタイム
-	static const int shotCoolTime = 10;
+	static const int32_t shotCoolTime = 10;
 	//ダメージエフェクト発生時間
-	static const int damageEffectTime = 40;
+	static const int32_t damageEffectTime = 40;
 	//死亡時演出用時間
 	static const int32_t deadTime = 120;
 	//開始時演出用時間
 	static const int32_t startTime = 60;
+	//ボム攻撃タイマー
+	static const int32_t bombTime = 60 * 5;
 
 private: //メンバ変数
 	Vector3 playerLPos = { 0, 0, 0 };
@@ -228,20 +230,21 @@ private: //メンバ変数
 	Vector3 aimPos3d;
 	Camera* camera;
 	RailScene* railScene;
-	//std::list<std::unique_ptr<Enemy>> enemies;
 
 	//残弾数
-	int bulletCount;
+	int32_t bulletCount;
 	//HP
-	int hpCount;
+	int32_t hpCount;
 	//リロード時間
-	int reloadTimer;
+	int32_t reloadTimer;
 	//弾発射クールタイム
-	int shotCoolTimer;
+	int32_t shotCoolTimer;
+	//ボム攻撃タイマー
+	int32_t bombTimer;
 	//リロードフラグ
 	bool isReload = false;
 	//ダメージエフェクト時間
-	int damageEffectTimer;
+	int32_t damageEffectTimer;
 	//ダメージエフェクト用フラグ
 	bool isDamage = false;
 	//死亡時演出用時間
@@ -261,6 +264,6 @@ private: //メンバ変数
 	//ボムフラグ
 	bool isBomb;
 	//ボム数
-	int bombCount;
+	int32_t bombCount;
 };
 

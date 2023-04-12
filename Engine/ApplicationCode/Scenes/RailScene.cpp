@@ -59,7 +59,7 @@ void RailScene::Initialize() {
 	faceWindow->SetAlpha(0.4f);
 	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
 	faceGraphicSize = { 160, 0 };
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
 		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeNormal[i]->SetSize({ 160, 160 });
@@ -77,8 +77,13 @@ void RailScene::Initialize() {
 		opeSmile[i]->SetSize({ 160, 160 });
 		opeSmile[i]->SetColor({ 2, 2, 2 });
 		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
+
+		bombTimerNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 0.0f, 0.0f });
+		bombTimerNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		bombTimerNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		bombTimerNumber[i]->SetSize({ 32, 32 });
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
 		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
@@ -104,11 +109,14 @@ void RailScene::Initialize() {
 	how_to_shot_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_shot_->SetSize({ 64.0f, 64.0f });
 	how_to_shot_alpha_ = 1.0f;
-
+	how_to_bomb_ = Sprite::Create(ImageManager::How_to_Bomb, { 0, 0 });
+	how_to_bomb_->SetAnchorPoint({ 0.5f, 0.5f });
+	how_to_bomb_->SetSize({ 64.0f, 64.0f });
+	how_to_bomb_alpha_ = 1.0f;
 
 	//ライト初期化
 	light = LightGroup::Create();
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		light->SetDirLightActive(0, true);
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(i, false);
@@ -138,12 +146,12 @@ void RailScene::Initialize() {
 	celetialSphere->SetPosition(spherePos);
 	celetialSphere->SetScale(sphereScale);
 
-	int stageNo;
+	int32_t stageNo;
 	stageNo = SceneManager::GetStageNo();
 
 	//ステージ背景オブジェクト初期化
 	if (stageNo == 1) {
-		for (int i = 0; i < 90; i++) {
+		for (int32_t i = 0; i < 90; i++) {
 			Vector3 pos = { 0, 20, 0 };
 			Vector3 rot = { 0, 270, 0 };
 			Vector3 scale = { 5, 5, 5 };
@@ -239,8 +247,9 @@ void RailScene::Update() {
 		isDead = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
+
 	//スコア表示
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
 	}
 	//エフェクト発生処理
@@ -263,6 +272,7 @@ void RailScene::Update() {
 		}
 		//ボム攻撃時にスローにする更新処理
 		DelayUpdates();
+		BombPerformance();
 		//チュートリアル更新処理
 		Tutorial();
 
@@ -344,8 +354,13 @@ void RailScene::Draw() {
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	scoreSprite->Draw();
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i]->Draw();
+	}
+	for (int32_t i = 0; i < 3; i++) {
+		if (player->GetIsBomb()) {
+			bombTimerNumber[i]->Draw();
+		}
 	}
 	if (!isPause) {
 		textWindow->Draw();
@@ -367,6 +382,9 @@ void RailScene::Draw() {
 	how_to_left_->Draw();
 	how_to_right_->Draw();
 	how_to_shot_->Draw();
+	if (enemies.size() > 0) {
+		how_to_bomb_->Draw();
+	}
 	player->SpriteDraw();
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -418,12 +436,13 @@ void RailScene::Finalize() {
 	safe_delete(textDraw);
 	safe_delete(textWindow);
 	safe_delete(faceWindow);
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		safe_delete(opeNormal[i]);
 		safe_delete(opeSurprise[i]);
 		safe_delete(opeSmile[i]);
+		safe_delete(bombTimerNumber[i]);
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		safe_delete(scoreNumber[i]);
 	}
 	safe_delete(how_to_up_);
@@ -431,6 +450,7 @@ void RailScene::Finalize() {
 	safe_delete(how_to_left_);
 	safe_delete(how_to_right_);
 	safe_delete(how_to_shot_);
+	safe_delete(how_to_bomb_);
 }
 
 void RailScene::EnemyDataUpdate() {
@@ -444,7 +464,7 @@ void RailScene::EnemyDataUpdate() {
 	float moveTime = 120.0f;//2[s]
 	int32_t lifeTime = 240;//4[s]
 	int32_t shotIntervalTime = 60;//1[s]
-	int hp = 1;
+	int32_t hp = 1;
 	bool isPos = false;
 	bool isRot = false;
 	bool isStyle = false;
@@ -590,7 +610,7 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 	bool isTime = false;
 	bool isRot = false;
 	float splineTime = 0;
-	int stringCount = 0;
+	int32_t stringCount = 0;
 
 	while (getline(railcameraPointsData, line)) {
 		std::istringstream line_stream(line);
@@ -771,7 +791,7 @@ void RailScene::TextMessageDraw()
 	//メッセージウィンドウサイズを変更
 	textWindow->SetSize(textWindowSize);
 	faceWindow->SetSize(faceWindowSize);
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		opeNormal[i]->SetSize(faceGraphicSize);
 		opeSurprise[i]->SetSize(faceGraphicSize);
 		opeSmile[i]->SetSize(faceGraphicSize);
@@ -799,6 +819,9 @@ void RailScene::TextMessageDraw()
 	D2D1_RECT_F textDrawPos = {
 		200, 560, 950, 700
 	};
+	D2D1_RECT_F bombMessageDrawPos = {
+		400, 0, 900, 300
+	};
 	//テキストを1文字ずつ指定時間ごとに追加する
 	textAddTimer++;
 	isTextDrawComplete = false;
@@ -820,6 +843,9 @@ void RailScene::TextMessageDraw()
 	}
 	//現在追加されている文字を全て描画する
 	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
+	if (player->GetIsBomb()) {
+		textDraw->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n左クリックで発射可能", bombMessageDrawPos);
+	}
 }
 
 bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
@@ -916,7 +942,7 @@ void RailScene::CollisionCheck()
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 				score += 100;
 				enemy->BombHitCollision();
-				for (int i = 0; i < 10; i++) {
+				for (int32_t i = 0; i < 10; i++) {
 					XMFLOAT3 pos = {
 						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
 						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
@@ -949,7 +975,7 @@ void RailScene::CollisionCheck()
 
 void RailScene::EnemyReactions(BaseEnemy* enemy)
 {
-	const int randMax = 4;
+	const int32_t randMax = 4;
 
 	//敵座標
 	Vector3 enemyPos;
@@ -981,7 +1007,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 		const float endScale = 0.0f;
 		const Vector3 startColor = { 1.0f, 1.0f, 1.0f };
 		const Vector3 endColor = { 1.0f, 0.2f, 0.0f };
-		for (int i = 0; i < 32; i++) {
+		for (int32_t i = 0; i < 32; i++) {
 			const float rnd_vel = 2.0f;
 
 			Vector3 particlePos = enemyPos;
@@ -1021,9 +1047,9 @@ void RailScene::AddEffect()
 	//プレイヤーのHPが1以上ならエフェクトを発生させる
 	if (player->GetHPCount() > noneHP) {
 		//乱数上限
-		const int randMax = 5;
+		const int32_t randMax = 5;
 		//パーティクル生成時間
-		int particleLife = 3;
+		int32_t particleLife = 3;
 		//初期アルファ値
 		Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
 		//最終的なアルファ値
@@ -1034,7 +1060,7 @@ void RailScene::AddEffect()
 		playerPos = XMVector3TransformCoord(playerPos, player->GetPlayerObject()->GetMatWorld());
 		Vector3 thrusterPos = playerPos;
 
-		for (int i = 0; i < 10; i++) {
+		for (int32_t i = 0; i < 10; i++) {
 			float thrusterPower = (float)(rand() % randMax);
 			thrusterPower *= -0.1f;
 			float startScale = (float)(rand() % (randMax - 2));
@@ -1160,6 +1186,7 @@ void RailScene::Tutorial()
 	how_to_left_->SetPosition({ player2dPos.x - iconSlidePos, player2dPos.y });
 	how_to_right_->SetPosition({ player2dPos.x + iconSlidePos, player2dPos.y });
 	how_to_shot_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
+	how_to_bomb_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
 
 	//チュートリル完了したら透明にする
 	if (KeyInput::GetIns()->TriggerKey(DIK_W)) {
@@ -1176,6 +1203,9 @@ void RailScene::Tutorial()
 	}
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 		isShot_ = true;
+	}
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+		isBomb_ = true;
 	}
 
 	if (isMoveUp_ && how_to_up_alpha_ > 0) {
@@ -1197,6 +1227,18 @@ void RailScene::Tutorial()
 	if (isShot_ && how_to_shot_alpha_ > 0) {
 		how_to_shot_alpha_ -= 0.05f;
 		how_to_shot_->SetAlpha(how_to_shot_alpha_);
+	}
+	if (isBomb_ && how_to_bomb_alpha_ > 0) {
+		how_to_bomb_alpha_ -= 0.1f;
+		how_to_bomb_->SetAlpha(how_to_bomb_alpha_);
+	}
+}
+
+void RailScene::BombPerformance()
+{
+	for (int32_t i = 0; i < 3; i++) {
+		bombTimerNumber[i]->SetTextureRect({ (float)JudgeDigitNumber((player->GetBombTimer() * 100 / 60), i), 0.0f}, {64.0f, 64.0f});
+		bombTimerNumber[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f});
 	}
 }
 

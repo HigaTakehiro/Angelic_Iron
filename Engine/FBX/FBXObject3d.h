@@ -21,7 +21,7 @@ protected: //エイリアス
 
 public: //定数
     //ボーンの最大数
-	static const int MAX_BONES = 32;
+	static const int32_t MAX_BONES = 32;
 
 public: //サブクラス
 	//定数バッファ用データ構造体
@@ -107,7 +107,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="isLoop">ループ再生フラグ</param>
 	/// <param name="animeNo">アニメーション番号</param>
-	void PlayAnimation(bool isLoop = true, int animeNo = 0);
+	void PlayAnimation(bool isLoop = true, int32_t animeNo = 0);
 
 	/// <summary>
 	/// アニメーションを停止

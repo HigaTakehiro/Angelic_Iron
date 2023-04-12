@@ -26,7 +26,7 @@ public: //静的メンバ関数
 	/// </summary>
 	/// <param name="window_width">画面横幅</param>
 	/// <param name="window_height">画面縦幅</param>
-	static void InitializeCamera(int window_width, int window_height);
+	static void InitializeCamera(int32_t window_width, int32_t window_height);
 
 	/// <summary>
 	/// ビュー行列を更新

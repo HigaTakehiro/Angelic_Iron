@@ -31,7 +31,7 @@ public: //メンバ関数
 	/// <param name="imageNo">分割画像数</param>
 	/// <param name="texUpperLeft">画像左上/param>
 	/// <param name="texLowerRight">画像右下</param>
-	void Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imageName, XMFLOAT2 anchorPoint = {0, 0}, int imageNo = 0, XMFLOAT2 texUpperLeft = {0, 0}, XMFLOAT2 texLowerRight = {0, 0});
+	void Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imageName, XMFLOAT2 anchorPoint = {0, 0}, int32_t imageNo = 0, XMFLOAT2 texUpperLeft = {0, 0}, XMFLOAT2 texLowerRight = {0, 0});
 
 	/// <summary>
 	/// 更新処理
@@ -55,12 +55,12 @@ private: //メンバ変数
 	int32_t deleteTime; //発生時間
 	XMFLOAT2 texUpperLeft; //連続画像用左上座標
 	XMFLOAT2 texLowerRight; //連続画像用右上座標
-	int imageNo; //分割画像数
+	int32_t imageNo; //分割画像数
 	Sprite* particle; //パーティクル
 
 	int32_t nowTime; //現在時間
 	int32_t drawTime; //1つの画像の描画時間
-	int nowImage; //現在の分割画像
+	int32_t nowImage; //現在の分割画像
 
 
 	bool isDelete; //消滅フラグ

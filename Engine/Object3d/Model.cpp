@@ -387,7 +387,7 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
+	int32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	const std::wstring fileExt = SeparatedExtension(wfilepath);
 
@@ -446,7 +446,7 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	}
 
 	// テクスチャバッファにデータ転送
-	for (int i = 0; i < metadata.mipLevels; i++) {
+	for (int32_t i = 0; i < metadata.mipLevels; i++) {
 		const Image* img = scratchImg.GetImage(i, 0, 0); // 生データ抽出
 
 		result = texbuff->WriteToSubresource(

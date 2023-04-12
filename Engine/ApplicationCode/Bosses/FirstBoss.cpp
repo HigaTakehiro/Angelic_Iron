@@ -79,7 +79,7 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos) {
 	rightHpRedBar->SetColor({ 0.7f, 0.0f, 0.0f });
 }
 
-void FirstBoss::Update(const Vector3& playerPos, const int delayTime)
+void FirstBoss::Update(const Vector3& playerPos, const int32_t delayTime)
 {
 	leftHandShadowPos = leftHand->GetMatWorld().r[3];
 	rightHandShadowPos = rightHand->GetMatWorld().r[3];
@@ -629,8 +629,8 @@ void FirstBoss::RightHandDeadReaction()
 void FirstBoss::HPBarUpdate()
 {
 	//最大HP(後々外部ファイルで管理するので仮)
-	const int handMaxHp = 50;
-	const int bossMaxHp = 100;
+	const int32_t handMaxHp = 50;
+	const int32_t bossMaxHp = 100;
 	//HPバーサイズセット用変数
 	XMFLOAT2 bossHpBarSize = { 100.0f, 20.0f };
 	XMFLOAT2 leftHandHpBarSize = { 50.0f, 20.0f };

@@ -152,9 +152,9 @@ private: //メンバ変数
 	//カメラ注視点
 	Vector3 cameraTargetPos;
 	//ページ番号
-	int pageNumber;
+	int32_t pageNumber;
 	//前ページ番号
-	int prePageNumber;
+	int32_t prePageNumber;
 	//ステージ選択画面フラグ
 	bool isStageSelectMenu;
 	//ステージ選択フラグ

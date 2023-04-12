@@ -46,7 +46,7 @@ public: // サブクラス
 	struct Chunk
 	{
 		char	id[4]; // チャンク毎のID
-		int		size;  // チャンクサイズ
+		int32_t		size;  // チャンクサイズ
 	};
 
 	// RIFFヘッダチャンク

@@ -4,7 +4,7 @@ Particle2d::~Particle2d() {
 	safe_delete(particle);
 }
 
-void Particle2d::Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imagename, XMFLOAT2 anchorPoint, int imageNo, XMFLOAT2 texUpperLeft, XMFLOAT2 texLowerRight) {
+void Particle2d::Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imagename, XMFLOAT2 anchorPoint, int32_t imageNo, XMFLOAT2 texUpperLeft, XMFLOAT2 texLowerRight) {
 	this->pos = pos;
 	particle = Sprite::Create(imagename, pos);
 	particle->SetSize(scale);

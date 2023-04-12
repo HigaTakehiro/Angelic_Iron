@@ -18,7 +18,7 @@ public: //メンバ関数
 	/// <param name="map_Width">横幅</param>
 	/// <param name="map_Height">縦幅</param>
 	/// <returns>マップチップ</returns>
-	int** MapLoad(const std::string& mapname, int map_width, int map_height);
+	int32_t** MapLoad(const std::string& mapname, int32_t map_width, int32_t map_height);
 
 	/// <summary>
 	/// マップチップのセット
@@ -28,7 +28,7 @@ public: //メンバ関数
 	/// <param name="map_Height">縦幅</param>
 	/// <param name="height">マップの高さ(0なら地面)</param>
 	/// <returns>マップチップをオブジェクトにセット</returns>
-	std::vector<Object3d*> MapSet(int** map, int map_Width, int map_Height, int height);
+	std::vector<Object3d*> MapSet(int32_t** map, int32_t map_Width, int32_t map_Height, int32_t height);
 
 	/// <summary>
 	/// マップチップの解放
@@ -38,7 +38,7 @@ public: //メンバ関数
 private: //メンバ変数
 	//ブロック一個分の大きさ
 	//const float LAND_SCALE = 30.0f;
-	int** map;
+	int32_t** map;
 
 	Model* blockModel = nullptr;
 };

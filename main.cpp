@@ -15,9 +15,9 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t)
 {
-	const int debugTextNumber = 0;
+	const int32_t debugTextNumber = 0;
 
 	//ポインタ置き場
 	WinApp* winApp = nullptr;

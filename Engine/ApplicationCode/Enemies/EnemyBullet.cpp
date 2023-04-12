@@ -22,7 +22,7 @@ void EnemyBullet::Initialize(const Vector3& pos, const Vector3& velocity, bool i
 }
 
 void EnemyBullet::Update() {
-	const int timeOver = 0;
+	const int32_t timeOver = 0;
 
 	if (--lifeTimer <= timeOver) {
 		isDead = true;

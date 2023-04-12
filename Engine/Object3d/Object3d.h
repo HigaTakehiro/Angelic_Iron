@@ -50,7 +50,7 @@ public: // 静的メンバ関数
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
 	/// <returns>成否</returns>
-	static bool StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static bool StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height);
 
 	/// <summary>
 	/// 描画前処理
@@ -80,7 +80,7 @@ private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
 	//頂点シェーダー数
-	static const int vsSize = 2;
+	static const int32_t vsSize = 2;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList;
 	// ルートシグネチャ

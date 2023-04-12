@@ -52,7 +52,7 @@ private: //メンバ関数
 	///// <param name="score">判定したいスコア</param>
 	///// <param name="place">判定したいスコアの位</param>
 	///// <returns></returns>
-	//ScoreNumber JudgeDigitNumber(int score, int digit);
+	//ScoreNumber JudgeDigitNumber(int32_t score, int32_t digit);
 
 	/// <summary>
 	/// シーン切り替え処理

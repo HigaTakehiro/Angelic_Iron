@@ -48,8 +48,8 @@ void RailCamera::Update() {
 	UpdateMatWorld();
 }
 
-Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int startIndex, float t) {
-	int n = (int)points.size() - 2;
+Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int32_t startIndex, float t) {
+	int32_t n = (int32_t)points.size() - 2;
 
 	if (startIndex > n) return points[n];
 	if (startIndex < 1) return points[1];
@@ -145,7 +145,7 @@ void RailCamera::UpdateMatWorld() {
 }
 
 void RailCamera::DamageCameraEffect() {
-	const int damageEffectTimeOver = 0;
+	const int32_t damageEffectTimeOver = 0;
 	static Vector3 oldPos;
 
 	if (oldPos.x == 0 && oldPos.y == 0 && oldPos.z == 0) {

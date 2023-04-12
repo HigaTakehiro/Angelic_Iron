@@ -112,5 +112,5 @@ private: //メンバ変数
 	//FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
 	//コントロールポイントデータ
-	std::vector<std::vector<int>> controlPoints;
+	std::vector<std::vector<int32_t>> controlPoints;
 };

@@ -48,7 +48,7 @@ public:
 	friend class FbxLoader;
 
 public: //定数
-	static const int MAX_BONE_INDICES = 4;
+	static const int32_t MAX_BONE_INDICES = 4;
 
 public: //サブクラス
 	//頂点データ構造体

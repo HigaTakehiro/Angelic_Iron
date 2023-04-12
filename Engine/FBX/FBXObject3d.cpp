@@ -35,7 +35,7 @@ void FBXObject3d::Initialize() {
 	//定数バッファの転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBufferSkin->Map(0, nullptr, (void**)&constMapSkin);
-	for (int i = 0; i < MAX_BONES; i++) {
+	for (int32_t i = 0; i < MAX_BONES; i++) {
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 	constBufferSkin->Unmap(0, nullptr);
@@ -247,11 +247,11 @@ void FBXObject3d::Update() {
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBufferSkin->Map(0, nullptr, (void**)&constMapSkin);
 
-	for (int i = 0; i < MAX_BONES; i++) {
+	for (int32_t i = 0; i < MAX_BONES; i++) {
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 
-	for (int i = 0; i < bones.size(); i++) {
+	for (int32_t i = 0; i < bones.size(); i++) {
 		//今の姿勢行列
 		XMMATRIX matCurrentPose;
 		//今の姿勢行列を取得
@@ -299,7 +299,7 @@ void FBXObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 	model->Draw(cmdList);
 }
 
-void FBXObject3d::PlayAnimation(bool isLoop, int animeNo) {
+void FBXObject3d::PlayAnimation(bool isLoop, int32_t animeNo) {
 	FbxScene* fbxScene = model->GetFbxScene();
 	//指定した番号のアニメーション取得
 	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(animeNo);

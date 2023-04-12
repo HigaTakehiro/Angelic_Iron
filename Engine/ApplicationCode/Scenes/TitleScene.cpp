@@ -52,7 +52,7 @@ void TitleScene::Initialize()
 	startTimer = 0;
 
 	light = LightGroup::UniquePtrCreate();
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		light->SetDirLightActive(0, true);
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(i, false);
@@ -401,9 +401,9 @@ void TitleScene::SceneChange()
 			postEffectNo = PostEffect::DASH;
 			//パーティクルを発生させる
 			//乱数上限
-			const int randMax = 18;
+			const int32_t randMax = 18;
 			//パーティクル生成時間
-			int particleLife = 3;
+			int32_t particleLife = 3;
 			//加速度
 			Vector3 acc = { 0.0f, 0.0f, 0.0f };
 			//初期アルファ値
@@ -418,7 +418,7 @@ void TitleScene::SceneChange()
 			playerPos = XMVector3TransformCoord(playerPos, titlePlayer->GetMatWorld());
 			Vector3 thrusterPos = playerPos;
 
-			for (int i = 0; i < 10; i++) {
+			for (int32_t i = 0; i < 10; i++) {
 				float thrusterPower = (float)(rand() % randMax);
 				thrusterPower *= -0.1f;
 				float startScale = (float)(rand() % (randMax - 2));

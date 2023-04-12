@@ -36,7 +36,7 @@ public: //静的メンバ関数
 	/// <param name="device">デバイス</param>
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
-	static bool StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static bool StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height);
 	/// <summary>
 	/// テクスチャ読み込み
 	/// </summary>
@@ -79,9 +79,9 @@ public: //静的メンバ関数
 
 protected: //静的メンバ変数
 	//テクスチャの最大枚数
-	static const int srvCount = 512;
+	static const int32_t srvCount = 512;
 	//頂点数
-	static const int vertNum = 4;
+	static const int32_t vertNum = 4;
 	//デバイス
 	static ID3D12Device* device;
 	//デスクリプタサイズ

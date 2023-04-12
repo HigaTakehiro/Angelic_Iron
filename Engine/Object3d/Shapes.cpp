@@ -17,7 +17,7 @@ Model* Shapes::CreateTriangle(const XMFLOAT2& vertices_1, const XMFLOAT2& vertic
 
     std::vector<Model::VertexPosNormalUv> vertices;
     std::vector<unsigned short> indices;
-    for (int i = 0; i < 3; i++) {
+    for (int32_t i = 0; i < 3; i++) {
         vertices.emplace_back(verticesTriangle[i]);
         indices.emplace_back(indicesTriangle[i]);
     }
@@ -43,12 +43,12 @@ Model* Shapes::CreateSquare(XMFLOAT2 upperLeft, XMFLOAT2 lowerBottom, const std:
     };
 
     std::vector<Model::VertexPosNormalUv> vertices;
-    for (int i = 0; i < 4; i++) {
+    for (int32_t i = 0; i < 4; i++) {
         vertices.emplace_back(verticesSquare[i]);
     }
 
     std::vector<unsigned short> indices;
-    for (int i = 0; i < 6; i++) {
+    for (int32_t i = 0; i < 6; i++) {
         indices.emplace_back(indicesSquare[i]);
     }
 

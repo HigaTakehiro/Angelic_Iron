@@ -21,7 +21,7 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate[] = {};
 LightGroup* Object3d::light = nullptr;
 
-bool Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+bool Object3d::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	// nullptrチェック
 	assert(device);
@@ -103,7 +103,7 @@ bool Object3d::InitializeGraphicsPipeline()
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
-	for (int i = 0; i < vsSize; i++) {
+	for (int32_t i = 0; i < vsSize; i++) {
 		//頂点シェーダーの読み込み
 		if (i == Normal) {
 			LoadVS(L"Engine/Resources/shaders/Object3d/obj/OBJVertexShader.hlsl", vsBlob);

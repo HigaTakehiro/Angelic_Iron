@@ -209,7 +209,7 @@ Quaternion quaternion(const XMMATRIX& m) {
 		result.w = fourD / 4.0f;
 		return result;
 	}
-	int i = 0;
+	int32_t i = 0;
 	if (m.r[0].m128_f32[0] <= m.r[1].m128_f32[1]) {
 		i = 1;
 	}
@@ -217,8 +217,8 @@ Quaternion quaternion(const XMMATRIX& m) {
 		i = 2;
 	}
 
-	int j = (i + 1) % 3;
-	int k = (j + 1) % 3;
+	int32_t j = (i + 1) % 3;
+	int32_t k = (j + 1) % 3;
 	tr = m.r[i].m128_f32[i] - m.r[j].m128_f32[j] - m.r[k].m128_f32[k] + 1.0f;
 	float fourD = 2.0f * sqrt(tr);
 	float qa[4];

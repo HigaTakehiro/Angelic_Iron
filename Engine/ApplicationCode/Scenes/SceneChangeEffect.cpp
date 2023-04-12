@@ -25,7 +25,7 @@ void SceneChangeEffect::Initialize()
 	//シーン切り替えスプライトY座標ずらし
 	const float sceneChangeShiftY = 72.0f;
 
-	for (int i = 0; i < 10; i++) {
+	for (int32_t i = 0; i < 10; i++) {
 		if (sceneChangeEffectsPos[i].x == 0.0f) {
 			sceneChangeEffectsPos[i].x = sceneChangeEffectInitPosX + sceneChangeShiftX * i;
 			sceneChangeEffectsPos[i].y = sceneChangeShiftY * i;
@@ -48,14 +48,14 @@ void SceneChangeEffect::Update()
 
 void SceneChangeEffect::Draw()
 {
-	for (int i = 0; i < 10; i++) {
+	for (int32_t i = 0; i < 10; i++) {
 		sceneChangeEffects[i]->Draw();
 	}
 }
 
 void SceneChangeEffect::Finalize()
 {
-	for (int i = 0; i < 10; i++) {
+	for (int32_t i = 0; i < 10; i++) {
 		safe_delete(sceneChangeEffects[i]);
 	}
 }
@@ -76,7 +76,7 @@ void SceneChangeEffect::SceneChangePerformance()
 		sceneChangeTimer = 0;
 	}
 	//スプライト座標を更新する
-	for (int i = 0; i < 10; i++) {
+	for (int32_t i = 0; i < 10; i++) {
 		sceneChangeEffectsPos[i].x = Easing::easeIn((float)sceneChangeTimer, (float)sceneChangeTime, targetPosX, sceneChangeEffectsPos[i].x);
 		sceneChangeEffects[i]->SetPosition(sceneChangeEffectsPos[i]);
 	}
@@ -103,7 +103,7 @@ void SceneChangeEffect::SceneChangeCompletePerformance()
 		sceneChangeTimer = 0;
 	}
 	//スプライト座標を更新する
-	for (int i = 0; i < 10; i++) {
+	for (int32_t i = 0; i < 10; i++) {
 		sceneChangeEffectsPos[i].x = Easing::easeOut((float)sceneChangeTimer,
 			(float)sceneChangeTime, sceneChangeInitPosX + (sceneChangeShiftX * i),
 			sceneChangeEffectsPos[i].x

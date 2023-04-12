@@ -12,7 +12,7 @@ void GameOverScene::Initialize()
 	camera->SetTarget(cameraTargetPos);
 
 	score = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumbers[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 		scoreNumbers[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers[i]->SetSize({ 64, 64 });
@@ -27,7 +27,7 @@ void GameOverScene::Initialize()
 	restartSize.y /= 2;
 
 	light = LightGroup::Create();
-	for (int i = 0; i < 3; i++) {
+	for (int32_t i = 0; i < 3; i++) {
 		light->SetDirLightActive(i, false);
 		light->SetPointLightActive(i, false);
 		light->SetSpotLightActive(0, true);
@@ -36,7 +36,7 @@ void GameOverScene::Initialize()
 	Object3d::SetLight(light);
 
 	scoreRollTimer = 0;
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreRollPos[i] = { -640, 0 };
 	}
 
@@ -84,10 +84,10 @@ void GameOverScene::Update()
 	camera->SetTarget(cameraTargetPos);
 	resultPlayer->SetPosition(playerPos);
 
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreRollPos[i].x = Easing::easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumbers[i]->SetTextureRect(scoreRollPos[i], scoreSize);
 	}
 
@@ -133,7 +133,7 @@ void GameOverScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	score->Draw();
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		scoreNumbers[i]->Draw();
 	}
 	if (!isSelectedButton) {
@@ -164,7 +164,7 @@ void GameOverScene::Finalize()
 	safe_delete(titleBack);
 	safe_delete(restart);
 	safe_delete(light);
-	for (int i = 0; i < 6; i++) {
+	for (int32_t i = 0; i < 6; i++) {
 		safe_delete(scoreNumbers[i]);
 	}
 }

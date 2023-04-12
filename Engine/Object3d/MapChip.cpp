@@ -9,11 +9,11 @@ void MapChip::MapChipInitialize() {
 	blockModel = Model::CreateModel("Block");
 }
 
-int** MapChip::MapLoad(const std::string& mapname, int map_width, int map_height) {
+int32_t** MapChip::MapLoad(const std::string& mapname, int32_t map_width, int32_t map_height) {
 
-	map = (int**)malloc(sizeof(int*) * map_height); //â°
-	map[0] = (int*)malloc(map_width * map_height * sizeof(int)); //èc
-	for (int i = 0; i < map_height; i++) {
+	map = (int32_t**)malloc(sizeof(int32_t*) * map_height); //â°
+	map[0] = (int32_t*)malloc(map_width * map_height * sizeof(int32_t)); //èc
+	for (int32_t i = 0; i < map_height; i++) {
 		map[i] = map[0] + i * map_width;
 	}
 
@@ -23,8 +23,8 @@ int** MapChip::MapLoad(const std::string& mapname, int map_width, int map_height
 	//àÍçsÇ∏Ç¬ì«Ç›çûÇﬁ
 	FILE* fp;
 	fopen_s(&fp, mapfile, "r");
-	for (int i = 0; i < map_height; i++) {
-		for (int j = 0; j < map_width; j++) {
+	for (int32_t i = 0; i < map_height; i++) {
+		for (int32_t j = 0; j < map_width; j++) {
 			fscanf_s(fp, "%d,", &map[i][j]);
 		}
 	}
@@ -34,7 +34,7 @@ int** MapChip::MapLoad(const std::string& mapname, int map_width, int map_height
 	return map;
 }
 
-std::vector<Object3d*> MapChip::MapSet(int** map, int map_width, int map_height, int height) {
+std::vector<Object3d*> MapChip::MapSet(int32_t** map, int32_t map_width, int32_t map_height, int32_t height) {
 	const float LAND_SCALE = 30.0f;
 
 	std::vector<Object3d*> objects;
@@ -44,10 +44,10 @@ std::vector<Object3d*> MapChip::MapSet(int** map, int map_width, int map_height,
 		blockModel,
 	};
 
-	for (int i = 0; i < map_height; i++) {
-		for (int j = 0; j < map_width; j++) {
+	for (int32_t i = 0; i < map_height; i++) {
+		for (int32_t j = 0; j < map_width; j++) {
 
-			int modelIndex = map[i][j];
+			int32_t modelIndex = map[i][j];
 
 			if (modeltable[modelIndex] != nullptr) {
 				Object3d* object = Object3d::Create(modeltable[modelIndex]);

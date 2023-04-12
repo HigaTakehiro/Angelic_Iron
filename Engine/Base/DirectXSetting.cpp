@@ -114,14 +114,14 @@ void DirectXSetting::InitializeDev() {
 	std::vector<ComPtr<IDXGIAdapter1>> adapters;
 	// ここに特定の名前を持つアダプターオブジェクトが入る
 	ComPtr<IDXGIAdapter1> tmpAdapter = nullptr;
-	for (int i = 0;
+	for (int32_t i = 0;
 		dxgiFactory->EnumAdapters1(i, &tmpAdapter) != DXGI_ERROR_NOT_FOUND;
 		i++)
 	{
 		adapters.push_back(tmpAdapter); // 動的配列に追加する
 	}
 
-	for (int i = 0; i < adapters.size(); i++)
+	for (int32_t i = 0; i < adapters.size(); i++)
 	{
 		DXGI_ADAPTER_DESC1 adesc;
 		adapters[i]->GetDesc1(&adesc);  // アダプターの情報を取得
@@ -151,7 +151,7 @@ void DirectXSetting::InitializeDev() {
 
 	D3D_FEATURE_LEVEL featureLevel;
 
-	for (int i = 0; i < _countof(levels); i++)
+	for (int32_t i = 0; i < _countof(levels); i++)
 	{
 		// 採用したアダプターでデバイスを生成
 		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(&dev));
@@ -237,7 +237,7 @@ void DirectXSetting::CreateD2DRenderdTarget()
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
 			static_cast<float>(dpi));
 
-	for (int i = 0; i < 2; i++) {
+	for (int32_t i = 0; i < 2; i++) {
 		ComPtr<ID3D11Resource> wrappedBackBuffer = nullptr;
 		result = id3d11On12Device->CreateWrappedResource(
 			backBuffers[i].Get(),
@@ -296,7 +296,7 @@ void DirectXSetting::InitializeRenderTarget() {
 	dev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&rtvHeaps));
 	// 裏表の２つ分について
 	backBuffers.resize(2);
-	for (int i = 0; i < 2; i++)
+	for (int32_t i = 0; i < 2; i++)
 	{
 		// スワップチェーンからバッファを取得
 		result = swapchain->GetBuffer(i, IID_PPV_ARGS(&backBuffers[i]));

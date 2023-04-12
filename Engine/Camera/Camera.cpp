@@ -13,7 +13,7 @@ XMMATRIX Camera::matBillboard = XMMatrixIdentity();
 XMMATRIX Camera::matBillboardY = XMMatrixIdentity();
 bool Camera::isMatWorldCalc = false;
 
-void Camera::InitializeCamera(int window_width, int window_height)
+void Camera::InitializeCamera(int32_t window_width, int32_t window_height)
 {
 	// ƒrƒ…[s—ñ‚Ì¶¬
 	UpdateViewMatrix();

@@ -44,6 +44,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	shotCoolTimer = 0;
 
 	bombCount = 3;
+	bombTimer = bombTime;
 
 	this->clearTime = clearTime;
 	clearTimer = this->clearTime;
@@ -120,14 +121,14 @@ void Player::Update(bool isClear) {
 		}
 
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK) && bombCount > 0) {
-			isBomb = !isBomb;
-			for (std::unique_ptr<BaseEnemy>& enemy : railScene->GetEnemyObj()) {
-				enemy->SetTarget(false);
-			}
+			isBomb = true;
 		}
 
-		if (isBomb && MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			BombShot();
+		if (isBomb) {
+			bombTimer--;
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) || bombTimer <= 0) {
+				BombShot();
+			}
 		}
 
 		if (isDamage) {
@@ -274,6 +275,8 @@ void Player::Shot() {
 }
 
 void Player::BombShot() {
+	bombTimer = bombTime;
+
 	for (std::unique_ptr<BaseEnemy>& enemy : railScene->GetEnemyObj()) {
 		if (enemy->GetIsTarget()) {
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();

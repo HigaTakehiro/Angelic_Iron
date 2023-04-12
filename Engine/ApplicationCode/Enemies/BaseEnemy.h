@@ -66,7 +66,7 @@ public: //メンバ関数
 	/// HP取得
 	/// </summary>
 	/// <returns>HP</returns>
-	int GetHP() { return hp; }
+	int32_t GetHP() { return hp; }
 	/// <summary>
 	/// レールシーンをセット
 	/// </summary>
@@ -101,7 +101,7 @@ public: //メンバ関数
 	/// HPをセット
 	/// </summary>
 	/// <param name="hp">HP</param>
-	void SetHP(int hp) { this->hp = hp; }
+	void SetHP(int32_t hp) { this->hp = hp; }
 	/// <summary>
 	/// 移動するポイントをセット
 	/// </summary>
@@ -176,11 +176,11 @@ protected: //メンバ変数
 	//評価時間
 	float timeRate;
 	//移動完了したポイント
-	int movedPoint = 0;
+	int32_t movedPoint = 0;
 	//プレイヤーのポインタ
 	Player* player;
 	//体力
-	int hp;
+	int32_t hp;
 	//プレイヤーの座標
 	Vector3 playerPos;
 	//生存時間

@@ -49,7 +49,7 @@ public: //メンバ関数
 	/// HP取得
 	/// </summary>
 	/// <returns>HP</returns>
-	int GetHPCount() { return hpCount; }
+	int32_t GetHPCount() { return hpCount; }
 	/// <summary>
 	/// ダメージフラグ取得
 	/// </summary>
@@ -132,13 +132,13 @@ private: //静的メンバ変数
 	//弾発射間隔
 	static const int32_t shotCoolTime;
 	//最大残弾数
-	static const int maxBulletCount = 16;
+	static const int32_t maxBulletCount = 16;
 	//最大HP
-	static const int maxHp = 3;
+	static const int32_t maxHp = 3;
 	//リロード時間
 	static const int32_t reloadTime;
 	//最大ブースト回数
-	static const int maxBoostCount = 3;
+	static const int32_t maxBoostCount = 3;
 	//ブースト回復時間
 	static const float boostReloadTime;
 	//ダメージ時間
@@ -189,9 +189,9 @@ private: //メンバ変数
 	//弾発射フラグ
 	bool isShot;
 	//弾数
-	int bulletCount;
+	int32_t bulletCount;
 	//HP
-	int hpCount;
+	int32_t hpCount;
 	//リロードフラグ
 	bool isReload;
 	//ブースト回復フラグ
@@ -199,7 +199,7 @@ private: //メンバ変数
 	//ブースト回復時間
 	float boostReloadTimer;
 	//ブースト数
-	int boostCount;
+	int32_t boostCount;
 	//リロード時間
 	int32_t reloadTimer;
 	//レティクル座標

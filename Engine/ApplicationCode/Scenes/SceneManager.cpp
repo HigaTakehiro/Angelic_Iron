@@ -3,8 +3,8 @@
 #include "Reticle.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
-int SceneManager::stageNo = 1;
-int SceneManager::score = 0;
+int32_t SceneManager::stageNo = 1;
+int32_t SceneManager::score = 0;
 bool SceneManager::isBossScene = false;
 
 void SceneManager::Initialize() {
@@ -42,11 +42,11 @@ void SceneManager::Finalize() {
 	ShowCursor(true);
 }
 
-void SceneManager::AddScore(const int score) {
+void SceneManager::AddScore(const int32_t score) {
 	SceneManager::score += score;
 }
 
-void SceneManager::SetScore(const int score)
+void SceneManager::SetScore(const int32_t score)
 {
 	SceneManager::score = score;
 }

@@ -20,9 +20,9 @@ public: //メンバ関数
 
 private: //静的メンバ変数
 	//デフォルトフォントサイズ
-	static const int defaultFontSize = 32;
+	static const int32_t defaultFontSize = 32;
 	//デフォルトフォント横幅
-	static const int defaultFontWeight = 1000;
+	static const int32_t defaultFontWeight = 1000;
 	//デフォルトフォント
 	static const std::wstring defaultFont;
 

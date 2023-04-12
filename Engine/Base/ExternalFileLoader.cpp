@@ -33,7 +33,7 @@ std::stringstream ExternalFileLoader::ExternalFileOpen(const std::string& fileNa
 std::wstring ExternalFileLoader::StringToWstring(const std::string& text)
 {
 	//•¶ŽšƒTƒCƒY‚ðŽæ“¾
-	int iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
+	int32_t iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
 	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
 	//SJIS‚©‚çwstring‚É•ÏŠ·
 	MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, cpUCS2, iBufferSize);

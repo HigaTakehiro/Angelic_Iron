@@ -19,7 +19,7 @@ void BulletCase::Initialize(const Vector3& pos, const Vector3& velocity, const V
 
 void BulletCase::Update()
 {
-	const int timeOver = 0;
+	const int32_t timeOver = 0;
 
 	if (--lifeTimer <= timeOver) {
 		isDead = true;

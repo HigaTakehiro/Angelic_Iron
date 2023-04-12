@@ -11,13 +11,13 @@ bool BaseScene::IsMouseHitSprite(DirectX::XMFLOAT2 mousePos, DirectX::XMFLOAT2 s
 	return spriteUpperLeft.x <= mousePos.x && spriteLowerRight.x >= mousePos.x && spriteUpperLeft.y <= mousePos.y && spriteLowerRight.y >= mousePos.y;
 }
 
-BaseScene::ScoreNumber BaseScene::JudgeDigitNumber(int score, int digit)
+BaseScene::ScoreNumber BaseScene::JudgeDigitNumber(int32_t score, int32_t digit)
 {
 	if (score >= 1000000) {
 		return nine;
 	}
 
-	int num = (score / (int)pow(10, digit)) % 10;
+	int32_t num = (score / (int32_t)pow(10, digit)) % 10;
 
 	return (ScoreNumber)(64 * num);
 }

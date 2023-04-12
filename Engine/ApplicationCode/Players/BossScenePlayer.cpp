@@ -27,17 +27,17 @@ void BossScenePlayer::Initialize(Camera* camera)
 
 	aimPos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	playerUI = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
-	for (int i = 0; i < maxHp; i++) {
+	for (int32_t i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
 		hpUiXPos -= (float)(i * 87);
 		hpUI[i] = Sprite::Create(ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
 	}
-	for (int i = 0; i < maxBulletCount; i++) {
+	for (int32_t i = 0; i < maxBulletCount; i++) {
 		float bulletUiPos = 1242.0f;
 		bulletUiPos -= (float)(i * 16);
 		bulletUI[i] = Sprite::Create(ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
 	}
-	for (int i = 0; i < maxBoostCount; i++) {
+	for (int32_t i = 0; i < maxBoostCount; i++) {
 		float boostUIPos = 1198.0f;
 		boostUIPos -= (float)(i * 87);
 		boostUI[i] = Sprite::Create(ImageManager::Boost, { boostUIPos, 616 });
@@ -78,7 +78,7 @@ void BossScenePlayer::Initialize(Camera* camera)
 void BossScenePlayer::Update()
 {
 	const float lowerLimit = -10.0f;
-	const int noneHP = 0;
+	const int32_t noneHP = 0;
 
 	camera->SetTarget({ 0.0f, 0.0f, 0.0f });
 	camera->SetEye(cameraPos);
@@ -117,13 +117,13 @@ void BossScenePlayer::Draw()
 void BossScenePlayer::SpriteDraw()
 {
 	playerUI->Draw();
-	for (int i = 0; i < hpCount; i++) {
+	for (int32_t i = 0; i < hpCount; i++) {
 		hpUI[i]->Draw();
 	}
-	for (int i = 0; i < bulletCount; i++) {
+	for (int32_t i = 0; i < bulletCount; i++) {
 		bulletUI[i]->Draw();
 	}
-	for (int i = 0; i < maxBoostCount; i++) {
+	for (int32_t i = 0; i < maxBoostCount; i++) {
 		boostUI[i]->Draw();
 	}
 	if (isReload) {
@@ -135,13 +135,13 @@ void BossScenePlayer::Finalize() {
 	safe_delete(player);
 	safe_delete(gun);
 	safe_delete(playerUI);
-	for (int i = 0; i < maxHp; i++) {
+	for (int32_t i = 0; i < maxHp; i++) {
 		safe_delete(hpUI[i]);
 	}
-	for (int i = 0; i < maxBulletCount; i++) {
+	for (int32_t i = 0; i < maxBulletCount; i++) {
 		safe_delete(bulletUI[i]);
 	}
-	for (int i = 0; i < maxBoostCount; i++) {
+	for (int32_t i = 0; i < maxBoostCount; i++) {
 		safe_delete(boostUI[i]);
 	}
 	safe_delete(reloadUI);
@@ -216,13 +216,13 @@ void BossScenePlayer::Move() {
 void BossScenePlayer::Dash()
 {
 	const float moveAngle = 50.0f;
-	const int noneBoost = 0;
+	const int32_t noneBoost = 0;
 
 	if (boostCount < maxBoostCount) {
 		const float maxAlpha = 1.0f;
 		const float lowerAlpha = 0.1f;
 		float alpha = 0;
-		int alphaBoost = 2;
+		int32_t alphaBoost = 2;
 		boostReloadTimer++;
 		alpha = boostReloadTimer / boostReloadTime;
 		if (alpha < lowerAlpha) {
@@ -311,7 +311,7 @@ void BossScenePlayer::Jump()
 
 void BossScenePlayer::AimUpdate()
 {
-	const int noneBullet = 0;
+	const int32_t noneBullet = 0;
 
 	aimPos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
