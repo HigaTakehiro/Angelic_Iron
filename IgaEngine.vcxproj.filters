@@ -164,83 +164,86 @@
     <ClCompile Include="Engine\Audio\SoundManager.cpp">
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Bosses\BaseBoss.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Bosses\FirstBoss.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\CameraMove\RailCamera.cpp">
-      <Filter>ソース ファイル\ApplicationCode\CameraMove</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Enemies\BaseEnemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Enemies\EnemyBullet.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Enemies\HomingEnemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Enemies\StraightEnemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BossScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\GameOverScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\RailScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneManager.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\TitleScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Players\Bomb.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Players\BossScenePlayer.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Players\Player.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Players\PlayerBullet.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Effects\BulletCase.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Effects\Particle2d.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Maths\MotionMath.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\JsonLoader.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\ExternalFileLoader.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    <ClCompile Include="ApplicationCode\Bosses\FirstBoss.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    <ClCompile Include="ApplicationCode\CameraMove\RailCamera.cpp">
+      <Filter>ソース ファイル\ApplicationCode\CameraMove</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ApplicationCode\Players\Reticle.cpp">
+    <ClCompile Include="ApplicationCode\Effects\BulletCase.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Effects\Particle2d.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\BaseEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\EnemyBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Players\Bomb.cpp">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Players\BossScenePlayer.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Players\Player.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Players\Reticle.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\BossScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\GameOverScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\RailScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\ResultScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\SceneManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object3d\ShadowMap.cpp">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,86 +346,86 @@
     <ClInclude Include="Engine\Audio\SoundManager.h">
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Bosses\BaseBoss.h">
-      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Bosses\FirstBoss.h">
-      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\CameraMove\RailCamera.h">
-      <Filter>ソース ファイル\ApplicationCode\CameraMove</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Enemies\BaseEnemy.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Enemies\EnemyBullet.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Enemies\HomingEnemy.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Enemies\StraightEnemy.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BossScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\GameOverScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\RailScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\ResultScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneManager.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\TitleScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Players\Bomb.h">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Players\BossScenePlayer.h">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Players\Player.h">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Players\PlayerBullet.h">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Effects\BulletCase.h">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Effects\Particle2d.h">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Maths\MotionMath.h">
-      <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\JsonLoader.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\ExternalFileLoader.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h">
+      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h">
+      <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ApplicationCode\Players\Reticle.h">
+    <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h">
+      <Filter>ソース ファイル\ApplicationCode\CameraMove</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Effects\BulletCase.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Effects\Particle2d.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\BaseEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\EnemyBullet.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Maths\MotionMath.h">
+      <Filter>ソース ファイル\ApplicationCode\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Players\Bomb.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Light\ShadowMap.h">
-      <Filter>ソース ファイル\Light</Filter>
+    <ClInclude Include="ApplicationCode\Players\BossScenePlayer.h">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Players\Player.h">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Players\PlayerBullet.h">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Players\Reticle.h">
+      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\BaseScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\BossScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\GameOverScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\RailScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\ResultScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\SceneManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\TitleScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object3d\ShadowMap.h">
+      <Filter>ソース ファイル\Object3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

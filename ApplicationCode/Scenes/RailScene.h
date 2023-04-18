@@ -19,6 +19,7 @@
 #include "ParticleManager.h"
 #include "TextDraw.h"
 #include "BulletCase.h"
+#include "JsonLoader.h"
 
 class Player;
 
@@ -212,8 +213,8 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Bomb>> bombs;
 	//薬莢リスト
 	std::list<std::unique_ptr<BulletCase>> bulletCases;
-	//ビルリスト
-	std::list<std::unique_ptr<Object3d>> buildings;
+	//jsonローダー
+	std::unique_ptr<JsonLoader> jsonLoader;
 	//ボム用パーティクル
 	ParticleManager* bombParticle;
 	//敵用パーティクル
@@ -266,18 +267,6 @@ private: //メンバ変数
 	//顔グラフィックサイズ
 	DirectX::XMFLOAT2 faceGraphicSize;
 
-	//天球オブジェクト
-	Object3d* celetialSphere = nullptr;
-	//地面オブジェクト
-	Object3d* ground = nullptr;
-	//地面座標
-	Vector3 groundPos = { 0, 0, 0 };
-	//地面の大きさ
-	Vector3 groundScale = { 1, 1, 1 };
-	//天球座標
-	Vector3 spherePos = { 0, 0, 0 };
-	//天球の大きさ
-	Vector3 sphereScale = { 10, 10, 10 };
 	//ライトオブジェクト
 	LightGroup* light = nullptr;
 

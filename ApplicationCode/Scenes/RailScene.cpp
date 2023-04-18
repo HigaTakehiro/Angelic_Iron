@@ -130,60 +130,16 @@ void RailScene::Initialize() {
 	Object3d::SetLight(light);
 
 	//3dオブジェクト初期化
-	if (SceneManager::GetStageNo() == 1) {
-		ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
-	}
-	else if (SceneManager::GetStageNo() == 2) {
-		ground = Object3d::Create(ModelManager::GetIns()->GetModel("wave"));
-	}
-	groundPos = { 0, -50, 0 };
-	ground->SetPosition(groundPos);
-	groundScale = { 10, 10, 10 };
-	ground->SetScale(groundScale);
-	ground->SetAmbient({ 1, 1, 1 });
-
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
-	celetialSphere->SetPosition(spherePos);
-	celetialSphere->SetScale(sphereScale);
-
 	int32_t stageNo;
 	stageNo = SceneManager::GetStageNo();
 
 	//ステージ背景オブジェクト初期化
+	jsonLoader = std::make_unique<JsonLoader>();
+
 	if (stageNo == 1) {
-		for (int32_t i = 0; i < 90; i++) {
-			Vector3 pos = { 0, 20, 0 };
-			Vector3 rot = { 0, 270, 0 };
-			Vector3 scale = { 5, 5, 5 };
-			float angle = 20;
-			float length = 100;
-			if (i > 17) {
-				angle = 25;
-				length = 200;
-			}
-			if (i > 35) {
-				angle = 20;
-				length = 300;
-			}
-			if (i > 53) {
-				angle = 22;
-				length = 400;
-			}
-			if (i > 71) {
-				angle = 20;
-				length = 500;
-			}
-			pos = MotionMath::CircularMotion({ 0, 0, 0 }, pos, angle * i, length, MotionMath::Y);
-			pos.y = (float)(rand() % 20 - 40);
-			rot.y -= angle * i;
-			std::unique_ptr<Object3d> newBuilding;
-			newBuilding = (std::unique_ptr<Object3d>)Object3d::Create(ModelManager::GetIns()->GetModel("building"));
-			newBuilding->SetPosition(pos);
-			newBuilding->SetRotation(rot);
-			newBuilding->SetScale(scale);
-			buildings.push_back(std::move(newBuilding));
-		}
+		jsonLoader->StageDataLoadandSet("stage1");
 	}
+
 
 	//プレイヤー初期化
 	player = new Player;
@@ -262,11 +218,6 @@ void RailScene::Update() {
 		//当たり判定チェック
 		CollisionCheck();
 		//オブジェクト更新処理
-		celetialSphere->Update();
-		ground->Update();
-		for (std::unique_ptr<Object3d>& building : buildings) {
-			building->Update();
-		}
 		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 			enemy->RockOnPerformance();
 		}
@@ -288,6 +239,7 @@ void RailScene::Update() {
 	}
 
 	light->Update();
+	jsonLoader->Update();
 
 	//シーン切り替え処理
 	SceneChangeEffect::GetIns()->Update();
@@ -321,9 +273,7 @@ void RailScene::Draw() {
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	ground->Draw();
-	celetialSphere->Draw();
-
+	jsonLoader->Draw();
 	if (!isDead) {
 		player->ObjectDraw();
 	}
@@ -338,9 +288,6 @@ void RailScene::Draw() {
 	}
 	for (std::unique_ptr<Bomb>& bomb : bombs) {
 		bomb->Draw();
-	}
-	for (std::unique_ptr<Object3d>& building : buildings) {
-		building->Draw();
 	}
 	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
 		bulletCase->Draw();
@@ -381,10 +328,10 @@ void RailScene::Draw() {
 	how_to_down_->Draw();
 	how_to_left_->Draw();
 	how_to_right_->Draw();
-	how_to_shot_->Draw();
 	if (enemies.size() > 0) {
 		how_to_bomb_->Draw();
 	}
+	how_to_shot_->Draw();
 	player->SpriteDraw();
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->SpriteDraw();
@@ -418,8 +365,6 @@ void RailScene::Draw() {
 void RailScene::Finalize() {
 	player->Finalize();
 	safe_delete(player);
-	safe_delete(ground);
-	safe_delete(celetialSphere);
 	safe_delete(camera);
 	safe_delete(railCamera);
 	safe_delete(postEffect);
@@ -451,6 +396,7 @@ void RailScene::Finalize() {
 	safe_delete(how_to_right_);
 	safe_delete(how_to_shot_);
 	safe_delete(how_to_bomb_);
+	jsonLoader->Finalize();
 }
 
 void RailScene::EnemyDataUpdate() {
@@ -1173,6 +1119,14 @@ void RailScene::Tutorial()
 {
 	//定数
 	const float iconSlidePos = 100.0f;
+
+	if (enemies.size() > 0) {
+		isMoveUp_ = true;
+		isMoveDown_ = true;
+		isMoveLeft_ = true;
+		isMoveRight_ = true;
+		isShot_ = true;
+	}
 
 	//プレイヤーキャラの画面上の位置を求める
 	XMVECTOR playerPos = { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };

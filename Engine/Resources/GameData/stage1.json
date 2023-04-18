@@ -16,19 +16,21 @@
                     0.0
                 ],
                 "scaling": [
-                    5.0,
-                    5.0,
-                    5.0
+                    10.0,
+                    10.0,
+                    10.0
                 ]
             },
-            "file_name": "ground"
+            "file_name": "ground",
+            "shader_type": "default",
+            "object_type": "stage_object"
         },
         {
             "type": "MESH",
             "name": "Sphere001",
             "transform": {
                 "translation": [
-                    0.0,
+                    50.0,
                     0.0,
                     0.0
                 ],
@@ -38,25 +40,27 @@
                     0.0
                 ],
                 "scaling": [
-                    5.0,
-                    5.0,
-                    5.0
+                    10.0,
+                    10.0,
+                    10.0
                 ]
             },
-            "file_name": "celetialSphere"
+            "file_name": "celetialSphere",
+            "shader_type": "default",
+            "object_type": "stage_object"
         },
         {
             "type": "MESH",
             "name": "Bill_立方体.003",
             "transform": {
                 "translation": [
-                    90.0,
-                    -20.0,
-                    0.0
+                    250.66357421875,
+                    20.0,
+                    -31.588150024414062
                 ],
                 "rotation": [
                     0.0,
-                    90.0,
+                    -45.0,
                     0.0
                 ],
                 "scaling": [
@@ -65,7 +69,4041 @@
                     5.0
                 ]
             },
-            "file_name": "building"
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.001",
+            "transform": {
+                "translation": [
+                    225.57643127441406,
+                    20.0,
+                    -61.58815002441406
+                ],
+                "rotation": [
+                    0.0,
+                    -40.33177185058594,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.002",
+            "transform": {
+                "translation": [
+                    194.87098693847656,
+                    20.0,
+                    -81.58815002441406
+                ],
+                "rotation": [
+                    0.0,
+                    -15.000001907348633,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.015",
+            "transform": {
+                "translation": [
+                    267.07354736328125,
+                    20.0,
+                    -113.65213775634766
+                ],
+                "rotation": [
+                    0.0,
+                    -36.27462387084961,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.014",
+            "transform": {
+                "translation": [
+                    239.43914794921875,
+                    20.0,
+                    -136.8111572265625
+                ],
+                "rotation": [
+                    0.0,
+                    -21.274614334106445,
+                    0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.013",
+            "transform": {
+                "translation": [
+                    293.614990234375,
+                    20.0,
+                    -80.55303192138672
+                ],
+                "rotation": [
+                    0.0,
+                    -51.27461242675781,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.018",
+            "transform": {
+                "translation": [
+                    309.2081298828125,
+                    20.0,
+                    -159.04981994628906
+                ],
+                "rotation": [
+                    0.0,
+                    -36.94832992553711,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.017",
+            "transform": {
+                "translation": [
+                    281.84796142578125,
+                    20.0,
+                    -182.5321502685547
+                ],
+                "rotation": [
+                    0.0,
+                    -21.94832992553711,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.016",
+            "transform": {
+                "translation": [
+                    335.35858154296875,
+                    20.0,
+                    -125.64092254638672
+                ],
+                "rotation": [
+                    0.0,
+                    -51.94832992553711,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.019",
+            "transform": {
+                "translation": [
+                    203.70823669433594,
+                    20.0,
+                    -146.9122314453125
+                ],
+                "rotation": [
+                    0.0,
+                    -6.474150657653809,
+                    0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.020",
+            "transform": {
+                "translation": [
+                    251.41830444335938,
+                    20.0,
+                    -200.9861297607422
+                ],
+                "rotation": [
+                    0.0,
+                    -9.545650482177734,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.021",
+            "transform": {
+                "translation": [
+                    209.02696228027344,
+                    20.0,
+                    -208.5340576171875
+                ],
+                "rotation": [
+                    0.0,
+                    -5.588090896606445,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.010",
+            "transform": {
+                "translation": [
+                    160.98410034179688,
+                    20.0,
+                    -88.85862731933594
+                ],
+                "rotation": [
+                    0.0,
+                    1.7331433296203613,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.011",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -150.4075164794922
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.012",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -212.14834594726562
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.004",
+            "transform": {
+                "translation": [
+                    272.66058349609375,
+                    20.0,
+                    7.598109245300293
+                ],
+                "rotation": [
+                    0.0,
+                    -88.59691619873047,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.005",
+            "transform": {
+                "translation": [
+                    326.590576171875,
+                    20.0,
+                    5.096819877624512
+                ],
+                "rotation": [
+                    0.0,
+                    -88.59691619873047,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.006",
+            "transform": {
+                "translation": [
+                    390.69232177734375,
+                    20.0,
+                    5.096819877624512
+                ],
+                "rotation": [
+                    0.0,
+                    -88.59691619873047,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.007",
+            "transform": {
+                "translation": [
+                    315.974853515625,
+                    20.0,
+                    -38.91659927368164
+                ],
+                "rotation": [
+                    0.0,
+                    -67.19152069091797,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.008",
+            "transform": {
+                "translation": [
+                    362.60760498046875,
+                    20.0,
+                    -81.24236297607422
+                ],
+                "rotation": [
+                    0.0,
+                    -69.40509033203125,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.009",
+            "transform": {
+                "translation": [
+                    383.20611572265625,
+                    20.0,
+                    -41.269290924072266
+                ],
+                "rotation": [
+                    0.0,
+                    -81.87493896484375,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.063",
+            "transform": {
+                "translation": [
+                    15.03302001953125,
+                    20.0,
+                    -48.115760803222656
+                ],
+                "rotation": [
+                    0.0,
+                    47.16034698486328,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.062",
+            "transform": {
+                "translation": [
+                    -6.2913818359375,
+                    20.0,
+                    -18.31485366821289
+                ],
+                "rotation": [
+                    0.0,
+                    72.49214935302734,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.061",
+            "transform": {
+                "translation": [
+                    46.10200500488281,
+                    20.0,
+                    -71.8661880493164
+                ],
+                "rotation": [
+                    0.0,
+                    42.49212646484375,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.060",
+            "transform": {
+                "translation": [
+                    86.2132568359375,
+                    20.0,
+                    -92.12751770019531
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.059",
+            "transform": {
+                "translation": [
+                    86.07412719726562,
+                    20.0,
+                    -146.11526489257812
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.058",
+            "transform": {
+                "translation": [
+                    88.87898254394531,
+                    20.0,
+                    -210.15562438964844
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.057",
+            "transform": {
+                "translation": [
+                    41.63836669921875,
+                    20.0,
+                    -137.43557739257812
+                ],
+                "rotation": [
+                    0.0,
+                    20.30059814453125,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.056",
+            "transform": {
+                "translation": [
+                    1.39361572265625,
+                    20.0,
+                    -185.87571716308594
+                ],
+                "rotation": [
+                    0.0,
+                    18.0870418548584,
+                    0.0
+                ],
+                "scaling": [
+                    4.999999523162842,
+                    5.0,
+                    4.999999523162842
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.055",
+            "transform": {
+                "translation": [
+                    42.229705810546875,
+                    20.0,
+                    -204.70541381835938
+                ],
+                "rotation": [
+                    0.0,
+                    5.617192268371582,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.054",
+            "transform": {
+                "translation": [
+                    -15.037689208984375,
+                    20.0,
+                    15.221442222595215
+                ],
+                "rotation": [
+                    0.0,
+                    89.22529602050781,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.053",
+            "transform": {
+                "translation": [
+                    -76.54364013671875,
+                    20.0,
+                    12.89423656463623
+                ],
+                "rotation": [
+                    0.0,
+                    88.32304382324219,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.052",
+            "transform": {
+                "translation": [
+                    -138.22532653808594,
+                    20.0,
+                    10.192683219909668
+                ],
+                "rotation": [
+                    0.0,
+                    88.32304382324219,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.051",
+            "transform": {
+                "translation": [
+                    -0.93658447265625,
+                    20.0,
+                    -116.91901397705078
+                ],
+                "rotation": [
+                    0.0,
+                    36.21751022338867,
+                    0.0
+                ],
+                "scaling": [
+                    4.999999523162842,
+                    5.0,
+                    4.999999523162842
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.050",
+            "transform": {
+                "translation": [
+                    -59.5113525390625,
+                    20.0,
+                    -65.2566909790039
+                ],
+                "rotation": [
+                    0.0,
+                    66.21752166748047,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.049",
+            "transform": {
+                "translation": [
+                    -35.16534423828125,
+                    20.0,
+                    -91.85127258300781
+                ],
+                "rotation": [
+                    0.0,
+                    51.217533111572266,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.048",
+            "transform": {
+                "translation": [
+                    -44.154754638671875,
+                    20.0,
+                    -160.59548950195312
+                ],
+                "rotation": [
+                    0.0,
+                    35.54380416870117,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.047",
+            "transform": {
+                "translation": [
+                    -103.33291625976562,
+                    20.0,
+                    -109.62545776367188
+                ],
+                "rotation": [
+                    0.0,
+                    65.5438003540039,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.046",
+            "transform": {
+                "translation": [
+                    -78.67587280273438,
+                    20.0,
+                    -135.9319610595703
+                ],
+                "rotation": [
+                    0.0,
+                    50.54380416870117,
+                    0.0
+                ],
+                "scaling": [
+                    4.999999523162842,
+                    5.0,
+                    4.999999523162842
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.045",
+            "transform": {
+                "translation": [
+                    -71.16622924804688,
+                    20.0,
+                    -30.00198745727539
+                ],
+                "rotation": [
+                    0.0,
+                    81.01797485351562,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.044",
+            "transform": {
+                "translation": [
+                    -123.10069274902344,
+                    20.0,
+                    -80.03240966796875
+                ],
+                "rotation": [
+                    0.0,
+                    77.94649505615234,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.043",
+            "transform": {
+                "translation": [
+                    -132.49632263183594,
+                    20.0,
+                    -38.011966705322266
+                ],
+                "rotation": [
+                    0.0,
+                    81.904052734375,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.084",
+            "transform": {
+                "translation": [
+                    45.10154724121094,
+                    20.0,
+                    293.9249572753906
+                ],
+                "rotation": [
+                    -0.0,
+                    173.80429077148438,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.083",
+            "transform": {
+                "translation": [
+                    2.7926483154296875,
+                    20.0,
+                    285.9279479980469
+                ],
+                "rotation": [
+                    -0.0,
+                    169.84674072265625,
+                    -0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.082",
+            "transform": {
+                "translation": [
+                    51.07341766357422,
+                    20.0,
+                    232.36302185058594
+                ],
+                "rotation": [
+                    -0.0,
+                    172.918212890625,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.081",
+            "transform": {
+                "translation": [
+                    -54.54930114746094,
+                    20.0,
+                    243.3811798095703
+                ],
+                "rotation": [
+                    -0.0,
+                    142.44406127929688,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.080",
+            "transform": {
+                "translation": [
+                    -27.439620971679688,
+                    20.0,
+                    267.1523132324219
+                ],
+                "rotation": [
+                    -0.0,
+                    157.4440460205078,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.079",
+            "transform": {
+                "translation": [
+                    -80.34397888183594,
+                    20.0,
+                    209.6968994140625
+                ],
+                "rotation": [
+                    -0.0,
+                    127.44402313232422,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.078",
+            "transform": {
+                "translation": [
+                    -11.935653686523438,
+                    20.0,
+                    198.432861328125
+                ],
+                "rotation": [
+                    -0.0,
+                    143.11778259277344,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.077",
+            "transform": {
+                "translation": [
+                    15.451629638671875,
+                    20.0,
+                    221.8836212158203
+                ],
+                "rotation": [
+                    -0.0,
+                    158.11776733398438,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.076",
+            "transform": {
+                "translation": [
+                    -38.1246337890625,
+                    20.0,
+                    165.05418395996094
+                ],
+                "rotation": [
+                    -0.0,
+                    128.1177520751953,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.075",
+            "transform": {
+                "translation": [
+                    93.46966552734375,
+                    20.0,
+                    298.0523986816406
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.7766876220703,
+                    -0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.074",
+            "transform": {
+                "translation": [
+                    94.1243667602539,
+                    20.0,
+                    236.31504821777344
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.7766876220703,
+                    -0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.073",
+            "transform": {
+                "translation": [
+                    94.4107666015625,
+                    20.0,
+                    174.76576232910156
+                ],
+                "rotation": [
+                    -0.0,
+                    -178.87445068359375,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.072",
+            "transform": {
+                "translation": [
+                    -127.29417419433594,
+                    20.0,
+                    124.82261657714844
+                ],
+                "rotation": [
+                    -0.0,
+                    97.51744842529297,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.071",
+            "transform": {
+                "translation": [
+                    -107.12065124511719,
+                    20.0,
+                    165.01185607910156
+                ],
+                "rotation": [
+                    -0.0,
+                    109.9873046875,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.070",
+            "transform": {
+                "translation": [
+                    -60.04170227050781,
+                    20.0,
+                    123.18296813964844
+                ],
+                "rotation": [
+                    -0.0,
+                    112.20085144042969,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.069",
+            "transform": {
+                "translation": [
+                    -134.2882537841797,
+                    20.0,
+                    78.37973022460938
+                ],
+                "rotation": [
+                    -0.0,
+                    90.79546356201172,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.068",
+            "transform": {
+                "translation": [
+                    -70.19009399414062,
+                    20.0,
+                    79.05945587158203
+                ],
+                "rotation": [
+                    -0.0,
+                    90.79546356201172,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.067",
+            "transform": {
+                "translation": [
+                    -16.236648559570312,
+                    20.0,
+                    77.13016510009766
+                ],
+                "rotation": [
+                    -0.0,
+                    90.79546356201172,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.066",
+            "transform": {
+                "translation": [
+                    5.3436126708984375,
+                    20.0,
+                    116.54750061035156
+                ],
+                "rotation": [
+                    -0.0,
+                    134.3923797607422,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.065",
+            "transform": {
+                "translation": [
+                    60.602882385253906,
+                    20.0,
+                    167.1363067626953
+                ],
+                "rotation": [
+                    -0.0,
+                    164.3924102783203,
+                    -0.0
+                ],
+                "scaling": [
+                    5.000000476837158,
+                    5.0,
+                    5.000000476837158
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.064",
+            "transform": {
+                "translation": [
+                    30.111251831054688,
+                    20.0,
+                    146.8118438720703
+                ],
+                "rotation": [
+                    -0.0,
+                    139.06060791015625,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.042",
+            "transform": {
+                "translation": [
+                    243.88504028320312,
+                    20.0,
+                    129.20347595214844
+                ],
+                "rotation": [
+                    -0.0,
+                    -130.24356079101562,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.041",
+            "transform": {
+                "translation": [
+                    263.83770751953125,
+                    20.0,
+                    98.46726989746094
+                ],
+                "rotation": [
+                    -0.0,
+                    -104.91178131103516,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.040",
+            "transform": {
+                "translation": [
+                    213.9237060546875,
+                    20.0,
+                    154.33677673339844
+                ],
+                "rotation": [
+                    -0.0,
+                    -134.9117889404297,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.039",
+            "transform": {
+                "translation": [
+                    174.77137756347656,
+                    20.0,
+                    176.39413452148438
+                ],
+                "rotation": [
+                    -0.0,
+                    -178.50868225097656,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.038",
+            "transform": {
+                "translation": [
+                    177.35569763183594,
+                    20.0,
+                    230.32017517089844
+                ],
+                "rotation": [
+                    -0.0,
+                    -178.50868225097656,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.037",
+            "transform": {
+                "translation": [
+                    177.45437622070312,
+                    20.0,
+                    294.4218444824219
+                ],
+                "rotation": [
+                    -0.0,
+                    -178.50868225097656,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.036",
+            "transform": {
+                "translation": [
+                    221.35269165039062,
+                    20.0,
+                    219.63670349121094
+                ],
+                "rotation": [
+                    -0.0,
+                    -157.1033172607422,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.035",
+            "transform": {
+                "translation": [
+                    263.75018310546875,
+                    20.0,
+                    266.2042236328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -159.31686401367188,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.034",
+            "transform": {
+                "translation": [
+                    223.80889892578125,
+                    20.0,
+                    286.8642883300781
+                ],
+                "rotation": [
+                    -0.0,
+                    -171.78672790527344,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.033",
+            "transform": {
+                "translation": [
+                    271.0560302734375,
+                    20.0,
+                    64.56922912597656
+                ],
+                "rotation": [
+                    0.0,
+                    -88.17864227294922,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.032",
+            "transform": {
+                "translation": [
+                    332.604248046875,
+                    20.0,
+                    64.10816955566406
+                ],
+                "rotation": [
+                    0.0,
+                    -89.08087158203125,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.031",
+            "transform": {
+                "translation": [
+                    394.34503173828125,
+                    20.0,
+                    64.01310729980469
+                ],
+                "rotation": [
+                    0.0,
+                    -89.08087158203125,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.030",
+            "transform": {
+                "translation": [
+                    262.95465087890625,
+                    20.0,
+                    197.21278381347656
+                ],
+                "rotation": [
+                    -0.0,
+                    -141.1864013671875,
+                    -0.0
+                ],
+                "scaling": [
+                    4.999999523162842,
+                    5.0,
+                    4.999999523162842
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.029",
+            "transform": {
+                "translation": [
+                    319.1292724609375,
+                    20.0,
+                    142.9503631591797
+                ],
+                "rotation": [
+                    -0.0,
+                    -111.1864013671875,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.028",
+            "transform": {
+                "translation": [
+                    296.01287841796875,
+                    20.0,
+                    170.62039184570312
+                ],
+                "rotation": [
+                    -0.0,
+                    -126.18640899658203,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.027",
+            "transform": {
+                "translation": [
+                    308.10675048828125,
+                    20.0,
+                    238.8868865966797
+                ],
+                "rotation": [
+                    -0.0,
+                    -141.860107421875,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.026",
+            "transform": {
+                "translation": [
+                    364.91552734375,
+                    20.0,
+                    185.28872680664062
+                ],
+                "rotation": [
+                    -0.0,
+                    -111.86011505126953,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.025",
+            "transform": {
+                "translation": [
+                    341.475341796875,
+                    20.0,
+                    212.68504333496094
+                ],
+                "rotation": [
+                    -0.0,
+                    -126.860107421875,
+                    -0.0
+                ],
+                "scaling": [
+                    4.999999523162842,
+                    5.0,
+                    4.999999523162842
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.024",
+            "transform": {
+                "translation": [
+                    329.17535400390625,
+                    20.0,
+                    107.20393371582031
+                ],
+                "rotation": [
+                    -0.0,
+                    -96.38594055175781,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.023",
+            "transform": {
+                "translation": [
+                    383.3226318359375,
+                    20.0,
+                    154.83067321777344
+                ],
+                "rotation": [
+                    -0.0,
+                    -99.45743560791016,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.022",
+            "transform": {
+                "translation": [
+                    390.8052978515625,
+                    20.0,
+                    112.42778015136719
+                ],
+                "rotation": [
+                    -0.0,
+                    -95.4998779296875,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体",
+            "transform": {
+                "translation": [
+                    -323.53045654296875,
+                    0.0,
+                    532.5543823242188
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.001",
+            "transform": {
+                "translation": [
+                    -323.53045654296875,
+                    -5.189887046813965,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.002",
+            "transform": {
+                "translation": [
+                    -367.13458251953125,
+                    0.0,
+                    521.0354614257812
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.003",
+            "transform": {
+                "translation": [
+                    -439.1473388671875,
+                    0.0,
+                    521.0354614257812
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.004",
+            "transform": {
+                "translation": [
+                    -401.5951843261719,
+                    0.08665323257446289,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.005",
+            "transform": {
+                "translation": [
+                    -478.40582275390625,
+                    -5.189887046813965,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.006",
+            "transform": {
+                "translation": [
+                    -513.272705078125,
+                    0.0,
+                    521.0354614257812
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.007",
+            "transform": {
+                "translation": [
+                    -558.7542114257812,
+                    3.0906972885131836,
+                    759.6341552734375
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.008",
+            "transform": {
+                "translation": [
+                    -510.7009582519531,
+                    -5.189887046813965,
+                    811.6890258789062
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.009",
+            "transform": {
+                "translation": [
+                    -425.8243103027344,
+                    11.365950584411621,
+                    774.4114379882812
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.010",
+            "transform": {
+                "translation": [
+                    -354.40399169921875,
+                    1.6551415920257568,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.011",
+            "transform": {
+                "translation": [
+                    -354.932861328125,
+                    0.0,
+                    471.2664794921875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.012",
+            "transform": {
+                "translation": [
+                    -400.54248046875,
+                    2.603956699371338,
+                    451.91650390625
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.013",
+            "transform": {
+                "translation": [
+                    -485.9516296386719,
+                    0.0,
+                    454.9684143066406
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.014",
+            "transform": {
+                "translation": [
+                    -219.97764587402344,
+                    1.1996746063232422,
+                    538.3030395507812
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.015",
+            "transform": {
+                "translation": [
+                    -141.54080200195312,
+                    0.0,
+                    521.0354614257812
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.016",
+            "transform": {
+                "translation": [
+                    -78.68902587890625,
+                    0.0,
+                    493.8203125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.017",
+            "transform": {
+                "translation": [
+                    -259.5036315917969,
+                    2.253922462463379,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.018",
+            "transform": {
+                "translation": [
+                    -178.9769287109375,
+                    -11.306659698486328,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.019",
+            "transform": {
+                "translation": [
+                    -115.98649597167969,
+                    -5.189887046813965,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.020",
+            "transform": {
+                "translation": [
+                    -242.44467163085938,
+                    2.603956699371338,
+                    451.91650390625
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.021",
+            "transform": {
+                "translation": [
+                    -160.0878448486328,
+                    2.603956699371338,
+                    451.91650390625
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.022",
+            "transform": {
+                "translation": [
+                    -245.3564910888672,
+                    2.603956699371338,
+                    799.8299560546875
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.023",
+            "transform": {
+                "translation": [
+                    -203.3642578125,
+                    6.237029075622559,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.024",
+            "transform": {
+                "translation": [
+                    -119.10758972167969,
+                    1.6551415920257568,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.025",
+            "transform": {
+                "translation": [
+                    -94.43865966796875,
+                    2.603956699371338,
+                    437.95635986328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.029",
+            "transform": {
+                "translation": [
+                    -16.986526489257812,
+                    -5.496527194976807,
+                    493.8203125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.028",
+            "transform": {
+                "translation": [
+                    -54.28399658203125,
+                    -10.68641471862793,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.027",
+            "transform": {
+                "translation": [
+                    -57.40509033203125,
+                    -3.84138560295105,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.026",
+            "transform": {
+                "translation": [
+                    -32.73616027832031,
+                    -2.8925704956054688,
+                    437.95635986328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.033",
+            "transform": {
+                "translation": [
+                    61.571136474609375,
+                    4.804232597351074,
+                    493.8203125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.032",
+            "transform": {
+                "translation": [
+                    24.273666381835938,
+                    -0.3856544494628906,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.031",
+            "transform": {
+                "translation": [
+                    21.152572631835938,
+                    6.45937442779541,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.030",
+            "transform": {
+                "translation": [
+                    45.821502685546875,
+                    7.408189296722412,
+                    437.95635986328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.037",
+            "transform": {
+                "translation": [
+                    258.7338562011719,
+                    0.0,
+                    493.8203125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.036",
+            "transform": {
+                "translation": [
+                    221.43638610839844,
+                    -5.189887046813965,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.035",
+            "transform": {
+                "translation": [
+                    218.31529235839844,
+                    1.6551415920257568,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.034",
+            "transform": {
+                "translation": [
+                    242.98422241210938,
+                    2.603956699371338,
+                    437.95635986328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.041",
+            "transform": {
+                "translation": [
+                    256.3047180175781,
+                    0.0,
+                    646.5154418945312
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.040",
+            "transform": {
+                "translation": [
+                    219.0072479248047,
+                    -5.189887046813965,
+                    899.9510498046875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.039",
+            "transform": {
+                "translation": [
+                    215.8861541748047,
+                    1.6551415920257568,
+                    965.5864868164062
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.038",
+            "transform": {
+                "translation": [
+                    240.55508422851562,
+                    2.603956699371338,
+                    590.6514892578125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.049",
+            "transform": {
+                "translation": [
+                    315.30303955078125,
+                    2.603956699371338,
+                    387.7847900390625
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.048",
+            "transform": {
+                "translation": [
+                    290.6341247558594,
+                    1.6551415920257568,
+                    762.7197875976562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.047",
+            "transform": {
+                "translation": [
+                    293.7552185058594,
+                    -5.189887046813965,
+                    697.0843505859375
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.046",
+            "transform": {
+                "translation": [
+                    331.05267333984375,
+                    0.0,
+                    443.64874267578125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.045",
+            "transform": {
+                "translation": [
+                    312.8739013671875,
+                    2.603956699371338,
+                    540.4799194335938
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.044",
+            "transform": {
+                "translation": [
+                    288.2049865722656,
+                    1.6551415920257568,
+                    915.4149169921875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.043",
+            "transform": {
+                "translation": [
+                    291.3260803222656,
+                    -5.189887046813965,
+                    849.7794799804688
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.042",
+            "transform": {
+                "translation": [
+                    328.62353515625,
+                    0.0,
+                    596.3438720703125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.057",
+            "transform": {
+                "translation": [
+                    394.8436584472656,
+                    -5.9704270362854,
+                    437.95635986328125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.056",
+            "transform": {
+                "translation": [
+                    370.17474365234375,
+                    -6.919241905212402,
+                    812.891357421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.055",
+            "transform": {
+                "translation": [
+                    373.29583740234375,
+                    -13.764270782470703,
+                    747.2559204101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.054",
+            "transform": {
+                "translation": [
+                    410.5932922363281,
+                    -8.574383735656738,
+                    493.8203125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.053",
+            "transform": {
+                "translation": [
+                    392.4145202636719,
+                    -5.9704270362854,
+                    590.6514892578125
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.052",
+            "transform": {
+                "translation": [
+                    367.74560546875,
+                    -6.919241905212402,
+                    965.5864868164062
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.051",
+            "transform": {
+                "translation": [
+                    370.86669921875,
+                    -13.764270782470703,
+                    899.9510498046875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.050",
+            "transform": {
+                "translation": [
+                    408.1641540527344,
+                    -8.574383735656738,
+                    646.5154418945312
+                ],
+                "rotation": [
+                    -0.0,
+                    -179.99998474121094,
+                    -0.0
+                ],
+                "scaling": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "mountain",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.090",
+            "transform": {
+                "translation": [
+                    160.98410034179688,
+                    20.0,
+                    -264.89410400390625
+                ],
+                "rotation": [
+                    0.0,
+                    1.7331433296203613,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.089",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -326.4429931640625
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.088",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -388.183837890625
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.087",
+            "transform": {
+                "translation": [
+                    88.87898254394531,
+                    20.0,
+                    -386.19110107421875
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.086",
+            "transform": {
+                "translation": [
+                    86.07412719726562,
+                    20.0,
+                    -322.1507568359375
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.085",
+            "transform": {
+                "translation": [
+                    86.2132568359375,
+                    20.0,
+                    -268.1629943847656
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.096",
+            "transform": {
+                "translation": [
+                    160.98410034179688,
+                    20.0,
+                    -434.62908935546875
+                ],
+                "rotation": [
+                    0.0,
+                    1.7331433296203613,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.095",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -496.177978515625
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.094",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -557.9188232421875
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.093",
+            "transform": {
+                "translation": [
+                    88.87898254394531,
+                    20.0,
+                    -555.9260864257812
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.092",
+            "transform": {
+                "translation": [
+                    86.07412719726562,
+                    20.0,
+                    -491.8857421875
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.091",
+            "transform": {
+                "translation": [
+                    86.2132568359375,
+                    20.0,
+                    -437.89801025390625
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.108",
+            "transform": {
+                "translation": [
+                    86.2132568359375,
+                    20.0,
+                    -618.9448852539062
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.107",
+            "transform": {
+                "translation": [
+                    86.07412719726562,
+                    20.0,
+                    -672.9326171875
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.106",
+            "transform": {
+                "translation": [
+                    88.87898254394531,
+                    20.0,
+                    -736.9730224609375
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.105",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -738.9656982421875
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.104",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -677.224853515625
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.103",
+            "transform": {
+                "translation": [
+                    160.98410034179688,
+                    20.0,
+                    -615.676025390625
+                ],
+                "rotation": [
+                    0.0,
+                    1.7331433296203613,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.102",
+            "transform": {
+                "translation": [
+                    86.2132568359375,
+                    20.0,
+                    -788.679931640625
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.101",
+            "transform": {
+                "translation": [
+                    86.07412719726562,
+                    20.0,
+                    -842.6676025390625
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.100",
+            "transform": {
+                "translation": [
+                    88.87898254394531,
+                    20.0,
+                    -906.7080078125
+                ],
+                "rotation": [
+                    0.0,
+                    -1.1047794818878174,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.099",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -908.70068359375
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.098",
+            "transform": {
+                "translation": [
+                    160.6177978515625,
+                    20.0,
+                    -846.9598388671875
+                ],
+                "rotation": [
+                    0.0,
+                    0.8309174180030823,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Bill_立方体.097",
+            "transform": {
+                "translation": [
+                    160.98410034179688,
+                    20.0,
+                    -785.4110107421875
+                ],
+                "rotation": [
+                    0.0,
+                    1.7331433296203613,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "building",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Plane001.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    2.0,
+                    700.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    10.0,
+                    4.0
+                ]
+            },
+            "file_name": "grass_ground",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Plane001.002",
+            "transform": {
+                "translation": [
+                    134.49449157714844,
+                    4.0,
+                    482.67205810546875
+                ],
+                "rotation": [
+                    -0.0,
+                    89.99999237060547,
+                    0.0
+                ],
+                "scaling": [
+                    2.0,
+                    5.0,
+                    0.30000001192092896
+                ]
+            },
+            "file_name": "dirt_road",
+            "shader_type": "default",
+            "object_type": "stage_object"
+        },
+        {
+            "type": "MESH",
+            "name": "Plane001.003",
+            "transform": {
+                "translation": [
+                    -383.9132995605469,
+                    4.0,
+                    618.444091796875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "dirt_road",
+            "shader_type": "default",
+            "object_type": "stage_object"
         }
     ]
 }

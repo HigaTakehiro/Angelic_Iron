@@ -34,6 +34,9 @@ void ModelManager::Initialize() {
 	LoadModel("Aircraft_Carrier", "aircraft_Carrier", true);
 	LoadModel("Wave", "wave");
 	LoadModel("Shadow", "shadow");
+	LoadModel("Mountain", "mountain", true);
+	LoadModel("GlassGround", "grass_ground");
+	LoadModel("DirtRoad", "dirt_road");
 	LoadFBXModel("Player_Attack");
 }
 

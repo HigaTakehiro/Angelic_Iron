@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Engine\ApplicationCode;$(ProjectDir)Engine\ApplicationCode\Scenes;$(ProjectDir)Engine\ApplicationCode\Players;$(ProjectDir)Engine\ApplicationCode\Effects;$(ProjectDir)Engine\ApplicationCode\Enemies;$(ProjectDir)Engine\ApplicationCode\CameraMove;$(ProjectDir)Engine\ApplicationCode\Bosses;$(ProjectDir)Engine\ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,30 +151,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\ApplicationCode\Bosses\BaseBoss.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Bosses\FirstBoss.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\CameraMove\RailCamera.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Effects\BulletCase.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Effects\Particle2d.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Enemies\BaseEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Enemies\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Enemies\HomingEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Enemies\StraightEnemy.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Maths\MotionMath.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Players\Bomb.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Players\BossScenePlayer.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Players\Player.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Players\PlayerBullet.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Players\Reticle.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseBattleScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BaseScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\BossScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\GameOverScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\RailScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\ResultScene.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\SceneManager.cpp" />
-    <ClCompile Include="Engine\ApplicationCode\Scenes\TitleScene.cpp" />
+    <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp" />
+    <ClCompile Include="ApplicationCode\Bosses\FirstBoss.cpp" />
+    <ClCompile Include="ApplicationCode\CameraMove\RailCamera.cpp" />
+    <ClCompile Include="ApplicationCode\Effects\BulletCase.cpp" />
+    <ClCompile Include="ApplicationCode\Effects\Particle2d.cpp" />
+    <ClCompile Include="ApplicationCode\Enemies\BaseEnemy.cpp" />
+    <ClCompile Include="ApplicationCode\Enemies\EnemyBullet.cpp" />
+    <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp" />
+    <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp" />
+    <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
+    <ClCompile Include="ApplicationCode\Players\Bomb.cpp" />
+    <ClCompile Include="ApplicationCode\Players\BossScenePlayer.cpp" />
+    <ClCompile Include="ApplicationCode\Players\Player.cpp" />
+    <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp" />
+    <ClCompile Include="ApplicationCode\Players\Reticle.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\BossScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\GameOverScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\RailScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\ResultScene.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\SceneManager.cpp" />
+    <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -203,34 +203,35 @@
     <ClCompile Include="Engine\Object3d\ModelManager.cpp" />
     <ClCompile Include="Engine\Object3d\Object3d.cpp" />
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp" />
+    <ClCompile Include="Engine\Object3d\ShadowMap.cpp" />
     <ClCompile Include="Engine\Object3d\Shapes.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\ApplicationCode\Bosses\BaseBoss.h" />
-    <ClInclude Include="Engine\ApplicationCode\Bosses\FirstBoss.h" />
-    <ClInclude Include="Engine\ApplicationCode\CameraMove\RailCamera.h" />
-    <ClInclude Include="Engine\ApplicationCode\Effects\BulletCase.h" />
-    <ClInclude Include="Engine\ApplicationCode\Effects\Particle2d.h" />
-    <ClInclude Include="Engine\ApplicationCode\Enemies\BaseEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\Enemies\EnemyBullet.h" />
-    <ClInclude Include="Engine\ApplicationCode\Enemies\HomingEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\Enemies\StraightEnemy.h" />
-    <ClInclude Include="Engine\ApplicationCode\Maths\MotionMath.h" />
-    <ClInclude Include="Engine\ApplicationCode\Players\Bomb.h" />
-    <ClInclude Include="Engine\ApplicationCode\Players\BossScenePlayer.h" />
-    <ClInclude Include="Engine\ApplicationCode\Players\Player.h" />
-    <ClInclude Include="Engine\ApplicationCode\Players\PlayerBullet.h" />
-    <ClInclude Include="Engine\ApplicationCode\Players\Reticle.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseBattleScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BaseScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\BossScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\GameOverScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\RailScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\ResultScene.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneChangeEffect.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\SceneManager.h" />
-    <ClInclude Include="Engine\ApplicationCode\Scenes\TitleScene.h" />
+    <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h" />
+    <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h" />
+    <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h" />
+    <ClInclude Include="ApplicationCode\Effects\BulletCase.h" />
+    <ClInclude Include="ApplicationCode\Effects\Particle2d.h" />
+    <ClInclude Include="ApplicationCode\Enemies\BaseEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemies\EnemyBullet.h" />
+    <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h" />
+    <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
+    <ClInclude Include="ApplicationCode\Players\Bomb.h" />
+    <ClInclude Include="ApplicationCode\Players\BossScenePlayer.h" />
+    <ClInclude Include="ApplicationCode\Players\Player.h" />
+    <ClInclude Include="ApplicationCode\Players\PlayerBullet.h" />
+    <ClInclude Include="ApplicationCode\Players\Reticle.h" />
+    <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\BaseScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\BossScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\GameOverScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\RailScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\ResultScene.h" />
+    <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h" />
+    <ClInclude Include="ApplicationCode\Scenes\SceneManager.h" />
+    <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
@@ -252,7 +253,6 @@
     <ClInclude Include="Engine\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Light\LightGroup.h" />
     <ClInclude Include="Engine\Light\PointLight.h" />
-    <ClInclude Include="Engine\Light\ShadowMap.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
@@ -266,6 +266,7 @@
     <ClInclude Include="Engine\Object3d\ModelManager.h" />
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Object3d\ParticleManager.h" />
+    <ClInclude Include="Engine\Object3d\ShadowMap.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
   </ItemGroup>
   <ItemGroup>

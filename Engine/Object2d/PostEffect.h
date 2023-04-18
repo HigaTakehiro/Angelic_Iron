@@ -132,5 +132,7 @@ private: //ƒƒ“ƒoŠÖ”
 	/// DSVì¬
 	/// </summary>
 	void DSVCreate();
+
+
 };
 

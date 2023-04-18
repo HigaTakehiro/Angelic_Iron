@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include <random>
 
 void TitleScene::Initialize()
 {
@@ -58,7 +59,6 @@ void TitleScene::Initialize()
 		light->SetSpotLightActive(i, false);
 	}
 	//light->SetCircleShadowActive(0, true);
-	light->SetShadowMapActive(0, true);
 	Object3d::SetLight(light.get());
 
 	jsonLoader = std::make_unique<JsonLoader>();
@@ -95,13 +95,17 @@ void TitleScene::Update()
 	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
 	debugText.Print(lightPosText, 0, 0, 2);
 
+	std::random_device rnd;
+	std::mt19937_64 seed(rnd());
+	std::uniform_int_distribution<> randomNumber(-300, 300);
+
+	XMFLOAT3 cloudPos;
+	cloudPos.x = (float)randomNumber(seed);
+	cloudPos.y = 200.0f;
+	cloudPos.z = (float)randomNumber(seed);
+	particle->Add(300, cloudPos, { 0, 0, 0.2f }, { 0, 0, 0 }, 30.0f, 30.0f, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 0.5f, 0.5f);
+
 	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetShadowMapLightDir(0, { 0, -1, 0 });
-	//light->SetCircleShadowDir(0, { 0, -1, 0 });
-	//light->SetCircleShadowCasterPos(0, playerPos);
-	//light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
-	//light->SetCircleShadowDistanceCasterLight(0, 3000.0f);
-	//light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 
 	titlePlayer->SetPosition(playerPos);
 
@@ -113,30 +117,6 @@ void TitleScene::Update()
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	const float cameraSpeed = 10.0f;
-	if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-		lightDir.x += 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-		lightDir.x -= 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_UP) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		lightDir.z += 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
-	else if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-		lightDir.z -= 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
-	if (KeyInput::GetIns()->PushKey(DIK_DOWN) && KeyInput::GetIns()->PushKey(DIK_LSHIFT)) {
-		lightDir.y -= 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
-	else if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-		lightDir.y += 1.0f;
-		light->SetShadowMapLightDir(0, { lightDir.x, lightDir.y, lightDir.z });
-	}
 
 	camera->SetEye(cameraPos);
 	//testSquare->SetPosition(lightPos);

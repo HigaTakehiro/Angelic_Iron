@@ -112,15 +112,6 @@ void LightGroup::TransferConstBuffer()
 				constMap->circleShadow[i].isActive = 0;
 			}
 		}
-		for (int i = 0; i < ShadowMapNum; i++) {
-			if (shadowMaps[i].GetIsActive()) {
-				constMap->shadowMap[i].isActive = 1;
-				constMap->shadowMap[i].lightDir = -shadowMaps[i].GetDir();
-			}
-			else {
-				constMap->shadowMap[i].isActive = 0;
-			}
-		}
 		constBuff->Unmap(0, nullptr);
 	}
 }
@@ -286,19 +277,4 @@ void LightGroup::SetCircleShadowAngle(int index, const XMFLOAT2& angle)
 
 	circleShadows[index].SetAngle(angle);
 	isDirty = true;
-}
-
-void LightGroup::SetShadowMapLightDir(int index, const XMVECTOR& lightDir)
-{
-	assert(0 <= index && index < ShadowMapNum);
-
-	shadowMaps[index].SetDir(lightDir);
-	isDirty = true;
-}
-
-void LightGroup::SetShadowMapActive(int index, const bool isActive)
-{
-	assert(0 <= index && index < ShadowMapNum);
-
-	shadowMaps[index].SetIsActive(isActive);
 }

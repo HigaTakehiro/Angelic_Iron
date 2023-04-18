@@ -20,25 +20,6 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 	static ModelManager* GetIns();
 
 public: //ƒ‚ƒfƒ‹–¼
-	enum ModelName {
-		Player_Normal,
-		Player_Stand,
-		Player_Down,
-		Gun,
-		Bullet,
-		BulletCase,
-		Enemy,
-		Shot,
-		Ground,
-		CelestialSphere,
-		Building,
-		BossBody,
-		BossHand,
-		Aircraft_Carrier,
-		Wave,
-		Shadow
-	};
-
 	enum FBXModelName {
 		Test
 	};
