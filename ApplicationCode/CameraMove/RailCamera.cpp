@@ -15,9 +15,10 @@ void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const MovePo
 }
 
 void RailCamera::Update() {
-	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-		isStop_ = !isStop_;
-	}
+	//デバッグ用一時停止
+	//if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
+	//	isStop_ = !isStop_;
+	//}
 
 	if (!isStop_) {
 		SplineMove();

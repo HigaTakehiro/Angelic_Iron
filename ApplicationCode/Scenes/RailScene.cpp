@@ -205,13 +205,13 @@ void RailScene::Update() {
 	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
 	}
-	//エフェクト発生処理
-	AddEffect();
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	if (!isPause) {
+		//エフェクト発生処理
+		AddEffect();
 		//当たり判定チェック
 		CollisionCheck();
 		//オブジェクト更新処理
@@ -228,15 +228,14 @@ void RailScene::Update() {
 		bombParticle->Update();
 		gunParticle->Update();
 		thrusterParticle->Update();
+		jsonLoader->Update();
+		light->Update();
 
 		player->Update(railCamera->GetIsEnd());
 	}
 	else {
 		Pause();
 	}
-
-	light->Update();
-	jsonLoader->Update();
 
 	//シーン切り替え処理
 	SceneChangeEffect::GetIns()->Update();
@@ -1246,8 +1245,9 @@ void RailScene::SceneChange()
 		}
 	}
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-		SceneManager::AddScore(score);
-		SceneManager::SceneChange(SceneManager::Stage1_Boss);
-	}
+	//デバッグ用
+	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
+	//	SceneManager::AddScore(score);
+	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	//}
 }

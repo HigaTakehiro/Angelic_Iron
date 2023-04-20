@@ -10,83 +10,104 @@
 #LifeTime ←出現させている時間[s]
 #End ←移動するポイントはここまで
 
-Wait 720
+Wait 500
 
 #Enemy1
 
-Pos 50.0 50.0 0.0
-Rot 0.0 0.0 0.0a
-Move 50.0 80.0 0.0
-Move 70.0 80.0 0.0
-Move 0.0 0.0 0.0
+Pos 150.0 30.0 760.0
+Rot 0.0 -90.0 0.0
+Move 150.0 30.0 630.0
+Move 150.0 800.0 630.0
 End
-MoveTime 2
-LifeTime 15
+MoveTime 8
+LifeTime 10
 Hp 2
-ShotCoolTime 5
-Type STR
-Wait 0
+ShotCoolTime 2
+Type HOM
+Wait 750
 
 #Enemy2
 
-Pos 50.0 30.0 0.0
-Rot 0.0 0.0 0.0
-Move 0.0 30.0 0.0
-Move 0.0 70.0 0.0
-Move 70.0 70.0 0.0
-Move 50.0 30.0 0.0
-End
-MoveTime 5
+Pos 180.0 90.0 100.0
+Rot 45.0 90.0 0.0
 LifeTime 15
-Hp 10
-Type HOM
+Hp 1
+Type STR
 Wait 0
 
 #Enemy3
 
-Pos 50.0 70.0 0.0
-Rot 0.0 0.0 0.0
-Move 70.0 70.0 0.0
-Move 50.0 70.0 0.0
-End
-MoveTime 3
+Pos 0.0 90.0 0.0
+Rot 45.0 -90.0 0.0
+Hp 1
 LifeTime 15
-Type HOM
-Wait 500
+Type STR
+Wait 0
 
 #Enemy4
 
-Pos 80.0 200.0 -250.0
-Rot 20.0 -20.0 0.0
-Type HOM
-Wait 800
+Pos 100.0 120.0 150.0
+Rot 45.0 45.0 0.0
+Hp 1
+LifeTime 15
+Type STR
+Wait 950
 
 #Enemy5
 
-Pos 100.0 200.0 -350.0
-Rot 0.0 -90.0 0.0
+Pos 160.0 280.0 100.0
+Rot 0.0 180.0 0.0
+Move 160.0 280.0 50.0
+Move 1000.0 280.0 50.0
+End
+MoveTime 10
+Hp 3
+LifeTime 12
 Type STR
 Wait 0
 
 #Enemy6
 
-Pos 100.0 200.0 -300.0
-Rot 0.0 -90.0 0.0
-Type HOM
-Wait 0
+Pos 80.0 280.0 100.0
+Rot 0.0 180.0 0.0
+Move 80.0 280.0 50.0
+Move -1000.0 280.0 50.0
+End
+MoveTime 10
+Hp 3
+LifeTime 12
+Type STR
+Wait 500
 
 #Enemy7
 
-Pos 100.0 200.0 -325.0
-Rot 0.0 -90.0 0.0
-Type STR
-Wait 1000
+Pos 160.0 600.0 100.0
+Rot 0.0 180.0 0.0
+Move 160.0 300.0 100.0
+Move 160.0 300.0 100.0
+Move 160.0 600.0 100.0
+End
+MoveTime 10
+Hp 3
+ShotCoolTime 3
+LifeTime 20
+Type HOM
+Wait 0
 
 #Enemy8
 
-Pos -300.0 180.0 190.0
+Pos 80.0 600.0 100.0
 Rot 0.0 180.0 0.0
+Move 80.0 300.0 100.0
+Move 80.0 300.0 100.0
+Move 80.0 600.0 100.0
+End
+MoveTime 10
+Hp 3
+LifeTime 20
+ShotCoolTime 3
 Type HOM
+Wait 500
 
 #Enemy9
 Pos -275.0 180.0 190.0
