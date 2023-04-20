@@ -335,6 +335,10 @@ private: //メンバ変数
 	std::wstring message;
 	//レールカメラ用スプライン指定点格納コンテナ
 	std::vector<Vector3> points;
+	//レールカメラ用カメラ回転角度格納コンテナ
+	std::vector<Vector3> cameraRots_;
+	//レールカメラ用カメラ移動時間格納コンテナ
+	std::vector<float> cameraMoveTimes_;
 	//スコア
 	int32_t score;
 	//顔グラフィックアニメーションタイマー

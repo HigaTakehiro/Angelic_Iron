@@ -15,6 +15,15 @@ private: //エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+public: //構造体
+	
+	//移動するポイント
+	struct MovePoints {
+		std::vector<Vector3> points_; //スプライン補間用の各ポイント
+		std::vector<Vector3> cameraRot_; //カメラ角度
+		std::vector<float> moveTime_; //ポイントに移動する時間
+	};
+
 public: //メンバ関数
 
 	/// <summary>
@@ -23,7 +32,7 @@ public: //メンバ関数
 	/// <param name="eye">カメラのワールド座標</param>
 	/// <param name="rot">回転角</param>
 	/// <param name="points">スプライン補間時に通る各ポイント</param>
-	void Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime, bool isRoop = false);
+	void Initialize(const Vector3& eye, const Vector3& rot, const MovePoints& movePoints, bool isRoop = false);
 
 	/// <summary>
 	/// 更新処理
@@ -33,19 +42,19 @@ public: //メンバ関数
 	/// <summary>
 	/// ダメージエフェクト発生用フラグを立てる
 	/// </summary>
-	void SetIsDamage() { isDamage = true; }
+	void SetIsDamage() { isDamage_ = true; }
 
 	/// <summary>
 	/// ワールド行列取得
 	/// </summary>
 	/// <returns></returns>
-	XMMATRIX GetMatWorld() { return matWorld; }
+	XMMATRIX GetMatWorld() { return matWorld_; }
 
 	/// <summary>
 	/// 終点フラグ取得
 	/// </summary>
 	/// <returns>終点フラグ</returns>
-	bool GetIsEnd() { return isEnd; }
+	bool GetIsEnd() { return isEnd_; }
 
 private: //メンバ関数
 
@@ -68,38 +77,28 @@ private: //メンバ関数
 	/// </summary>
 	void UpdateMatWorld();
 
-	/// <summary>
-    /// ダメージを受けた時のカメラ演出
-    /// </summary>
-	void DamageCameraEffect();
-
 private: //静的メンバ変数
-	//ダメージエフェクト発生時間
-	static const int32_t damageEffectTime = 20;
 
 private: //メンバ変数
-	Vector3 eye; //ワールド座標
-	Vector3 rot; //回転角
-	Vector3 target; //ターゲット
-	XMMATRIX matWorld; //ワールド行列
-	std::vector<Vector3> points; //スプライン補間用の各ポイント
+	Vector3 eye_; //ワールド座標
+	Vector3 rot_; //回転角
+	Vector3 target_; //ターゲット
+	XMMATRIX matWorld_; //ワールド行列
+	MovePoints movePoints_; //移動する各ポイント格納コンテナ
 
-	long long nowCount; //現在時間
-	long long elapsedCount; //経過時間 
+	long long nowCount_; //現在時間
+	long long elapsedCount_; //経過時間 
 
-	float maxTime; //ポイント間を移動する時間
-	float timeRate; //移動した時間を0~1で評価
-	int32_t startIndex = 1; //移動したポイントをカウント
+	float timeRate_; //移動した時間を0~1で評価
+	int32_t startIndex_ = 1; //移動したポイントをカウント
 
-	Vector3 initPos; //初期座標
-	Vector3 initRot; //初期回転
+	Vector3 initPos_; //初期座標
+	Vector3 initRot_; //初期回転
 
-	bool isStop = false; //デバッグ用カメラ停止フラグ
-	bool isDamage = false; //ダメージを受けたかのフラグ
-	bool isRoop = false; //ループ用フラグ
-	bool isEnd = false; //終点フラグ
-	float delayCount = 0;
-
-	int32_t  damageEffectTimer; //ダメージ演出用タイマー
+	bool isStop_ = false; //デバッグ用カメラ停止フラグ
+	bool isDamage_ = false; //ダメージを受けたかのフラグ
+	bool isRoop_ = false; //ループ用フラグ
+	bool isEnd_ = false; //終点フラグ
+	float delayCount_ = 0;
 };
 

@@ -364,11 +364,10 @@ void Player::DeadPerformance() {
 }
 
 void Player::ClearPerformance() {
-	const Vector3 endPos = { 0.0f, -40.0f, 0.0f };
 	clearTimer--;
-	playerWPos.x = Easing::easeInOut(clearTimer, clearTime, playerWPos.x, endPos.x);
-	playerWPos.y = Easing::easeOutBack(clearTimer, clearTime, playerWPos.y, endPos.y, 1);
-	playerWPos.z = Easing::easeInOut(clearTimer, clearTime, playerWPos.z, endPos.z);
+	playerWPos.x = Easing::easeInOut(clearTimer, clearTime, playerWPos.x, clearPos.x);
+	playerWPos.y = Easing::easeOutBack(clearTimer, clearTime, playerWPos.y, clearPos.y, 1);
+	playerWPos.z = Easing::easeInOut(clearTimer, clearTime, playerWPos.z, clearPos.z);
 	player->SetCameraParent(nullptr);
 	player->SetPosition(playerWPos);
 	player->SetRotation(playerRot);

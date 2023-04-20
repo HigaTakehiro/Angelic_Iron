@@ -1,4 +1,7 @@
 #include "JsonLoader.h"
+#include "StraightEnemy.h"
+#include "HomingEnemy.h"
+#include <istream>
 
 const std::string JsonLoader::baseDirectory = "Engine/Resources/GameData/";
 const std::string JsonLoader::extension = ".json";
@@ -99,59 +102,67 @@ void JsonLoader::EnemyDataLoad(const std::string fileName)
 	file >> enemyJsonData_;
 }
 
-void JsonLoader::EnemyDataUpdate(bool isPause)
-{
-	std::string name = enemyJsonData_["name"].get<std::string>();
-
-	assert(name.compare("scene") == 0);
-
-	EnemyData* enemyData = new EnemyData();
-
-	for (nlohmann::json& object : enemyJsonData_["objects"]) {
-		assert(object.contains("type"));
-
-		std::string type = object["type"].get<std::string>();
-
-		if (type.compare("MESH") == 0) {
-			enemyData->enemyObjects_.emplace_back(EnemyData::EnemyStatus{});
-			EnemyData::EnemyStatus& enemyStatus = enemyData->enemyObjects_.back();
-
-			if (object.contains("file_name")) {
-				enemyStatus.fileName_ = object["file_name"];
-			}
-
-			nlohmann::json& transform = object["transform"];
-			//平行移動
-			enemyStatus.transform_.x = (float)transform["translation"][0];
-			enemyStatus.transform_.y = (float)transform["translation"][1];
-			enemyStatus.transform_.z = (float)transform["translation"][2];
-			//回転角
-			enemyStatus.rotation_.x = (float)transform["rotation"][0];
-			enemyStatus.rotation_.y = (float)transform["rotation"][1];
-			enemyStatus.rotation_.z = (float)transform["rotation"][2];
-			//スケーリング
-			enemyStatus.scaling_.x = (float)transform["scaling"][0];
-			enemyStatus.scaling_.y = (float)transform["scaling"][1];
-			enemyStatus.scaling_.z = (float)transform["scaling"][2];
-		}
-	}
-
-	for (auto& enemyData : enemyData->enemyObjects_) {
-		//std::string modelName = enemyData.fileName_;
-		//Object3d* newObject = Object3d::Create(ModelManager::GetIns()->GetModel(modelName));
-		//Vector3 pos;
-		//pos = enemyData.transform_;
-		//newObject->SetPosition(pos);
-		//Vector3 rot;
-		//rot = enemyData.rotation_;
-		//newObject->SetRotation(rot);
-		//Vector3 scale;
-		//scale = enemyData.scaling_;
-		//newObject->SetScale(scale);
-		//newObject->SetAmbient({ 1.0f, 1.0f, 1.0f });
-		//allEnemies_.emplace_back(newObject);
-	}
-}
+//void JsonLoader::EnemyDataUpdate(bool isPause)
+//{
+//	std::string name = enemyJsonData_["name"].get<std::string>();
+//
+//	assert(name.compare("scene") == 0);
+//
+//	EnemyData* enemyData = new EnemyData();
+//
+//	for (nlohmann::json& object : enemyJsonData_["objects"]) {
+//		assert(object.contains("type"));
+//
+//		std::string type = object["type"].get<std::string>();
+//
+//		if (type.compare("MESH") == 0) {
+//			enemyData->enemyObjects_.emplace_back(EnemyData::EnemyStatus{});
+//			EnemyData::EnemyStatus& enemyStatus = enemyData->enemyObjects_.back();
+//
+//			if (object.contains("file_name")) {
+//				enemyStatus.fileName_ = object["file_name"];
+//			}
+//
+//			nlohmann::json& transform = object["transform"];
+//			//平行移動
+//			enemyStatus.transform_.x = (float)transform["translation"][0];
+//			enemyStatus.transform_.y = (float)transform["translation"][1];
+//			enemyStatus.transform_.z = (float)transform["translation"][2];
+//			//回転角
+//			enemyStatus.rotation_.x = (float)transform["rotation"][0];
+//			enemyStatus.rotation_.y = (float)transform["rotation"][1];
+//			enemyStatus.rotation_.z = (float)transform["rotation"][2];
+//			//スケーリング
+//			enemyStatus.scaling_.x = (float)transform["scaling"][0];
+//			enemyStatus.scaling_.y = (float)transform["scaling"][1];
+//			enemyStatus.scaling_.z = (float)transform["scaling"][2];
+//			//敵タイプ
+//			if (enemyJsonData_["enemy_type"] == "STR") {
+//				enemyStatus.enemyType_ = EnemyType::STR;
+//			}
+//			else if (enemyJsonData_["enemy_type"] == "AIM") {
+//				enemyStatus.enemyType_ = EnemyType::AIM;
+//			}
+//			//弾発射間隔
+//			enemyStatus.shotCoolTime_ = (int32_t)object["shot_cooltime"] * 60;
+//			//出現時間
+//			enemyStatus.lifeTime_ = (int32_t)object["life_time"] * 60;
+//			//HP
+//			enemyStatus.hp_ = (int32_t)object["hp"];
+//			//出現待機時間
+//			enemyStatus.waitTime_ = (int32_t)object["wait_time"];
+//		}
+//	}
+//
+//	for (auto& objectData : enemyData->enemyObjects_) {
+//		std::string modelName = objectData.fileName_;
+//		if (objectData.enemyType_ == EnemyType::STR) {
+//			std::unique_ptr<BaseEnemy> enemy = std::make_unique<StraightEnemy>();
+//			enemy->Initialize(modelName, objectData.transform_, objectData.rotation_);
+//			
+//		}
+//	}
+//}
 
 void JsonLoader::Update()
 {

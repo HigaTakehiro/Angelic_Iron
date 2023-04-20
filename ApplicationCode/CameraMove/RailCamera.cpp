@@ -3,46 +3,37 @@
 
 using namespace DirectX;
 
-void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const std::vector<Vector3>& points, float maxTime, bool isRoop) {
-	this->eye = eye;
-	initPos = eye;
-	this->rot = rot;
-	initRot = rot;
-	this->points = points;
-	this->maxTime = maxTime;
-	this->isRoop = isRoop;
+void RailCamera::Initialize(const Vector3& eye, const Vector3& rot, const MovePoints& movePoints, bool isRoop)
+{
+	this->eye_ = eye;
+	initPos_ = eye;
+	this->rot_ = rot;
+	initRot_ = rot;
+	movePoints_ = movePoints;
+	isRoop_ = isRoop;
+	nowCount_ = 0;
 }
 
 void RailCamera::Update() {
 	if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-		isStop = !isStop;
+		isStop_ = !isStop_;
 	}
 
-	if (!isStop) {
+	if (!isStop_) {
 		SplineMove();
-
-		if (rot.x >= 360.0f || rot.x <= -360.0f) {
-			rot.x = 0.0f;
-		}
-		if (rot.y >= 360.0f || rot.y <= -360.0f) {
-			rot.y = 0.0f;
-		}
-		if (rot.z >= 360.0f || rot.z <= -360.0f) {
-			rot.z = 0.0f;
-		}
 	}
 	else {
 		if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-			rot.y -= 1.0f;
+			rot_.y -= 1.0f;
 		}
 		if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-			rot.y += 1.0f;
+			rot_.y += 1.0f;
 		}
 		if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-			rot.x -= 1.0f;
+			rot_.x -= 1.0f;
 		}
 		if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-			rot.x += 1.0f;
+			rot_.x += 1.0f;
 		}
 	}
 	UpdateMatWorld();
@@ -70,53 +61,41 @@ Vector3 RailCamera::Spline(const std::vector<Vector3>& points, int32_t startInde
 }
 
 void RailCamera::SplineMove() {
-	nowCount++;
-	elapsedCount = nowCount * 2;
-	timeRate = elapsedCount / maxTime;
+	//移動にかかる時間
+	float maxTime = 1.0f;
+	//移動する地点
+	Vector3 point;
 
-	if (timeRate >= 1.0f) {
-		if (startIndex < points.size() - 3) {
-			startIndex += 1;
-			timeRate -= 1.0f;
-			nowCount = 0;
+	if (startIndex_ < movePoints_.moveTime_.size() - 3 && movePoints_.moveTime_[startIndex_] > 0.0f) {
+		maxTime = movePoints_.moveTime_[startIndex_];
+	}
+
+	nowCount_++;
+	elapsedCount_ = nowCount_;
+	timeRate_ = elapsedCount_ / maxTime;
+
+	if (timeRate_ >= 1.0f) {
+		if (startIndex_ < movePoints_.points_.size() - 3) {
+			startIndex_ += 1;
+			timeRate_ -= 1.0f;
+			nowCount_ = 0;
 		}
 		else {
-			if (isRoop) {
-				startIndex = 0;
+			if (isRoop_) {
+				startIndex_ = 0;
 			}
-			isEnd = true;
-			timeRate = 1.0f;
+			isEnd_ = true;
+			timeRate_ = 1.0f;
 		}
 	}
 	else {
-		Vector3 distance;
-		float xRot, yRot;
-		distance = Vector3(points[startIndex + 1].x - eye.x, points[startIndex + 1].y - eye.y, points[startIndex + 1].z - eye.z);
-		xRot = (atan2f(distance.y, sqrtf((float)pow(distance.z, 2)) + (float)pow(distance.x, 2)) * 180.0f / 3.14f);
-		yRot = (atan2f(distance.x, distance.z) * 180.0f / 3.14f);
-		xRot = roundf(xRot * 10.0f) / 10.0f;
-		yRot = roundf(yRot * 10.0f) / 10.0f;
-		rot.x = roundf(rot.x * 10.0f) / 10.0f;
-		rot.y = roundf(rot.y * 10.0f) / 10.0f;
-		if (rot.x < xRot) {
-			rot.x += 0.1f;
-		}
-		else if (rot.x > xRot) {
-			rot.x -= 0.1f;
-		}
-
-		if (rot.y < yRot) {
-			rot.y += 0.1f;
-		}
-		else if (rot.y > yRot) {
-			rot.y -= 0.1f;
-		}
+		Vector3 moveRot;
+		moveRot = movePoints_.cameraRot_[startIndex_];
+		rot_ = easeIn(rot_, moveRot, timeRate_);
 	}
-	rot.x = roundf(rot.x * 10.0f) / 10.0f;
-	rot.y = roundf(rot.y * 10.0f) / 10.0f;
 
-	eye = Spline(points, startIndex, timeRate);
-	Camera::SetEye(eye);
+	eye_ = Spline(movePoints_.points_, startIndex_, timeRate_);
+	Camera::SetEye(eye_);
 
 }
 
@@ -125,44 +104,21 @@ void RailCamera::UpdateMatWorld() {
 
 	//回転、平行移動行列の計算
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rot.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rot.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rot.y));
-	matTrans = XMMatrixTranslation(eye.x, eye.y, eye.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rot_.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rot_.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rot_.y));
+	matTrans = XMMatrixTranslation(eye_.x, eye_.y, eye_.z);
 
-	matWorld = XMMatrixIdentity();
-	matWorld *= matRot;
-	matWorld *= matTrans;
+	matWorld_ = XMMatrixIdentity();
+	matWorld_ *= matRot;
+	matWorld_ *= matTrans;
 
 	XMVECTOR forward = { 0, 0, 1 };
-	forward = XMVector3TransformNormal(forward, matWorld);
-	target = eye + forward;
+	forward = XMVector3TransformNormal(forward, matWorld_);
+	target_ = eye_ + forward;
 	XMVECTOR up = { 0, 1, 0 };
-	up = XMVector3TransformNormal(up, matWorld);
-	Camera::SetTarget(target);
+	up = XMVector3TransformNormal(up, matWorld_);
+	Camera::SetTarget(target_);
 	Camera::SetUp(XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]));
-	Camera::SetMatWorld(matWorld);
-}
-
-void RailCamera::DamageCameraEffect() {
-	const int32_t damageEffectTimeOver = 0;
-	static Vector3 oldPos;
-
-	if (oldPos.x == 0 && oldPos.y == 0 && oldPos.z == 0) {
-		oldPos = eye;
-	}
-
-	damageEffectTimer--;
-
-	if (damageEffectTimer >= damageEffectTimeOver) {
-		eye.x = eye.x + (2 - rand() % 4);
-		eye.y = eye.y + (2 - rand() % 4);
-		eye.z = eye.z + (2 - rand() % 4);
-	}
-	else {
-		isDamage = false;
-		damageEffectTimer = damageEffectTime;
-		eye = oldPos;
-		oldPos = { 0, 0, 0 };
-	}
+	Camera::SetMatWorld(matWorld_);
 }

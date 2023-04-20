@@ -136,11 +136,6 @@ void RailScene::Initialize() {
 	//ステージ背景オブジェクト初期化
 	jsonLoader = std::make_unique<JsonLoader>();
 
-	if (stageNo == 1) {
-		jsonLoader->StageDataLoadandSet("stage1");
-	}
-
-
 	//プレイヤー初期化
 	player = new Player;
 	player->Initialize(camera, clearTime);
@@ -154,7 +149,9 @@ void RailScene::Initialize() {
 
 	//ステージデータ読み込み
 	if (stageNo == 1) {
+		player->SetClearPos({ 130.0f, 20.0f, 55.0f });
 		LoadRailPoint("Stage1RailPoints.aid");
+		jsonLoader->StageDataLoadandSet("stage1");
 		enemyData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1EnemyData.aid");
 		textData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
 	}
@@ -557,6 +554,7 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 	bool isRot = false;
 	float splineTime = 0;
 	int32_t stringCount = 0;
+	RailCamera::MovePoints movePoints;
 
 	while (getline(railcameraPointsData, line)) {
 		std::istringstream line_stream(line);
@@ -609,12 +607,22 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 		if (isStart) {
 			points.push_back(startPos);
 			points.push_back(startPos);
+			cameraMoveTimes_.push_back(0);
 			isStart = false;
 		}
 		else if (isEnd) {
 			points.push_back(pos);
 			points.push_back(pos);
+			cameraRots_.emplace_back(cameraRots_.back());
+			cameraMoveTimes_.push_back(0);
 			isEnd = false;
+		}
+		else if (isRot) {
+			if (cameraRots_.size() <= 0) {
+				cameraRots_.push_back(rot);
+			}
+			cameraRots_.push_back(rot);
+			isRot = false;
 		}
 		else if (isRoop) {
 			points.push_back(pos);
@@ -625,6 +633,7 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 		}
 		else if (isTime) {
 			splineTime *= 60;
+			cameraMoveTimes_.push_back(splineTime);
 			isTime = false;
 		}
 		else if (isPoint) {
@@ -634,8 +643,12 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 		stringCount++;
 	}
 
+	movePoints.points_ = points;
+	movePoints.cameraRot_ = cameraRots_;
+	movePoints.moveTime_ = cameraMoveTimes_;
+
 	assert(splineTime != 0);
-	railCamera->Initialize(startPos, rot, points, splineTime, isCameraRoop);
+	railCamera->Initialize(startPos, cameraRots_.front(), movePoints, isCameraRoop);
 
 }
 

@@ -24,12 +24,18 @@ public:
 		std::vector<ObjectData> stageObjects_;
 	};
 
+	enum class EnemyType {
+		STR,
+		AIM
+	};
+
 	struct EnemyData {
 		struct EnemyStatus {
 			std::string fileName_;
 			Vector3 transform_;
 			Vector3 rotation_;
 			Vector3 scaling_;
+			JsonLoader::EnemyType enemyType_;
 			int32_t waitTime_;
 			int32_t lifeTime_;
 			int32_t shotCoolTime_;

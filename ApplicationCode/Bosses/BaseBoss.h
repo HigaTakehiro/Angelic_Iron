@@ -59,32 +59,32 @@ public: //メンバ関数
 	/// ボスオブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	Object3d* GetBossObj() { return boss; }
+	Object3d* GetBossObj() { return boss_; }
 	/// <summary>
 	/// ボス本体HPを取得
 	/// </summary>
 	/// <returns>ボスHP</returns>
-	float GetBossHp() { return hp; }
+	float GetBossHp() { return hp_; }
 	/// <summary>
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
-	bool GetIsDead() { return isDead; }
+	bool GetIsDead() { return isDead_; }
 	/// <summary>
 	/// ムービーフラグ取得
 	/// </summary>
 	/// <returns>ムービーフラグ</returns>
-	bool GetIsMovie() { return isMovie; }
+	bool GetIsMovie() { return isMovie_; }
 	/// <summary>
 	/// ボスシーンをセット
 	/// </summary>
 	/// <param name="bossScene">ボスシーン</param>
-	void SetBossScene(BossScene* bossScene) { this->bossScene = bossScene; }
+	void SetBossScene(BossScene* bossScene) { bossScene_ = bossScene; }
 	/// <summary>
 	/// プレイヤーをセット
 	/// </summary>
 	/// <param name="player">プレイヤー</param>
-	void SetPlayer(BossScenePlayer* player) { this->player = player; }
+	void SetPlayer(BossScenePlayer* player) { player_ = player; }
 
 protected: //静的メンバ変数
 	//行動クールタイム
@@ -102,42 +102,42 @@ protected: //静的メンバ変数
 
 protected: //メンバ変数
 	//ボスオブジェクト
-	Object3d* boss;
+	Object3d* boss_;
 	//ボスシーン
-	BossScene* bossScene;
+	BossScene* bossScene_;
 	//プレイヤー
-	BossScenePlayer* player;
+	BossScenePlayer* player_;
 	//プレイヤー座標
-	Vector3 playerPos;
+	Vector3 playerPos_;
 	//座標
-	Vector3 pos;
+	Vector3 pos_;
 	//回転角
-	Vector3 rot;
+	Vector3 rot_;
 	//大きさ
-	Vector3 scale;
+	Vector3 scale_;
 	//攻撃力
-	float attackPower;
+	float attackPower_;
 	//体力
-	float hp;
+	float hp_;
 	//行動クールタイマー
-	int32_t actionCoolTimer;
+	int32_t actionCoolTimer_;
 	//ダメージタイマー
-	int32_t damageTimer;
+	int32_t damageTimer_;
 	//回転時間
-	int32_t rotationTimer;
+	int32_t rotationTimer_;
 	//スロー演出用タイマー
-	int32_t delayTimer;
+	int32_t delayTimer_;
 	//攻撃パターン
-	int32_t actionPattern;
+	int32_t actionPattern_;
 	//ダメージフラグ
-	bool isDamage = false;
+	bool isDamage_ = false;
 	//死亡フラグ
-	bool isDead = false;
+	bool isDead_ = false;
 	//ムービーフラグ
-	bool isMovie = false;
+	bool isMovie_ = false;
 	//死亡タイマー
-	int32_t deadTimer;
+	int32_t deadTimer_;
 	//HPバー
-	Sprite* hpBar;
-	Sprite* hpRedBar;
+	Sprite* hpBar_;
+	Sprite* hpRedBar_;
 };

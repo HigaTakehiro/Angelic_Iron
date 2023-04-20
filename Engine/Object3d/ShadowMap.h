@@ -20,32 +20,32 @@ public: //メンバ関数
 private: //メンバ関数
 
 	/// <summary>
-	/// SRV作成
+	/// テクスチャ用デスクリプタヒープ作成
 	/// </summary>
-	bool SRVCreate();
+	bool TexHeapCreate();
 
 	/// <summary>
-	/// RTV作成
+	/// テクスチャ用バッファ作成
 	/// </summary>
-	bool RTVCreate();
+	bool TexBuffCreate();
 
 	/// <summary>
-	/// 深度バッファ作成
+	/// シャドウマップ用バッファ作成
 	/// </summary>
-	bool DepthCreate();
+	bool ShadowBuffCreate();
 
 	/// <summary>
-	/// DSV作成
+	/// シャドウマップ用デスクリプタヒープ作成
 	/// </summary>
-	bool DSVCreate();
+	bool ShadowHeapCreate();
 
 private: //メンバ変数
-	//深度バッファ用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> depthHeap_;
+	//シャドウマップ用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> shadowHeap_;
 	//テクスチャ用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> texHeap_;
 	//シャドウマップ用バッファ
 	ComPtr<ID3D12Resource> shadowBuff_;
-	//深度バッファ
-	ComPtr<ID3D12Resource> depthBuff_;
+	//テクスチャ用バッファ
+	ComPtr<ID3D12Resource> texBuff_;
 };

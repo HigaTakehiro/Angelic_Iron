@@ -118,6 +118,12 @@ public: //メンバ関数
 	void SetRailScene(RailScene* RailScene) { this->railScene = RailScene; }
 
 	/// <summary>
+	/// クリア演出最終地点をセット
+	/// </summary>
+	/// <param name="clearPos">クリア演出最終地点</param>
+	void SetClearPos(const Vector3 clearPos) { this->clearPos = clearPos; }
+
+	/// <summary>
 	/// ダメージフラグ取得
 	/// </summary>
 	/// <returns>ダメージフラグ</returns>
@@ -207,6 +213,7 @@ private: //メンバ変数
 	Vector3 playerWPos = { 0, 0, 0 };
 	Vector3 playerRot = { 0, 0, 0 };
 	Vector3 playerScale = { 0, 0, 0 };
+	Vector3 clearPos = {0.0f, 0.0f, 0.0f};
 
 	Object3d* player = nullptr;
 	Object3d* gun = nullptr;

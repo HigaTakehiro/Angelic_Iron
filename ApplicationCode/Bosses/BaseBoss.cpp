@@ -8,20 +8,20 @@ const int32_t BaseBoss::deadHP = 0;
 
 void BaseBoss::OnCollision()
 {
-	hp--;
-	isDamage = true;
+	hp_--;
+	isDamage_ = true;
 }
 
 void BaseBoss::DamageReaction()
 {
-	if (isDamage) {
-		damageTimer++;
-		boss->SetColor({ 1.0f, 0.3f, 0.3f, 1.0f });
+	if (isDamage_) {
+		damageTimer_++;
+		boss_->SetColor({ 1.0f, 0.3f, 0.3f, 1.0f });
 	}
 
-	if (damageTimer >= damageTime) {
-		isDamage = false;
-		damageTimer = 0;
-		boss->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	if (damageTimer_ >= damageTime) {
+		isDamage_ = false;
+		damageTimer_ = 0;
+		boss_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 }

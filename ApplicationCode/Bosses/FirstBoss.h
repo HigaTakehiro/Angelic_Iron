@@ -64,32 +64,32 @@ public: //メンバ関数
 	/// 左手死亡フラグ取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsLeftHandDead() { return isLeftHandDead; }
+	bool GetIsLeftHandDead() { return isLeftHandDead_; }
 	/// <summary>
 	/// 右手死亡フラグ取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsRightHandDead() { return isRightHandDead; }
+	bool GetIsRightHandDead() { return isRightHandDead_; }
 	/// <summary>
 	/// エフェクトタイミングフラグ取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsMovieEffectTiming() { return isMoviePoint_2; }
+	bool GetIsMovieEffectTiming() { return isMoviePoint_2_; }
 	/// <summary>
 	/// カメラ移動タイミングフラグ取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsCameraMoveTiming() { return isCameraMoveTiming; }
+	bool GetIsCameraMoveTiming() { return isCameraMoveTiming_; }
 	/// <summary>
 	/// 左手オブジェクト取得
 	/// </summary>
 	/// <returns>左手オブジェクト</returns>
-	Object3d* GetLeftHandObj() { return leftHand; }
+	Object3d* GetLeftHandObj() { return leftHand_; }
 	/// <summary>
 	/// 右手オブジェクト取得
 	/// </summary>
 	/// <returns>右手オブジェクト</returns>
-	Object3d* GetRightHandObj() { return rightHand; }
+	Object3d* GetRightHandObj() { return rightHand_; }
 
 private: //メンバ関数
 	/// <summary>
@@ -139,53 +139,53 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	// 左手
-	Object3d* leftHand;
-	Object3d* leftHandShadow;
-	Sprite* leftHpBar;
-	Sprite* leftHpRedBar;
+	Object3d* leftHand_;
+	Object3d* leftHandShadow_;
+	Sprite* leftHpBar_;
+	Sprite* leftHpRedBar_;
 	//右手
-	Object3d* rightHand;
-	Object3d* rightHandShadow;
-	Sprite* rightHpBar;
-	Sprite* rightHpRedBar;
+	Object3d* rightHand_;
+	Object3d* rightHandShadow_;
+	Sprite* rightHpBar_;
+	Sprite* rightHpRedBar_;
 	//左手関連変数
-	Vector3 leftHandPos;
-	Vector3 leftHandScale;
-	Vector3 leftHandRot;
-	int32_t leftHandHP;
-	bool isLeftHandDamage;
-	bool isLeftHandDead;
-	int32_t leftHandDamageTimer;
-	int32_t leftHandDeadTimer;
-	float leftHandAngle;
-	Vector3 leftHandShadowPos;
+	Vector3 leftHandPos_;
+	Vector3 leftHandScale_;
+	Vector3 leftHandRot_;
+	int32_t leftHandHP_;
+	bool isLeftHandDamage_;
+	bool isLeftHandDead_;
+	int32_t leftHandDamageTimer_;
+	int32_t leftHandDeadTimer_;
+	float leftHandAngle_;
+	Vector3 leftHandShadowPos_;
 	//右手関連変数
-	Vector3 rightHandPos;
-	Vector3 rightHandScale;
-	Vector3 rightHandRot;
-	int32_t rightHandHP;
-	bool isRightHandDamage;
-	bool isRightHandDead;
-	int32_t rightHandDamageTimer;
-	int32_t rightHandDeadTimer;
-	float rightHandAngle;
-	Vector3 rightHandShadowPos;
+	Vector3 rightHandPos_;
+	Vector3 rightHandScale_;
+	Vector3 rightHandRot_;
+	int32_t rightHandHP_;
+	bool isRightHandDamage_;
+	bool isRightHandDead_;
+	int32_t rightHandDamageTimer_;
+	int32_t rightHandDeadTimer_;
+	float rightHandAngle_;
+	Vector3 rightHandShadowPos_;
 
 	//ムービー関連変数
-	int32_t movieTimer;
-	bool isMoviePoint_1 = false;
-	bool isMoviePoint_2 = false;
-	bool isMoviePoint_3 = false;
-	bool isCameraMoveTiming = false;
+	int32_t movieTimer_;
+	bool isMoviePoint_1_ = false;
+	bool isMoviePoint_2_ = false;
+	bool isMoviePoint_3_ = false;
+	bool isCameraMoveTiming_ = false;
 
 	//攻撃関連変数
-	int32_t rollingShotTimer;
-	int32_t guardTimer;
-	int32_t stompTimer;
-	int32_t punchTimer;
-	int32_t actionPreTimer;
-	int32_t actionPostTimer;
-	bool isActionPos;
-	bool isActionPost;
+	int32_t rollingShotTimer_;
+	int32_t guardTimer_;
+	int32_t stompTimer_;
+	int32_t punchTimer_;
+	int32_t actionPreTimer_;
+	int32_t actionPostTimer_;
+	bool isActionPos_;
+	bool isActionPost_;
 };
 

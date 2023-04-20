@@ -20,43 +20,39 @@ SPEED 2
 WAIT 40
 
 FACE OPE_NORMAL
-TEXT 操作方法を確認しますね。
+TEXT 作戦を再確認します。
 SPEED 2
 WAIT 40
 
 FACE OPE_NORMAL
-TEXT WASDで移動することができます。
+TEXT 敵性MECが街を襲撃しています。
 SPEED 2
 WAIT 120
 
 FACE OPE_NORMAL
-TEXT 攻撃はマウスで狙いをつけ、弾がある限り/左クリックで発射できます。/また弾はRでリロードすることができます。
+TEXT 街へ急行し敵性MECを殲滅してください。
 SPEED 2
 WAIT 120
 
 FACE OPE_NORMAL
-TEXT 右クリックでボムモードに移行できます。また、/再び右クリックを押すことでキャンセルすることができます。
+TEXT また巨大MECの存在も確認されています。
 SPEED 2
 WAIT 120
 
 FACE OPE_NORMAL
-TEXT ボムモード中に敵に狙いを済ますとロックオンすることができます。そのまま左クリックを押すことでボム攻撃することができます。
+TEXT 十分に注意して作戦を行ってください。
 SPEED 2
 WAIT 120
 
+CLOSE
+
+WAIT 1000
+
+OPEN
 FACE OPE_NORMAL
-TEXT ただしボム攻撃には回数制限があります。ピンチの時に使うとよいでしょう。
+TEXT 巨大MECの反応あり!現場へ急行してください
 SPEED 2
-WAIT 120
 
-FACE OPE_NORMAL
-TEXT さて、今回の作戦は市街地に出現したMECの撃破です。
-SPEED 2
 WAIT 120
-
-FACE_OPE_NORMAL
-TEXT 住民の避難は完了しているので地上での銃器の使用及びブーストダッシュを許可します。ただし/ボム攻撃は使用できませんのでお気をつけて。
-SPEED 2
-WAIT 160
 
 CLOSE

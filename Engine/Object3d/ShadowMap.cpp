@@ -2,28 +2,65 @@
 
 void ShadowMap::Initialize()
 {
-	if (!DSVCreate()) {
+	if (!ShadowHeapCreate()) {
 		assert(0);
 		return;
 	}
-
+	if (!ShadowBuffCreate()) {
+		assert(0);
+		return;
+	}
 }
 
 void ShadowMap::Update()
 {
 }
 
-bool ShadowMap::SRVCreate()
+bool ShadowMap::TexHeapCreate()
 {
+	HRESULT result;
+
+	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
+	descHeapDesc.NumDescriptors = 2;
+	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	descHeapDesc.NodeMask = 0;
+	result = DirectXSetting::GetIns()->GetDev()->CreateDescriptorHeap(
+		&descHeapDesc, IID_PPV_ARGS(&texHeap_)
+	);
+
+	//シェーダーリソースビュー作成
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle{};
+	D3D12_SHADER_RESOURCE_VIEW_DESC rvDesc{};
+
+	rvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	rvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	rvDesc.Texture2D.MipLevels = 1;
+	rvDesc.Texture2D.MostDetailedMip = 0;
+	rvDesc.Texture2D.PlaneSlice = 0;
+	rvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
+	rvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	srvHandle = texHeap_->GetCPUDescriptorHandleForHeapStart();
+	DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView(
+		texBuff_.Get(), &rvDesc, srvHandle
+	);
+
+	rvDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	srvHandle.ptr += DirectXSetting::GetIns()->GetDev()->GetDescriptorHandleIncrementSize(
+		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
+	);
+	//DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView()
+
 	return true;
 }
 
-bool ShadowMap::RTVCreate()
+bool ShadowMap::TexBuffCreate()
 {
-	return true;
+	return false;
 }
 
-bool ShadowMap::DepthCreate()
+bool ShadowMap::ShadowBuffCreate()
 {
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
@@ -51,7 +88,7 @@ bool ShadowMap::DepthCreate()
 	return true;
 }
 
-bool ShadowMap::DSVCreate()
+bool ShadowMap::ShadowHeapCreate()
 {
 	HRESULT result;
 
