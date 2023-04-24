@@ -670,9 +670,4 @@ void BossScene::SceneChange()
 			SceneManager::SceneChange(SceneManager::Title);
 		}
 	}
-
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
-	//	SceneManager::SceneChange(SceneManager::Result);
-	//}
 }

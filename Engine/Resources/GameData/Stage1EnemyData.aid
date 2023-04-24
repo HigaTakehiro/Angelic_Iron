@@ -4,7 +4,7 @@
 #Wait ←敵のポップ待機時間
 #STR ←直進弾を発射する敵タイプ
 #HOM ←追尾弾を発射する敵タイプ
-#TAG ←自機狙い弾を発射する敵タイプ
+#AIM ←自機狙い弾を発射する敵タイプ
 #Move ←移動するポイント
 #MoveTime ←移動時間[s]
 #LifeTime ←出現させている時間[s]
@@ -23,8 +23,8 @@ MoveTime 8
 LifeTime 10
 Hp 2
 ShotCoolTime 2
-Type HOM
-Wait 750
+Type AIM
+Wait 780
 
 #Enemy2
 
@@ -81,50 +81,134 @@ Wait 500
 
 #Enemy7
 
-Pos 160.0 600.0 100.0
+Pos 160.0 450.0 100.0
 Rot 0.0 180.0 0.0
 Move 160.0 300.0 100.0
 Move 160.0 300.0 100.0
-Move 160.0 600.0 100.0
+Move 160.0 2000.0 100.0
 End
 MoveTime 10
 Hp 3
 ShotCoolTime 3
-LifeTime 20
+LifeTime 12
 Type HOM
 Wait 0
 
 #Enemy8
 
-Pos 80.0 600.0 100.0
+Pos 80.0 450.0 100.0
 Rot 0.0 180.0 0.0
 Move 80.0 300.0 100.0
 Move 80.0 300.0 100.0
-Move 80.0 600.0 100.0
+Move 80.0 2000.0 100.0
 End
 MoveTime 10
 Hp 3
-LifeTime 20
+LifeTime 12
 ShotCoolTime 3
 Type HOM
-Wait 500
+Wait 1450
 
 #Enemy9
-Pos -275.0 180.0 190.0
+Pos 100.0 150.0 300.0
 Rot 0.0 180.0 0.0
-Type HOM
+Move 150.0 100.0 100.0
+Move 100.0 50.0 -100.0
+End
+MoveTime 5
+Hp 1
+LifeTime 5
+ShotCoolTime 3
+Type AIM
+Wait 0
 
 #Enemy10
-Pos -250.0 180.0 190.0
+Pos 150.0 100.0 300.0
 Rot 0.0 180.0 0.0
-Type HOM
+Move 100.0 50.0 100.0
+Move 50.0 100.0 -100.0
+End
+MoveTime 5
+Hp 1
+LifeTime 5
+ShotCoolTime 3
+Type AIM
+Wait 0
 
 #Enemy11
-Pos -275.0 160.0 190.0
+Pos 100.0 50.0 300.0
 Rot 0.0 180.0 0.0
-Type STR
+Move 50.0 100.0 100.0
+Move 100.0 150.0 -100.0
+End
+MoveTime 5
+Hp 1
+LifeTime 5
+ShotCoolTime 3
+Type AIM
+Wait 0
 
 #Enemy12
-Pos -275.0 200.0 190.0
+Pos 50.0 100.0 300.0
 Rot 0.0 180.0 0.0
-Type STR
+Move 100.0 150.0 100.0
+Move 150.0 100.0 -100.0
+End
+MoveTime 5
+Hp 1
+LifeTime 5
+ShotCoolTime 3
+Type AIM
+Wait 370
+
+#Enemy13
+Pos 150.0 150.0 -200.0
+Rot 0.0 0.0 0.0
+Move 110.0 110.0 -100.0
+Move 10000.0 150.0 -200.0
+End
+MoveTime 30
+Hp 5
+LifeTime 31
+ShotCoolTime 1
+Type HOM
+Wait 0a
+
+#Enemy14
+Pos 150.0 50.0 -200.0
+Rot 0.0 0.0 0.0
+Move 110.0 90.0 -100.0
+Move 10000.0 150.0 -200.0
+End
+MoveTime 30
+Hp 5
+LifeTime 31
+ShotCoolTime 2
+Type HOM
+Wait 0
+
+#Enemy15
+Pos 50.0 150.0 -200.0
+Rot 0.0 0.0 0.0
+Move 90.0 110.0 -100.0
+Move -10000.0 150.0 -200.0
+End
+MoveTime 30
+Hp 5
+LifeTime 31
+ShotCoolTime 3
+Type HOM
+Wait 0
+
+#Enemy16
+Pos 50.0 50.0 -200.0
+Rot 0.0 0.0 0.0
+Move 90.0 90.0 -100.0
+Move -10000.0 150.0 -200.0
+End
+MoveTime 30
+Hp 5
+LifeTime 31
+ShotCoolTime 1
+Type HOM
+Wait 0

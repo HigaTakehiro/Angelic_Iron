@@ -191,7 +191,7 @@
     <ClCompile Include="ApplicationCode\Enemies\EnemyBullet.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp">
+    <ClCompile Include="ApplicationCode\Enemies\AimingEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp">
@@ -244,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Object3d\ShadowMap.cpp">
       <Filter>ソース ファイル\Object3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -373,7 +376,7 @@
     <ClInclude Include="ApplicationCode\Enemies\EnemyBullet.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h">
+    <ClInclude Include="ApplicationCode\Enemies\AimingEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h">
@@ -426,6 +429,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object3d\ShadowMap.h">
       <Filter>ソース ファイル\Object3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

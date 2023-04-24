@@ -63,43 +63,43 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT3 GetPlayerPos() { return playerLPos; }
+	const XMFLOAT3 GetPlayerPos() { return playerLPos_; }
 
 	/// <summary>
 	/// 銃オブジェクト取得
 	/// </summary>
 	/// <returns>銃オブジェクト</returns>
-	Object3d* GetGunObject() { return gun; }
+	Object3d* GetGunObject() { return gun_; }
 
 	/// <summary>
 	/// 3Dレティクルの位置取得
 	/// </summary>
 	/// <returns></returns>
-	const Vector3 Get3dAimPos() { return aimPos3d; }
+	const Vector3 Get3dAimPos() { return aimPos3d_; }
 
 	/// <summary>
 	/// レティクル位置取得
 	/// </summary>
 	/// <returns>向き</returns>
-	const XMFLOAT2 GetAimPos() { return aimPos; }
+	const XMFLOAT2 GetAimPos() { return aimPos_; }
 
 	/// <summary>
 	/// プレイヤーオブジェクトの取得
 	/// </summary>
 	/// <returns>プレイヤーオブジェクト</returns>
-	Object3d* GetPlayerObject() { return player; }
+	Object3d* GetPlayerObject() { return player_; }
 
 	/// <summary>
 	/// 残りHP取得
 	/// </summary>
 	/// <returns></returns>
-	int32_t GetHPCount() { return hpCount; }
+	int32_t GetHPCount() { return hpCount_; }
 
 	/// <summary>
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
-	bool GetIsDead() { return isDead; }
+	bool GetIsDead() { return isDead_; }
 
 	/// <summary>
 	/// 衝突時コールバック関数
@@ -115,37 +115,43 @@ public: //メンバ関数
 	/// ゲームシーンをセット
 	/// </summary>
 	/// <param name="RailScene">ゲームシーン</param>
-	void SetRailScene(RailScene* RailScene) { this->railScene = RailScene; }
+	void SetRailScene(RailScene* RailScene) { this->railScene_ = RailScene; }
 
 	/// <summary>
 	/// クリア演出最終地点をセット
 	/// </summary>
 	/// <param name="clearPos">クリア演出最終地点</param>
-	void SetClearPos(const Vector3 clearPos) { this->clearPos = clearPos; }
+	void SetClearPos(const Vector3 clearPos) { this->clearPos_ = clearPos; }
+
+	/// <summary>
+	/// 発射位置をセット
+	/// </summary>
+	/// <param name="shotDistance"></param>
+	void SetShotDistance(const float shotDistance) { this->shotDistance_ = shotDistance; }
 
 	/// <summary>
 	/// ダメージフラグ取得
 	/// </summary>
 	/// <returns>ダメージフラグ</returns>
-	bool GetIsDamage() { return isDamage; }
+	bool GetIsDamage() { return isDamage_; }
 
 	/// <summary>
 	/// ボムフラグ取得
 	/// </summary>
 	/// <returns>ボムフラグ</returns>
-	bool GetIsBomb() { return isBomb; }
+	bool GetIsBomb() { return isBomb_; }
 
 	/// <summary>
 	/// ボム攻撃タイマー取得
 	/// </summary>
 	/// <returns>ボム攻撃</returns>
-	int32_t GetBombTimer() { return bombTimer; }
+	int32_t GetBombTimer() { return bombTimer_; }
 
 	/// <summary>
 	/// 発射フラグ取得
 	/// </summary>
 	/// <returns>発射フラグ</returns>
-	bool GetIsShot() { return isShot; }
+	bool GetIsShot() { return isShot_; }
 
 private: //メンバ関数
 	/// <summary>
@@ -209,68 +215,69 @@ private: //静的メンバ変数
 	static const int32_t bombTime = 60 * 5;
 
 private: //メンバ変数
-	Vector3 playerLPos = { 0, 0, 0 };
-	Vector3 playerWPos = { 0, 0, 0 };
-	Vector3 playerRot = { 0, 0, 0 };
-	Vector3 playerScale = { 0, 0, 0 };
-	Vector3 clearPos = {0.0f, 0.0f, 0.0f};
+	Vector3 playerLPos_ = { 0, 0, 0 };
+	Vector3 playerWPos_ = { 0, 0, 0 };
+	Vector3 playerRot_ = { 0, 0, 0 };
+	Vector3 playerScale_ = { 0, 0, 0 };
+	Vector3 clearPos_ = {0.0f, 0.0f, 0.0f};
 
-	Object3d* player = nullptr;
-	Object3d* gun = nullptr;
-	Sprite* playerUI = nullptr;
-	Sprite* hpUI[maxHp];
-	Sprite* bulletUI[maxBulletCount];
-	Sprite* reloadUI = nullptr;
-	Sprite* bomb[3] = {};
+	Object3d* player_ = nullptr;
+	Object3d* gun_ = nullptr;
+	Sprite* playerUI_ = nullptr;
+	Sprite* hpUI_[maxHp];
+	Sprite* bulletUI_[maxBulletCount];
+	Sprite* reloadUI_ = nullptr;
+	Sprite* bomb_[3] = {};
 
-	bool isShot = false;
-	bool isDead = false;
+	bool isShot_ = false;
+	bool isDead_ = false;
 	//ゲームシーン用変数
-	XMFLOAT2 aimPos;
-	Vector3 oldShotPos;
-	Vector3 targetAimPos;
-	XMVECTOR positionRaticle;
-	XMMATRIX matViewPort;
-	XMMATRIX matViewProjection;
-	XMFLOAT3 aimPosMath;
+	XMFLOAT2 aimPos_;
+	Vector3 oldShotPos_;
+	Vector3 targetAimPos_;
+	XMVECTOR positionRaticle_;
+	XMMATRIX matViewPort_;
+	XMMATRIX matViewProjection_;
+	XMFLOAT3 aimPosMath_;
 
-	Vector3 aimPos3d;
-	Camera* camera;
-	RailScene* railScene;
+	Vector3 aimPos3d_;
+	Camera* camera_;
+	RailScene* railScene_;
 
 	//残弾数
-	int32_t bulletCount;
+	int32_t bulletCount_;
 	//HP
-	int32_t hpCount;
+	int32_t hpCount_;
 	//リロード時間
-	int32_t reloadTimer;
+	int32_t reloadTimer_;
 	//弾発射クールタイム
-	int32_t shotCoolTimer;
+	int32_t shotCoolTimer_;
 	//ボム攻撃タイマー
-	int32_t bombTimer;
+	int32_t bombTimer_;
 	//リロードフラグ
-	bool isReload = false;
+	bool isReload_ = false;
 	//ダメージエフェクト時間
-	int32_t damageEffectTimer;
+	int32_t damageEffectTimer_;
 	//ダメージエフェクト用フラグ
-	bool isDamage = false;
+	bool isDamage_ = false;
 	//死亡時演出用時間
-	int32_t deadTimer;
+	int32_t deadTimer_;
 	//イージング時間計測用配列
-	float holdTimer[4];
+	float holdTimer_[4];
 	//イージング用時間計測
-	float returnTimer;
+	float returnTimer_;
 	//クリア演出用時間計測
-	float clearTimer;
+	float clearTimer_;
 	//クリア時間
-	float clearTime;
+	float clearTime_;
 	//スタート演出用時間計測
-	int32_t startTimer;
+	int32_t startTimer_;
 	//スタートフラグ
-	bool isStart;
+	bool isStart_;
 	//ボムフラグ
-	bool isBomb;
+	bool isBomb_;
 	//ボム数
-	int32_t bombCount;
+	int32_t bombCount_;
+	//発射位置
+	float shotDistance_;
 };
-

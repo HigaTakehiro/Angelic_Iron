@@ -2,12 +2,12 @@
 #include "BaseEnemy.h"
 #include "RailScene.h"
 
-class HomingEnemy : public BaseEnemy
+class AimingEnemy : public BaseEnemy
 {
 public:
-	HomingEnemy() = default;
+	AimingEnemy() = default;
 
-	~HomingEnemy();
+	~AimingEnemy();
 
 public: //メンバ関数
 	/// <summary>
@@ -35,6 +35,7 @@ public: //メンバ関数
 	void DeadPerformance() override;
 
 private: //メンバ関数
+
 	/// <summary>
 	/// 攻撃処理
 	/// </summary>
@@ -43,5 +44,5 @@ private: //メンバ関数
 private: //静的メンバ変数
 
 private: //メンバ変数
-	
 };
+

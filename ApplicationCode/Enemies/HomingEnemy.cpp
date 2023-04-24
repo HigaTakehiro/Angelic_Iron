@@ -26,7 +26,7 @@ void HomingEnemy::Initialize(const std::string modelKey, const Vector3& pos, con
 
 void HomingEnemy::Update()
 {
-	//RockOnPerformance();
+	const int32_t lifeTimeOver = 0;
 
 	if (hp <= 0) {
 		DeadPerformance();
@@ -45,7 +45,6 @@ void HomingEnemy::Update()
 	}
 
 	enemy->Update();
-
 }
 
 void HomingEnemy::Draw()
@@ -60,7 +59,8 @@ void HomingEnemy::SpriteDraw()
 	}
 }
 
-void HomingEnemy::DeadPerformance() {
+void HomingEnemy::DeadPerformance()
+{
 	const float downSpeed = 0.5f;
 	const float rotSpeed = 15.0f;
 	XMFLOAT3 enemyPos = enemy->GetPosition();
@@ -87,7 +87,7 @@ void HomingEnemy::Attack()
 		velocity = vector * bulletSpeed;
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);
+		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity, player->GetPlayerObject());
 
 		railScene->AddEnemyBullet(std::move(newBullet));
 		shotIntervalTimer = 0;

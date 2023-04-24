@@ -158,6 +158,7 @@
     <ClCompile Include="ApplicationCode\Effects\Particle2d.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\BaseEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\EnemyBullet.cpp" />
+    <ClCompile Include="ApplicationCode\Enemies\AimingEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="ApplicationCode\Effects\Particle2d.h" />
     <ClInclude Include="ApplicationCode\Enemies\BaseEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\EnemyBullet.h" />
+    <ClInclude Include="ApplicationCode\Enemies\AimingEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />

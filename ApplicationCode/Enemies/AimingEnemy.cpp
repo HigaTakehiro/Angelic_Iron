@@ -1,11 +1,13 @@
-#include "StraightEnemy.h"
+#include "AimingEnemy.h"
 
-StraightEnemy::~StraightEnemy() {
+AimingEnemy::~AimingEnemy()
+{
 	safe_delete(enemy);
 	safe_delete(target);
 }
 
-void StraightEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot) {
+void AimingEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot)
+{
 	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
 	enemy->SetPosition(pos);
 	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
@@ -22,9 +24,9 @@ void StraightEnemy::Initialize(const std::string modelKey, const Vector3& pos, c
 	targetReactionTimer = 0;
 }
 
-void StraightEnemy::Update()
+void AimingEnemy::Update()
 {
-	const int32_t lifeTimeOver = 0;
+	//RockOnPerformance();
 
 	if (hp <= 0) {
 		DeadPerformance();
@@ -43,22 +45,22 @@ void StraightEnemy::Update()
 	}
 
 	enemy->Update();
+
 }
 
-void StraightEnemy::Draw()
+void AimingEnemy::Draw()
 {
 	enemy->Draw();
 }
 
-void StraightEnemy::SpriteDraw()
+void AimingEnemy::SpriteDraw()
 {
 	if (isTarget) {
 		target->Draw();
 	}
 }
 
-void StraightEnemy::DeadPerformance()
-{
+void AimingEnemy::DeadPerformance() {
 	const float downSpeed = 0.5f;
 	const float rotSpeed = 15.0f;
 	XMFLOAT3 enemyPos = enemy->GetPosition();
@@ -73,13 +75,16 @@ void StraightEnemy::DeadPerformance()
 	}
 }
 
-void StraightEnemy::Attack()
+void AimingEnemy::Attack()
 {
 	if (++shotIntervalTimer >= shotIntervalTime) {
-		const float bulletSpeed = 0.001f;
+		const float bulletSpeed = 2.0f;
+		Vector3 playerWPos = player->GetPlayerObject()->GetMatWorld().r[3];
+		Vector3 enemyWPos = enemy->GetMatWorld().r[3];
 		XMVECTOR velocity = { 0, 0, 1 };
-
-		velocity = XMVector3TransformNormal(velocity, enemy->GetMatWorld());
+		XMVECTOR vector = { playerWPos.x - enemyWPos.x, playerWPos.y - enemyWPos.y, playerWPos.z - enemyWPos.z };
+		vector = XMVector3Normalize(vector);
+		velocity = vector * bulletSpeed;
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity);

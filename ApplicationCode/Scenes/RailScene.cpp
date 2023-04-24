@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "SafeDelete.h"
 #include "StraightEnemy.h"
+#include "AimingEnemy.h"
 #include "HomingEnemy.h"
 #include "DirectXSetting.h"
 #include "ExternalFileLoader.h"
@@ -493,13 +494,28 @@ void RailScene::EnemyDataUpdate() {
 				}
 				enemies.push_back(std::move(newEnemy));
 			}
-			if (type == "HOM") {
-				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
+			if (type == "AIM") {
+				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<AimingEnemy>();
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
 				newEnemy->SetPlayer(player);
 				newEnemy->SetLifeTime(lifeTime);
 				newEnemy->SetHP(hp);
+				newEnemy->SetShotIntervalTime(shotIntervalTime);
+				if (isMovePoint) {
+					movePoints.insert(movePoints.begin(), pos);
+					newEnemy->SetMaxTime(moveTime);
+					newEnemy->SetMovePoints(movePoints);
+				}
+				enemies.push_back(std::move(newEnemy));
+			}
+			if (type == "HOM") {
+				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
+				newEnemy->Initialize("enemy1", pos, rot);
+				newEnemy->SetRailScene(this);
+				newEnemy->SetPlayer(player);
+				newEnemy->SetHP(hp);
+				newEnemy->SetLifeTime(lifeTime);
 				newEnemy->SetShotIntervalTime(shotIntervalTime);
 				if (isMovePoint) {
 					movePoints.insert(movePoints.begin(), pos);
@@ -877,7 +893,12 @@ void RailScene::CollisionCheck()
 {
 	for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f) && enemy->GetHP() - 1 <= 0 && enemy->GetHP() > 0) {
+				score += 500;
+				enemy->OnCollision();
+				playerBullet->OnCollision();
+			}
+			else if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 				score += 100;
 				enemy->OnCollision();
 				playerBullet->OnCollision();

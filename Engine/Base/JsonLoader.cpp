@@ -1,6 +1,6 @@
 #include "JsonLoader.h"
 #include "StraightEnemy.h"
-#include "HomingEnemy.h"
+#include "AimingEnemy.h"
 #include <istream>
 
 const std::string JsonLoader::baseDirectory = "Engine/Resources/GameData/";
