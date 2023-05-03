@@ -78,6 +78,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Maths">
       <UniqueIdentifier>{d99440e2-5b7e-4db4-a8b9-a8e6a26c7180}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\UI">
+      <UniqueIdentifier>{47caeb62-7ef3-439b-a6e0-9a073b607dfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -212,9 +215,6 @@
     <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Players\Reticle.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
@@ -247,6 +247,12 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\UI\Reticle.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\UI\Score.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -397,9 +403,6 @@
     <ClInclude Include="ApplicationCode\Players\PlayerBullet.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Players\Reticle.h">
-      <Filter>ソース ファイル\ApplicationCode\Players</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
@@ -432,6 +435,12 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Reticle.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Score.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -921,30 +921,7 @@ void RailScene::CollisionCheck()
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 				score += 100;
 				enemy->BombHitCollision();
-				for (int32_t i = 0; i < 10; i++) {
-					XMFLOAT3 pos = {
-						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
-						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
-						bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2]
-					};
-					pos.x += rand() % 40 - 20;
-					pos.y += rand() % 40 - 20;
-					pos.z += rand() % 40 - 20;
-
-					const float rnd_vel = 0.1f;
-					XMFLOAT3 vel{};
-					vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-					vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-					vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-					XMFLOAT3 acc{};
-					const float rnd_acc = 0.01f;
-					acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-					acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-					acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-
-					bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
-				}
+				BombHitEffect(bomb.get());
 				bomb->OnCollision();
 
 			}
@@ -1095,6 +1072,33 @@ void RailScene::AddEffect()
 	}
 }
 
+void RailScene::BombHitEffect(Bomb* bomb) {
+	for (int32_t i = 0; i < 10; i++) {
+		XMFLOAT3 pos = {
+			bomb->GetBullet()->GetMatWorld().r[3].m128_f32[0],
+			bomb->GetBullet()->GetMatWorld().r[3].m128_f32[1],
+			bomb->GetBullet()->GetMatWorld().r[3].m128_f32[2]
+		};
+		pos.x += rand() % 40 - 20;
+		pos.y += rand() % 40 - 20;
+		pos.z += rand() % 40 - 20;
+
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.01f;
+		acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+		acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+		acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
+
+		bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+	}
+}
+
 void RailScene::Pause()
 {
 	SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
@@ -1192,7 +1196,7 @@ void RailScene::Tutorial()
 		isShot_ = true;
 	}
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
-		isBomb_ = true;
+		isBombShot_ = true;
 	}
 
 	if (isMoveUp_ && how_to_up_alpha_ > 0) {
@@ -1215,7 +1219,7 @@ void RailScene::Tutorial()
 		how_to_shot_alpha_ -= 0.05f;
 		how_to_shot_->SetAlpha(how_to_shot_alpha_);
 	}
-	if (isBomb_ && how_to_bomb_alpha_ > 0) {
+	if (isBombShot_ && how_to_bomb_alpha_ > 0) {
 		how_to_bomb_alpha_ -= 0.1f;
 		how_to_bomb_->SetAlpha(how_to_bomb_alpha_);
 	}
@@ -1224,8 +1228,8 @@ void RailScene::Tutorial()
 void RailScene::BombPerformance()
 {
 	for (int32_t i = 0; i < 3; i++) {
-		bombTimerNumber[i]->SetTextureRect({ (float)JudgeDigitNumber((player->GetBombTimer() * 100 / 60), i), 0.0f}, {64.0f, 64.0f});
-		bombTimerNumber[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f});
+		bombTimerNumber[i]->SetTextureRect({ (float)JudgeDigitNumber((player->GetBombTimer() * 100 / 60), i), 0.0f }, { 64.0f, 64.0f });
+		bombTimerNumber[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f });
 	}
 }
 

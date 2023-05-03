@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -166,7 +166,6 @@
     <ClCompile Include="ApplicationCode\Players\BossScenePlayer.cpp" />
     <ClCompile Include="ApplicationCode\Players\Player.cpp" />
     <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp" />
-    <ClCompile Include="ApplicationCode\Players\Reticle.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BossScene.cpp" />
@@ -176,6 +175,8 @@
     <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\SceneManager.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Reticle.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Score.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -224,7 +225,6 @@
     <ClInclude Include="ApplicationCode\Players\BossScenePlayer.h" />
     <ClInclude Include="ApplicationCode\Players\Player.h" />
     <ClInclude Include="ApplicationCode\Players\PlayerBullet.h" />
-    <ClInclude Include="ApplicationCode\Players\Reticle.h" />
     <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\BaseScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\BossScene.h" />
@@ -234,6 +234,8 @@
     <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h" />
     <ClInclude Include="ApplicationCode\Scenes\SceneManager.h" />
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
+    <ClInclude Include="ApplicationCode\UI\Reticle.h" />
+    <ClInclude Include="ApplicationCode\UI\Score.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />

@@ -166,6 +166,11 @@ private: //メンバ関数
 	/// </summary>
 	void BombPerformance();
 
+	/// <summary>
+	/// ボム攻撃エフェクト
+	/// </summary>
+	void BombHitEffect(Bomb* bomb);
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
@@ -307,7 +312,7 @@ private: //メンバ変数
 	bool isMoveLeft_;
 	bool isMoveRight_;
 	bool isShot_;
-	bool isBomb_;
+	bool isBombShot_;
 	//チュートリアルアイコンアルファ値
 	float how_to_up_alpha_;
 	float how_to_down_alpha_;
