@@ -2,60 +2,60 @@
 
 HomingEnemy::~HomingEnemy()
 {
-	safe_delete(enemy);
-	safe_delete(target);
+	safe_delete(enemy_);
+	safe_delete(target_);
 }
 
 void HomingEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot)
 {
-	enemy = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
-	enemy->SetPosition(pos);
-	target = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
-	target->SetSize(XMFLOAT2(100.0f, 100.0f));
-	target->SetAnchorPoint({ 0.5f, 0.5f });
-	oldPos = pos;
-	enemy->SetRotation(rot);
-	enemy->SetScale(scale);
-	hp = 1;
-	shotIntervalTime = 60;
-	shotIntervalTimer = 0;
-	lifeTime = 240;
-	lifeTimer = 0;
-	targetReactionTimer = 0;
+	enemy_ = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
+	enemy_->SetPosition(pos);
+	target_ = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
+	target_->SetSize(XMFLOAT2(100.0f, 100.0f));
+	target_->SetAnchorPoint({ 0.5f, 0.5f });
+	oldPos_ = pos;
+	enemy_->SetRotation(rot);
+	enemy_->SetScale(scale_);
+	hp_ = 1;
+	shotIntervalTime_ = 60;
+	shotIntervalTimer_ = 0;
+	lifeTime_ = 240;
+	lifeTimer_ = 0;
+	targetReactionTimer_ = 0;
 }
 
 void HomingEnemy::Update()
 {
 	const int32_t lifeTimeOver = 0;
 
-	if (hp <= 0) {
+	if (hp_ <= 0) {
 		DeadPerformance();
 	}
-	if (++lifeTimer >= lifeTime) {
-		isDead = true;
+	if (++lifeTimer_ >= lifeTime_) {
+		isDead_ = true;
 	}
 
-	if (enemy != nullptr && hp > 0) {
-		if (pos.x == 0 && pos.y == 0 && pos.z == 0) {
-			pos = oldPos;
+	if (enemy_ != nullptr && hp_ > 0) {
+		if (pos_.x == 0 && pos_.y == 0 && pos_.z == 0) {
+			pos_ = oldPos_;
 		}
 		Move();
 		Attack();
 		Damage();
 	}
 
-	enemy->Update();
+	enemy_->Update();
 }
 
 void HomingEnemy::Draw()
 {
-	enemy->Draw();
+	enemy_->Draw();
 }
 
 void HomingEnemy::SpriteDraw()
 {
-	if (isTarget) {
-		target->Draw();
+	if (isTarget_) {
+		target_->Draw();
 	}
 }
 
@@ -63,33 +63,33 @@ void HomingEnemy::DeadPerformance()
 {
 	const float downSpeed = 0.5f;
 	const float rotSpeed = 15.0f;
-	XMFLOAT3 enemyPos = enemy->GetPosition();
-	XMFLOAT3 enemyRot = enemy->GetRotation();
-	deadTimer++;
+	XMFLOAT3 enemyPos = enemy_->GetPosition();
+	XMFLOAT3 enemyRot = enemy_->GetRotation();
+	deadTimer_++;
 	enemyPos.y -= downSpeed;
 	enemyRot.y += rotSpeed;
-	enemy->SetPosition(enemyPos);
-	enemy->SetRotation(enemyRot);
-	if (deadTimer >= deadTime) {
-		isDead = true;
+	enemy_->SetPosition(enemyPos);
+	enemy_->SetRotation(enemyRot);
+	if (deadTimer_ >= deadTime) {
+		isDead_ = true;
 	}
 }
 
 void HomingEnemy::Attack()
 {
-	if (++shotIntervalTimer >= shotIntervalTime) {
+	if (++shotIntervalTimer_ >= shotIntervalTime_) {
 		const float bulletSpeed = 2.0f;
-		Vector3 playerWPos = player->GetPlayerObject()->GetMatWorld().r[3];
-		Vector3 enemyWPos = enemy->GetMatWorld().r[3];
+		Vector3 playerWPos = player_->GetPlayerObject()->GetMatWorld().r[3];
+		Vector3 enemyWPos = enemy_->GetMatWorld().r[3];
 		XMVECTOR velocity = { 0, 0, 1 };
 		XMVECTOR vector = { playerWPos.x - enemyWPos.x, playerWPos.y - enemyWPos.y, playerWPos.z - enemyWPos.z };
 		vector = XMVector3Normalize(vector);
 		velocity = vector * bulletSpeed;
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(enemy->GetMatWorld().r[3], velocity, player->GetPlayerObject());
+		newBullet->Initialize(enemy_->GetMatWorld().r[3], velocity, player_->GetPlayerObject());
 
-		railScene->AddEnemyBullet(std::move(newBullet));
-		shotIntervalTimer = 0;
+		railScene_->AddEnemyBullet(std::move(newBullet));
+		shotIntervalTimer_ = 0;
 	}
 }

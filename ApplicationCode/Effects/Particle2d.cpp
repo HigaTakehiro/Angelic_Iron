@@ -1,49 +1,47 @@
 #include "Particle2d.h"
 
 Particle2d::~Particle2d() {
-	safe_delete(particle);
+	safe_delete(particle_);
 }
 
 void Particle2d::Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imagename, XMFLOAT2 anchorPoint, int32_t imageNo, XMFLOAT2 texUpperLeft, XMFLOAT2 texLowerRight) {
-	this->pos = pos;
-	particle = Sprite::Create(imagename, pos);
-	particle->SetSize(scale);
-	particle->SetAnchorPoint(anchorPoint);
-	deleteTime = time;
-	this->texUpperLeft = { 0, 0 };
-	this->texLowerRight = { 0, 0 };
-	drawTime = 0;
+	pos_ = pos;
+	particle_ = Sprite::Create(imagename, pos);
+	particle_->SetSize(scale);
+	particle_->SetAnchorPoint(anchorPoint);
+	deleteTime_ = time;
+	texUpperLeft_ = { 0, 0 };
+	texLowerRight_ = { 0, 0 };
+	drawTime_ = 0;
 	if (imageNo != 0) {
-		this->imageNo = imageNo;
-		this->texUpperLeft = texUpperLeft;
-		this->texLowerRight = texLowerRight;
-		particle->SetTextureRect(texUpperLeft, texLowerRight);
-		drawTime = deleteTime / imageNo;
+		imageNo_ = imageNo;
+		texUpperLeft_ = texUpperLeft;
+		texLowerRight_ = texLowerRight;
+		particle_->SetTextureRect(texUpperLeft, texLowerRight);
+		drawTime_ = deleteTime_ / imageNo;
 	}
 
-	nowTime = 0;
-	nowImage = 0;
-	isDelete = false;
+	nowTimer_ = 0;
+	nowImage_ = 0;
+	isDelete_ = false;
 }
 
 void Particle2d::Update() {
-	nowTime++;
-	if (nowTime > deleteTime) {
-		isDelete = true;
+	nowTimer_++;
+	if (nowTimer_ > deleteTime_) {
+		isDelete_ = true;
 	}
-	if (nowTime >= drawTime * (nowImage + 1) && imageNo != 0) {
-		nowImage++;
-		texUpperLeft.x = texLowerRight.x;
-		texUpperLeft.x = texUpperLeft.x * (nowImage);
-		//texLowerRight.x = texLowerRight.x * (nowImage + 1);
-		particle->SetTextureRect(texUpperLeft, texLowerRight);
-		//pos.x = texUpperLeft.x;
-		particle->SetPosition(pos);
+	if (nowTimer_ >= drawTime_ * (nowImage_ + 1) && imageNo_ != 0) {
+		nowImage_++;
+		texUpperLeft_.x = texLowerRight_.x;
+		texUpperLeft_.x = texUpperLeft_.x * (nowImage_);
+		particle_->SetTextureRect(texUpperLeft_, texLowerRight_);
+		particle_->SetPosition(pos_);
 	}
 }
 
 void Particle2d::Draw() {
-	if (particle != nullptr) {
-		particle->Draw();
+	if (particle_ != nullptr) {
+		particle_->Draw();
 	}
 }

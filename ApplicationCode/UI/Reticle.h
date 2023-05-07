@@ -58,36 +58,35 @@ public: //メンバ関数
 	/// レティクル座標を取得
 	/// </summary>
 	/// <returns>レティクル座標</returns>
-	DirectX::XMFLOAT2 GetPos() { return reticlePos; }
+	DirectX::XMFLOAT2 GetPos() { return reticlePos_; }
 
 	/// <summary>
 	/// レティクルがボタンまたは敵にあっているフラグを取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsSelectReticle() { return isSeletctReticle; }
+	bool GetIsSelectReticle() { return isSeletctReticle_; }
 
 	/// <summary>
 	/// レティクルがボタンまたは敵にあっているフラグを立てる
 	/// </summary>
 	/// <param name="isSelectReticle">レティクルがボタンまたは敵にあっているフラグ</param>
-	void SetIsSelectReticle(bool isSelectReticle) { this->isSeletctReticle = isSelectReticle; }
+	void SetIsSelectReticle(bool isSelectReticle) { isSeletctReticle_ = isSelectReticle; }
 
 private: //静的メンバ変数
 	//レティクル回転時間
-	const static int32_t rotTime;
-
+	const static int32_t rotTime_;
 	//レティクル
-	static Sprite* reticle;
+	static Sprite* reticle_;
 	//レティクル座標
-	static DirectX::XMFLOAT2 reticlePos;
+	static DirectX::XMFLOAT2 reticlePos_;
 	//レティクルサイズ
-	static DirectX::XMFLOAT2 reticleSize;
+	static DirectX::XMFLOAT2 reticleSize_;
 	//レティクル角度
-	static float reticleRot;
+	static float reticleRot_;
 	//レティクルがボタンまたは敵にあっているフラグ
-	static bool isSeletctReticle;
+	static bool isSeletctReticle_;
 
 private: //メンバ変数
 	//レティクル回転タイマー
-	int32_t rotTimer;
+	int32_t rotTimer_;
 };

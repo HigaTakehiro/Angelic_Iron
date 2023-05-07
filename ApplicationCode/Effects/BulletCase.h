@@ -35,15 +35,15 @@ public: //メンバ関数
 	/// 薬莢の状態を取得
 	/// </summary>
 	/// <returns>弾の状態</returns>
-	bool IsDead() const { return isDead; }
+	bool IsDead() const { return isDead_; }
 
 private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;
 
 private: //メンバ変数
-	Object3d* bulletCase;
-	Vector3 pos;
-	bool isDead;
-	int32_t lifeTimer = lifeTime;
-	Vector3 velocity;
+	Object3d* bulletCase_;
+	Vector3 pos_;
+	bool isDead_;
+	int32_t lifeTimer_ = lifeTime;
+	Vector3 velocity_;
 };

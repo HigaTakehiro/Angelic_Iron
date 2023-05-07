@@ -38,22 +38,22 @@ public: //メンバ関数
 	/// 弾の状態を取得
 	/// </summary>
 	/// <returns>弾の状態</returns>
-	bool IsDead() const { return isDead; }
+	bool IsDead() const { return isDead_; }
 
 	/// <summary>
 	/// 弾オブジェクト取得
 	/// </summary>
 	/// <returns>弾オブジェクト</returns>
-	Object3d* GetBulletObj() { return bullet; }
+	Object3d* GetBulletObj() { return bullet_; }
 
 private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;
 
 private: //メンバ変数
-	Object3d* bullet;
-	Vector3 pos;
-	bool isDead;
-	int32_t lifeTimer = lifeTime;
-	Vector3 velocity;
+	Object3d* bullet_;
+	Vector3 pos_;
+	bool isDead_;
+	int32_t lifeTimer_ = lifeTime;
+	Vector3 velocity_;
 };
 

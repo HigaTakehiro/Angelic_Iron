@@ -47,22 +47,21 @@ public: //メンバ関数
     /// 敵の状態を取得
     /// </summary>
     /// <returns>敵の状態</returns>
-	bool IsDelete() const { return isDelete; }
+	bool IsDelete() const { return isDelete_; }
 
 private: //メンバ変数
 
-	XMFLOAT2 pos; //発生座標
-	int32_t deleteTime; //発生時間
-	XMFLOAT2 texUpperLeft; //連続画像用左上座標
-	XMFLOAT2 texLowerRight; //連続画像用右上座標
-	int32_t imageNo; //分割画像数
-	Sprite* particle; //パーティクル
+	XMFLOAT2 pos_; //発生座標
+	int32_t deleteTime_; //発生時間
+	XMFLOAT2 texUpperLeft_; //連続画像用左上座標
+	XMFLOAT2 texLowerRight_; //連続画像用右上座標
+	int32_t imageNo_; //分割画像数
+	Sprite* particle_; //パーティクル
 
-	int32_t nowTime; //現在時間
-	int32_t drawTime; //1つの画像の描画時間
-	int32_t nowImage; //現在の分割画像
+	int32_t nowTimer_; //現在時間
+	int32_t drawTime_; //1つの画像の描画時間
+	int32_t nowImage_; //現在の分割画像
 
-
-	bool isDelete; //消滅フラグ
+	bool isDelete_; //消滅フラグ
 };
 

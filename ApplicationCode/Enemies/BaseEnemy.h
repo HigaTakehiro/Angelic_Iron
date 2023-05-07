@@ -56,67 +56,67 @@ public: //メンバ関数
 	/// ロックオンフラグをセット
 	/// </summary>
 	/// <param name="isTarget"></param>
-	void SetIsTarget(bool isTarget) { this->isTarget = isTarget; }
+	void SetIsTarget(bool isTarget) { isTarget_ = isTarget; }
 	/// <summary>
 	/// 死亡フラグを取得
 	/// </summary>
 	/// <param name="isDead"></param>
-	bool GetIsDead() { return isDead; }
+	bool GetIsDead() { return isDead_; }
 	/// <summary>
 	/// HP取得
 	/// </summary>
 	/// <returns>HP</returns>
-	int32_t GetHP() { return hp; }
+	int32_t GetHP() { return hp_; }
 	/// <summary>
 	/// レールシーンをセット
 	/// </summary>
 	/// <param name="railScene"></param>
-	void SetRailScene(RailScene* railScene) { this->railScene = railScene; }
+	void SetRailScene(RailScene* railScene) { railScene_ = railScene; }
 	/// <summary>
 	/// プレイヤーをセット
 	/// </summary>
 	/// <param name="player">プレイヤー</param>
-	void SetPlayer(Player* player) { this->player = player; }
+	void SetPlayer(Player* player) { player_ = player; }
 	/// <summary>
 	/// ロックオンフラグをセット
 	/// </summary>
 	/// <param name="isTarget">ロックオンフラグ</param>
-	void SetTarget(bool isTarget) { this->isTarget = isTarget; }
+	void SetTarget(bool isTarget) { isTarget_ = isTarget; }
 	/// <summary>
 	/// 移動時間をセット
 	/// </summary>
 	/// <param name="maxTime">移動時間</param>
-	void SetMaxTime(float maxTime) { this->maxTime = maxTime; }
+	void SetMaxTime(float maxTime) { maxTime_ = maxTime; }
 	/// <summary>
 	/// 最大生存時間をセット
 	/// </summary>
 	/// <param name="lifeTime">生存時間</param>
-	void SetLifeTime(int32_t lifeTime) { this->lifeTime = lifeTime; }
+	void SetLifeTime(int32_t lifeTime) { lifeTime_ = lifeTime; }
 	/// <summary>
 	/// 弾発射間隔をセット
 	/// </summary>
 	/// <param name="shotIntervalTime">弾発射間隔</param>
-	void SetShotIntervalTime(int32_t shotIntervalTime) { this->shotIntervalTime = shotIntervalTime; }
+	void SetShotIntervalTime(int32_t shotIntervalTime) { shotIntervalTime_ = shotIntervalTime; }
 	/// <summary>
 	/// HPをセット
 	/// </summary>
 	/// <param name="hp">HP</param>
-	void SetHP(int32_t hp) { this->hp = hp; }
+	void SetHP(int32_t hp) { hp_ = hp; }
 	/// <summary>
 	/// 移動するポイントをセット
 	/// </summary>
 	/// <param name="movePoints">移動ポイント</param>
-	void SetMovePoints(const std::vector<Vector3>& movePoints) { this->movePoints = movePoints; }
+	void SetMovePoints(const std::vector<Vector3>& movePoints) { movePoints_ = movePoints; }
 	/// <summary>
 	/// ロックオンフラグを取得
 	/// </summary>
 	/// <returns>ロックオンフラグ</returns>
-	bool GetIsTarget() { return isTarget; }
+	bool GetIsTarget() { return isTarget_; }
 	/// <summary>
 	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns>敵オブジェクト</returns>
-	Object3d* GetEnemyObj() { return enemy; }
+	Object3d* GetEnemyObj() { return enemy_; }
 	/// <summary>
 	/// ロックオン演出
 	/// </summary>
@@ -146,55 +146,55 @@ protected: //静的メンバ変数
 
 protected: //メンバ変数
 	//敵オブジェクト
-	Object3d* enemy;
+	Object3d* enemy_;
 	//ロックオン画像
-	Sprite* target;
+	Sprite* target_;
 	//座標
-	Vector3 pos;
+	Vector3 pos_;
 	//初期座標
-	Vector3 oldPos;
+	Vector3 oldPos_;
 	//大きさ
-	Vector3 scale = { 5.0f, 5.0f, 5.0f };
+	Vector3 scale_ = { 5.0f, 5.0f, 5.0f };
 	//回転角
-	Vector3 rot = {5.0f, 5.0f, 5.0f};
+	Vector3 rot_ = {5.0f, 5.0f, 5.0f};
 	//死亡フラグ
-	bool isDead;
+	bool isDead_;
 	//ロックオンフラグ
-	bool isTarget;
+	bool isTarget_;
 	//ダメージフラグ
-	bool isDamage;
+	bool isDamage_;
 	//ゲームシーンのポインタ
-	RailScene* railScene;
+	RailScene* railScene_;
 	//移動するポイント
-	std::vector<Vector3> movePoints;
+	std::vector<Vector3> movePoints_;
 	//現在時間
-	float nowTimer;
+	float nowTimer_;
 	//経過時間
-	float elapsedTimer;
+	float elapsedTimer_;
 	//移動時間
-	float maxTime = 1.0f;
+	float maxTime_ = 1.0f;
 	//評価時間
-	float timeRate;
+	float timeRate_;
 	//移動完了したポイント
-	int32_t movedPoint = 0;
+	int32_t movedPoint_ = 0;
 	//プレイヤーのポインタ
-	Player* player;
+	Player* player_;
 	//体力
-	int32_t hp;
+	int32_t hp_;
 	//プレイヤーの座標
-	Vector3 playerPos;
+	Vector3 playerPos_;
 	//生存時間
-	int32_t lifeTimer;
+	int32_t lifeTimer_;
 	//最大生存時間
-	int32_t lifeTime;
+	int32_t lifeTime_;
 	//弾発射間隔時間
-	int32_t shotIntervalTimer;
+	int32_t shotIntervalTimer_;
 	//弾発射間隔
-	int32_t shotIntervalTime;
+	int32_t shotIntervalTime_;
 	//死亡時演出用時間
-	int32_t deadTimer;
+	int32_t deadTimer_;
 	//ダメージ演出用時間
-	int32_t damageTimer;
+	int32_t damageTimer_;
 	//ロックオン演出用時間
-	float targetReactionTimer;
+	float targetReactionTimer_;
 };

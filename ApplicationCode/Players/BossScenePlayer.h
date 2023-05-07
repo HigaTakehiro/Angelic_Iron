@@ -44,42 +44,42 @@ public: //メンバ関数
 	/// プレイヤーオブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	Object3d* GetPlayerObj() { return player; }
+	Object3d* GetPlayerObj() { return player_; }
 	/// <summary>
 	/// HP取得
 	/// </summary>
 	/// <returns>HP</returns>
-	int32_t GetHPCount() { return hpCount; }
+	int32_t GetHPCount() { return hpCount_; }
 	/// <summary>
 	/// ダメージフラグ取得
 	/// </summary>
 	/// <returns>ダメージフラグ</returns>
-	bool GetIsDamage() { return isDamage; }
+	bool GetIsDamage() { return isDamage_; }
 	/// <summary>
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
-	bool GetIsDead() { return isDead; }
+	bool GetIsDead() { return isDead_; }
 	/// <summary>
 	/// ダッシュフラグ取得
 	/// </summary>
 	/// <returns>ダッシュフラグ</returns>
-	bool GetIsDash() { return isDash; }
+	bool GetIsDash() { return isDash_; }
 	/// <summary>
 	/// 左ダッシュフラグ取得
 	/// </summary>
 	/// <returns>左ダッシュフラグ</returns>
-	bool GetIsLeftDash() { return isLeftDash; }
+	bool GetIsLeftDash() { return isLeftDash_; }
 	/// <summary>
 	/// 右ダッシュフラグ取得
 	/// </summary>
 	/// <returns>右ダッシュフラグ</returns>
-	bool GetIsRightDash() { return isRightDash; }
+	bool GetIsRightDash() { return isRightDash_; }
 	/// <summary>
 	/// アングル取得
 	/// </summary>
 	/// <returns>アングル</returns>
-	float GetAngle() { return cameraAngle; }
+	float GetAngle() { return cameraAngle_; }
 	/// <summary>
 	/// 終了処理
 	/// </summary>
@@ -92,7 +92,7 @@ public: //メンバ関数
 	/// ボスシーンをセット
 	/// </summary>
 	/// <param name="bossScene">ボスシーン</param>
-	void SetBossScene(BossScene* bossScene) { this->bossScene = bossScene; }
+	void SetBossScene(BossScene* bossScene) { this->bossScene_ = bossScene; }
 
 private: //メンバ関数
 	/// <summary>
@@ -150,80 +150,80 @@ private: //メンバ変数
 
 	//3Dオブジェクト
 	//プレイヤー
-	Object3d* player;
-	Object3d* gun;
+	Object3d* player_;
+	Object3d* gun_;
 
 	//2Dスプライト
 	//レティクル
-	Sprite* playerUI;
-	Sprite* hpUI[maxHp];
-	Sprite* bulletUI[maxBulletCount];
-	Sprite* reloadUI;
-	Sprite* boostUI[maxBoostCount];
+	Sprite* playerUI_;
+	Sprite* hpUI_[maxHp];
+	Sprite* bulletUI_[maxBulletCount];
+	Sprite* reloadUI_;
+	Sprite* boostUI_[maxBoostCount];
 
 	//カメラ
-	Camera* camera;
+	Camera* camera_;
 	
 	//ボスシーン
-	BossScene* bossScene;
+	BossScene* bossScene_;
 	//サウンドクラス
-	Sound* sound;
+	Sound* sound_;
 
 	//ゲームシーン用変数
 	//回転時間
-	int32_t rotationTimer;
+	int32_t rotationTimer_;
 	//ダッシュフラグ
-	bool isDash;
-	bool isLeftDash;
-	bool isRightDash;
+	bool isDash_;
+	bool isLeftDash_;
+	bool isRightDash_;
 	//ダッシュ時間
-	int32_t dashTimer;
+	int32_t dashTimer_;
 	//ダッシュ用初期アングル保存
-	float initAngle;
+	float initAngle_;
 	//ジャンプ上昇速度
-	float jumpPower;
+	float jumpPower_;
 	//ジャンプフラグ
-	bool isJump;
+	bool isJump_;
 	//弾発射クールタイマー
-	int32_t shotCoolTimer;
+	int32_t shotCoolTimer_;
 	//弾発射フラグ
-	bool isShot;
+	bool isShot_;
 	//弾数
-	int32_t bulletCount;
+	int32_t bulletCount_;
 	//HP
-	int32_t hpCount;
+	int32_t hpCount_;
 	//リロードフラグ
-	bool isReload;
+	bool isReload_;
 	//ブースト回復フラグ
-	bool isBoostReload;
+	bool isBoostReload_;
 	//ブースト回復時間
-	float boostReloadTimer;
+	float boostReloadTimer_;
 	//ブースト数
-	int32_t boostCount;
+	int32_t boostCount_;
 	//リロード時間
-	int32_t reloadTimer;
+	int32_t reloadTimer_;
 	//レティクル座標
-	DirectX::XMFLOAT2 aimPos;
+	DirectX::XMFLOAT2 aimPos_;
 	//レティクル3D座標
-	Vector3 aim3dPos;
+	Vector3 aim3dPos_;
 	//ローカル座標
-	Vector3 pos;
+	Vector3 pos_;
 	//回転角
-	Vector3 rot;
+	Vector3 rot_;
 	//大きさ
-	Vector3 scale;
+	Vector3 scale_;
 	//プレイヤーワールド座標
-	Vector3 playerWPos;
+	Vector3 playerWPos_;
 	//カメラアングル
-	float cameraAngle;
+	float cameraAngle_;
 	//カメラ座標
-	Vector3 cameraPos;
+	Vector3 cameraPos_;
 	//ダメージフラグ
-	bool isDamage;
+	bool isDamage_;
 	//ダメージタイマー
-	int32_t damageTimer;
+	int32_t damageTimer_;
 	//死亡タイマー
-	int32_t deadTimer;
+	int32_t deadTimer_;
 	//死亡フラグ
-	bool isDead;
+	bool isDead_;
 };

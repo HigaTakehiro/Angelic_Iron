@@ -38,22 +38,22 @@ public: //メンバ関数
 	/// 死亡フラグ取得
 	/// </summary>
 	/// <returns>死亡フラグ</returns>
-	bool GetIsDead() { return isDead; }
+	bool GetIsDead() { return isDead_; }
 
 	/// <summary>
 	/// 弾オブジェクト取得
 	/// </summary>
 	/// <returns>弾オブジェクト</returns>
-	Object3d* GetBullet() { return bullet; }
+	Object3d* GetBullet() { return bullet_; }
 
 private: //メンバ変数
-	Object3d* bullet;
-	Object3d* targetEnemy;
-	Vector3 bulletPos;
-	Vector3 enemyPos;
-	Vector3 initBulletPos;
+	Object3d* bullet_;
+	Object3d* targetEnemy_;
+	Vector3 bulletPos_;
+	Vector3 enemyPos_;
+	Vector3 initBulletPos_;
 
-	bool isDead;
-	bool isUp;
+	bool isDead_;
+	bool isUp_;
 };
 
