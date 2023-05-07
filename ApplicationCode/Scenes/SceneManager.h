@@ -19,7 +19,7 @@ public:
 	~SceneManager() = default;
 
 public: //シーン管理番号
-	enum SceneName {
+	enum class SceneName {
 		Title,
 		Stage1_Rail,
 		Stage1_Boss,
@@ -74,32 +74,32 @@ public: //静的メンバ関数
 	/// ボスシーンフラグをセット
 	/// </summary>
 	/// <param name="isBossScene">ボスシーンフラグ</param>
-	static void SetIsBossScene(const bool isBossScene) { SceneManager::isBossScene = isBossScene; }
+	static void SetIsBossScene(const bool isBossScene) { SceneManager::isBossScene_ = isBossScene; }
 
 	/// <summary>
 	/// ステージ番号取得
 	/// </summary>
 	/// <returns>ステージ番号</returns>
-	static int32_t GetStageNo() { return stageNo; }
+	static int32_t GetStageNo() { return stageNo_; }
 
 	/// <summary>
 	/// スコア取得
 	/// </summary>
 	/// <returns>スコア</returns>
-	static int32_t GetScore() { return score; }
+	static int32_t GetScore() { return score_; }
 
 	/// <summary>
 	/// ボスシーンフラグを取得
 	/// </summary>
 	/// <returns>ボスシーンフラグ</returns>
-	static bool GetIsBossScene() { return isBossScene; }
+	static bool GetIsBossScene() { return isBossScene_; }
 
 private: //静的メンバ変数
-	static BaseScene* nowScene;
-	static int32_t stageNo;
-	static int32_t score;
-	static bool isBossScene;
+	static BaseScene* nowScene_;
+	static int32_t stageNo_;
+	static int32_t score_;
+	static bool isBossScene_;
 
 private: //メンバ変数
-	std::unique_ptr<TextDraw> textDraw;
+	std::unique_ptr<TextDraw> textDraw_;
 };

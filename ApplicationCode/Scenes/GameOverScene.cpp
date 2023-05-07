@@ -2,67 +2,67 @@
 
 void GameOverScene::Initialize()
 {
-	cameraPos = { -50, 0, 100 };
-	cameraTargetPos = { 0, 500, 0 };
+	cameraPos_ = { -50, 0, 100 };
+	cameraTargetPos_ = { 0, 500, 0 };
 
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 
-	camera = new Camera;
-	camera->SetEye(cameraPos);
-	camera->SetTarget(cameraTargetPos);
+	camera_ = new Camera;
+	camera_->SetEye(cameraPos_);
+	camera_->SetTarget(cameraTargetPos_);
 
-	score = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	score_ = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumbers[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-		scoreNumbers[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
-		scoreNumbers[i]->SetSize({ 64, 64 });
+		scoreNumbers_[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+		scoreNumbers_[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
+		scoreNumbers_[i]->SetSize({ 64, 64 });
 	}
-	titleBack = Sprite::Create(ImageManager::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	titleBackAlpha = 1.0f;
-	titleBackSize = titleBack->GetSize();
-	restart = Sprite::Create(ImageManager::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	restartAlpha = 1.0f;
-	restartSize = restart->GetSize();
-	restartSize.x /= 2;
-	restartSize.y /= 2;
+	titleBack_ = Sprite::Create(ImageManager::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	titleBackAlpha_ = 1.0f;
+	titleBackSize_ = titleBack_->GetSize();
+	restart_ = Sprite::Create(ImageManager::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	restartAlpha_ = 1.0f;
+	restartSize_ = restart_->GetSize();
+	restartSize_.x /= 2;
+	restartSize_.y /= 2;
 
-	light = LightGroup::Create();
+	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
-		light->SetDirLightActive(i, false);
-		light->SetPointLightActive(i, false);
-		light->SetSpotLightActive(0, true);
+		light_->SetDirLightActive(i, false);
+		light_->SetPointLightActive(i, false);
+		light_->SetSpotLightActive(0, true);
 	}
-	light->SetCircleShadowActive(0, true);
-	Object3d::SetLight(light);
+	light_->SetCircleShadowActive(0, true);
+	Object3d::SetLight(light_);
 
-	scoreRollTimer = 0;
+	scoreRollTimer_ = 0;
 	for (int32_t i = 0; i < 6; i++) {
-		scoreRollPos[i] = { -640, 0 };
+		scoreRollPos_[i] = { -640, 0 };
 	}
 
-	resultPlayer = Object3d::Create(ModelManager::GetIns()->GetModel("player_Down"));
-	playerScale = { 20, 20, 20 };
-	playerPos = { -30, 500, 0 };
-	playerRot = { 0, 0, 0 };
-	resultPlayer->SetScale(playerScale);
-	resultPlayer->SetPosition(playerPos);
-	resultPlayer->SetRotation(playerRot);
+	resultPlayer_ = Object3d::Create(ModelManager::GetIns()->GetModel("player_Down"));
+	playerScale_ = { 20, 20, 20 };
+	playerPos_ = { -30, 500, 0 };
+	playerRot_ = { 0, 0, 0 };
+	resultPlayer_->SetScale(playerScale_);
+	resultPlayer_->SetPosition(playerPos_);
+	resultPlayer_->SetRotation(playerRot_);
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
-	groundPos = { 0, -50, 0 };
-	ground->SetPosition(groundPos);
-	groundScale = { 10, 10, 10 };
-	ground->SetScale(groundScale);
-	ground->SetAmbient({ 0, 0, 0 });
+	ground_ = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
+	groundPos_ = { 0, -50, 0 };
+	ground_->SetPosition(groundPos_);
+	groundScale_ = { 10, 10, 10 };
+	ground_->SetScale(groundScale_);
+	ground_->SetAmbient({ 0, 0, 0 });
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
-	celetialSphere->SetAmbient({ 0, 0, 0 });
-	celetialSphere->SetScale({ 15, 15, 15 });
+	celetialSphere_ = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
+	celetialSphere_->SetAmbient({ 0, 0, 0 });
+	celetialSphere_->SetScale({ 15, 15, 15 });
 
 	//PostEffectの初期化
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-	postEffectNo = PostEffect::DAMAGE;
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize();
+	postEffectNo_ = PostEffect::DAMAGE;
 }
 
 void GameOverScene::Update()
@@ -71,38 +71,38 @@ void GameOverScene::Update()
 	const float endPoint = 0;
 	const float scoreRollTime = 240;
 	const float fallTime = 120;
-	mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
+	mousePos_ = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
-	scoreRollTimer++;
-	if (scoreRollTimer >= scoreRollTime) {
-		scoreRollTimer = scoreRollTime;
+	scoreRollTimer_++;
+	if (scoreRollTimer_ >= scoreRollTime) {
+		scoreRollTimer_ = scoreRollTime;
 	}
 
-	cameraTargetPos.y = Easing::easeOut(scoreRollTimer, fallTime, endPoint, cameraTargetPos.y);
-	playerPos.y = Easing::easeOut(scoreRollTimer, fallTime, endPoint, playerPos.y);
+	cameraTargetPos_.y = Easing::easeOut(scoreRollTimer_, fallTime, endPoint, cameraTargetPos_.y);
+	playerPos_.y = Easing::easeOut(scoreRollTimer_, fallTime, endPoint, playerPos_.y);
 
-	camera->SetTarget(cameraTargetPos);
-	resultPlayer->SetPosition(playerPos);
+	camera_->SetTarget(cameraTargetPos_);
+	resultPlayer_->SetPosition(playerPos_);
 
 	for (int32_t i = 0; i < 6; i++) {
-		scoreRollPos[i].x = Easing::easeOut(scoreRollTimer, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos[i].x);
+		scoreRollPos_[i].x = Easing::easeOut(scoreRollTimer_, scoreRollTime, (float)JudgeDigitNumber(SceneManager::GetScore(), i), scoreRollPos_[i].x);
 	}
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumbers[i]->SetTextureRect(scoreRollPos[i], scoreSize);
+		scoreNumbers_[i]->SetTextureRect(scoreRollPos_[i], scoreSize);
 	}
 
-	resultPlayer->Update();
-	celetialSphere->Update();
-	ground->Update();
+	resultPlayer_->Update();
+	celetialSphere_->Update();
+	ground_->Update();
 
-	titleBack->SetAlpha(titleBackAlpha);
-	titleBack->SetSize(titleBackSize);
-	restart->SetAlpha(restartAlpha);
-	restart->SetSize(restartSize);
-	titleBackAlpha = 1.0f;
-	restartAlpha = 1.0f;
+	titleBack_->SetAlpha(titleBackAlpha_);
+	titleBack_->SetSize(titleBackSize_);
+	restart_->SetAlpha(restartAlpha_);
+	restart_->SetSize(restartSize_);
+	titleBackAlpha_ = 1.0f;
+	restartAlpha_ = 1.0f;
 
-	light->Update();
+	light_->Update();
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
 
@@ -116,7 +116,7 @@ void GameOverScene::Draw()
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 
-	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
@@ -125,103 +125,103 @@ void GameOverScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	resultPlayer->Draw();
-	celetialSphere->Draw();
-	ground->Draw();
+	resultPlayer_->Draw();
+	celetialSphere_->Draw();
+	ground_->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	score->Draw();
+	score_->Draw();
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumbers[i]->Draw();
+		scoreNumbers_[i]->Draw();
 	}
-	if (!isSelectedButton) {
-		titleBack->Draw();
-		restart->Draw();
+	if (!isSelectedButton_) {
+		titleBack_->Draw();
+		restart_->Draw();
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
-	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 0, postEffectNo);
+	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 0, postEffectNo_);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
 void GameOverScene::Finalize()
 {
-	safe_delete(postEffect);
-	safe_delete(score);
-	safe_delete(resultPlayer);
-	safe_delete(celetialSphere);
-	safe_delete(ground);
-	safe_delete(titleBack);
-	safe_delete(restart);
-	safe_delete(light);
+	safe_delete(postEffect_);
+	safe_delete(score_);
+	safe_delete(resultPlayer_);
+	safe_delete(celetialSphere_);
+	safe_delete(ground_);
+	safe_delete(titleBack_);
+	safe_delete(restart_);
+	safe_delete(light_);
 	for (int32_t i = 0; i < 6; i++) {
-		safe_delete(scoreNumbers[i]);
+		safe_delete(scoreNumbers_[i]);
 	}
 }
 
 void GameOverScene::SceneChange()
 {
-	if (!isSelectedButton) {
-		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-			titleBackAlpha = 0.5f;
-			XMFLOAT2 spriteSize = titleBackSize;
+	if (!isSelectedButton_) {
+		if (IsMouseHitSprite(mousePos_, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
+			titleBackAlpha_ = 0.5f;
+			XMFLOAT2 spriteSize = titleBackSize_;
 			spriteSize.x *= 0.9f;
 			spriteSize.y *= 0.9f;
-			titleBack->SetSize(spriteSize);
+			titleBack_->SetSize(spriteSize);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				ground->SetAmbient({ 1, 1, 1 });
-				celetialSphere->SetAmbient({ 1, 1, 1 });
+				ground_->SetAmbient({ 1, 1, 1 });
+				celetialSphere_->SetAmbient({ 1, 1, 1 });
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-				isTitleBack = true;
-				isSelectedButton = true;
+				isTitleBack_ = true;
+				isSelectedButton_ = true;
 			}
 		}
-		else if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
-			restartAlpha = 0.5f;
-			XMFLOAT2 spriteSize = restartSize;
+		else if (IsMouseHitSprite(mousePos_, restart_->GetPosition(), restartSize_.x, restartSize_.y)) {
+			restartAlpha_ = 0.5f;
+			XMFLOAT2 spriteSize = restartSize_;
 			spriteSize.x *= 0.9f;
 			spriteSize.y *= 0.9f;
-			restart->SetSize(spriteSize);
+			restart_->SetSize(spriteSize);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				ground->SetAmbient({ 1, 1, 1 });
-				celetialSphere->SetAmbient({ 1, 1, 1 });
+				ground_->SetAmbient({ 1, 1, 1 });
+				celetialSphere_->SetAmbient({ 1, 1, 1 });
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-				isRestart = true;
-				isSelectedButton = true;
+				isRestart_ = true;
+				isSelectedButton_ = true;
 			}
 		}
 	}
 
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
-		if (isTitleBack) {
-			SceneManager::SceneChange(SceneManager::Title);
+		if (isTitleBack_) {
+			SceneManager::SceneChange(SceneManager::SceneName::Title);
 		}
-		else if (isRestart) {
+		else if (isRestart_) {
 			switch (SceneManager::GetStageNo())
 			{
 			case 1:
 				if (SceneManager::GetIsBossScene()) {
-					SceneManager::SceneChange(SceneManager::Stage1_Boss);
+					SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
 				}
 				else {
-					SceneManager::SceneChange(SceneManager::Stage1_Rail);
+					SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
 				}
 				break;
 			case 2:
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage2_Rail);
 				break;
 			default:
-				SceneManager::SceneChange(SceneManager::Title);
+				SceneManager::SceneChange(SceneManager::SceneName::Title);
 				break;
 			}
 		}

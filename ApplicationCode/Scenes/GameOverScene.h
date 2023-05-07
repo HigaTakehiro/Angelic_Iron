@@ -12,7 +12,7 @@
 class GameOverScene : public BaseScene
 {
 public:
-	enum ScoreNumber {
+	enum class ScoreNumber {
 		zero = 64 * 0,
 		one = 64 * 1,
 		two = 64 * 2,
@@ -61,41 +61,41 @@ private: //メンバ関数
 
 private: //メンバ変数
 
-	PostEffect* postEffect = nullptr; //ポストエフェクトクラス
-	Sprite* score = nullptr; //スコア画像
-	Sprite* scoreNumbers[6] = {}; ///スコア用連番数字画像
-	Sprite* titleBack = nullptr;
-	Sprite* restart = nullptr;
+	PostEffect* postEffect_ = nullptr; //ポストエフェクトクラス
+	Sprite* score_ = nullptr; //スコア画像
+	Sprite* scoreNumbers_[6] = {}; ///スコア用連番数字画像
+	Sprite* titleBack_ = nullptr;
+	Sprite* restart_ = nullptr;
 
-	PostEffect::PostEffectNo postEffectNo; //ポストエフェクト番号
+	PostEffect::PostEffectNo postEffectNo_; //ポストエフェクト番号
 	//ライト
-	LightGroup* light = nullptr;
+	LightGroup* light_ = nullptr;
 
-	float scoreRollTimer;
-	DirectX::XMFLOAT2 scoreRollPos[6] = {};
-	DirectX::XMFLOAT2 titleBackSize;
-	DirectX::XMFLOAT2 restartSize;
-	DirectX::XMFLOAT2 mousePos;
-	float titleBackAlpha;
-	float restartAlpha;
+	float scoreRollTimer_;
+	DirectX::XMFLOAT2 scoreRollPos_[6] = {};
+	DirectX::XMFLOAT2 titleBackSize_;
+	DirectX::XMFLOAT2 restartSize_;
+	DirectX::XMFLOAT2 mousePos_;
+	float titleBackAlpha_;
+	float restartAlpha_;
 
-	Object3d* resultPlayer = nullptr;
-	Object3d* ground = nullptr;
-	Object3d* celetialSphere = nullptr;
-	Camera* camera = nullptr;
+	Object3d* resultPlayer_ = nullptr;
+	Object3d* ground_ = nullptr;
+	Object3d* celetialSphere_ = nullptr;
+	Camera* camera_ = nullptr;
 
-	Vector3 playerRot;
-	Vector3 playerPos;
-	Vector3 playerScale;
+	Vector3 playerRot_;
+	Vector3 playerPos_;
+	Vector3 playerScale_;
 
-	Vector3 groundPos;
-	Vector3 groundScale;
+	Vector3 groundPos_;
+	Vector3 groundScale_;
 
-	Vector3 cameraPos;
-	Vector3 cameraTargetPos;
+	Vector3 cameraPos_;
+	Vector3 cameraTargetPos_;
 
-	bool isTitleBack;
-	bool isRestart;
-	bool isSelectedButton;
+	bool isTitleBack_;
+	bool isRestart_;
+	bool isSelectedButton_;
 };
 

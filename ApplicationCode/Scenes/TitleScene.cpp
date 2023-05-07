@@ -443,8 +443,20 @@ void TitleScene::SceneChange()
 		//ƒV[ƒ“‚ðØ‚è‘Ö‚¦‚é
 		if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 			if (isStage1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
 			}
 		}
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_1)) {
+		SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_2)) {
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_3)) {
+		SceneManager::SceneChange(SceneManager::SceneName::GameOver);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_4)) {
+		SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
 	}
 }

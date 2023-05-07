@@ -30,7 +30,7 @@ private: //静的メンバ変数
 	static const int32_t debugTextNumber = 0;
 
 private: //サブクラス
-	enum FaceGraphics {
+	enum class FaceGraphics {
 		OPE_NORMALFACE,
 		OPE_SURPRISEFACE,
 		OPE_SMILEFACE
@@ -113,7 +113,7 @@ public: //メンバ関数
 	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	std::list<std::unique_ptr<BaseEnemy>>& GetEnemyObj() { return enemies; }
+	std::list<std::unique_ptr<BaseEnemy>>& GetEnemyObj() { return enemies_; }
 
 private: //メンバ関数
 
@@ -193,65 +193,65 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	//ウィンドウ設定クラス
-	WinApp* winApp = nullptr;
+	WinApp* winApp_ = nullptr;
 	//デバッグテキスト表示用クラス
-	DebugText debugText;
+	DebugText debugText_;
 	//カメラクラス
-	Camera* camera = nullptr;
+	Camera* camera_ = nullptr;
 	//レールカメラクラス
-	RailCamera* railCamera = nullptr;
+	RailCamera* railCamera_ = nullptr;
 	//ポストエフェクトクラス
-	PostEffect* postEffect = nullptr;
+	PostEffect* postEffect_ = nullptr;
 
 	//ゲームオブジェクト & スプライト
 	//プレイヤークラス
-	Player* player = nullptr;
+	Player* player_ = nullptr;
 	//敵リスト
-	std::list<std::unique_ptr<BaseEnemy>> enemies;
+	std::list<std::unique_ptr<BaseEnemy>> enemies_;
 	//エネミーの弾リスト
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
 	//プレイヤーの弾リスト
-	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
 	//2dパーティクルのリスト
-	std::list<std::unique_ptr<Particle2d>> particles2d;
+	std::list<std::unique_ptr<Particle2d>> particles2d_;
 	//ボムの弾リスト
-	std::list<std::unique_ptr<Bomb>> bombs;
+	std::list<std::unique_ptr<Bomb>> bombs_;
 	//薬莢リスト
-	std::list<std::unique_ptr<BulletCase>> bulletCases;
+	std::list<std::unique_ptr<BulletCase>> bulletCases_;
 	//jsonローダー
-	std::unique_ptr<JsonLoader> jsonLoader;
+	std::unique_ptr<JsonLoader> jsonLoader_;
 	//ボム用パーティクル
-	ParticleManager* bombParticle;
+	ParticleManager* bombParticle_;
 	//敵用パーティクル
-	ParticleManager* enemyParticle;
+	ParticleManager* enemyParticle_;
 	//マズルフラッシュ用パーティクル
-	ParticleManager* gunParticle;
+	ParticleManager* gunParticle_;
 	//スラスター用パーティクル
-	ParticleManager* thrusterParticle;
+	ParticleManager* thrusterParticle_;
 	//ポーズテキスト
-	Sprite* pause = nullptr;
+	Sprite* pause_ = nullptr;
 	//タイトルバックボタン
-	Sprite* titleBack = nullptr;
+	Sprite* titleBack_ = nullptr;
 	//ポーズ画面クローズボタン
-	Sprite* back = nullptr;
+	Sprite* back_ = nullptr;
 	//リスタートボタン
-	Sprite* restart = nullptr;
+	Sprite* restart_ = nullptr;
 	//スコアテキスト
-	Sprite* scoreSprite = nullptr;
+	Sprite* scoreSprite_ = nullptr;
 	//顔グラフィックウィンドウ
-	Sprite* faceWindow = nullptr;
+	Sprite* faceWindow_ = nullptr;
 	//テキストウィンドウ
-	Sprite* textWindow = nullptr;
+	Sprite* textWindow_ = nullptr;
 	//オペレーター通常フェイス
-	Sprite* opeNormal[3] = {};
+	Sprite* opeNormal_[3] = {};
 	//オペレーター驚愕フェイス
-	Sprite* opeSurprise[3] = {};
+	Sprite* opeSurprise_[3] = {};
 	//オペレーター笑顔フェイス
-	Sprite* opeSmile[3] = {};
+	Sprite* opeSmile_[3] = {};
 	//スコア数字
-	Sprite* scoreNumber[6] = {};
+	Sprite* scoreNumber_[6] = {};
 	//ボム攻撃タイマー数字
-	Sprite* bombTimerNumber[3] = {};
+	Sprite* bombTimerNumber_[3] = {};
 	//チュートリアルアイコン
 	Sprite* how_to_up_;
 	Sprite* how_to_down_;
@@ -260,52 +260,52 @@ private: //メンバ変数
 	Sprite* how_to_shot_;
 	Sprite* how_to_bomb_;
 	//タイトルバックボタンサイズ
-	DirectX::XMFLOAT2 titleBackSize;
+	DirectX::XMFLOAT2 titleBackSize_;
 	//ポーズ画面クローズボタンサイズ
-	DirectX::XMFLOAT2 backSize;
+	DirectX::XMFLOAT2 backSize_;
 	//リスタートボタンサイズ
-	DirectX::XMFLOAT2 restartSize;
+	DirectX::XMFLOAT2 restartSize_;
 	//テキストウィンドウサイズ
-	DirectX::XMFLOAT2 textWindowSize;
+	DirectX::XMFLOAT2 textWindowSize_;
 	//顔グラフィックウィンドウサイズ
-	DirectX::XMFLOAT2 faceWindowSize;
+	DirectX::XMFLOAT2 faceWindowSize_;
 	//顔グラフィックサイズ
-	DirectX::XMFLOAT2 faceGraphicSize;
+	DirectX::XMFLOAT2 faceGraphicSize_;
 
 	//ライトオブジェクト
-	LightGroup* light = nullptr;
+	LightGroup* light_ = nullptr;
 
 	//テキスト描画用変数
 	//DirectWriteテキスト描画クラス
-	TextDraw* textDraw = nullptr;
+	TextDraw* textDraw_ = nullptr;
 	//テキストスピード
-	int32_t textSpeed;
+	int32_t textSpeed_;
 	//テキスト数
-	int32_t textCount;
+	int32_t textCount_;
 	//テキスト追加時間
-	int32_t textAddTimer;
+	int32_t textAddTimer_;
 
 	//ゲームシーン用変数
 	//プレイヤー死亡フラグ
-	bool isDead;
+	bool isDead_;
 	//クリアシーンフラグ
-	bool isClear;
+	bool isClear_;
 	//エネミー読み込み待機フラグ
-	bool isWait;
+	bool isWait_;
 	//メッセージデータ読み込み待機フラグ
-	bool isMessageWait;
+	bool isMessageWait_;
 	//メッセージデータ出力完了フラグ
-	bool isTextDrawComplete;
+	bool isTextDrawComplete_;
 	//プレイヤー死亡時演出用フラグ
-	bool isPlayerDead;
+	bool isPlayerDead_;
 	//ポーズフラグ
-	bool isPause;
+	bool isPause_;
 	//タイトル画面変更フラグ
-	bool isTitleBack;
+	bool isTitleBack_;
 	//メッセージウィンドウオープンフラグ
-	bool isTextWindowOpen;
+	bool isTextWindowOpen_;
 	//リスタートフラグ
-	bool isRestart;
+	bool isRestart_;
 	//チュートリアル完了フラグ
 	bool isMoveUp_;
 	bool isMoveDown_;
@@ -321,40 +321,40 @@ private: //メンバ変数
 	float how_to_shot_alpha_;
 	float how_to_bomb_alpha_;
 	//エネミー読み込み待機時間
-	int32_t waitTimer;
+	int32_t waitTimer_;
 	//メッセージデータ読み込み待機時間
-	int32_t waitMessageTimer;
+	int32_t waitMessageTimer_;
 	//クリア演出用時間
-	int32_t clearTimer;
+	int32_t clearTimer_;
 	//ウィンドウ閉鎖時間
-	int32_t closeWindowTimer;
+	int32_t closeWindowTimer_;
 	//ウィンドウ解放時間
-	int32_t openWindowTimer;
+	int32_t openWindowTimer_;
 	//エネミーデータ格納用文字列
-	std::stringstream enemyData;
+	std::stringstream enemyData_;
 	//メッセージデータ格納用文字列
-	std::stringstream textData;
+	std::stringstream textData_;
 	//メッセージ内容出力用文字列
-	std::wstring drawMessage;
+	std::wstring drawMessage_;
 	//メッセージ内容格納文字列
-	std::wstring message;
+	std::wstring message_;
 	//レールカメラ用スプライン指定点格納コンテナ
-	std::vector<Vector3> points;
+	std::vector<Vector3> points_;
 	//レールカメラ用カメラ回転角度格納コンテナ
 	std::vector<Vector3> cameraRots_;
 	//レールカメラ用カメラ移動時間格納コンテナ
 	std::vector<float> cameraMoveTimes_;
 	//スコア
-	int32_t score;
+	int32_t score_;
 	//顔グラフィックアニメーションタイマー
-	int32_t faceAnimeTimer;
+	int32_t faceAnimeTimer_;
 	//顔グラフィックアニメーション番号
-	int32_t faceAnimeCount;
+	int32_t faceAnimeCount_;
 	//顔グラフィックタイプ
-	FaceGraphics faceType;
+	FaceGraphics faceType_;
 	//スロー演出用タイマー
-	int32_t delayTimer;
+	int32_t delayTimer_;
 	//ポストエフェクト番号
-	PostEffect::PostEffectNo postEffectNo;
+	PostEffect::PostEffectNo postEffectNo_;
 };
 

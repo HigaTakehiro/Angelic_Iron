@@ -5,9 +5,9 @@ using namespace DirectX;
 
 void BossScene::Initialize()
 {
-	camera = new Camera;
-	camera->SetEye(XMFLOAT3(0, 100, 0));
-	camera->SetTarget(XMFLOAT3(0, 10, 0));
+	camera_ = new Camera;
+	camera_->SetEye(XMFLOAT3(0, 100, 0));
+	camera_->SetTarget(XMFLOAT3(0, 10, 0));
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
 	SceneManager::SetIsBossScene(true);
 
@@ -29,29 +29,29 @@ void BossScene::Initialize()
 		newBuilding->SetPosition(pos);
 		newBuilding->SetRotation(rot);
 		newBuilding->SetScale(scale);
-		buildings.push_back(std::move(newBuilding));
+		buildings_.push_back(std::move(newBuilding));
 	}
 
-	ground = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
-	groundPos = { 0, -50, 0 };
-	ground->SetPosition(groundPos);
-	groundScale = { 10, 10, 10 };
-	ground->SetScale(groundScale);
+	ground_ = Object3d::Create(ModelManager::GetIns()->GetModel("ground"));
+	groundPos_ = { 0, -50, 0 };
+	ground_->SetPosition(groundPos_);
+	groundScale_ = { 10, 10, 10 };
+	ground_->SetScale(groundScale_);
 
-	celetialSphere = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
-	celetialSphere->SetPosition(spherePos);
-	celetialSphere->SetScale(sphereScale);
+	celetialSphere_ = Object3d::Create(ModelManager::GetIns()->GetModel("celetialSphere"));
+	celetialSphere_->SetPosition(spherePos_);
+	celetialSphere_->SetScale(sphereScale_);
 
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-	postEffect->SetMask(1.2f);
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize();
+	postEffect_->SetMask(1.2f);
 
-	postEffectNo = PostEffect::NORMAL;
-	postEffectTime = 0;
+	postEffectNo_ = PostEffect::NORMAL;
+	postEffectTime_ = 0;
 
-	player = new BossScenePlayer;
-	player->Initialize(camera);
-	player->SetBossScene(this);
+	player_ = new BossScenePlayer;
+	player_->Initialize(camera_);
+	player_->SetBossScene(this);
 
 	int32_t stageNo = 0;
 	stageNo = SceneManager::GetStageNo();
@@ -59,93 +59,93 @@ void BossScene::Initialize()
 		LoadTextMessage("Stage1BossText.aid");
 	}
 
-	textWindow = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
-	textWindow->SetAlpha(0.4f);
-	textWindowSize = textWindow->GetSize();
-	textWindowSize.y = 0;
-	textWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
-	faceWindowSize = faceWindow->GetSize();
-	faceWindowSize.y = 0;
-	faceWindow->SetAlpha(0.4f);
-	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
+	textWindow_ = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
+	textWindow_->SetAlpha(0.4f);
+	textWindowSize_ = textWindow_->GetSize();
+	textWindowSize_.y = 0;
+	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
+	faceWindow_ = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
+	faceWindowSize_ = faceWindow_->GetSize();
+	faceWindowSize_.y = 0;
+	faceWindow_->SetAlpha(0.4f);
+	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
 	for (int32_t i = 0; i < 3; i++) {
-		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
-		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeNormal[i]->SetSize({ 160, 160 });
-		opeNormal[i]->SetColor({ 2, 2, 2 });
-		opeNormal[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeNormal_[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
+		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeNormal_[i]->SetSize({ 160, 160 });
+		opeNormal_[i]->SetColor({ 2, 2, 2 });
+		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSurprise[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
-		opeSurprise[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSurprise[i]->SetSize({ 160, 160 });
-		opeSurprise[i]->SetColor({ 2, 2, 2 });
-		opeSurprise[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeSurprise_[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSurprise_[i]->SetSize({ 160, 160 });
+		opeSurprise_[i]->SetColor({ 2, 2, 2 });
+		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSmile[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
-		opeSmile[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSmile[i]->SetSize({ 160, 160 });
-		opeSmile[i]->SetColor({ 2, 2, 2 });
-		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeSmile_[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSmile_[i]->SetSize({ 160, 160 });
+		opeSmile_[i]->SetColor({ 2, 2, 2 });
+		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
 	for (int32_t i = 0; i < 2; i++) {
-		movieBarPos[i] = { 600.0f, 710.0f * (float)i };
-		movieBar[i] = Sprite::Create(ImageManager::SceneChangeBar, movieBarPos[i]);
-		movieBar[i]->SetSize({ 1680, 200 });
-		movieBar[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		movieBarPos_[i] = { 600.0f, 710.0f * (float)i };
+		movieBar_[i] = Sprite::Create(ImageManager::SceneChangeBar, movieBarPos_[i]);
+		movieBar_[i]->SetSize({ 1680, 200 });
+		movieBar_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
-	textAddTimer = 0;
-	textSpeed = 1;
+	textAddTimer_ = 0;
+	textSpeed_ = 1;
 	//boss = new FirstBoss;
 	//boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
 
-	firstBoss = new FirstBoss;
-	firstBoss->Initialize("boss1_Body", {0, 0, 0});
-	firstBoss->SetBossScene(this);
-	firstBoss->SetPlayer(player);
+	firstBoss_ = new FirstBoss;
+	firstBoss_->Initialize("boss1_Body", {0, 0, 0});
+	firstBoss_->SetBossScene(this);
+	firstBoss_->SetPlayer(player_);
 
-	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
-	pause->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
-	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBackSize = titleBack->GetSize();
-	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
-	back->SetAnchorPoint({ 0.5f, 0.5f });
-	backSize = back->GetSize();
-	scoreText = Sprite::Create(ImageManager::score, { 1180, 50 });
-	scoreText->SetAnchorPoint({ 0.5f, 0.5f });
-	scoreText->SetSize({ scoreText->GetSize().x / 2.0f, scoreText->GetSize().y / 2.0f });
+	pause_ = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
+	pause_->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBack_ = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
+	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBackSize_ = titleBack_->GetSize();
+	back_ = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
+	back_->SetAnchorPoint({ 0.5f, 0.5f });
+	backSize_ = back_->GetSize();
+	scoreText_ = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreText_->SetAnchorPoint({ 0.5f, 0.5f });
+	scoreText_->SetSize({ scoreText_->GetSize().x / 2.0f, scoreText_->GetSize().y / 2.0f });
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
-		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
-		scoreNumber[i]->SetSize({ 32, 32 });
+		scoreNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		scoreNumber_[i]->SetSize({ 32, 32 });
 	}
-	operatorSize = { 160.0f, 0.0f };
-	score = 0;
+	operatorSize_ = { 160.0f, 0.0f };
+	score_ = 0;
 
-	light = LightGroup::Create();
+	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
-		light->SetDirLightActive(0, true);
-		light->SetPointLightActive(i, false);
-		light->SetSpotLightActive(i, false);
+		light_->SetDirLightActive(0, true);
+		light_->SetPointLightActive(i, false);
+		light_->SetSpotLightActive(i, false);
 	}
-	light->SetCircleShadowActive(0, true);
-	Object3d::SetLight(light);
+	light_->SetCircleShadowActive(0, true);
+	Object3d::SetLight(light_);
 
-	isPause = false;
-	isTitleBack = false;
-	isDead = false;
+	isPause_ = false;
+	isTitleBack_ = false;
+	isDead_ = false;
 
-	movieTimer = 0;
-	cameraPos = { 220.0f, 0.0f, 0.0f };
+	movieTimer_ = 0;
+	cameraPos_ = { 220.0f, 0.0f, 0.0f };
 }
 
 void BossScene::Update()
 {
-	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
-	bossBullets.remove_if([](std::unique_ptr<EnemyBullet>& bossBullet) { return bossBullet->IsDead(); });
-	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle2d) {return particle2d->IsDelete(); });
+	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
+	bossBullets_.remove_if([](std::unique_ptr<EnemyBullet>& bossBullet) { return bossBullet->IsDead(); });
+	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle2d) {return particle2d->IsDelete(); });
 
 	const int32_t delayTime = 0;
 	const int32_t noneHP = 0;
@@ -157,170 +157,170 @@ void BossScene::Update()
 	const Vector3 initCameraTarget = { 0.0f, 0.0f, 0.0f };
 	const int32_t cameraMoveTime = 60;
 
-	XMFLOAT3 playerPos = { player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
-	light->SetCircleShadowCasterPos(0, playerPos);
-	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetCircleShadowDir(0, { 0, -1, 0 });
-	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
-	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
-	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+	XMFLOAT3 playerPos = { player_->GetPlayerObj()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObj()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObj()->GetMatWorld().r[3].m128_f32[2] };
+	light_->SetCircleShadowCasterPos(0, playerPos);
+	light_->SetDirLightDirection(0, { 0, -1, 0 });
+	light_->SetCircleShadowDir(0, { 0, -1, 0 });
+	light_->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light_->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light_->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
-	postEffectNo = PostEffect::NORMAL;
+	postEffectNo_ = PostEffect::NORMAL;
 
-	if (firstBoss->GetIsMovie()) {
-		if (firstBoss->GetIsCameraMoveTiming() && firstBoss->GetIsMovie()) {
-			movieTimer++;
-			float timeRate = min((float)movieTimer / (float)cameraMoveTime, 1.0f);
-			cameraPos = easeIn(movieCameraPos, initCameraPos, timeRate);
+	if (firstBoss_->GetIsMovie()) {
+		if (firstBoss_->GetIsCameraMoveTiming() && firstBoss_->GetIsMovie()) {
+			movieTimer_++;
+			float timeRate = min((float)movieTimer_ / (float)cameraMoveTime, 1.0f);
+			cameraPos_ = easeIn(movieCameraPos, initCameraPos, timeRate);
 			Vector3 cameraTarget = easeIn(movieCameraTarget, initCameraTarget, timeRate);
-			movieBarPos[0].y = Easing::easeIn((float)movieTimer, (float)cameraMoveTime, -180.0f, movieBarPos[0].y);
-			movieBarPos[1].y = Easing::easeIn((float)movieTimer, (float)cameraMoveTime, 900.0f, movieBarPos[1].y);
-			camera->SetEye(cameraPos);
-			camera->SetTarget(cameraTarget);
+			movieBarPos_[0].y = Easing::easeIn((float)movieTimer_, (float)cameraMoveTime, -180.0f, movieBarPos_[0].y);
+			movieBarPos_[1].y = Easing::easeIn((float)movieTimer_, (float)cameraMoveTime, 900.0f, movieBarPos_[1].y);
+			camera_->SetEye(cameraPos_);
+			camera_->SetTarget(cameraTarget);
 			for (int32_t i = 0; i < 2; i++) {
-				movieBar[i]->SetPosition(movieBarPos[i]);
+				movieBar_[i]->SetPosition(movieBarPos_[i]);
 			}
 		}
 		else {
-			camera->SetEye(movieCameraPos);
-			camera->SetTarget(movieCameraTarget);
+			camera_->SetEye(movieCameraPos);
+			camera_->SetTarget(movieCameraTarget);
 		}
 	}
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE)) {
-		isPause = !isPause;
+		isPause_ = !isPause_;
 	}
 
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score + SceneManager::GetScore(), i), 0 }, { 64, 64 });
+		scoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(score_ + SceneManager::GetScore(), i), 0 }, { 64, 64 });
 	}
 
-	if (!isTextWindowOpen) {
-		closeWindowTimer++;
-		if (closeWindowTimer >= closeWindowTime) {
-			closeWindowTimer = closeWindowTime;
+	if (!isTextWindowOpen_) {
+		closeWindowTimer_++;
+		if (closeWindowTimer_ >= closeWindowTime) {
+			closeWindowTimer_ = closeWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, operatorSize.y);
+		textWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, textWindowSize_.y);
+		faceWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceWindowSize_.y);
+		operatorSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, operatorSize_.y);
 
-		textWindow->SetSize(textWindowSize);
-		faceWindow->SetSize(faceWindowSize);
+		textWindow_->SetSize(textWindowSize_);
+		faceWindow_->SetSize(faceWindowSize_);
 		for (int32_t i = 0; i < 3; i++) {
-			opeNormal[i]->SetSize(operatorSize);
+			opeNormal_[i]->SetSize(operatorSize_);
 		}
 	}
-	else if (isTextWindowOpen) {
-		closeWindowTimer = 0;
-		openWindowTimer++;
-		if (openWindowTimer >= openWindowTime) {
-			openWindowTimer = openWindowTime;
+	else if (isTextWindowOpen_) {
+		closeWindowTimer_ = 0;
+		openWindowTimer_++;
+		if (openWindowTimer_ >= openWindowTime) {
+			openWindowTimer_ = openWindowTime;
 		}
-		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
-		operatorSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, operatorSize.y);
+		textWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, textWindowSize_.y);
+		faceWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceWindowSize_.y);
+		operatorSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, operatorSize_.y);
 
-		textWindow->SetSize(textWindowSize);
-		faceWindow->SetSize(faceWindowSize);
+		textWindow_->SetSize(textWindowSize_);
+		faceWindow_->SetSize(faceWindowSize_);
 		for (int32_t i = 0; i < 3; i++) {
-			opeNormal[i]->SetSize(operatorSize);
-			opeSurprise[i]->SetSize(operatorSize);
-			opeSmile[i]->SetSize(operatorSize);
+			opeNormal_[i]->SetSize(operatorSize_);
+			opeSurprise_[i]->SetSize(operatorSize_);
+			opeSmile_[i]->SetSize(operatorSize_);
 		}
 	}
 
-	if (!isPause) {
+	if (!isPause_) {
 		TextMessageUpdate();
 
-		ground->Update();
-		celetialSphere->Update();
-		if (!firstBoss->GetIsMovie()) {
-			player->Update();
+		ground_->Update();
+		celetialSphere_->Update();
+		if (!firstBoss_->GetIsMovie()) {
+			player_->Update();
 		}
 
-		if (player->GetHPCount() <= noneHP && !isDead) {
-			XMVECTOR playerPos = player->GetPlayerObj()->GetMatWorld().r[3];
+		if (player_->GetHPCount() <= noneHP && !isDead_) {
+			XMVECTOR playerPos = player_->GetPlayerObj()->GetMatWorld().r[3];
 			XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 			playerPos = XMVector3TransformCoord(playerPos, matVPV);
 
 			XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-			particles2d.push_back(std::move(new2DParticle));
-			isDead = true;
+			particles2d_.push_back(std::move(new2DParticle));
+			isDead_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 
-		if (player->GetIsLeftDash()) {
-			postEffect->SetBlurCenter({ +0.5f, -0.5f });
+		if (player_->GetIsLeftDash()) {
+			postEffect_->SetBlurCenter({ +0.5f, -0.5f });
 		}
-		else if (player->GetIsRightDash()) {
-			postEffect->SetBlurCenter({ -1.5f, -0.5f });
+		else if (player_->GetIsRightDash()) {
+			postEffect_->SetBlurCenter({ -1.5f, -0.5f });
 		}
 
-		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 			particle2d->Update();
 		}
 
-		if (player->GetHPCount() > noneHP) {
-			firstBoss->Update(player->GetPlayerObj()->GetMatWorld().r[3]);
+		if (player_->GetHPCount() > noneHP) {
+			firstBoss_->Update(player_->GetPlayerObj()->GetMatWorld().r[3]);
 
-			for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+			for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
 				playerBullet->Update();
 			}
 
-			for (std::unique_ptr<Object3d>& building : buildings) {
+			for (std::unique_ptr<Object3d>& building : buildings_) {
 				building->Update();
 			}
 
-			for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
+			for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
 				bossBullet->Update();
 			}
 
-			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
-				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetBossObj(), 1.0f, 100.0f)) {
-					if (firstBoss->GetBossHp() > 0) {
-						score += 100;
-						firstBoss->OnCollision();
+			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
+				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetBossObj(), 1.0f, 100.0f)) {
+					if (firstBoss_->GetBossHp() > 0) {
+						score_ += 100;
+						firstBoss_->OnCollision();
 						playerBullet->OnCollision();
 					}
 				}
 
-				if (!firstBoss->GetIsLeftHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetLeftHandObj(), 1.0f, 30.0f)) {
-						score += 100;
-						firstBoss->LeftHandOnCollision();
+				if (!firstBoss_->GetIsLeftHandDead()) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetLeftHandObj(), 1.0f, 30.0f)) {
+						score_ += 100;
+						firstBoss_->LeftHandOnCollision();
 						playerBullet->OnCollision();
 					}
 				}
 
-				if (!firstBoss->GetIsRightHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss->GetRightHandObj(), 1.0f, 30.0f)) {
-						score += 100;
-						firstBoss->RightHandOnCollision();
+				if (!firstBoss_->GetIsRightHandDead()) {
+					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetRightHandObj(), 1.0f, 30.0f)) {
+						score_ += 100;
+						firstBoss_->RightHandOnCollision();
 						playerBullet->OnCollision();
 					}
 				}
 			}
 
-			for (const std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
-				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player->GetPlayerObj(), 2.0f, 5.0f)) {
+			for (const std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
+				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player_->GetPlayerObj(), 2.0f, 5.0f)) {
 					bossBullet->OnCollision();
-					if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-						player->OnCollision();
+					if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
+						player_->OnCollision();
 					}
 				}
 			}
 
-			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetLeftHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
-				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
+			if (Collision::GetIns()->OBJSphereCollision(firstBoss_->GetLeftHandObj(), player_->GetPlayerObj(), 2.0f, 30.0f)) {
+				if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
+					player_->OnCollision();
 				}
 			}
-			if (Collision::GetIns()->OBJSphereCollision(firstBoss->GetRightHandObj(), player->GetPlayerObj(), 2.0f, 30.0f)) {
-				if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-					player->OnCollision();
+			if (Collision::GetIns()->OBJSphereCollision(firstBoss_->GetRightHandObj(), player_->GetPlayerObj(), 2.0f, 30.0f)) {
+				if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
+					player_->OnCollision();
 				}
 			}
 		}
@@ -331,37 +331,37 @@ void BossScene::Update()
 		const float selectAlpha = 0.5f;
 		const float normalAlpha = 1.0f;
 		XMFLOAT2 selectSize;
-		if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-			selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
-			titleBack->SetSize(selectSize);
-			titleBack->SetAlpha(selectAlpha);
+		if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
+			selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
+			titleBack_->SetSize(selectSize);
+			titleBack_->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				isTitleBack = true;
+				isTitleBack_ = true;
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 			}
 		}
 		else {
-			titleBack->SetSize(titleBackSize);
-			titleBack->SetAlpha(normalAlpha);
+			titleBack_->SetSize(titleBackSize_);
+			titleBack_->SetAlpha(normalAlpha);
 		}
 
-		if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
-			selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
-			back->SetSize(selectSize);
-			back->SetAlpha(selectAlpha);
+		if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {
+			selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
+			back_->SetSize(selectSize);
+			back_->SetAlpha(selectAlpha);
 			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-				isPause = !isPause;
+				isPause_ = !isPause_;
 			}
 		}
 		else {
-			back->SetSize(backSize);
-			back->SetAlpha(normalAlpha);
+			back_->SetSize(backSize_);
+			back_->SetAlpha(normalAlpha);
 		}
 
 	}
 
 	//ライト更新処理
-	light->Update();
+	light_->Update();
 
 	//シーン変更
 	SceneChangeEffect::GetIns()->Update();
@@ -374,47 +374,47 @@ void BossScene::Draw()
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
 
-	opeAnimeTimer++;
-	if (opeAnimeTimer >= opeAnimeTime) {
-		opeAnimeTimer = 0;
-		opeAnimeCount++;
-		if (opeAnimeCount >= 3) {
-			opeAnimeCount = 0;
+	opeAnimeTimer_++;
+	if (opeAnimeTimer_ >= opeAnimeTime) {
+		opeAnimeTimer_ = 0;
+		opeAnimeCount_++;
+		if (opeAnimeCount_ >= 3) {
+			opeAnimeCount_ = 0;
 		}
 	}
 
-	if (isTextDraw) {
-		opeAnimeCount = 0;
-		opeAnimeTimer = 0;
+	if (isTextDraw_) {
+		opeAnimeCount_ = 0;
+		opeAnimeTimer_ = 0;
 	}
 
-	if (player->GetIsDamage()) {
-		postEffectNo = PostEffect::DAMAGE;
-		postEffectTime = 60;
+	if (player_->GetIsDamage()) {
+		postEffectNo_ = PostEffect::DAMAGE;
+		postEffectTime_ = 60;
 	}
-	else if (player->GetIsDash()) {
-		postEffectNo = PostEffect::DASH;
-		postEffectTime = 28;
+	else if (player_->GetIsDash()) {
+		postEffectNo_ = PostEffect::DASH;
+		postEffectTime_ = 28;
 	}
 	else {
-		postEffectNo = PostEffect::NORMAL;
-		postEffectTime = 60;
+		postEffectNo_ = PostEffect::NORMAL;
+		postEffectTime_ = 60;
 	}
 
 	isRoop = true;
 
-	if (firstBoss->GetIsMovieEffectTiming() && firstBoss->GetIsMovie()) {
-		postEffectNo = PostEffect::DASH;
-		postEffect->SetBlurCenter({ -0.5f, -0.5f });
-		postEffect->SetMask(0.2f);
-		postEffectTime = 60;
+	if (firstBoss_->GetIsMovieEffectTiming() && firstBoss_->GetIsMovie()) {
+		postEffectNo_ = PostEffect::DASH;
+		postEffect_->SetBlurCenter({ -0.5f, -0.5f });
+		postEffect_->SetMask(0.2f);
+		postEffectTime_ = 60;
 		isRoop = false;
 	}
 	else {
-		postEffect->SetMask(0.7f);
+		postEffect_->SetMask(0.7f);
 	}
 
-	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
@@ -422,113 +422,113 @@ void BossScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	ground->Draw();
-	celetialSphere->Draw();
-	player->Draw();
-	firstBoss->Draw();
-	for (std::unique_ptr<Object3d>& building : buildings) {
+	ground_->Draw();
+	celetialSphere_->Draw();
+	player_->Draw();
+	firstBoss_->Draw();
+	for (std::unique_ptr<Object3d>& building : buildings_) {
 		building->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
 		playerBullet->Draw();
 	}
-	for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets) {
+	for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
 		bossBullet->Draw();
 	}
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	if (!firstBoss->GetIsMovie()) {
-		scoreText->Draw();
+	if (!firstBoss_->GetIsMovie()) {
+		scoreText_->Draw();
 		for (int32_t i = 0; i < 6; i++) {
-			scoreNumber[i]->Draw();
+			scoreNumber_[i]->Draw();
 		}
 	}
 	for (int32_t i = 0; i < 2; i++) {
-		if (firstBoss->GetIsMovie()) {
-			movieBar[i]->Draw();
+		if (firstBoss_->GetIsMovie()) {
+			movieBar_[i]->Draw();
 		}
 	}
-	player->SpriteDraw();
-	if (isPause) {
-		pause->Draw();
-		titleBack->Draw();
-		back->Draw();
+	player_->SpriteDraw();
+	if (isPause_) {
+		pause_->Draw();
+		titleBack_->Draw();
+		back_->Draw();
 	}
-	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+	for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 		particle2d->Draw();
 	}
-	if (!isPause) {
-		textWindow->Draw();
-		faceWindow->Draw();
-		opeNormal[opeAnimeCount]->Draw();
-		firstBoss->SpriteDraw();
+	if (!isPause_) {
+		textWindow_->Draw();
+		faceWindow_->Draw();
+		opeNormal_[opeAnimeCount_]->Draw();
+		firstBoss_->SpriteDraw();
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
-	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
-	if (!isPause) {
+	if (!isPause_) {
 		TextMessageDraw();
 	}
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime, postEffectNo, isRoop);
+	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime_, postEffectNo_, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
 void BossScene::Finalize()
 {
-	safe_delete(ground);
-	safe_delete(celetialSphere);
-	safe_delete(camera);
-	safe_delete(postEffect);
-	safe_delete(pause);
-	safe_delete(titleBack);
-	safe_delete(back);
-	firstBoss->Finalize();
-	safe_delete(firstBoss);
-	player->Finalize();
-	safe_delete(player);
-	safe_delete(scoreText);
-	safe_delete(light);
-	safe_delete(textDraw);
-	safe_delete(textWindow);
-	safe_delete(faceWindow);
+	safe_delete(ground_);
+	safe_delete(celetialSphere_);
+	safe_delete(camera_);
+	safe_delete(postEffect_);
+	safe_delete(pause_);
+	safe_delete(titleBack_);
+	safe_delete(back_);
+	firstBoss_->Finalize();
+	safe_delete(firstBoss_);
+	player_->Finalize();
+	safe_delete(player_);
+	safe_delete(scoreText_);
+	safe_delete(light_);
+	safe_delete(textDraw_);
+	safe_delete(textWindow_);
+	safe_delete(faceWindow_);
 	for (int32_t i = 0; i < 3; i++) {
-		safe_delete(opeNormal[i]);
-		safe_delete(opeSurprise[i]);
-		safe_delete(opeSmile[i]);
+		safe_delete(opeNormal_[i]);
+		safe_delete(opeSurprise_[i]);
+		safe_delete(opeSmile_[i]);
 	}
 	for (int32_t i = 0; i < 2; i++) {
-		safe_delete(movieBar[i]);
+		safe_delete(movieBar_[i]);
 	}
 	for (int32_t i = 0; i < 6; i++) {
-		safe_delete(scoreNumber[i]);
+		safe_delete(scoreNumber_[i]);
 	}
 }
 
 void BossScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet)
 {
-	playerBullets.push_back(std::move(playerBullet));
+	playerBullets_.push_back(std::move(playerBullet));
 }
 
 void BossScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> bossBullet)
 {
-	bossBullets.push_back(std::move(bossBullet));
+	bossBullets_.push_back(std::move(bossBullet));
 }
 
 void BossScene::LoadTextMessage(const std::string fileName)
 {
 	//ファイルストリーム
 	std::ifstream file;
-	textData.str("");
-	textData.clear(std::stringstream::goodbit);
+	textData_.str("");
+	textData_.clear(std::stringstream::goodbit);
 
 	const std::string directory = "Engine/Resources/GameData/";
 	file.open(directory + fileName);
@@ -536,7 +536,7 @@ void BossScene::LoadTextMessage(const std::string fileName)
 		assert(0);
 	}
 
-	textData << file.rdbuf();
+	textData_ << file.rdbuf();
 
 	file.close();
 }
@@ -548,20 +548,20 @@ void BossScene::TextMessageUpdate()
 	std::string messageData;
 	std::wstring messageDataW;
 
-	if (isMessageWait) {
-		if (isTextDraw) {
-			waitMessageTimer--;
+	if (isMessageWait_) {
+		if (isTextDraw_) {
+			waitMessageTimer_--;
 		}
-		if (waitMessageTimer <= 0) {
-			isMessageWait = false;
-			textCount = 0;
-			message.clear();
-			drawMessage.clear();
+		if (waitMessageTimer_ <= 0) {
+			isMessageWait_ = false;
+			textCount_ = 0;
+			message_.clear();
+			drawMessage_.clear();
 		}
 		return;
 	}
 
-	while (getline(textData, line)) {
+	while (getline(textData_, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
 		//半角区切りで文字列を取得
@@ -570,69 +570,69 @@ void BossScene::TextMessageUpdate()
 			continue;
 		}
 		if (word == "OPEN") {
-			isTextWindowOpen = true;
+			isTextWindowOpen_ = true;
 		}
 		if (word == "FACE") {
 			line_stream >> face;
 			if (face == "OPE_NORMAL") {
-				faceType = FaceGraphics::OPE_NORMALFACE;
+				faceType_ = FaceGraphics::OPE_NORMALFACE;
 			}
 			else if (face == "OPE_SURPRISE") {
-				faceType = FaceGraphics::OPE_SURPRISEFACE;
+				faceType_ = FaceGraphics::OPE_SURPRISEFACE;
 			}
 			else if (face == "OPE_SMILE") {
-				faceType = FaceGraphics::OPE_SMILEFACE;
+				faceType_ = FaceGraphics::OPE_SMILEFACE;
 			}
 		}
 		if (word == "TEXT") {
 			line_stream >> messageData;
 			messageDataW = StringToWstring(messageData);
-			message = messageDataW;
+			message_ = messageDataW;
 		}
 		if (word == "SPEED") {
-			line_stream >> textSpeed;
+			line_stream >> textSpeed_;
 		}
 		if (word == "WAIT") {
-			isMessageWait = true;
-			line_stream >> waitMessageTimer;
+			isMessageWait_ = true;
+			line_stream >> waitMessageTimer_;
 			break;
 		}
 		if (word == "CLOSE") {
-			isTextWindowOpen = false;
+			isTextWindowOpen_ = false;
 		}
 	}
 }
 
 void BossScene::TextMessageDraw()
 {
-	if (textSpeed <= 0) {
-		textSpeed = 1;
+	if (textSpeed_ <= 0) {
+		textSpeed_ = 1;
 	}
 
 	D2D1_RECT_F textDrawPos = {
 		200, 560, 950, 700
 	};
 
-	textAddTimer++;
-	isTextDraw = false;
-	if (textAddTimer >= textSpeed) {
-		textAddTimer = 0;
-		if (textCount < message.size()) {
-			if (message.substr(textCount, 1) != L"/") {
-				drawMessage += message.substr(textCount, 1);
+	textAddTimer_++;
+	isTextDraw_ = false;
+	if (textAddTimer_ >= textSpeed_) {
+		textAddTimer_ = 0;
+		if (textCount_ < message_.size()) {
+			if (message_.substr(textCount_, 1) != L"/") {
+				drawMessage_ += message_.substr(textCount_, 1);
 			}
 			else {
-				drawMessage += L"\n";
+				drawMessage_ += L"\n";
 			}
-			textCount++;
+			textCount_++;
 		}
 
-		if (textCount >= message.size()) {
-			isTextDraw = true;
+		if (textCount_ >= message_.size()) {
+			isTextDraw_ = true;
 		}
 	}
 
-	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
+	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
 }
 
 std::wstring BossScene::StringToWstring(const std::string& text)
@@ -651,23 +651,23 @@ std::wstring BossScene::StringToWstring(const std::string& text)
 
 void BossScene::SceneChange()
 {
-	if (firstBoss->GetIsDead()) {
+	if (firstBoss_->GetIsDead()) {
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
-		if (player->GetIsDead()) {
-			SceneManager::AddScore(score);
-			SceneManager::SceneChange(SceneManager::GameOver);
+		if (player_->GetIsDead()) {
+			SceneManager::AddScore(score_);
+			SceneManager::SceneChange(SceneManager::SceneName::GameOver);
 		}
-		else if (firstBoss->GetIsDead()) {
-			SceneManager::AddScore(score);
+		else if (firstBoss_->GetIsDead()) {
+			SceneManager::AddScore(score_);
 			SceneManager::SetIsBossScene(false);
-			SceneManager::SceneChange(SceneManager::Result);
+			SceneManager::SceneChange(SceneManager::SceneName::Result);
 		}
-		else if (isTitleBack) {
+		else if (isTitleBack_) {
 			SceneManager::SetIsBossScene(false);
-			SceneManager::SceneChange(SceneManager::Title);
+			SceneManager::SceneChange(SceneManager::SceneName::Title);
 		}
 	}
 }

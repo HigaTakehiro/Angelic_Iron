@@ -24,71 +24,71 @@ void RailScene::Initialize() {
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
 	//カメラ初期化
-	camera = new Camera;
-	camera->SetEye(XMFLOAT3(50, 1, -100));
-	camera->SetTarget(XMFLOAT3(50, 0, 0));
-	railCamera = new RailCamera;
+	camera_ = new Camera;
+	camera_->SetEye(XMFLOAT3(50, 1, -100));
+	camera_->SetTarget(XMFLOAT3(50, 0, 0));
+	railCamera_ = new RailCamera;
 
 	//デバッグテキスト初期化
-	debugText.Initialize(debugTextNumber);
+	debugText_.Initialize(debugTextNumber);
 
 	//スプライト画像初期化
-	pause = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
-	pause->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
-	titleBack->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBackSize = titleBack->GetSize();
-	back = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
-	back->SetAnchorPoint({ 0.5f, 0.5f });
-	backSize = back->GetSize();
-	restart = Sprite::Create(ImageManager::Restart, { 640, 600 });
-	restart->SetAnchorPoint({ 0.5f, 0.5f });
-	restartSize = restart->GetSize();
-	restartSize.x /= 2;
-	restartSize.y /= 2;
-	scoreSprite = Sprite::Create(ImageManager::score, { 1180, 50 });
-	scoreSprite->SetAnchorPoint({ 0.5f, 0.5f });
-	scoreSprite->SetSize({ scoreSprite->GetSize().x / 2.0f, scoreSprite->GetSize().y / 2.0f });
-	textWindow = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
-	textWindow->SetAlpha(0.4f);
-	textWindowSize = textWindow->GetSize();
-	textWindowSize.y = 0;
-	textWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
-	faceWindowSize = faceWindow->GetSize();
-	faceWindowSize.y = 0;
-	faceWindow->SetAlpha(0.4f);
-	faceWindow->SetAnchorPoint({ 0.5f, 0.5f });
-	faceGraphicSize = { 160, 0 };
+	pause_ = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
+	pause_->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBack_ = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
+	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
+	titleBackSize_ = titleBack_->GetSize();
+	back_ = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
+	back_->SetAnchorPoint({ 0.5f, 0.5f });
+	backSize_ = back_->GetSize();
+	restart_ = Sprite::Create(ImageManager::Restart, { 640, 600 });
+	restart_->SetAnchorPoint({ 0.5f, 0.5f });
+	restartSize_ = restart_->GetSize();
+	restartSize_.x /= 2;
+	restartSize_.y /= 2;
+	scoreSprite_ = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	scoreSprite_->SetSize({ scoreSprite_->GetSize().x / 2.0f, scoreSprite_->GetSize().y / 2.0f });
+	textWindow_ = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
+	textWindow_->SetAlpha(0.4f);
+	textWindowSize_ = textWindow_->GetSize();
+	textWindowSize_.y = 0;
+	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
+	faceWindow_ = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
+	faceWindowSize_ = faceWindow_->GetSize();
+	faceWindowSize_.y = 0;
+	faceWindow_->SetAlpha(0.4f);
+	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
+	faceGraphicSize_ = { 160, 0 };
 	for (int32_t i = 0; i < 3; i++) {
-		opeNormal[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
-		opeNormal[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeNormal[i]->SetSize({ 160, 160 });
-		opeNormal[i]->SetColor({ 2, 2, 2 });
-		opeNormal[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeNormal_[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
+		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeNormal_[i]->SetSize({ 160, 160 });
+		opeNormal_[i]->SetColor({ 2, 2, 2 });
+		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSurprise[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
-		opeSurprise[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSurprise[i]->SetSize({ 160, 160 });
-		opeSurprise[i]->SetColor({ 2, 2, 2 });
-		opeSurprise[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeSurprise_[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSurprise_[i]->SetSize({ 160, 160 });
+		opeSurprise_[i]->SetColor({ 2, 2, 2 });
+		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSmile[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
-		opeSmile[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSmile[i]->SetSize({ 160, 160 });
-		opeSmile[i]->SetColor({ 2, 2, 2 });
-		opeSmile[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		opeSmile_[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
+		opeSmile_[i]->SetSize({ 160, 160 });
+		opeSmile_[i]->SetColor({ 2, 2, 2 });
+		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		bombTimerNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 0.0f, 0.0f });
-		bombTimerNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		bombTimerNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
-		bombTimerNumber[i]->SetSize({ 32, 32 });
+		bombTimerNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 0.0f, 0.0f });
+		bombTimerNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		bombTimerNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		bombTimerNumber_[i]->SetSize({ 32, 32 });
 	}
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
-		scoreNumber[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		scoreNumber[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
-		scoreNumber[i]->SetSize({ 32, 32 });
+		scoreNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
+		scoreNumber_[i]->SetSize({ 32, 32 });
 	}
 	how_to_up_ = Sprite::Create(ImageManager::How_to_Up, { 0, 0 });
 	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
@@ -116,64 +116,64 @@ void RailScene::Initialize() {
 	how_to_bomb_alpha_ = 1.0f;
 
 	//ライト初期化
-	light = LightGroup::Create();
+	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
-		light->SetDirLightActive(0, true);
-		light->SetPointLightActive(i, false);
-		light->SetSpotLightActive(i, false);
+		light_->SetDirLightActive(0, true);
+		light_->SetPointLightActive(i, false);
+		light_->SetSpotLightActive(i, false);
 	}
-	light->SetCircleShadowActive(0, true);
-	light->SetDirLightDirection(0, { 0, -1, 0 });
-	light->SetCircleShadowDir(0, { 0, -1, 0 });
-	light->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
-	light->SetCircleShadowDistanceCasterLight(0, 1000.0f);
-	light->SetCircleShadowAngle(0, { 0.0f, 0.5f });
-	Object3d::SetLight(light);
+	light_->SetCircleShadowActive(0, true);
+	light_->SetDirLightDirection(0, { 0, -1, 0 });
+	light_->SetCircleShadowDir(0, { 0, -1, 0 });
+	light_->SetCircleShadowAtten(0, { 0.0f, 0.01f, 0.0f });
+	light_->SetCircleShadowDistanceCasterLight(0, 1000.0f);
+	light_->SetCircleShadowAngle(0, { 0.0f, 0.5f });
+	Object3d::SetLight(light_);
 
 	//3dオブジェクト初期化
 	int32_t stageNo;
 	stageNo = SceneManager::GetStageNo();
 
 	//ステージ背景オブジェクト初期化
-	jsonLoader = std::make_unique<JsonLoader>();
+	jsonLoader_ = std::make_unique<JsonLoader>();
 
 	//プレイヤー初期化
-	player = new Player;
-	player->Initialize(camera, clearTime);
-	player->SetRailScene(this);
+	player_ = new Player;
+	player_->Initialize(camera_, clearTime);
+	player_->SetRailScene(this);
 
 	//パーティクル初期化
-	bombParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	enemyParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	gunParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
-	thrusterParticle = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera);
+	bombParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
+	enemyParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
+	gunParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
+	thrusterParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 
 	//ステージデータ読み込み
 	if (stageNo == 1) {
-		player->SetClearPos({ 130.0f, 20.0f, 55.0f });
+		player_->SetClearPos({ 130.0f, 20.0f, 55.0f });
 		LoadRailPoint("Stage1RailPoints.aid");
-		jsonLoader->StageDataLoadandSet("stage1");
-		enemyData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1EnemyData.aid");
-		textData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
+		jsonLoader_->StageDataLoadandSet("stage1");
+		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1EnemyData.aid");
+		textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
-		enemyData = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
+		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
 
 	//ポストエフェクトの初期化
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-	postEffectNo = PostEffect::NORMAL;
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize();
+	postEffectNo_ = PostEffect::NORMAL;
 
 	//ゲームシーン用変数の初期化
-	textAddTimer = 0;
-	textSpeed = 1;
-	textCount = 0;
-	isTextDrawComplete = false;
-	score = 0;
-	clearTimer = clearTime;
-	faceType = FaceGraphics::OPE_NORMALFACE;
+	textAddTimer_ = 0;
+	textSpeed_ = 1;
+	textCount_ = 0;
+	isTextDrawComplete_ = false;
+	score_ = 0;
+	clearTimer_ = clearTime;
+	faceType_ = FaceGraphics::OPE_NORMALFACE;
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
@@ -182,41 +182,41 @@ void RailScene::Initialize() {
 
 void RailScene::Update() {
 	//オブジェクトリスト解放処理
-	enemies.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
-	enemyBullets.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
-	playerBullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
-	particles2d.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
-	bulletCases.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
-	bombs.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
+	enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
+	enemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
+	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
+	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
+	bulletCases_.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
+	bombs_.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 	//丸影用プレイヤー座標セット
-	light->SetCircleShadowCasterPos(0, { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
+	light_->SetCircleShadowCasterPos(0, { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
 	//ポーズ切り替え
-	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player->GetHPCount() != noneHP && !railCamera->GetIsEnd()) {
-		isPause = !isPause;
+	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player_->GetHPCount() != noneHP && !railCamera_->GetIsEnd()) {
+		isPause_ = !isPause_;
 	}
 	//レールの最後までいったらクリア
 	ClearPaformance();
 	//プレイヤーが死亡しているか
-	if (player->GetIsDead()) {
-		isDead = true;
+	if (player_->GetIsDead()) {
+		isDead_ = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
 	//スコア表示
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber[i]->SetTextureRect({ (float)JudgeDigitNumber(score, i), 0 }, { 64, 64 });
+		scoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(score_, i), 0 }, { 64, 64 });
 	}
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
-	if (!isPause) {
+	if (!isPause_) {
 		//エフェクト発生処理
 		AddEffect();
 		//当たり判定チェック
 		CollisionCheck();
 		//オブジェクト更新処理
-		for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+		for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 			enemy->RockOnPerformance();
 		}
 		//ボム攻撃時にスローにする更新処理
@@ -225,14 +225,14 @@ void RailScene::Update() {
 		//チュートリアル更新処理
 		Tutorial();
 
-		enemyParticle->Update();
-		bombParticle->Update();
-		gunParticle->Update();
-		thrusterParticle->Update();
-		jsonLoader->Update();
-		light->Update();
+		enemyParticle_->Update();
+		bombParticle_->Update();
+		gunParticle_->Update();
+		thrusterParticle_->Update();
+		jsonLoader_->Update();
+		light_->Update();
 
-		player->Update(railCamera->GetIsEnd());
+		player_->Update(railCamera_->GetIsEnd());
 	}
 	else {
 		Pause();
@@ -248,20 +248,20 @@ void RailScene::Draw() {
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
 
-	if (player->GetIsDamage()) {
-		postEffectNo = PostEffect::DAMAGE;
+	if (player_->GetIsDamage()) {
+		postEffectNo_ = PostEffect::DAMAGE;
 	}
 	else {
-		postEffectNo = PostEffect::NORMAL;
+		postEffectNo_ = PostEffect::NORMAL;
 		isRoop = true;
 	}
 
-	if (player->GetIsBomb()) {
-		postEffectNo = PostEffect::SLOW;
+	if (player_->GetIsBomb()) {
+		postEffectNo_ = PostEffect::SLOW;
 		isRoop = false;
 	}
 
-	postEffect->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
@@ -270,54 +270,54 @@ void RailScene::Draw() {
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	jsonLoader->Draw();
-	if (!isDead) {
-		player->ObjectDraw();
+	jsonLoader_->Draw();
+	if (!isDead_) {
+		player_->ObjectDraw();
 	}
-	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 		enemy->Draw();
 	}
-	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
 		enemyBullet->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
 		playerBullet->Draw();
 	}
-	for (std::unique_ptr<Bomb>& bomb : bombs) {
+	for (std::unique_ptr<Bomb>& bomb : bombs_) {
 		bomb->Draw();
 	}
-	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
+	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases_) {
 		bulletCase->Draw();
 	}
-	enemyParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	bombParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	gunParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
-	thrusterParticle->Draw(DirectXSetting::GetIns()->GetCmdList());
+	enemyParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
+	bombParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
+	gunParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
+	thrusterParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	scoreSprite->Draw();
+	scoreSprite_->Draw();
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber[i]->Draw();
+		scoreNumber_[i]->Draw();
 	}
 	for (int32_t i = 0; i < 3; i++) {
-		if (player->GetIsBomb()) {
-			bombTimerNumber[i]->Draw();
+		if (player_->GetIsBomb()) {
+			bombTimerNumber_[i]->Draw();
 		}
 	}
-	if (!isPause) {
-		textWindow->Draw();
-		faceWindow->Draw();
-		switch (faceType) {
+	if (!isPause_) {
+		textWindow_->Draw();
+		faceWindow_->Draw();
+		switch (faceType_) {
 		case FaceGraphics::OPE_NORMALFACE:
-			opeNormal[faceAnimeCount]->Draw();
+			opeNormal_[faceAnimeCount_]->Draw();
 			break;
 		case FaceGraphics::OPE_SURPRISEFACE:
-			opeSurprise[faceAnimeCount]->Draw();
+			opeSurprise_[faceAnimeCount_]->Draw();
 			break;
 		case FaceGraphics::OPE_SMILEFACE:
-			opeSmile[faceAnimeCount]->Draw();
+			opeSmile_[faceAnimeCount_]->Draw();
 			break;
 		}
 	}
@@ -325,67 +325,67 @@ void RailScene::Draw() {
 	how_to_down_->Draw();
 	how_to_left_->Draw();
 	how_to_right_->Draw();
-	if (enemies.size() > 0) {
+	if (enemies_.size() > 0) {
 		how_to_bomb_->Draw();
 	}
 	how_to_shot_->Draw();
-	player->SpriteDraw();
-	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+	player_->SpriteDraw();
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 		enemy->SpriteDraw();
 	}
-	for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+	for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 		particle2d->Draw();
 	}
-	if (isPause) {
-		pause->Draw();
-		titleBack->Draw();
-		back->Draw();
-		restart->Draw();
+	if (isPause_) {
+		pause_->Draw();
+		titleBack_->Draw();
+		back_->Draw();
+		restart_->Draw();
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
-	postEffect->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
-	if (!isPause) {
+	if (!isPause_) {
 		TextMessageDraw();
 	}
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo, isRoop);
+	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
 void RailScene::Finalize() {
-	player->Finalize();
-	safe_delete(player);
-	safe_delete(camera);
-	safe_delete(railCamera);
-	safe_delete(postEffect);
-	safe_delete(pause);
-	safe_delete(titleBack);
-	safe_delete(back);
-	safe_delete(restart);
-	safe_delete(scoreSprite);
-	safe_delete(light);
-	safe_delete(bombParticle);
-	safe_delete(gunParticle);
-	safe_delete(thrusterParticle);
-	safe_delete(enemyParticle);
-	safe_delete(textDraw);
-	safe_delete(textWindow);
-	safe_delete(faceWindow);
+	player_->Finalize();
+	safe_delete(player_);
+	safe_delete(camera_);
+	safe_delete(railCamera_);
+	safe_delete(postEffect_);
+	safe_delete(pause_);
+	safe_delete(titleBack_);
+	safe_delete(back_);
+	safe_delete(restart_);
+	safe_delete(scoreSprite_);
+	safe_delete(light_);
+	safe_delete(bombParticle_);
+	safe_delete(gunParticle_);
+	safe_delete(thrusterParticle_);
+	safe_delete(enemyParticle_);
+	safe_delete(textDraw_);
+	safe_delete(textWindow_);
+	safe_delete(faceWindow_);
 	for (int32_t i = 0; i < 3; i++) {
-		safe_delete(opeNormal[i]);
-		safe_delete(opeSurprise[i]);
-		safe_delete(opeSmile[i]);
-		safe_delete(bombTimerNumber[i]);
+		safe_delete(opeNormal_[i]);
+		safe_delete(opeSurprise_[i]);
+		safe_delete(opeSmile_[i]);
+		safe_delete(bombTimerNumber_[i]);
 	}
 	for (int32_t i = 0; i < 6; i++) {
-		safe_delete(scoreNumber[i]);
+		safe_delete(scoreNumber_[i]);
 	}
 	safe_delete(how_to_up_);
 	safe_delete(how_to_down_);
@@ -393,7 +393,7 @@ void RailScene::Finalize() {
 	safe_delete(how_to_right_);
 	safe_delete(how_to_shot_);
 	safe_delete(how_to_bomb_);
-	jsonLoader->Finalize();
+	jsonLoader_->Finalize();
 }
 
 void RailScene::EnemyDataUpdate() {
@@ -413,17 +413,17 @@ void RailScene::EnemyDataUpdate() {
 	bool isStyle = false;
 	bool isMovePoint = false;
 
-	if (isWait) {
-		if (!isPause) {
-			waitTimer--;
+	if (isWait_) {
+		if (!isPause_) {
+			waitTimer_--;
 		}
-		if (waitTimer <= 0) {
-			isWait = false;
+		if (waitTimer_ <= 0) {
+			isWait_ = false;
 		}
 		return;
 	}
 
-	while (getline(enemyData, line)) {
+	while (getline(enemyData_, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
 		//半角区切りで文字列を取得
@@ -473,8 +473,8 @@ void RailScene::EnemyDataUpdate() {
 			line_stream >> hp;
 		}
 		if (word == "Wait") {
-			isWait = true;
-			line_stream >> waitTimer;
+			isWait_ = true;
+			line_stream >> waitTimer_;
 
 			break;
 		}
@@ -492,13 +492,13 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
-				enemies.push_back(std::move(newEnemy));
+				enemies_.push_back(std::move(newEnemy));
 			}
 			if (type == "AIM") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<AimingEnemy>();
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
-				newEnemy->SetPlayer(player);
+				newEnemy->SetPlayer(player_);
 				newEnemy->SetLifeTime(lifeTime);
 				newEnemy->SetHP(hp);
 				newEnemy->SetShotIntervalTime(shotIntervalTime);
@@ -507,13 +507,13 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
-				enemies.push_back(std::move(newEnemy));
+				enemies_.push_back(std::move(newEnemy));
 			}
 			if (type == "HOM") {
 				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
 				newEnemy->Initialize("enemy1", pos, rot);
 				newEnemy->SetRailScene(this);
-				newEnemy->SetPlayer(player);
+				newEnemy->SetPlayer(player_);
 				newEnemy->SetHP(hp);
 				newEnemy->SetLifeTime(lifeTime);
 				newEnemy->SetShotIntervalTime(shotIntervalTime);
@@ -522,7 +522,7 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
-				enemies.push_back(std::move(newEnemy));
+				enemies_.push_back(std::move(newEnemy));
 			}
 
 			isPos = false;
@@ -534,20 +534,20 @@ void RailScene::EnemyDataUpdate() {
 }
 
 void RailScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
-	enemyBullets.push_back(std::move(enemyBullet));
+	enemyBullets_.push_back(std::move(enemyBullet));
 }
 
 void RailScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
-	playerBullets.push_back(std::move(playerBullet));
+	playerBullets_.push_back(std::move(playerBullet));
 }
 
 void RailScene::AddBulletCase(std::unique_ptr<BulletCase> bulletCase)
 {
-	bulletCases.push_back(std::move(bulletCase));
+	bulletCases_.push_back(std::move(bulletCase));
 }
 
 void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
-	bombs.push_back(std::move(bomb));
+	bombs_.push_back(std::move(bomb));
 }
 
 void RailScene::LoadRailPoint(const std::string& filename) {
@@ -620,14 +620,14 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 		}
 
 		if (isStart) {
-			points.push_back(startPos);
-			points.push_back(startPos);
+			points_.push_back(startPos);
+			points_.push_back(startPos);
 			cameraMoveTimes_.push_back(0);
 			isStart = false;
 		}
 		else if (isEnd) {
-			points.push_back(pos);
-			points.push_back(pos);
+			points_.push_back(pos);
+			points_.push_back(pos);
 			cameraRots_.emplace_back(cameraRots_.back());
 			cameraMoveTimes_.push_back(0);
 			isEnd = false;
@@ -640,9 +640,9 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 			isRot = false;
 		}
 		else if (isRoop) {
-			points.push_back(pos);
-			points.push_back(startPos);
-			points.push_back(startPos);
+			points_.push_back(pos);
+			points_.push_back(startPos);
+			points_.push_back(startPos);
 			isRoop = false;
 			isCameraRoop = true;
 		}
@@ -652,18 +652,18 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 			isTime = false;
 		}
 		else if (isPoint) {
-			points.push_back(pos);
+			points_.push_back(pos);
 		}
 
 		stringCount++;
 	}
 
-	movePoints.points_ = points;
+	movePoints.points_ = points_;
 	movePoints.cameraRot_ = cameraRots_;
 	movePoints.moveTime_ = cameraMoveTimes_;
 
 	assert(splineTime != 0);
-	railCamera->Initialize(startPos, cameraRots_.front(), movePoints, isCameraRoop);
+	railCamera_->Initialize(startPos, cameraRots_.front(), movePoints, isCameraRoop);
 
 }
 
@@ -674,20 +674,20 @@ void RailScene::TextMessageUpdate()
 	std::string messageData;
 	std::wstring messageDataW;
 
-	if (isMessageWait) {
-		if (isTextDrawComplete) {
-			waitMessageTimer--;
+	if (isMessageWait_) {
+		if (isTextDrawComplete_) {
+			waitMessageTimer_--;
 		}
-		if (waitMessageTimer <= 0) {
-			isMessageWait = false;
-			textCount = 0;
-			message.clear();
-			drawMessage.clear();
+		if (waitMessageTimer_ <= 0) {
+			isMessageWait_ = false;
+			textCount_ = 0;
+			message_.clear();
+			drawMessage_.clear();
 		}
 		return;
 	}
 
-	while (getline(textData, line)) {
+	while (getline(textData_, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
 		//半角区切りで文字列を取得
@@ -696,35 +696,35 @@ void RailScene::TextMessageUpdate()
 			continue;
 		}
 		if (word == "OPEN") {
-			isTextWindowOpen = true;
+			isTextWindowOpen_ = true;
 		}
 		if (word == "FACE") {
 			line_stream >> face;
 			if (face == "OPE_NORMAL") {
-				faceType = FaceGraphics::OPE_NORMALFACE;
+				faceType_ = FaceGraphics::OPE_NORMALFACE;
 			}
 			else if (face == "OPE_SURPRISE") {
-				faceType = FaceGraphics::OPE_SURPRISEFACE;
+				faceType_ = FaceGraphics::OPE_SURPRISEFACE;
 			}
 			else if (face == "OPE_SMILE") {
-				faceType = FaceGraphics::OPE_SMILEFACE;
+				faceType_ = FaceGraphics::OPE_SMILEFACE;
 			}
 		}
 		if (word == "TEXT") {
 			line_stream >> messageData;
 			messageDataW = ExternalFileLoader::GetIns()->StringToWstring(messageData);
-			message = messageDataW;
+			message_ = messageDataW;
 		}
 		if (word == "SPEED") {
-			line_stream >> textSpeed;
+			line_stream >> textSpeed_;
 		}
 		if (word == "WAIT") {
-			isMessageWait = true;
-			line_stream >> waitMessageTimer;
+			isMessageWait_ = true;
+			line_stream >> waitMessageTimer_;
 			break;
 		}
 		if (word == "CLOSE") {
-			isTextWindowOpen = false;
+			isTextWindowOpen_ = false;
 		}
 	}
 }
@@ -738,56 +738,56 @@ void RailScene::TextMessageDraw()
 
 	//メッセージウィンドウ開閉処理
 	//メッセージウィンドウ閉鎖処理
-	if (!isTextWindowOpen) {
-		openWindowTimer = 0;
-		closeWindowTimer++;
-		if (closeWindowTimer >= closeWindowTime) {
-			closeWindowTimer = closeWindowTime;
+	if (!isTextWindowOpen_) {
+		openWindowTimer_ = 0;
+		closeWindowTimer_++;
+		if (closeWindowTimer_ >= closeWindowTime) {
+			closeWindowTimer_ = closeWindowTime;
 		}
 		//イーズインアウトでメッセージウィンドウを閉じる
-		textWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceWindowSize.y);
-		faceGraphicSize.y = Easing::easeInOut((float)closeWindowTimer, (float)closeWindowTime, closeWindowSizeY, faceGraphicSize.y);
+		textWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, textWindowSize_.y);
+		faceWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceWindowSize_.y);
+		faceGraphicSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceGraphicSize_.y);
 	}
 	//メッセージウィンドウ開放処理
-	else if (isTextWindowOpen) {
-		closeWindowTimer = 0;
-		openWindowTimer++;
-		if (openWindowTimer >= openWindowTime) {
-			openWindowTimer = openWindowTime;
+	else if (isTextWindowOpen_) {
+		closeWindowTimer_ = 0;
+		openWindowTimer_++;
+		if (openWindowTimer_ >= openWindowTime) {
+			openWindowTimer_ = openWindowTime;
 		}
 		//イーズインアウトでメッセージウィンドウを開く
-		textWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, textWindowSize.y);
-		faceWindowSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceWindowSize.y);
-		faceGraphicSize.y = Easing::easeInOut((float)openWindowTimer, (float)openWindowTime, openWindowSizeY, faceGraphicSize.y);
+		textWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, textWindowSize_.y);
+		faceWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceWindowSize_.y);
+		faceGraphicSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceGraphicSize_.y);
 	}
 
 	//メッセージウィンドウサイズを変更
-	textWindow->SetSize(textWindowSize);
-	faceWindow->SetSize(faceWindowSize);
+	textWindow_->SetSize(textWindowSize_);
+	faceWindow_->SetSize(faceWindowSize_);
 	for (int32_t i = 0; i < 3; i++) {
-		opeNormal[i]->SetSize(faceGraphicSize);
-		opeSurprise[i]->SetSize(faceGraphicSize);
-		opeSmile[i]->SetSize(faceGraphicSize);
+		opeNormal_[i]->SetSize(faceGraphicSize_);
+		opeSurprise_[i]->SetSize(faceGraphicSize_);
+		opeSmile_[i]->SetSize(faceGraphicSize_);
 	}
 
 	//顔グラフィックアニメーション時間加算
-	faceAnimeTimer++;
-	if (faceAnimeTimer >= faceAnimeTime) {
-		faceAnimeTimer = 0;
-		faceAnimeCount++;
-		if (faceAnimeCount >= 3) {
-			faceAnimeCount = 0;
+	faceAnimeTimer_++;
+	if (faceAnimeTimer_ >= faceAnimeTime) {
+		faceAnimeTimer_ = 0;
+		faceAnimeCount_++;
+		if (faceAnimeCount_ >= 3) {
+			faceAnimeCount_ = 0;
 		}
 	}
 	//読み込んだテキスト描画が完了していたら
-	if (isTextDrawComplete) {
-		faceAnimeCount = 0;
-		faceAnimeTimer = 0;
+	if (isTextDrawComplete_) {
+		faceAnimeCount_ = 0;
+		faceAnimeTimer_ = 0;
 	}
 	//テキストスピードが0以下にならないようにする
-	if (textSpeed <= 0) {
-		textSpeed = 1;
+	if (textSpeed_ <= 0) {
+		textSpeed_ = 1;
 	}
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawPos = {
@@ -797,28 +797,28 @@ void RailScene::TextMessageDraw()
 		400, 0, 900, 300
 	};
 	//テキストを1文字ずつ指定時間ごとに追加する
-	textAddTimer++;
-	isTextDrawComplete = false;
-	if (textAddTimer >= textSpeed) {
-		textAddTimer = 0;
-		if (textCount < message.size()) {
-			if (message.substr(textCount, 1) != L"/") {
-				drawMessage += message.substr(textCount, 1);
+	textAddTimer_++;
+	isTextDrawComplete_ = false;
+	if (textAddTimer_ >= textSpeed_) {
+		textAddTimer_ = 0;
+		if (textCount_ < message_.size()) {
+			if (message_.substr(textCount_, 1) != L"/") {
+				drawMessage_ += message_.substr(textCount_, 1);
 			}
 			else {
-				drawMessage += L"\n";
+				drawMessage_ += L"\n";
 			}
-			textCount++;
+			textCount_++;
 		}
 		//読み込んだテキスト描画が完了したら
-		if (textCount >= message.size()) {
-			isTextDrawComplete = true;
+		if (textCount_ >= message_.size()) {
+			isTextDrawComplete_ = true;
 		}
 	}
 	//現在追加されている文字を全て描画する
-	textDraw->Draw("meiryo", "white", drawMessage, textDrawPos);
-	if (player->GetIsBomb()) {
-		textDraw->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n左クリックで発射可能", bombMessageDrawPos);
+	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
+	if (player_->GetIsBomb()) {
+		textDraw_->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n左クリックで発射可能", bombMessageDrawPos);
 	}
 }
 
@@ -831,46 +831,46 @@ void RailScene::DelayUpdates()
 {
 	//スロー演出用タイマー
 	float delayTime = 0.0f;
-	if (player->GetIsBomb()) {
+	if (player_->GetIsBomb()) {
 		delayTime = 3.0f;
 	}
-	delayTimer++;
+	delayTimer_++;
 
 	//スロー演出
-	if (delayTimer >= delayTime) {
+	if (delayTimer_ >= delayTime) {
 		//敵出現処理
 		EnemyDataUpdate();
 		//テキスト更新処理
 		TextMessageUpdate();
 
 		//プレイヤーが生きている場合に更新
-		if (player->GetHPCount() > 0) {
-			if (!railCamera->GetIsEnd()) {
-				railCamera->Update();
+		if (player_->GetHPCount() > 0) {
+			if (!railCamera_->GetIsEnd()) {
+				railCamera_->Update();
 			}
-			for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
+			for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 				enemy->Update();
 				EnemyReactions(enemy.get());
 			}
-			for (std::unique_ptr<Bomb>& bomb : bombs) {
+			for (std::unique_ptr<Bomb>& bomb : bombs_) {
 				bomb->Update();
 			}
 		}
 
-		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
+		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
 			enemyBullet->Update();
 		}
-		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
 			playerBullet->Update();
 		}
-		for (std::unique_ptr<Particle2d>& particle2d : particles2d) {
+		for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 			particle2d->Update();
 		}
-		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases) {
+		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases_) {
 			bulletCase->Update();
 		}
 
-		delayTimer = 0;
+		delayTimer_ = 0;
 	}
 
 
@@ -879,47 +879,47 @@ void RailScene::DelayUpdates()
 void RailScene::ClearPaformance()
 {
 	//レールカメラが最終地点に到達したとき
-	if (railCamera->GetIsEnd()) {
-		clearTimer--;
+	if (railCamera_->GetIsEnd()) {
+		clearTimer_--;
 	}
 	//クリア演出後シーンを切り替える
-	if (clearTimer <= 0) {
-		isClear = true;
+	if (clearTimer_ <= 0) {
+		isClear_ = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 }
 
 void RailScene::CollisionCheck()
 {
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
-		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
 			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f) && enemy->GetHP() - 1 <= 0 && enemy->GetHP() > 0) {
-				score += 500;
+				score_ += 500;
 				enemy->OnCollision();
 				playerBullet->OnCollision();
 			}
 			else if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
-				score += 100;
+				score_ += 100;
 				enemy->OnCollision();
 				playerBullet->OnCollision();
 			}
 		}
 	}
 
-	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets) {
-		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player->GetPlayerObject(), 1.0f, 2.0f)) {
-			if (!player->GetIsDamage() && player->GetHPCount() > noneHP) {
-				player->OnCollision();
+	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
+		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
+			if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
+				player_->OnCollision();
 			}
 			enemyBullet->OnCollision();
-			railCamera->SetIsDamage();
+			railCamera_->SetIsDamage();
 		}
 	}
 
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemies) {
-		for (const std::unique_ptr<Bomb>& bomb : bombs) {
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+		for (const std::unique_ptr<Bomb>& bomb : bombs_) {
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
-				score += 100;
+				score_ += 100;
 				enemy->BombHitCollision();
 				BombHitEffect(bomb.get());
 				bomb->OnCollision();
@@ -939,7 +939,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 	//敵のHPが0ならパーティクルを発生させる
 	if (enemy->GetHP() <= 0) {
-		enemyParticle->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
+		enemyParticle_->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
 	}
 
 	//ロックオン処理
@@ -951,7 +951,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 	if (IsTargetCheck(enemy2dPos, Reticle::GetIns()->GetPos())) {
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (player->GetIsBomb()) {
+		if (player_->GetIsBomb()) {
 			enemy->SetTarget(true);
 		}
 	}
@@ -981,7 +981,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 			acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
 			acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
 			acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-			enemyParticle->Add(20,
+			enemyParticle_->Add(20,
 				particlePos,
 				vel,
 				acc,
@@ -1001,7 +1001,7 @@ void RailScene::AddEffect()
 	const Vector3 defaultAcc = { 0.0f, 0.0f, 0.0f };
 
 	//プレイヤーのHPが1以上ならエフェクトを発生させる
-	if (player->GetHPCount() > noneHP) {
+	if (player_->GetHPCount() > noneHP) {
 		//乱数上限
 		const int32_t randMax = 5;
 		//パーティクル生成時間
@@ -1013,7 +1013,7 @@ void RailScene::AddEffect()
 
 		//プレイヤーのワールド行列からパーティクルの生成位置を求める
 		XMVECTOR playerPos = { 0.0f, 1.2f, -1.0f };
-		playerPos = XMVector3TransformCoord(playerPos, player->GetPlayerObject()->GetMatWorld());
+		playerPos = XMVector3TransformCoord(playerPos, player_->GetPlayerObject()->GetMatWorld());
 		Vector3 thrusterPos = playerPos;
 
 		for (int32_t i = 0; i < 10; i++) {
@@ -1021,9 +1021,9 @@ void RailScene::AddEffect()
 			thrusterPower *= -0.1f;
 			float startScale = (float)(rand() % (randMax - 2));
 			XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
-			playerBack = XMVector3TransformNormal(playerBack, player->GetPlayerObject()->GetMatWorld());
+			playerBack = XMVector3TransformNormal(playerBack, player_->GetPlayerObject()->GetMatWorld());
 			Vector3 thrusterDir = playerBack;
-			thrusterParticle->Add(
+			thrusterParticle_->Add(
 				particleLife,
 				thrusterPos,
 				thrusterDir,
@@ -1037,23 +1037,23 @@ void RailScene::AddEffect()
 	}
 
 	//プレイヤーのHPが0ならエフェクトを発生させる
-	if (player->GetHPCount() <= noneHP && !isPlayerDead) {
-		XMVECTOR playerPos = { player->GetPlayerPos().x, player->GetPlayerPos().y, player->GetPlayerPos().z };
+	if (player_->GetHPCount() <= noneHP && !isPlayerDead_) {
+		XMVECTOR playerPos = { player_->GetPlayerPos().x, player_->GetPlayerPos().y, player_->GetPlayerPos().z };
 		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 		playerPos = XMVector3TransformCoord(playerPos, matVPV);
 
 		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
 		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
 		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-		particles2d.push_back(std::move(new2DParticle));
-		isPlayerDead = true;
+		particles2d_.push_back(std::move(new2DParticle));
+		isPlayerDead_ = true;
 		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 	}
 
 	//マズルフラッシュを発生させる
-	if (player->GetIsShot()) {
-		Vector3 gunPos = player->GetGunObject()->GetMatWorld().r[3];
-		gunParticle->Add(2, gunPos,
+	if (player_->GetIsShot()) {
+		Vector3 gunPos = player_->GetGunObject()->GetMatWorld().r[3];
+		gunParticle_->Add(2, gunPos,
 			{ 0.0f, 0.0f, 0.0f },
 			{ 0.0f, 0.0f, 0.0f },
 			5.0f, 0.0f,
@@ -1062,10 +1062,10 @@ void RailScene::AddEffect()
 		);
 	}
 
-	for (std::unique_ptr<Bomb>& bomb : bombs) {
+	for (std::unique_ptr<Bomb>& bomb : bombs_) {
 		//ボムの軌跡にパーティクルを発生させる
 		Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
-		bombParticle->Add(20, bombPos,
+		bombParticle_->Add(20, bombPos,
 			{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 			3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
 			{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
@@ -1095,7 +1095,7 @@ void RailScene::BombHitEffect(Bomb* bomb) {
 		acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
 		acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
 
-		bombParticle->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+		bombParticle_->Add(30, pos, vel, acc, 8.0f, 0.0f, { 0.6f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 	}
 }
 
@@ -1110,45 +1110,45 @@ void RailScene::Pause()
 	//選択中ボタンサイズ
 	XMFLOAT2 selectSize;
 	//タイトルバックボタンを選択中
-	if (IsMouseHitSprite(mousePos, titleBack->GetPosition(), titleBackSize.x, titleBackSize.y)) {
-		selectSize = { titleBackSize.x * 0.9f, titleBackSize.y * 0.9f };
-		titleBack->SetSize(selectSize);
-		titleBack->SetAlpha(selectAlpha);
+	if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
+		selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
+		titleBack_->SetSize(selectSize);
+		titleBack_->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			isTitleBack = true;
+			isTitleBack_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
-		titleBack->SetSize(titleBackSize);
-		titleBack->SetAlpha(normalAlpha);
+		titleBack_->SetSize(titleBackSize_);
+		titleBack_->SetAlpha(normalAlpha);
 	}
 	//ポーズ解除ボタンを選択中
-	if (IsMouseHitSprite(mousePos, back->GetPosition(), backSize.x, backSize.y)) {
-		selectSize = { backSize.x * 0.9f, backSize.y * 0.9f };
-		back->SetSize(selectSize);
-		back->SetAlpha(selectAlpha);
+	if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {
+		selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
+		back_->SetSize(selectSize);
+		back_->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			isPause = !isPause;
+			isPause_ = !isPause_;
 		}
 	}
 	else {
-		back->SetSize(backSize);
-		back->SetAlpha(normalAlpha);
+		back_->SetSize(backSize_);
+		back_->SetAlpha(normalAlpha);
 	}
 	//リスタートボタンを選択中
-	if (IsMouseHitSprite(mousePos, restart->GetPosition(), restartSize.x, restartSize.y)) {
-		selectSize = { restartSize.x * 0.9f, restartSize.y * 0.9f };
-		restart->SetSize(selectSize);
-		restart->SetAlpha(selectAlpha);
+	if (IsMouseHitSprite(mousePos, restart_->GetPosition(), restartSize_.x, restartSize_.y)) {
+		selectSize = { restartSize_.x * 0.9f, restartSize_.y * 0.9f };
+		restart_->SetSize(selectSize);
+		restart_->SetAlpha(selectAlpha);
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-			isRestart = true;
+			isRestart_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}
 	else {
-		restart->SetSize(restartSize);
-		restart->SetAlpha(normalAlpha);
+		restart_->SetSize(restartSize_);
+		restart_->SetAlpha(normalAlpha);
 	}
 }
 
@@ -1157,7 +1157,7 @@ void RailScene::Tutorial()
 	//定数
 	const float iconSlidePos = 100.0f;
 
-	if (enemies.size() > 0) {
+	if (enemies_.size() > 0) {
 		isMoveUp_ = true;
 		isMoveDown_ = true;
 		isMoveLeft_ = true;
@@ -1166,7 +1166,7 @@ void RailScene::Tutorial()
 	}
 
 	//プレイヤーキャラの画面上の位置を求める
-	XMVECTOR playerPos = { player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };
+	XMVECTOR playerPos = { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	playerPos = XMVector3TransformCoord(playerPos, matVPV);
 	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
@@ -1228,8 +1228,8 @@ void RailScene::Tutorial()
 void RailScene::BombPerformance()
 {
 	for (int32_t i = 0; i < 3; i++) {
-		bombTimerNumber[i]->SetTextureRect({ (float)JudgeDigitNumber((player->GetBombTimer() * 100 / 60), i), 0.0f }, { 64.0f, 64.0f });
-		bombTimerNumber[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f });
+		bombTimerNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber((player_->GetBombTimer() * 100 / 60), i), 0.0f }, { 64.0f, 64.0f });
+		bombTimerNumber_[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f });
 	}
 }
 
@@ -1238,41 +1238,41 @@ void RailScene::SceneChange()
 	//シーン切り替え
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		//死亡フラグが立っている場合
-		if (isDead && !isClear) {
-			SceneManager::AddScore(score);
-			SceneManager::SceneChange(SceneManager::GameOver);
+		if (isDead_ && !isClear_) {
+			SceneManager::AddScore(score_);
+			SceneManager::SceneChange(SceneManager::SceneName::GameOver);
 		}
 		//クリアフラグが立っている場合
-		else if (isClear && !isDead) {
-			SceneManager::AddScore(score);
+		else if (isClear_ && !isDead_) {
+			SceneManager::AddScore(score_);
 			//ステージ番号により派生
 			if (SceneManager::GetStageNo() == 1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Boss);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
 			}
 			else if (SceneManager::GetStageNo() == 2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Boss);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage2_Boss);
 			}
 			SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
 		}
 		//タイトルバックボタンが押された場合
-		else if (isTitleBack) {
-			SceneManager::SceneChange(SceneManager::Title);
+		else if (isTitleBack_) {
+			SceneManager::SceneChange(SceneManager::SceneName::Title);
 		}
 		//リスタートボタンが押された場合
-		else if (isRestart) {
+		else if (isRestart_) {
 			//ステージ番号により派生
 			if (SceneManager::GetStageNo() == 1) {
-				SceneManager::SceneChange(SceneManager::Stage1_Rail);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
 			}
 			else if (SceneManager::GetStageNo() == 2) {
-				SceneManager::SceneChange(SceneManager::Stage2_Rail);
+				SceneManager::SceneChange(SceneManager::SceneName::Stage2_Rail);
 			}
 		}
 	}
 
 	//デバッグ用
 	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score);
+	//	SceneManager::AddScore(score_);
 	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
 	//}
 }

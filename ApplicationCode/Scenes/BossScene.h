@@ -19,7 +19,7 @@ class FirstBoss;
 class BossScene : public BaseScene
 {
 public: //サブクラス
-	enum FaceGraphics {
+	enum class FaceGraphics {
 		OPE_NORMALFACE,
 		OPE_SURPRISEFACE,
 		OPE_SMILEFACE
@@ -90,89 +90,88 @@ private: //静的メンバ変数
 private: //メンバ変数
 
 	//ビルリスト
-	std::list<std::unique_ptr<Object3d>> buildings;
+	std::list<std::unique_ptr<Object3d>> buildings_;
 	//プレイヤー弾リスト
-	std::list<std::unique_ptr<PlayerBullet>> playerBullets;
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
 	//ボス弾リスト
-	std::list<std::unique_ptr<EnemyBullet>> bossBullets;
+	std::list<std::unique_ptr<EnemyBullet>> bossBullets_;
 	//2Dパーティクルリスト
-	std::list<std::unique_ptr<Particle2d>> particles2d;
+	std::list<std::unique_ptr<Particle2d>> particles2d_;
 	//カメラ
-	Camera* camera = nullptr;
+	Camera* camera_ = nullptr;
 	//サウンド
-	Sound* sound = nullptr;
+	Sound* sound_ = nullptr;
 	//プレイヤー
-	BossScenePlayer* player = nullptr;
+	BossScenePlayer* player_ = nullptr;
 	//地面
-	Object3d* ground = nullptr;
+	Object3d* ground_ = nullptr;
 	//天球
-	Object3d* celetialSphere = nullptr;
+	Object3d* celetialSphere_ = nullptr;
 	//ポストエフェクト
-	PostEffect* postEffect = nullptr;
-	PostEffect::PostEffectNo postEffectNo;
-	int32_t postEffectTime;
+	PostEffect* postEffect_ = nullptr;
+	PostEffect::PostEffectNo postEffectNo_;
+	int32_t postEffectTime_;
 	//ライト
-	LightGroup* light = nullptr;
-	FaceGraphics faceType;
+	LightGroup* light_ = nullptr;
+	FaceGraphics faceType_;
 
-	Vector3 groundPos = { 0, 0, 0 }; //地面座標
-	Vector3 groundScale = { 1, 1, 1 }; //地面の大きさ
-	Vector3 spherePos = { 0, 0, 0 }; //天球座標
-	Vector3 sphereScale = { 10, 10, 10 };  //天球の大きさ
+	Vector3 groundPos_ = { 0, 0, 0 }; //地面座標
+	Vector3 groundScale_ = { 1, 1, 1 }; //地面の大きさ
+	Vector3 spherePos_ = { 0, 0, 0 }; //天球座標
+	Vector3 sphereScale_ = { 10, 10, 10 };  //天球の大きさ
 
-	Sprite* pause = nullptr;
-	Sprite* titleBack = nullptr;
-	Sprite* back = nullptr;
-	Sprite* scoreText = nullptr;
-	Sprite* scoreNumber[6] = {};
+	Sprite* pause_ = nullptr;
+	Sprite* titleBack_ = nullptr;
+	Sprite* back_ = nullptr;
+	Sprite* scoreText_ = nullptr;
+	Sprite* scoreNumber_[6] = {};
 	//テキスト用変数
-	Sprite* faceWindow = nullptr;
-	Sprite* textWindow = nullptr;
-	Sprite* opeNormal[3] = {};
-	Sprite* opeSurprise[3] = {};
-	Sprite* opeSmile[3] = {};
-	Sprite* movieBar[2] = {};
-	DirectX::XMFLOAT2 textWindowSize;
-	DirectX::XMFLOAT2 faceWindowSize;
-	DirectX::XMFLOAT2 operatorSize;
-	DirectX::XMFLOAT2 movieBarPos[2] = {};
+	Sprite* faceWindow_ = nullptr;
+	Sprite* textWindow_ = nullptr;
+	Sprite* opeNormal_[3] = {};
+	Sprite* opeSurprise_[3] = {};
+	Sprite* opeSmile_[3] = {};
+	Sprite* movieBar_[2] = {};
+	DirectX::XMFLOAT2 textWindowSize_;
+	DirectX::XMFLOAT2 faceWindowSize_;
+	DirectX::XMFLOAT2 operatorSize_;
+	DirectX::XMFLOAT2 movieBarPos_[2] = {};
 
-	TextDraw* textDraw = nullptr;
-	int32_t textSpeed;
-	int32_t textCount;
-	int32_t textAddTimer;
+	TextDraw* textDraw_ = nullptr;
+	int32_t textSpeed_;
+	int32_t textCount_;
+	int32_t textAddTimer_;
 
-	int32_t closeWindowTimer; //ウィンドウ閉鎖時間
-	int32_t openWindowTimer; //ウィンドウ解放時間
-	int32_t movieTimer; //ムービー時間
+	int32_t closeWindowTimer_; //ウィンドウ閉鎖時間
+	int32_t openWindowTimer_; //ウィンドウ解放時間
+	int32_t movieTimer_; //ムービー時間
 
-	Vector3 cameraPos; //カメラ座標
+	Vector3 cameraPos_; //カメラ座標
 
-	bool isMessageWait; //メッセージデータ読み込み待機フラグ
-	bool isTextWindowOpen; //テキストウィンドウオープンフラグ
-	int32_t waitMessageTimer; //メッセージデータ読み込み待機時間
-	bool isTextDraw; //メッセージデータ出力完了フラグ
+	bool isMessageWait_; //メッセージデータ読み込み待機フラグ
+	bool isTextWindowOpen_; //テキストウィンドウオープンフラグ
+	int32_t waitMessageTimer_; //メッセージデータ読み込み待機時間
+	bool isTextDraw_; //メッセージデータ出力完了フラグ
 
-	std::stringstream textData; //メッセージデータ格納用文字列
-	std::wstring drawMessage; //メッセージ内容出力用文字列
-	std::wstring message; //メッセージ内容格納文字列
+	std::stringstream textData_; //メッセージデータ格納用文字列
+	std::wstring drawMessage_; //メッセージ内容出力用文字列
+	std::wstring message_; //メッセージ内容格納文字列
 
-	int32_t opeAnimeTimer;
-	int32_t opeAnimeCount;
+	int32_t opeAnimeTimer_;
+	int32_t opeAnimeCount_;
 
 	//BaseBoss* boss;
-	FirstBoss* firstBoss;
+	FirstBoss* firstBoss_;
 
-	DirectX::XMFLOAT2 titleBackSize;
-	DirectX::XMFLOAT2 backSize;
+	DirectX::XMFLOAT2 titleBackSize_;
+	DirectX::XMFLOAT2 backSize_;
 	//スコア
-	int32_t score;
+	int32_t score_;
 
 	//ポーズフラグ
-	bool isPause;
+	bool isPause_;
 	//タイトルバックフラグ
-	bool isTitleBack;
+	bool isTitleBack_;
 	//死亡フラグ
-	bool isDead;
+	bool isDead_;
 };
-
