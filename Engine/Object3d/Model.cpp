@@ -12,14 +12,14 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
-ID3D12Device* Model::device = nullptr;
-UINT Model::descriptorHandleIncrementSize = 0;
+ID3D12Device* Model::device_ = nullptr;
+UINT Model::descriptorHandleIncrementSize_ = 0;
 
-void Model::StaticInitialize(ID3D12Device* device) {
+void Model::StaticInitialize(ID3D12Device* device_) {
 	//nullptrチェック
-	assert(device);
+	assert(device_);
 
-	Model::device = device;
+	Model::device_ = device_;
 }
 
 Model* Model::CreateModel(const std::string& modelname, bool isSmoothing) {
@@ -38,43 +38,43 @@ Model* Model::CreateShapeModel(const std::vector<VertexPosNormalUv>& vertices_, 
 	return shape;
 }
 
-void Model::InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices_, const std::vector<unsigned short> indices_, const std::string& textureName)
+void Model::InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices, const std::vector<unsigned short> indices, const std::string& textureName)
 {
 	HRESULT result = S_FALSE;
 
 	std::vector<VertexPosNormalUv> realVertices;
 
-	vertices = vertices_;
-	indices = indices_;
+	vertices_ = vertices;
+	indices_ = indices;
 
-	material.name = "square";
-	material.ambient = { 1.0f, 1.0f, 1.0f };
-	material.textureFilename = textureName;
-	LoadTexture("Engine/Resources/Images/", material.textureFilename);
+	material_.name_ = "square";
+	material_.ambient_ = { 1.0f, 1.0f, 1.0f };
+	material_.textureFilename_ = textureName;
+	LoadTexture("Engine/Resources/Images/", material_.textureFilename_);
 
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 	// 頂点バッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 	if (FAILED(result)) {
 		assert(0);
 		return;
 	}
 
 	// インデックスバッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+		IID_PPV_ARGS(&indexBuff_));
 	if (FAILED(result)) {
 		assert(0);
 		return;
@@ -82,51 +82,51 @@ void Model::InitializeShapesModel(const std::vector<VertexPosNormalUv>& vertices
 
 	// 頂点バッファへのデータ転送
 	VertexPosNormalUv* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
-		std::copy(vertices.begin(), vertices.end(), vertMap);
-		vertBuff->Unmap(0, nullptr);
+		std::copy(vertices_.begin(), vertices_.end(), vertMap);
+		vertBuff_->Unmap(0, nullptr);
 	}
 
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	if (SUCCEEDED(result)) {
 
 		// 全インデックスに対して
-		std::copy(indices.begin(), indices.end(), indexMap);
+		std::copy(indices_.begin(), indices_.end(), indexMap);
 
-		indexBuff->Unmap(0, nullptr);
+		indexBuff_->Unmap(0, nullptr);
 	}
 
 	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB;
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 	// インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 }
 
 void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)
 {
-	smoothData[indexPosition].emplace_back(indexVertex);
+	smoothData_[indexPosition].emplace_back(indexVertex);
 }
 
 void Model::CalculateSmoothedVertexNormals()
 {
-	auto itr = smoothData.begin();
-	for (; itr != smoothData.end(); ++itr) {
+	auto itr = smoothData_.begin();
+	for (; itr != smoothData_.end(); ++itr) {
 		std::vector<unsigned short>& v = itr->second;
-		XMVECTOR normal = {};
+		XMVECTOR normal_ = {};
 		for (unsigned short index : v) {
-			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
+			normal_ += XMVectorSet(vertices_[index].normal_.x, vertices_[index].normal_.y, vertices_[index].normal_.z, 0);
 		}
-		normal = XMVector3Normalize(normal / (float)v.size());
+		normal_ = XMVector3Normalize(normal_ / (float)v.size());
 		for (unsigned short index : v) {
-			vertices[index].normal = { normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2] };
+			vertices_[index].normal_ = { normal_.m128_f32[0], normal_.m128_f32[1], normal_.m128_f32[2] };
 		}
 	}
 }
@@ -135,43 +135,43 @@ void Model::Initialize() {
 	HRESULT result;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB1) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB1));
+		IID_PPV_ARGS(&constBuffB1_));
 }
 
 void Model::Update(Material materials) {
 	HRESULT result;
 
 	ConstBufferDataB1* constMap = nullptr;
-	result = constBuffB1->Map(0, nullptr, (void**)&constMap);
-	constMap->ambient = material.ambient;
-	constMap->diffuse = material.diffuse;
-	constMap->specular = material.specular;
-	constMap->alpha = material.alpha;
-	constBuffB1->Unmap(0, nullptr);
+	result = constBuffB1_->Map(0, nullptr, (void**)&constMap);
+	constMap->ambient_ = material_.ambient_;
+	constMap->diffuse_ = material_.diffuse_;
+	constMap->specular_ = material_.specular_;
+	constMap->alpha_ = material_.alpha_;
+	constBuffB1_->Unmap(0, nullptr);
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList) {
 	// 頂点バッファの設定
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 	// インデックスバッファの設定
-	cmdList->IASetIndexBuffer(&ibView);
+	cmdList->IASetIndexBuffer(&ibView_);
 
 	// デスクリプタヒープの配列
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = { descHeap_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBuffB1_->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
+	cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV_);
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 std::wstring Model::SeparatedExtension(const std::wstring& filePath)
@@ -200,13 +200,13 @@ void Model::InitializeDescriptorHeap() {
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
 	descHeapDesc.NumDescriptors = 1; // シェーダーリソースビュー1つ
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
+	result = device_->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap_));//生成
 	if (FAILED(result)) {
 		assert(0);
 	}
 
 	// デスクリプタサイズを取得
-	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	descriptorHandleIncrementSize_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
 void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
@@ -273,12 +273,12 @@ void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
 		//先頭文字列がvnなら法線ベクトル
 		if (key == "vn") {
 			//XYZ成分読み込み
-			XMFLOAT3 normal{};
-			line_stream >> normal.x;
-			line_stream >> normal.y;
-			line_stream >> normal.z;
+			XMFLOAT3 normal_{};
+			line_stream >> normal_.x;
+			line_stream >> normal_.y;
+			line_stream >> normal_.z;
 			//法線ベクトルデータに追加
-			normals.emplace_back(normal);
+			normals.emplace_back(normal_);
 		}
 
 		//先頭文字列がfならポリゴン
@@ -296,15 +296,15 @@ void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
 				index_stream >> indexNormal;
 				//頂点データの追加
 				VertexPosNormalUv vertex{};
-				vertex.pos = positions[indexPosition - 1];
-				vertex.normal = normals[indexNormal - 1];
-				vertex.uv = texcoords[indexTexcoord - 1];
-				vertices.emplace_back(vertex);
+				vertex.pos_ = positions[indexPosition - 1];
+				vertex.normal_ = normals[indexNormal - 1];
+				vertex.uv_ = texcoords[indexTexcoord - 1];
+				vertices_.emplace_back(vertex);
 				if (isSmoothing) {
-					AddSmoothData(indexPosition, (unsigned short)vertices.size() - 1);
+					AddSmoothData(indexPosition, (unsigned short)vertices_.size() - 1);
 				}
 				//頂点インデックスに追加
-				indices.emplace_back((unsigned short)indices.size());
+				indices_.emplace_back((unsigned short)indices_.size());
 			}
 		}
 	}
@@ -317,29 +317,29 @@ void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
 
 	std::vector<VertexPosNormalUv> realVertices;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 	// 頂点バッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 	if (FAILED(result)) {
 		assert(0);
 		return;
 	}
 
 	// インデックスバッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+		IID_PPV_ARGS(&indexBuff_));
 	if (FAILED(result)) {
 		assert(0);
 		return;
@@ -347,32 +347,32 @@ void Model::InitializeModel(const std::string& modelname, bool isSmoothing) {
 
 	// 頂点バッファへのデータ転送
 	VertexPosNormalUv* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
-		std::copy(vertices.begin(), vertices.end(), vertMap);
-		vertBuff->Unmap(0, nullptr);
+		std::copy(vertices_.begin(), vertices_.end(), vertMap);
+		vertBuff_->Unmap(0, nullptr);
 	}
 
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	if (SUCCEEDED(result)) {
 
 		// 全インデックスに対して
-		std::copy(indices.begin(), indices.end(), indexMap);
+		std::copy(indices_.begin(), indices_.end(), indexMap);
 
-		indexBuff->Unmap(0, nullptr);
+		indexBuff_->Unmap(0, nullptr);
 	}
 
 	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB;
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 	// インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 }
 
 void Model::LoadTexture(const std::string& directoryPath, const std::string& filename) {
@@ -434,13 +434,13 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	);
 
 	// テクスチャ用バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
 		D3D12_HEAP_FLAG_NONE,
 		&texresDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
-		IID_PPV_ARGS(&texbuff));
+		IID_PPV_ARGS(&texbuff_));
 	if (FAILED(result)) {
 		assert(0);
 	}
@@ -449,7 +449,7 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	for (int32_t i = 0; i < metadata.mipLevels; i++) {
 		const Image* img = scratchImg.GetImage(i, 0, 0); // 生データ抽出
 
-		result = texbuff->WriteToSubresource(
+		result = texbuff_->WriteToSubresource(
 			(UINT)i,
 			nullptr, // 全領域へコピー
 			img->pixels,    // 元データアドレス
@@ -462,20 +462,20 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	}
 
 	// シェーダリソースビュー作成
-	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
-	gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
+	cpuDescHandleSRV_ = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap_->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize_);
+	gpuDescHandleSRV_ = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap_->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize_);
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = texbuff->GetDesc();
+	D3D12_RESOURCE_DESC resDesc = texbuff_->GetDesc();
 
 	srvDesc.Format = texresDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = texresDesc.MipLevels;
 
-	device->CreateShaderResourceView(texbuff.Get(), //ビューと関連付けるバッファ
+	device_->CreateShaderResourceView(texbuff_.Get(), //ビューと関連付けるバッファ
 		&srvDesc, //テクスチャ設定情報
-		cpuDescHandleSRV
+		cpuDescHandleSRV_
 	);
 }
 
@@ -507,36 +507,36 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 		//先頭文字列がnewmtlならマテリアル名
 		if (key == "newmtl") {
 			//マテリアル名読み込み
-			line_stream >> material.name;
+			line_stream >> material_.name_;
 		}
 
 		//先頭文字列がKaならアンビエント色
 		if (key == "Ka") {
-			line_stream >> material.ambient.x;
-			line_stream >> material.ambient.y;
-			line_stream >> material.ambient.z;
+			line_stream >> material_.ambient_.x;
+			line_stream >> material_.ambient_.y;
+			line_stream >> material_.ambient_.z;
 		}
 
 		//先頭文字列がKdならディフューズ色
 		if (key == "Kd") {
-			line_stream >> material.diffuse.x;
-			line_stream >> material.diffuse.y;
-			line_stream >> material.diffuse.z;
+			line_stream >> material_.diffuse_.x;
+			line_stream >> material_.diffuse_.y;
+			line_stream >> material_.diffuse_.z;
 		}
 
 		//先頭文字列がKsならスペキュラー色
 		if (key == "Ks") {
-			line_stream >> material.specular.x;
-			line_stream >> material.specular.y;
-			line_stream >> material.specular.z;
+			line_stream >> material_.specular_.x;
+			line_stream >> material_.specular_.y;
+			line_stream >> material_.specular_.z;
 		}
 
 		//先頭文字列がmap_Kdならテクスチャファイル名
 		if (key == "map_Kd") {
 			//テクスチャのファイル名の読み込み
-			line_stream >> material.textureFilename;
+			line_stream >> material_.textureFilename_;
 			//テクスチャ読み込み
-			LoadTexture(directoryPath, material.textureFilename);
+			LoadTexture(directoryPath, material_.textureFilename_);
 		}
 
 	}

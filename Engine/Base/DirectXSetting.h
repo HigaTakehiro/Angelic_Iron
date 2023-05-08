@@ -70,32 +70,32 @@ public: //メンバ関数
 	/// デバイスの取得
 	/// </summary>
 	/// <returns></returns>
-	ID3D12Device* GetDev() { return dev.Get(); }
+	ID3D12Device* GetDev() { return dev_.Get(); }
 	/// <summary>
 	/// コマンドリストの取得
 	/// </summary>
 	/// <returns></returns>
-	ID3D12GraphicsCommandList* GetCmdList() { return cmdList.Get(); }
+	ID3D12GraphicsCommandList* GetCmdList() { return cmdList_.Get(); }
 	/// <summary>
 	/// D2Dデバイス環境の取得
 	/// </summary>
 	/// <returns>D2Dデバイス環境</returns>
-	ID2D1DeviceContext* GetD2DDeviceContext() { return d2dDeviceContext.Get(); }
+	ID2D1DeviceContext* GetD2DDeviceContext() { return d2dDeviceContext_.Get(); }
 	/// <summary>
 	/// directWriteFactoryの取得
 	/// </summary>
 	/// <returns>directWriteFactory</returns>
-	IDWriteFactory* GetDWriteFactory() { return directWriteFactory.Get(); }
+	IDWriteFactory* GetDWriteFactory() { return directWriteFactory_.Get(); }
 	/// <summary>
 	/// SolidColorBrushの取得
 	/// </summary>
 	/// <returns>SolidColorBrush連想配列</returns>
-	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> GetColorBrushes() { return solidColorBlushes; }
+	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> GetColorBrushes() { return solidColorBlushes_; }
 	/// <summary>
 	/// テキストフォーマットの取得
 	/// </summary>
 	/// <returns>テキストフォーマット連想配列</returns>
-	std::map<std::string, ComPtr<IDWriteTextFormat>> GetTextFormats() { return textFormats; }
+	std::map<std::string, ComPtr<IDWriteTextFormat>> GetTextFormats() { return textFormats_; }
 	/// <summary>
 	/// SolidColorBlushを登録する
 	/// </summary>
@@ -120,32 +120,32 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//ウィンドウズアプリケーション管理
-	WinApp* winApp;
+	WinApp* winApp_;
 
-	ComPtr<ID3D12Device> dev;
-	ComPtr<ID3D11On12Device> id3d11On12Device;
-	ComPtr<ID3D11DeviceContext> devContext11;
-	ComPtr<ID2D1DeviceContext> d2dDeviceContext;
-	ComPtr<IDXGIFactory6> dxgiFactory;
-	ComPtr<IDXGISwapChain4> swapchain;
-	ComPtr<ID3D12GraphicsCommandList> cmdList;
-	ComPtr<ID3D12CommandAllocator> cmdAllocator;
-	ComPtr<ID3D12CommandQueue> cmdQueue;
-	ComPtr<ID3D12DescriptorHeap> rtvHeaps;
-	ComPtr<IDWriteFactory> directWriteFactory;
-	std::vector<ComPtr<ID3D12Resource>> backBuffers;
-	std::vector<ComPtr<ID3D11Resource>> wrappedBackBuffers;
-	std::vector<ComPtr<ID2D1Bitmap1>> d2dRenderTargets;
-	ComPtr<ID3D12Resource> depthBuffer;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap;
-	ComPtr<ID3D12Fence> fence;
-	UINT64 fenceVal = 0;
+	ComPtr<ID3D12Device> dev_;
+	ComPtr<ID3D11On12Device> id3d11On12Device_;
+	ComPtr<ID3D11DeviceContext> devContext11_;
+	ComPtr<ID2D1DeviceContext> d2dDeviceContext_;
+	ComPtr<IDXGIFactory6> dxgiFactory_;
+	ComPtr<IDXGISwapChain4> swapchain_;
+	ComPtr<ID3D12GraphicsCommandList> cmdList_;
+	ComPtr<ID3D12CommandAllocator> cmdAllocator_;
+	ComPtr<ID3D12CommandQueue> cmdQueue_;
+	ComPtr<ID3D12DescriptorHeap> rtvHeaps_;
+	ComPtr<IDWriteFactory> directWriteFactory_;
+	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
+	std::vector<ComPtr<ID3D11Resource>> wrappedBackBuffers_;
+	std::vector<ComPtr<ID2D1Bitmap1>> d2dRenderTargets_;
+	ComPtr<ID3D12Resource> depthBuffer_;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_;
+	ComPtr<ID3D12Fence> fence_;
+	UINT64 fenceVal_ = 0;
 	//ソリッドカラーブラシ
-	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> solidColorBlushes;
+	std::map<std::string, ComPtr<ID2D1SolidColorBrush>> solidColorBlushes_;
 	//テキストフォーマット
-	std::map<std::string, ComPtr<IDWriteTextFormat>> textFormats;
+	std::map<std::string, ComPtr<IDWriteTextFormat>> textFormats_;
 	//FPS固定用記録時間
-	std::chrono::steady_clock::time_point reference;
+	std::chrono::steady_clock::time_point reference_;
 
 private: //メンバ関数
 	/// <summary>

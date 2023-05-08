@@ -27,20 +27,20 @@ public: //サブクラス
 	//定数バッファ用データ構造体
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX viewproj;
-		XMMATRIX world;
-		XMFLOAT3 cameraPos;
+		XMMATRIX viewproj_;
+		XMMATRIX world_;
+		XMFLOAT3 cameraPos_;
 	};
 
 	struct ConstBufferDataSkin
 	{
-		XMMATRIX bones[MAX_BONES];
+		XMMATRIX bones_[MAX_BONES];
 	};
 
 public: //静的メンバ関数
 	//セッター
-	static void SetDevice(ID3D12Device* device) { FBXObject3d::device = device; }
-	static void SetCamera(Camera* camera) { FBXObject3d::camera = camera; }
+	static void SetDevice(ID3D12Device* device) { FBXObject3d::device_ = device; }
+	static void SetCamera(Camera* camera) { FBXObject3d::camera_ = camera; }
 	static void CreateGraphicsPipeline();
 
 public: //メンバ関数
@@ -58,7 +58,7 @@ public: //メンバ関数
 	/// モデルのセット
 	/// </summary>
 	/// <param name="model">モデル</param>
-	void SetModel(FBXModel* model) { this->model = model; }
+	void SetModel(FBXModel* model) { this->model_ = model; }
 
 	/// <summary>
 	/// 描画
@@ -70,37 +70,37 @@ public: //メンバ関数
     /// 座標の取得
     /// </summary>
     /// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return position; }
+	const XMFLOAT3& GetPosition() { return position_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(XMFLOAT3 position) { position_ = position; }
 
 	/// <summary>
 	/// 大きさの取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetScale() { return scale; }
+	const XMFLOAT3& GetScale() { return scale_; }
 
 	/// <summary>
 	/// 大きさの設定
 	/// </summary>
 	/// <param name="scale"></param>
-	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	void SetScale(XMFLOAT3 scale) { scale_ = scale; }
 
 	/// <summary>
 	/// 回転角の取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetRotation() { return rotation; }
+	const XMFLOAT3& GetRotation() { return rotation_; }
 
 	/// <summary>
 	/// 回転角の設定
 	/// </summary>
 	/// <param name="rotation"></param>
-	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetRotation(XMFLOAT3 rotation) { rotation_ = rotation; }
 
 	/// <summary>
 	/// アニメーションを再生
@@ -118,50 +118,50 @@ public: //メンバ関数
 	/// 再生中かどうかの取得
 	/// </summary>
 	/// <returns></returns>
-	const bool& GetIsAnimation() { return isPlay; }
+	const bool& GetIsAnimation() { return isPlay_; }
 
 	/// <summary>
 	/// ワールド変換行列の取得
 	/// </summary>
 	/// <returns>ワールド変換行列</returns>
-	const XMMATRIX& GetMatWorld() { return matWorld; }
+	const XMMATRIX& GetMatWorld() { return matWorld_; }
 
 protected: //メンバ変数
 	//定数バッファ
-	ComPtr<ID3D12Resource> constBufferTransform;
+	ComPtr<ID3D12Resource> constBufferTransform_;
 	//ローカルスケール
-	XMFLOAT3 scale = { 1, 1, 1 };
+	XMFLOAT3 scale_ = { 1, 1, 1 };
 	//X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0, 0, 0 };
+	XMFLOAT3 rotation_ = { 0, 0, 0 };
 	//ローカル座標
-	XMFLOAT3 position = { 0, 0, 0 };
+	XMFLOAT3 position_ = { 0, 0, 0 };
 	//ローカルワールド変換行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld_;
 	//モデル
-	FBXModel* model = nullptr;
+	FBXModel* model_ = nullptr;
 	//定数バッファ(スキン)
-	ComPtr<ID3D12Resource> constBufferSkin;
+	ComPtr<ID3D12Resource> constBufferSkin_;
 	//1フレームの時間
-	FbxTime frameTime;
+	FbxTime frameTime_;
 	//アニメーション開始時間
-	FbxTime startTime;
+	FbxTime startTime_;
 	//アニメーション終了時間
-	FbxTime endTime;
+	FbxTime endTime_;
 	//現在時間(アニメーション)
-	FbxTime currentTime;
+	FbxTime currentTime_;
 	//アニメーション再生中かどうかのフラグ
-	bool isPlay = false;
+	bool isPlay_ = false;
 	//アニメーションをループさせるかどうかのフラグ
-	bool isLoop = false;
+	bool isLoop_ = false;
 
 private: //静的メンバ変数
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//カメラ
-	static Camera* camera;
+	static Camera* camera_;
 	//ルートシグネチャ
-	static ComPtr<ID3D12RootSignature> rootsignature;
+	static ComPtr<ID3D12RootSignature> rootsignature_;
 	//パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate;
+	static ComPtr<ID3D12PipelineState> pipelinestate_;
 };
 

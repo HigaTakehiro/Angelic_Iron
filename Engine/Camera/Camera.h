@@ -17,7 +17,7 @@ public: //サブクラス
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
-		XMMATRIX mat;	// ３Ｄ変換行列
+		XMMATRIX mat_;	// ３Ｄ変換行列
 	};
 
 public: //静的メンバ関数
@@ -42,7 +42,7 @@ public: //静的メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetEye() { return eye; }
+	static const XMFLOAT3& GetEye() { return eye_; }
 
 	/// <summary>
 	/// 視点座標の設定
@@ -54,7 +54,7 @@ public: //静的メンバ関数
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetTarget() { return target; }
+	static const XMFLOAT3& GetTarget() { return target_; }
 
 	/// <summary>
 	/// 注視点座標の設定
@@ -86,58 +86,57 @@ public: //静的メンバ関数
 	/// ビュー行列の取得
 	/// </summary>
 	/// <returns>ビュー行列</returns>
-	static const XMMATRIX& GetMatView() { return matView; }
+	static const XMMATRIX& GetMatView() { return matView_; }
 
 	/// <summary>
 	/// 射影行列の取得
 	/// </summary>
 	/// <returns>射影行列</returns>
-	static const XMMATRIX& GetMatProjection() { return matProjection; }
+	static const XMMATRIX& GetMatProjection() { return matProjection_; }
 
 	/// <summary>
 	/// ビルボード行列を掛ける
 	/// </summary>
 	/// <returns>ビルボード行列</returns>
-	static const XMMATRIX& GetMatBillboard() { return matBillboard; }
+	static const XMMATRIX& GetMatBillboard() { return matBillboard_; }
 
 	/// <summary>
 	/// Y軸ビルボード行列を掛ける
 	/// </summary>
 	/// <returns>Y軸ビルボード行列</returns>
-	static const XMMATRIX& GetMatBillboardY() { return matBillboardY; }
+	static const XMMATRIX& GetMatBillboardY() { return matBillboardY_; }
 
 	/// <summary>
 	/// ワールド行列の取得
 	/// </summary>
 	/// <returns>ワールド行列</returns>
-	static const XMMATRIX& GetMatWorld() { return matWorld; }
+	static const XMMATRIX& GetMatWorld() { return matWorld_; }
 
 	/// <summary>
 	/// ビューポート行列の取得
 	/// </summary>
 	/// <returns>ビューポート行列</returns>
-	static const XMMATRIX& GetMatViewPort() { return matViewPort; }
+	static const XMMATRIX& GetMatViewPort() { return matViewPort_; }
 
 private: //静的メンバ変数
 	// ビュー行列
-	static XMMATRIX matView;
+	static XMMATRIX matView_;
 	// 射影行列
-	static XMMATRIX matProjection;
+	static XMMATRIX matProjection_;
 	//ワールド行列
-	static XMMATRIX matWorld;
+	static XMMATRIX matWorld_;
 	//ビルボード行列
-	static XMMATRIX matBillboard;
+	static XMMATRIX matBillboard_;
 	//Y軸ビルボード行列
-	static XMMATRIX matBillboardY;
+	static XMMATRIX matBillboardY_;
 	// 視点座標
-	static XMFLOAT3 eye;
+	static XMFLOAT3 eye_;
 	// 注視点座標
-	static XMFLOAT3 target;
+	static XMFLOAT3 target_;
 	// 上方向ベクトル
-	static XMFLOAT3 up;
+	static XMFLOAT3 up_;
 	//ビューポート行列
-	static XMMATRIX matViewPort;
+	static XMMATRIX matViewPort_;
 	//ワールド行列設定のフラグ
-	static bool isMatWorldCalc;
+	static bool isMatWorldCalc_;
 };
-

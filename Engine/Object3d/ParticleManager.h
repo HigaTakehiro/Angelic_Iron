@@ -28,16 +28,16 @@ public: // サブクラス
 	// 頂点データ構造体
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyz座標
-		float scale; // スケール
-		XMFLOAT4 color; //色
+		XMFLOAT3 pos_; // xyz座標
+		float scale_; // スケール
+		XMFLOAT4 color_; //色
 	};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		XMMATRIX mat;	// ビュープロジェクション行列
-		XMMATRIX matBillboard;	// ビルボード行列
+		XMMATRIX mat_;	// ビュープロジェクション行列
+		XMMATRIX matBillboard_;	// ビルボード行列
 	};
 
 	// パーティクル1粒
@@ -52,33 +52,33 @@ public: // サブクラス
 		using XMMATRIX = DirectX::XMMATRIX;
 	public:
 		// 座標
-		XMFLOAT3 position = {};
+		XMFLOAT3 position_ = {};
 		// 速度
-		XMFLOAT3 velocity = {};
+		XMFLOAT3 velocity_ = {};
 		// 加速度
-		XMFLOAT3 accel = {};
+		XMFLOAT3 accel_ = {};
 		// 色
-		XMFLOAT3 color = {};
+		XMFLOAT3 color_ = {};
 		// スケール
-		float scale = 1.0f;
+		float scale_ = 1.0f;
 		// 回転
-		float rotation = 0.0f;
+		float rotation_ = 0.0f;
 		//アルファ値
-		float alpha = 1.0f;
+		float alpha_ = 1.0f;
 		// 初期値
-		XMFLOAT3 s_color = {};
-		float s_scale = 1.0f;
-		float s_rotation = 0.0f;
-		float s_alpha = 1.0f;
+		XMFLOAT3 s_color_ = {};
+		float s_scale_ = 1.0f;
+		float s_rotation_ = 0.0f;
+		float s_alpha_ = 1.0f;
 		// 最終値
-		XMFLOAT3 e_color = {};
-		float e_scale = 0.0f;
-		float e_rotation = 0.0f;
-		float e_alpha = 0.0f;
+		XMFLOAT3 e_color_ = {};
+		float e_scale_ = 0.0f;
+		float e_rotation_ = 0.0f;
+		float e_alpha_ = 0.0f;
 		// 現在フレーム
-		int32_t frame = 0;
+		int32_t frame_ = 0;
 		// 終了フレーム
-		int32_t num_frame = 0;
+		int32_t num_frame_ = 0;
 	};
 
 private: // 定数
@@ -163,31 +163,30 @@ public: // メンバ関数
 
 private: // メンバ変数
 	// デバイス
-	ID3D12Device* device = nullptr;
+	ID3D12Device* device_ = nullptr;
 	// デスクリプタサイズ
-	UINT descriptorHandleIncrementSize = 0u;
+	UINT descriptorHandleIncrementSize_ = 0u;
 	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootsignature;
+	ComPtr<ID3D12RootSignature> rootsignature_;
 	// パイプラインステートオブジェクト
-	ComPtr<ID3D12PipelineState> pipelinestate;
+	ComPtr<ID3D12PipelineState> pipelinestate_;
 	// デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeap;
+	ComPtr<ID3D12DescriptorHeap> descHeap_;
 	// 頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	// テクスチャバッファ
-	ComPtr<ID3D12Resource> texbuff;
+	ComPtr<ID3D12Resource> texbuff_;
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView;
+	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	// 定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
+	ComPtr<ID3D12Resource> constBuff_;
 	// パーティクル配列
-	std::forward_list<Particle> particles;
+	std::forward_list<Particle> particles_;
 	// カメラ
-	Camera* camera = nullptr;
+	Camera* camera_ = nullptr;
 
 };
-

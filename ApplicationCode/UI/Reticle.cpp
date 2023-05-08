@@ -27,7 +27,7 @@ void Reticle::Initialize()
     //レティクルサイズ
     reticleSize_ = { 80.0f, 80.0f };
     //レティクル生成
-    reticle_ = Sprite::Create(ImageManager::aim, reticlePos_);
+    reticle_ = Sprite::Create((UINT)ImageManager::ImageName::aim, reticlePos_);
     reticle_->SetSize(reticleSize_);
     reticle_->SetAnchorPoint(reticleCenter);
 }

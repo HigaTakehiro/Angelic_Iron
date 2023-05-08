@@ -6,7 +6,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace DirectX;
-const float PostEffect::clearColor[4] = { 0.25f, 0.5f, 0.1f, 0.0f };
+const float PostEffect::clearColor_[4] = { 0.25f, 0.5f, 0.1f, 0.0f };
 
 PostEffect::PostEffect() : Sprite(
 	100, //テクスチャ番号
@@ -24,16 +24,16 @@ void PostEffect::Initialize() {
 	HRESULT result;
 
 	//nullチェック
-	assert(device);
+	assert(device_);
 
 	// 頂点バッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUv) * vertNum),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 
 	assert(SUCCEEDED(result));
 
@@ -47,37 +47,37 @@ void PostEffect::Initialize() {
 
 	// 頂点バッファデータ転送
 	VertexPosUv* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
 		memcpy(vertMap, vertices, sizeof(vertices));
-		vertBuff->Unmap(0, nullptr);
+		vertBuff_->Unmap(0, nullptr);
 	}
 
 	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeof(VertexPosUv) * 4;
-	vbView.StrideInBytes = sizeof(VertexPosUv);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeof(VertexPosUv) * 4;
+	vbView_.StrideInBytes = sizeof(VertexPosUv);
 
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&constBuff));
+		IID_PPV_ARGS(&constBuff_));
 
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&constBuffB0));
+		IID_PPV_ARGS(&constBuffB0_));
 
 	assert(SUCCEEDED(result));
 
-	this->color = XMFLOAT4(1, 1, 1, 1); // 色指定（RGBA）
-	blurCenter = { -0.5f, -0.5f };
-	mask = 0.0f;
+	color_ = XMFLOAT4(1, 1, 1, 1); // 色指定（RGBA）
+	blurCenter_ = { -0.5f, -0.5f };
+	mask_ = 0.0f;
 
 	//テクスチャ作成
 	TexCreate();
@@ -100,66 +100,66 @@ void PostEffect::Initialize() {
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, PostEffectNo pipelineNo, bool isRoop) {
-	timer++;
-	if (timer >= maxTime) {
+	timer_++;
+	if (timer_ >= maxTime) {
 		if (isRoop) {
-			timer = 0.0f;
+			timer_ = 0.0f;
 		}
 		else {
-			timer = maxTime;
+			timer_ = maxTime;
 		}
 	}
 
-	if (nowPipelineNo != pipelineNo) {
+	if (nowPipelineNo_ != pipelineNo) {
 		SRVCreate();
-		nowPipelineNo = pipelineNo;
-		timer = 0;
+		nowPipelineNo_ = pipelineNo;
+		timer_ = 0;
 	}
 
 	// ワールド行列の更新
-	//this->matWorld = XMMatrixIdentity();
+	//this->matWorld_ = XMMatrixIdentity();
 	// Z軸回転
-	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
+	matWorld_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));
 	// 平行移動
-	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
+	matWorld_ *= XMMatrixTranslation(position_.x, position_.y, 0.0f);
 
 	//定数バッファに転送
 	ConstBufferData* constMap = nullptr;
-	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
+	HRESULT result = this->constBuff_->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		constMap->mat = XMMatrixIdentity();
-		constMap->color = color;
-		this->constBuff->Unmap(0, nullptr);
+		constMap->mat_ = XMMatrixIdentity();
+		constMap->color_ = color_;
+		this->constBuff_->Unmap(0, nullptr);
 	}
 
 	ConstBuffDataB0* constMapB0 = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMapB0);
+	result = constBuffB0_->Map(0, nullptr, (void**)&constMapB0);
 	if (SUCCEEDED(result)) {
-		constMapB0->time = timer;
-		constMapB0->maxTime = maxTime;
-		constMapB0->mask = mask;
-		constMapB0->blurCenterX = blurCenter.x;
-		constMapB0->blurCenterY = blurCenter.y;
-		constBuffB0->Unmap(0, nullptr);
+		constMapB0->time_ = timer_;
+		constMapB0->maxTime_ = maxTime;
+		constMapB0->mask_ = mask_;
+		constMapB0->blurCenterX_ = blurCenter_.x;
+		constMapB0->blurCenterY_ = blurCenter_.y;
+		constBuffB0_->Unmap(0, nullptr);
 	}
 	
 	//パイプラインステートの設定
-	cmdList->SetPipelineState(pipelineState[nowPipelineNo].Get());
+	cmdList->SetPipelineState(pipelineState_[(int32_t)nowPipelineNo_].Get());
 	//ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(rootSignature.Get());
+	cmdList->SetGraphicsRootSignature(rootSignature_.Get());
 	//プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//頂点バッファの設定
-	cmdList->IASetVertexBuffers(0, 1, &this->vbView);
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
+	cmdList->IASetVertexBuffers(0, 1, &this->vbView_);
+	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV_.Get() };
 	//デスクリプタヒープをセット
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	// 定数バッファをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuff->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuff_->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 	//描画
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
@@ -169,16 +169,16 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
 	//リソースバリアを変更
 	for (int32_t i = 0; i < texSize; i++) {
 		cmdList->ResourceBarrier(1,
-			&CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(),
+			&CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(),
 				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 				D3D12_RESOURCE_STATE_RENDER_TARGET));
 	}
 
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
 
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 
 	//レンダーターゲットをセット
 	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
@@ -190,7 +190,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
 
 	//全画面クリア
-	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	cmdList->ClearRenderTargetView(rtvH, clearColor_, 0, nullptr);
 
 	//深度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
@@ -199,7 +199,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList) {
 	//リソースバリアを変更
 	for (int32_t i = 0; i < texSize; i++) {
-		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 	}
 }
 
@@ -235,30 +235,30 @@ void PostEffect::CreateGraphicsPipelineState() {
 			assert(0);
 		}
 
-		if (i == NONE) {
+		if ((PostEffectNo)i == PostEffectNo::NONE) {
 			// ピクセルシェーダの読み込みとコンパイル
 			LoadPS(L"Engine/Resources/shaders/PostEffect/PostEffectNormal.hlsl", psBlob);
 		}
-		else if (i == FADEOUT) {
+		else if ((PostEffectNo)i == PostEffectNo::FADEOUT) {
 			// ピクセルシェーダの読み込みとコンパイル
 			LoadPS(L"Engine/Resources/shaders/PostEffect/Fadeout.hlsl", psBlob);
 		}
-		else if (i == NORMAL) {
+		else if ((PostEffectNo)i == PostEffectNo::NORMAL) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/Vignette.hlsl", psBlob);
 		}
-		else if (i == DAMAGE) {
+		else if ((PostEffectNo)i == PostEffectNo::DAMAGE) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/DamageEffect.hlsl", psBlob);
 		}
-		else if (i == SLOW) {
+		else if ((PostEffectNo)i == PostEffectNo::SLOW) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/SlowEffect.hlsl", psBlob);
 		}
-		else if (i == DASH) {
+		else if ((PostEffectNo)i == PostEffectNo::DASH) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/RadialBlur.hlsl", psBlob);
 		}
-		else if (i == SHOUT) {
+		else if ((PostEffectNo)i == PostEffectNo::SHOUT) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/Shout.hlsl", psBlob);
 		}
-		else if (i == POSTSHOUT) {
+		else if ((PostEffectNo)i == PostEffectNo::POSTSHOUT) {
 			LoadPS(L"Engine/Resources/shaders/PostEffect/PostShout.hlsl", psBlob);
 		}
 
@@ -327,12 +327,12 @@ void PostEffect::CreateGraphicsPipelineState() {
 		result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 		assert(SUCCEEDED(result));
 		// ルートシグネチャの生成
-		result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+		result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
 		assert(SUCCEEDED(result));
 
-		gpipeline.pRootSignature = rootSignature.Get();
+		gpipeline.pRootSignature = rootSignature_.Get();
 		//グラフィックスパイプラインの生成
-		result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState[i]));
+		result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState_[i]));
 		assert(SUCCEEDED(result));
 	}
 
@@ -351,13 +351,13 @@ void PostEffect::TexCreate() {
 
 	//テクスチャバッファの生成
 	for (int32_t i = 0; i < texSize; i++) {
-		result = device->CreateCommittedResource(
+		result = device_->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
 			D3D12_HEAP_FLAG_NONE,
 			&texresDesc,
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-			&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
-			IID_PPV_ARGS(&texBuff[i]));
+			&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor_),
+			IID_PPV_ARGS(&texBuff_[i]));
 
 		assert(SUCCEEDED(result));
 
@@ -369,7 +369,7 @@ void PostEffect::TexCreate() {
 		for (int32_t j = 0; j < pixelCount; j++) { img[j] = 0xff0000ff; }
 
 		//テクスチャバッファにデータ転送
-		result = texBuff[i]->WriteToSubresource(0, nullptr, img, rowPitch, depthPicth);
+		result = texBuff_[i]->WriteToSubresource(0, nullptr, img, rowPitch, depthPicth);
 		assert(SUCCEEDED(result));
 		delete[] img;
 	}
@@ -385,7 +385,7 @@ void PostEffect::SRVCreate() {
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	srvDescHeapDesc.NumDescriptors = 1;
 	//SRV用デスクリプタヒープを生成
-	result = device->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV));
+	result = device_->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
 	assert(SUCCEEDED(result));
 
 	//SRV設定
@@ -397,7 +397,7 @@ void PostEffect::SRVCreate() {
 
 	//デスクリプタヒープにSRVを作成
 	for (int32_t i = 0; i < texSize; i++) {
-		device->CreateShaderResourceView(texBuff[i].Get(), &srvDesc, descHeapSRV->GetCPUDescriptorHandleForHeapStart());
+		device_->CreateShaderResourceView(texBuff_[i].Get(), &srvDesc, descHeapSRV_->GetCPUDescriptorHandleForHeapStart());
 	}
 
 }
@@ -410,11 +410,11 @@ void PostEffect::RTVCreate() {
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvDescHeapDesc.NumDescriptors = 1;
 	//RTV用デスクリプタヒープを生成
-	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+	result = device_->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV_));
 	assert(SUCCEEDED(result));
 	//デスクリプタヒープにRTV作成
 	for (int32_t i = 0; i < texSize; i++) {
-		device->CreateRenderTargetView(texBuff[i].Get(), nullptr, descHeapRTV->GetCPUDescriptorHandleForHeapStart());
+		device_->CreateRenderTargetView(texBuff_[i].Get(), nullptr, descHeapRTV_->GetCPUDescriptorHandleForHeapStart());
 	}
 }
 
@@ -432,13 +432,13 @@ void PostEffect::DepthCreate() {
 	);
 
 	//深度バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0),
-		IID_PPV_ARGS(&depthBuff)
+		IID_PPV_ARGS(&depthBuff_)
 	);
 	assert(SUCCEEDED(result));
 }
@@ -452,14 +452,14 @@ void PostEffect::DSVCreate() {
 	DescHeapDesc.NumDescriptors = 1;
 
 	//DSV用デスクリプタヒープを作成
-	result = device->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
+	result = device_->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV_));
 	assert(SUCCEEDED(result));
 
 	//デスクリプタヒープにDSV作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	device->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+	device_->CreateDepthStencilView(depthBuff_.Get(), &dsvDesc, descHeapDSV_->GetCPUDescriptorHandleForHeapStart());
 }
 
 void PostEffect::LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob) {

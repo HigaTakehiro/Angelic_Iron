@@ -12,27 +12,6 @@
     <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{7e5584a5-2895-4181-9eaf-f65622106b57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Audio">
-      <UniqueIdentifier>{632a0e9d-6b94-409e-9cd8-996819413e50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Camera">
-      <UniqueIdentifier>{fbd2e930-443a-42c9-ab54-92ce3fe597da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Base">
-      <UniqueIdentifier>{a336040f-fd8f-443e-8eec-4a835844b34b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Input">
-      <UniqueIdentifier>{ef4dceb1-9093-400b-988c-cd221c6d8b2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object2d">
-      <UniqueIdentifier>{517fe389-7a70-4a1c-9782-cc5888d0316c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\FBX">
-      <UniqueIdentifier>{93d44c8d-931c-481a-b184-8fe7a1adda9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object3d">
-      <UniqueIdentifier>{ba496a77-61e5-4391-ba80-8710154294fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\ApplicationCode">
       <UniqueIdentifier>{a4d05284-6520-4c60-95a7-2071f58c4703}</UniqueIdentifier>
     </Filter>
@@ -53,9 +32,6 @@
     </Filter>
     <Filter Include="シェーダーファイル\Object2d">
       <UniqueIdentifier>{660667d0-67f6-4419-809c-6ce0a03d5ffc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Light">
-      <UniqueIdentifier>{ed6614da-b37d-46d0-bfdf-be9bb58fcfc4}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\ApplicationCode\Bosses">
       <UniqueIdentifier>{3b5e0996-b1ed-47a4-8642-59c350b4e352}</UniqueIdentifier>
@@ -81,97 +57,121 @@
     <Filter Include="ソース ファイル\ApplicationCode\UI">
       <UniqueIdentifier>{47caeb62-7ef3-439b-a6e0-9a073b607dfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine">
+      <UniqueIdentifier>{f906f4a4-604b-407b-a9d6-92e3072f5718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Audio">
+      <UniqueIdentifier>{632a0e9d-6b94-409e-9cd8-996819413e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Base">
+      <UniqueIdentifier>{a336040f-fd8f-443e-8eec-4a835844b34b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Camera">
+      <UniqueIdentifier>{fbd2e930-443a-42c9-ab54-92ce3fe597da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\FBX">
+      <UniqueIdentifier>{93d44c8d-931c-481a-b184-8fe7a1adda9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Input">
+      <UniqueIdentifier>{ef4dceb1-9093-400b-988c-cd221c6d8b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Light">
+      <UniqueIdentifier>{ed6614da-b37d-46d0-bfdf-be9bb58fcfc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object2d">
+      <UniqueIdentifier>{517fe389-7a70-4a1c-9782-cc5888d0316c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object3d">
+      <UniqueIdentifier>{ba496a77-61e5-4391-ba80-8710154294fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Audio\Sound.cpp">
-      <Filter>ソース ファイル\Audio</Filter>
+      <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\DirectXSetting.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Quaternion.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Vector3.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\WinApp.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Camera\Camera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>ソース ファイル\Engine\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Engine\FBX\FbxLoader.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\FBX\FBXModel.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\FBX\FBXObject3d.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\KeyInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\MouseInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\PadInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\DebugText.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\PostEffect.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\Sprite.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\Collision.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\MapChip.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\Model.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\ModelManager.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\Object3d.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\ImageManager.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\Shapes.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Object3d\BaseLight.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Light\LightGroup.cpp">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\TextDraw.cpp">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Audio\SoundManager.cpp">
-      <Filter>ソース ファイル\Audio</Filter>
+      <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\JsonLoader.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\ExternalFileLoader.cpp">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp">
       <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
@@ -243,7 +243,7 @@
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object3d\ShadowMap.cpp">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemies\HomingEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
@@ -257,109 +257,106 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
-      <Filter>ソース ファイル\Audio</Filter>
+      <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\DirectXSetting.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Easing.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Quaternion.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\SafeDelete.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Vector3.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\WinApp.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\Camera.h">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>ソース ファイル\Engine\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FBX\FbxLoader.h">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FBX\FBXModel.h">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FBX\FBXObject3d.h">
-      <Filter>ソース ファイル\FBX</Filter>
+      <Filter>ソース ファイル\Engine\FBX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\KeyInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\MouseInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\PadInput.h">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object2d\DebugText.h">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object2d\PostEffect.h">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object2d\Sprite.h">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Collision.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\MapChip.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Model.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\ModelManager.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Object3d.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object2d\ImageManager.h">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\Shapes.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\ParticleManager.h">
-      <Filter>ソース ファイル\Object3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object3d\BaseLight.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\DirectionalLight.h">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\LightGroup.h">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\PointLight.h">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\SpotLight.h">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\CircleShadow.h">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object2d\TextDraw.h">
-      <Filter>ソース ファイル\Object2d</Filter>
+      <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio\SoundManager.h">
-      <Filter>ソース ファイル\Audio</Filter>
+      <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\JsonLoader.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\ExternalFileLoader.h">
-      <Filter>ソース ファイル\Base</Filter>
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h">
       <Filter>ソース ファイル\ApplicationCode\Bosses</Filter>
@@ -431,7 +428,7 @@
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\ShadowMap.h">
-      <Filter>ソース ファイル\Object3d</Filter>
+      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Enemies\HomingEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>

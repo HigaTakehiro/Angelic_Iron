@@ -73,13 +73,13 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//DirectInputのインスタンス
-	ComPtr<IDirectInput8> dinput;
+	ComPtr<IDirectInput8> dinput_;
 	//キーボードのデバイス
-	ComPtr<IDirectInputDevice8> devkeyboard;
+	ComPtr<IDirectInputDevice8> devkeyboard_;
 	//全キーの状態
-	BYTE key[256] = {};
-	BYTE keyPre[256] = {};
+	BYTE key_[256] = {};
+	BYTE keyPre_[256] = {};
 	//WindowsAPI
-	WinApp* winApp = nullptr;
+	WinApp* winApp_ = nullptr;
 };
 

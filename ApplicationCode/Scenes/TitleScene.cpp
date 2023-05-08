@@ -25,22 +25,22 @@ void TitleScene::Initialize()
 	prePageNumber = 1;
 
 	const XMFLOAT2 spriteCenter = { 0.5f, 0.5f };
-	title = Sprite::UniquePtrCreate(ImageManager::ImageName::title, titlePos);
+	title = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::title, titlePos);
 	title->SetAnchorPoint(spriteCenter);
-	startButton = Sprite::UniquePtrCreate(ImageManager::ImageName::StartButton, startButtonPos);
+	startButton = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::StartButton, startButtonPos);
 	startButton->SetAnchorPoint(spriteCenter);
-	stage1 = Sprite::UniquePtrCreate(ImageManager::ImageName::Stage1, stage1Pos);
+	stage1 = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::Stage1, stage1Pos);
 	stage1->SetAnchorPoint(spriteCenter);
-	manualButton = Sprite::UniquePtrCreate(ImageManager::ImageName::ManualButton, manualButtonPos);
+	manualButton = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::ManualButton, manualButtonPos);
 	manualButton->SetAnchorPoint(spriteCenter);
-	manual = Sprite::UniquePtrCreate(ImageManager::ImageName::Manual, manualPos);
+	manual = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::Manual, manualPos);
 	manual->SetAnchorPoint(spriteCenter);
-	manual2 = Sprite::UniquePtrCreate(ImageManager::Manual_2, { manualPos.x * (pageNumber + 2), manualPos.y });
+	manual2 = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::Manual_2, { manualPos.x * (pageNumber + 2), manualPos.y });
 	manual2->SetAnchorPoint(spriteCenter);
-	allow = Sprite::UniquePtrCreate(ImageManager::Allow, allowPos);
+	allow = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::Allow, allowPos);
 	allow->SetAnchorPoint(spriteCenter);
 	allow->SetRotation(90.0f);
-	close = Sprite::UniquePtrCreate(ImageManager::ImageName::Close, closePos);
+	close = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::Close, closePos);
 	close->SetAnchorPoint(spriteCenter);
 
 	startButtonSize = startButton->GetSize();
@@ -78,7 +78,7 @@ void TitleScene::Initialize()
 	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 
-	postEffectNo = PostEffect::NORMAL;
+	postEffectNo = PostEffect::PostEffectNo::NORMAL;
 	particle = ParticleManager::UniquePtrCreate(DirectXSetting::GetIns()->GetDev(), camera.get());
 
 	debugText.Initialize(0);
@@ -128,7 +128,7 @@ void TitleScene::Update()
 		startButton->SetSize(spriteSize);
 		startButton->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isStageSelectMenu = true;
 		}
 	}
@@ -144,7 +144,7 @@ void TitleScene::Update()
 		stage1->SetSize(spriteSize);
 		stage1->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK) && !isStageChoice) {
 			isStage1 = true;
 			isStageChoice = true;
 		}
@@ -161,7 +161,7 @@ void TitleScene::Update()
 		manualButton->SetSize(spriteSize);
 		manualButton->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && !isStageChoice) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK) && !isStageChoice) {
 			isManual = true;
 		}
 	}
@@ -177,7 +177,7 @@ void TitleScene::Update()
 		close->SetSize(spriteSize);
 		close->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isManual = false;
 		}
 	}
@@ -194,10 +194,10 @@ void TitleScene::Update()
 		allow->SetSize(spriteSize);
 		allow->SetAlpha(selectAlpha);
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && pageNumber == 1) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK) && pageNumber == 1) {
 			pageNumber += 1;
 		}
-		else if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) && pageNumber == 2) {
+		else if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK) && pageNumber == 2) {
 			pageNumber -= 1;
 		}
 
@@ -293,7 +293,7 @@ void TitleScene::Update()
 	jsonLoader->Update();
 
 	if (isStageChoice) {
-		SoundManager::GetIns()->StopBGM(SoundManager::TITLE);
+		SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::TITLE);
 	}
 	//シーン切り替え演出を更新
 	SceneChangeEffect::GetIns()->Update();
@@ -306,7 +306,7 @@ void TitleScene::Draw()
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 
-	if (postEffectNo == PostEffect::DASH) {
+	if (postEffectNo == PostEffect::PostEffectNo::DASH) {
 		postEffect->SetBlurCenter({ -0.5f, -0.5f });
 		postEffect->SetMask(0.0f);
 	}
@@ -378,7 +378,7 @@ void TitleScene::SceneChange()
 		//開始演出時間が半分過ぎたら
 		if (startTimer >= startTime / 2.0f) {
 			//ブラーをかける
-			postEffectNo = PostEffect::DASH;
+			postEffectNo = PostEffect::PostEffectNo::DASH;
 			//パーティクルを発生させる
 			//乱数上限
 			const int32_t randMax = 18;

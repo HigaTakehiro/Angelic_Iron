@@ -31,10 +31,10 @@ public: //ƒƒ“ƒoŠÖ”
 	bool OBJSphereCollision(Object3d* object1, Object3d* object2, float objScale1, float objScale2);
 
 private: //ƒƒ“ƒo•Ï”
-	Vector3 object1Pos = { 0, 0, 0 };
-	Vector3 object2Pos = { 0, 0, 0 };
+	Vector3 object1Pos_ = { 0, 0, 0 };
+	Vector3 object2Pos_ = { 0, 0, 0 };
 
-	float objectPosTotal = 0;
-	float objectScaleTotal = 0;
+	float objectPosTotal_ = 0;
+	float objectScaleTotal_ = 0;
 };
 

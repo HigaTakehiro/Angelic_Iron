@@ -29,7 +29,7 @@ void SceneChangeEffect::Initialize()
 		if (sceneChangeEffectsPos_[i].x == 0.0f) {
 			sceneChangeEffectsPos_[i].x = sceneChangeEffectInitPosX + sceneChangeShiftX * i;
 			sceneChangeEffectsPos_[i].y = sceneChangeShiftY * i;
-			sceneChangeEffects_[i] = Sprite::Create(ImageManager::SceneChangeBar, sceneChangeEffectsPos_[i]);
+			sceneChangeEffects_[i] = Sprite::Create((UINT)ImageManager::ImageName::SceneChangeBar, sceneChangeEffectsPos_[i]);
 		}
 	}
 }

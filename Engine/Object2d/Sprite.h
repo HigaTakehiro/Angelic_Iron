@@ -19,14 +19,14 @@ public: //サブクラス
     // 頂点データ
 	struct VertexPosUv
 	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT2 uv;  // uv座標
+		XMFLOAT3 pos_; // xyz座標
+		XMFLOAT2 uv_;  // uv座標
 	};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferData {
-		XMFLOAT4 color; // 色 (RGBA)
-		XMMATRIX mat;   // ３Ｄ変換行列
+		XMFLOAT4 color_; // 色 (RGBA)
+		XMMATRIX mat_;   // ３Ｄ変換行列
 	};
 
 public: //静的メンバ関数
@@ -83,21 +83,21 @@ protected: //静的メンバ変数
 	//頂点数
 	static const int32_t vertNum = 4;
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//デスクリプタサイズ
-	static UINT descriptorHandleIncrementSize;
+	static UINT descriptorHandleIncrementSize_;
 	//コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* cmdList_;
 	//ルートシグネチャ
-	static ComPtr<ID3D12RootSignature> rootSignature;
+	static ComPtr<ID3D12RootSignature> rootSignature_;
 	//パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelineState;
+	static ComPtr<ID3D12PipelineState> pipelineState_;
 	//射影行列
-	static XMMATRIX matProjection;
+	static XMMATRIX matProjection_;
 	//デスクリプタヒープ
-	static ComPtr<ID3D12DescriptorHeap> descHeap;
+	static ComPtr<ID3D12DescriptorHeap> descHeap_;
 	//テクスチャバッファ
-	static ComPtr<ID3D12Resource> texBuff[srvCount];
+	static ComPtr<ID3D12Resource> texBuff_[srvCount];
 
 public: //メンバ関数
 	/// <summary>
@@ -114,12 +114,12 @@ public: //メンバ関数
 	/// 位置取得
 	/// </summary>
 	/// <returns>位置</returns>
-	const XMFLOAT2& GetPosition() { return position; }
+	const XMFLOAT2& GetPosition() { return position_; }
 	/// <summary>
 	/// 大きさ取得
 	/// </summary>
 	/// <returns>大きさ</returns>
-	const XMFLOAT2& GetSize() { return size; }
+	const XMFLOAT2& GetSize() { return size_; }
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -160,25 +160,25 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="color">スプライト色</param>
 	void SetColor(XMFLOAT3 color) {
-		this->color.x = color.x;
-		this->color.y = color.y;
-		this->color.z = color.z;
+		color_.x = color.x;
+		color_.y = color.y;
+		color_.z = color.z;
 	}
 	/// <summary>
 	/// アルファ値の設定
 	/// </summary>
 	/// <param name="alpha"></param>
-	void SetAlpha(float alpha) { this->alpha = alpha; }
+	void SetAlpha(float alpha) { alpha_ = alpha; }
 	/// <summary>
 	/// 画像左の補正設定
 	/// </summary>
 	/// <param name="isLeftSizeCorrection"></param>
-	void SetLeftSizeCorrection(bool isLeftSizeCorrection) { this->isLeftSizeCorrection = isLeftSizeCorrection; }
+	void SetLeftSizeCorrection(bool isLeftSizeCorrection) { isLeftSizeCorrection_ = isLeftSizeCorrection; }
 	/// <summary>
 	/// 画像右の補正設定
 	/// </summary>
 	/// <param name="isRightSizeCorrection"></param>
-	void SetRightSizeCorrection(bool isRightSizeCorrection) { this->isRightSizeCorrection = isRightSizeCorrection; }
+	void SetRightSizeCorrection(bool isRightSizeCorrection) { isRightSizeCorrection_ = isRightSizeCorrection; }
 	/// <summary>
 	/// テクスチャ範囲設定
 	/// </summary>
@@ -192,39 +192,39 @@ public: //メンバ関数
 
 protected: //メンバ変数
 	//頂点バッファ;
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	//頂点バッファビュー;
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	//定数バッファ;
-	ComPtr<ID3D12Resource> constBuff;
+	ComPtr<ID3D12Resource> constBuff_;
 	// Z軸回りの回転角
-	float rotation = 0.0f;
+	float rotation_ = 0.0f;
 	// 座標
-	XMFLOAT2 position = {};
+	XMFLOAT2 position_ = {};
 	// ワールド行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld_;
 	// 色(RGBA)
-	XMFLOAT4 color = { 1, 1, 1, 1 };
+	XMFLOAT4 color_ = { 1, 1, 1, 1 };
 	//アルファ値
-	float alpha = 1.0f;
+	float alpha_ = 1.0f;
 	// テクスチャ番号
-	UINT texNumber = 0;
+	UINT texNumber_ = 0;
 	// 大きさ
-	XMFLOAT2 size = { 100, 100 };
+	XMFLOAT2 size_ = { 100, 100 };
 	//左サイズ補正フラグ
-	bool isLeftSizeCorrection = true;
+	bool isLeftSizeCorrection_ = true;
 	//右サイズ補正フラグ
-	bool isRightSizeCorrection = true;
+	bool isRightSizeCorrection_ = true;
 	// アンカーポイント
-	XMFLOAT2 anchorpoint = { 0.5f, 0.5f };
+	XMFLOAT2 anchorpoint_ = { 0.5f, 0.5f };
 	// 左右反転
-	bool isFlipX = false;
+	bool isFlipX_ = false;
 	// 上下反転
-	bool isFlipY = false;
+	bool isFlipY_ = false;
 	// テクスチャ左上座標
-	XMFLOAT2 texBase = { 0, 0 };
+	XMFLOAT2 texBase_ = { 0, 0 };
 	// テクスチャサイズ
-	XMFLOAT2 texSize = { 100, 100 };
+	XMFLOAT2 texSize_ = { 100, 100 };
 
 private: //メンバ関数
 	/// <summary>
@@ -232,4 +232,3 @@ private: //メンバ関数
 	/// </summary>
 	void TransferVertices();
 };
-

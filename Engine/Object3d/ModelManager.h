@@ -19,11 +19,6 @@ public: //静的メンバ関数
 	/// <returns>インスタンス</returns>
 	static ModelManager* GetIns();
 
-public: //モデル名
-	enum FBXModelName {
-		Test
-	};
-
 public: //メンバ関数
 
 	/// <summary>
@@ -43,25 +38,25 @@ public: //メンバ関数
 	/// FBXモデル追加
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
-	void LoadFBXModel(const std::string modelName);
+	void LoadFBXModel(const std::string modelName, const std::string modelKey);
 
 	/// <summary>
 	/// モデル取得
 	/// </summary>
 	/// <param name="modelKey">モデルキー</param>
 	/// <returns>モデル</returns>
-	Model* GetModel(const std::string modelKey) { return models[modelKey]; }
+	Model* GetModel(const std::string modelKey) { return models_[modelKey]; }
 
 	/// <summary>
 	/// FBXモデル取得
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
 	/// <returns>FBXモデル</returns>
-	FBXModel* GetFBXModel(const FBXModelName modelName) { return fbxModels[modelName]; }
+	FBXModel* GetFBXModel(const std::string modelName) { return fbxModels_[modelName]; }
 
 private: //メンバ変数
 	//std::vector<Model*> models;
-	std::map<std::string, Model*> models;
-	std::vector<FBXModel*> fbxModels;
+	std::map<std::string, Model*> models_;
+	std::map<std::string, FBXModel*> fbxModels_;
 };
 

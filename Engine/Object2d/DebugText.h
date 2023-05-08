@@ -43,8 +43,8 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//スプライトデータの配列
-	Sprite* spriteDatas[maxCharCount] = {};
+	Sprite* spriteDatas_[maxCharCount] = {};
 	//スプライトデータ配列の添え字番号
-	int32_t spriteIndex = 0;
+	int32_t spriteIndex_ = 0;
 };
 

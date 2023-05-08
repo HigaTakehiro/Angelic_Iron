@@ -6,7 +6,7 @@ Particle2d::~Particle2d() {
 
 void Particle2d::Initialize(XMFLOAT2 pos, XMFLOAT2 scale, int32_t time, ImageManager::ImageName imagename, XMFLOAT2 anchorPoint, int32_t imageNo, XMFLOAT2 texUpperLeft, XMFLOAT2 texLowerRight) {
 	pos_ = pos;
-	particle_ = Sprite::Create(imagename, pos);
+	particle_ = Sprite::Create((UINT)imagename, pos);
 	particle_->SetSize(scale);
 	particle_->SetAnchorPoint(anchorPoint);
 	deleteTime_ = time;

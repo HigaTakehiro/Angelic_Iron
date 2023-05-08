@@ -38,8 +38,8 @@ public: //メンバ関数
 private: //メンバ変数
 	//ブロック一個分の大きさ
 	//const float LAND_SCALE = 30.0f;
-	int32_t** map;
+	int32_t** map_;
 
-	Model* blockModel = nullptr;
+	Model* blockModel_ = nullptr;
 };
 

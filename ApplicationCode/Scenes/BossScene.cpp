@@ -46,7 +46,7 @@ void BossScene::Initialize()
 	postEffect_->Initialize();
 	postEffect_->SetMask(1.2f);
 
-	postEffectNo_ = PostEffect::NORMAL;
+	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 	postEffectTime_ = 0;
 
 	player_ = new BossScenePlayer;
@@ -59,30 +59,30 @@ void BossScene::Initialize()
 		LoadTextMessage("Stage1BossText.aid");
 	}
 
-	textWindow_ = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
+	textWindow_ = Sprite::Create((UINT)ImageManager::ImageName::TextWindow, { 580, 630 });
 	textWindow_->SetAlpha(0.4f);
 	textWindowSize_ = textWindow_->GetSize();
 	textWindowSize_.y = 0;
 	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow_ = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
+	faceWindow_ = Sprite::Create((UINT)ImageManager::ImageName::FaceWindow, { 90, 630 });
 	faceWindowSize_ = faceWindow_->GetSize();
 	faceWindowSize_.y = 0;
 	faceWindow_->SetAlpha(0.4f);
 	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
 	for (int32_t i = 0; i < 3; i++) {
-		opeNormal_[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
+		opeNormal_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_NORMAL, { 90, 630 });
 		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeNormal_[i]->SetSize({ 160, 160 });
 		opeNormal_[i]->SetColor({ 2, 2, 2 });
 		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSurprise_[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SURPRISE, { 90, 630 });
 		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeSurprise_[i]->SetSize({ 160, 160 });
 		opeSurprise_[i]->SetColor({ 2, 2, 2 });
 		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSmile_[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SMILE, { 90, 630 });
 		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeSmile_[i]->SetSize({ 160, 160 });
 		opeSmile_[i]->SetColor({ 2, 2, 2 });
@@ -90,7 +90,7 @@ void BossScene::Initialize()
 	}
 	for (int32_t i = 0; i < 2; i++) {
 		movieBarPos_[i] = { 600.0f, 710.0f * (float)i };
-		movieBar_[i] = Sprite::Create(ImageManager::SceneChangeBar, movieBarPos_[i]);
+		movieBar_[i] = Sprite::Create((UINT)ImageManager::ImageName::SceneChangeBar, movieBarPos_[i]);
 		movieBar_[i]->SetSize({ 1680, 200 });
 		movieBar_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
@@ -104,19 +104,19 @@ void BossScene::Initialize()
 	firstBoss_->SetBossScene(this);
 	firstBoss_->SetPlayer(player_);
 
-	pause_ = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
+	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack_ = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
+	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
 	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBackSize_ = titleBack_->GetSize();
-	back_ = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
+	back_ = Sprite::Create((UINT)ImageManager::ImageName::Back, { 640, 450 });
 	back_->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize_ = back_->GetSize();
-	scoreText_ = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreText_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 1180, 50 });
 	scoreText_->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreText_->SetSize({ scoreText_->GetSize().x / 2.0f, scoreText_->GetSize().y / 2.0f });
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 1252 - ((float)i * 30), 100 });
 		scoreNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		scoreNumber_[i]->SetSize({ 32, 32 });
@@ -166,7 +166,7 @@ void BossScene::Update()
 	light_->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
-	postEffectNo_ = PostEffect::NORMAL;
+	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 
 	if (firstBoss_->GetIsMovie()) {
 		if (firstBoss_->GetIsCameraMoveTiming() && firstBoss_->GetIsMovie()) {
@@ -246,7 +246,7 @@ void BossScene::Update()
 
 			XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 			std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+			new2DParticle->Initialize(player2dPos, { 200, 200 }, 100, ImageManager::ImageName::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 			particles2d_.push_back(std::move(new2DParticle));
 			isDead_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
@@ -335,7 +335,7 @@ void BossScene::Update()
 			selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
 			titleBack_->SetSize(selectSize);
 			titleBack_->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 				isTitleBack_ = true;
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 			}
@@ -349,7 +349,7 @@ void BossScene::Update()
 			selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
 			back_->SetSize(selectSize);
 			back_->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 				isPause_ = !isPause_;
 			}
 		}
@@ -389,22 +389,22 @@ void BossScene::Draw()
 	}
 
 	if (player_->GetIsDamage()) {
-		postEffectNo_ = PostEffect::DAMAGE;
+		postEffectNo_ = PostEffect::PostEffectNo::DAMAGE;
 		postEffectTime_ = 60;
 	}
 	else if (player_->GetIsDash()) {
-		postEffectNo_ = PostEffect::DASH;
+		postEffectNo_ = PostEffect::PostEffectNo::DASH;
 		postEffectTime_ = 28;
 	}
 	else {
-		postEffectNo_ = PostEffect::NORMAL;
+		postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 		postEffectTime_ = 60;
 	}
 
 	isRoop = true;
 
 	if (firstBoss_->GetIsMovieEffectTiming() && firstBoss_->GetIsMovie()) {
-		postEffectNo_ = PostEffect::DASH;
+		postEffectNo_ = PostEffect::PostEffectNo::DASH;
 		postEffect_->SetBlurCenter({ -0.5f, -0.5f });
 		postEffect_->SetMask(0.2f);
 		postEffectTime_ = 60;

@@ -10,35 +10,35 @@ void PadInput::Initialize(WinApp* winApp) {
 	HRESULT result = S_FALSE;
 
 	//WinAppのインスタンスを記録
-	this->winApp = winApp;
+	winApp_ = winApp;
 	//DirectInputのインスタンス生成
-	result = DirectInput8Create(winApp->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
+	result = DirectInput8Create(winApp_->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput_, nullptr);
 	//パッドデバイス生成
-	result = dinput->CreateDevice(GUID_Joystick, &devPad, NULL);
-	if (devPad != nullptr) {
+	result = dinput_->CreateDevice(GUID_Joystick, &devPad_, NULL);
+	if (devPad_ != nullptr) {
 		//入力データ形式のセット
-		result = devPad->SetDataFormat(&c_dfDIJoystick);
+		result = devPad_->SetDataFormat(&c_dfDIJoystick);
 		//排他制御レベルのセット
-		result = devPad->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		result = devPad_->SetCooperativeLevel(winApp_->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	}
 }
 
 void PadInput::Update() {
 	HRESULT result;
 
-	if (devPad != nullptr) {
+	if (devPad_ != nullptr) {
 		//前回のパッドのボタン押下を保存
-		prePadState = padState;
+		prePadState_ = padState_;
 		//パッド情報の更新
-		result = devPad->Acquire();
+		result = devPad_->Acquire();
 		//パッドの入力情報を取得する
-		result = devPad->GetDeviceState(sizeof(DIJOYSTATE), &padState);
+		result = devPad_->GetDeviceState(sizeof(DIJOYSTATE), &padState_);
 	}
 }
 
 bool PadInput::PushButton(BYTE buttonNumber) {
 	//指定キーを押していればtrueを返す
-	if (padState.rgbButtons[buttonNumber] & (0x80)) {
+	if (padState_.rgbButtons[buttonNumber] & (0x80)) {
 		return true;
 	}
 	//そうでなければfalseを返す
@@ -47,7 +47,7 @@ bool PadInput::PushButton(BYTE buttonNumber) {
 
 bool PadInput::TriggerButton(BYTE buttonNumber) {
 	//前回は押していなくて、今回は押していればtrueを返す
-	if (!prePadState.rgbButtons[buttonNumber] && padState.rgbButtons[buttonNumber]) {
+	if (!prePadState_.rgbButtons[buttonNumber] && padState_.rgbButtons[buttonNumber]) {
 		return true;
 	}
 	//そうでなければfalseを返す
@@ -55,9 +55,9 @@ bool PadInput::TriggerButton(BYTE buttonNumber) {
 }
 
 bool PadInput::PushCrossKey(LONG crossKeyNumber) {
-	if (padState.rgdwPOV[0] != 0xFFFFFFFF) {
+	if (padState_.rgdwPOV[0] != 0xFFFFFFFF) {
 		//指定キーを押していればtrueを返す
-		if (padState.rgdwPOV[0] == crossKeyNumber) {
+		if (padState_.rgdwPOV[0] == crossKeyNumber) {
 			return true;
 		}
 	}

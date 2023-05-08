@@ -26,23 +26,23 @@ void BossScenePlayer::Initialize(Camera* camera)
 	gun_->SetParent(player_);
 
 	aimPos_ = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-	playerUI_ = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
+	playerUI_ = Sprite::Create((UINT)ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int32_t i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
 		hpUiXPos -= (float)(i * 87);
-		hpUI_[i] = Sprite::Create(ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
+		hpUI_[i] = Sprite::Create((UINT)ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
 	}
 	for (int32_t i = 0; i < maxBulletCount; i++) {
 		float bulletUiPos = 1242.0f;
 		bulletUiPos -= (float)(i * 16);
-		bulletUI_[i] = Sprite::Create(ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
+		bulletUI_[i] = Sprite::Create((UINT)ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
 	}
 	for (int32_t i = 0; i < maxBoostCount; i++) {
 		float boostUIPos = 1198.0f;
 		boostUIPos -= (float)(i * 87);
-		boostUI_[i] = Sprite::Create(ImageManager::Boost, { boostUIPos, 616 });
+		boostUI_[i] = Sprite::Create((UINT)ImageManager::ImageName::Boost, { boostUIPos, 616 });
 	}
-	reloadUI_ = Sprite::Create(ImageManager::ImageName::reload, { 1065, 652 });
+	reloadUI_ = Sprite::Create((UINT)ImageManager::ImageName::reload, { 1065, 652 });
 
 	cameraAngle_ = 0.0f;
 	cameraPos_ = { 0, -20.0f, 0 };
@@ -355,7 +355,7 @@ void BossScenePlayer::AimUpdate()
 		}
 	}
 
-	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && !isShot_ && !isReload_) {
+	if (MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK) && !isShot_ && !isReload_) {
 		isShot_ = true;
 		Shot(aim3dPos_);
 	}

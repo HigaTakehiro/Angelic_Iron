@@ -5,14 +5,14 @@ class PostEffect : public Sprite
 {
 public: //構造体
 	struct ConstBuffDataB0 {
-		float time;
-		float maxTime;
-		float mask;
-		float blurCenterX;
-		float blurCenterY;
+		float time_;
+		float maxTime_;
+		float mask_;
+		float blurCenterX_;
+		float blurCenterY_;
 	};
 
-	enum PostEffectNo {
+	enum class PostEffectNo {
 		NONE,
 		FADEOUT,
 		NORMAL,
@@ -38,7 +38,7 @@ public: //メンバ関数
 	/// 描画コマンド
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, PostEffectNo pipelineNo = NONE, bool isRoop = false);
+	void Draw(ID3D12GraphicsCommandList* cmdList, const float maxTime, PostEffectNo pipelineNo = PostEffectNo::NONE, bool isRoop = false);
 
 	/// <summary>
 	/// シーン描画前処理
@@ -66,46 +66,46 @@ public: //メンバ関数
 	/// ブラーが適用されない範囲セット
 	/// </summary>
 	/// <param name="mask">ブラーが適用されない範囲</param>
-	void SetMask(float mask) { this->mask = mask; }
+	void SetMask(float mask) { mask_ = mask; }
 
 	/// <summary>
 	///	ブラー発生中心位置をセット
 	/// </summary>
 	/// <param name="blurCenter">ブラー発生中心位置</param>
-	void SetBlurCenter(DirectX::XMFLOAT2 blurCenter) { this->blurCenter = blurCenter; }
+	void SetBlurCenter(DirectX::XMFLOAT2 blurCenter) { blurCenter_ = blurCenter; }
 
 private: //静的メンバ変数
 	static const int32_t texSize = 8;
 
 public: //メンバ変数
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff[texSize];
+	ComPtr<ID3D12Resource> texBuff_[texSize];
 	//SRV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 	//深度バッファ
-	ComPtr<ID3D12Resource> depthBuff;
+	ComPtr<ID3D12Resource> depthBuff_;
 	//RTV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
+	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
 	//DSV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 	//グラフィックスパイプライン
-	ComPtr<ID3D12PipelineState> pipelineState[texSize];
+	ComPtr<ID3D12PipelineState> pipelineState_[texSize];
 	//ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+	ComPtr<ID3D12RootSignature> rootSignature_;
 
 private: //静的メンバ変数
 	//画面クリアカラー
-	static const float clearColor[4];
+	static const float clearColor_[4];
 
 private: //メンバ変数
-	int32_t nowPipelineNo = 0;
-	float timer = 0.0f;
+	PostEffectNo nowPipelineNo_ = PostEffectNo::NONE;
+	float timer_ = 0.0f;
 	//ブラーが適用されない範囲
-	float mask;
+	float mask_;
 	//ブラーの中心
-	DirectX::XMFLOAT2 blurCenter;
+	DirectX::XMFLOAT2 blurCenter_;
 	//定数バッファ転送用
-	ComPtr<ID3D12Resource> constBuffB0;
+	ComPtr<ID3D12Resource> constBuffB0_;
 
 private: //メンバ関数
 	/// <summary>
@@ -133,6 +133,4 @@ private: //メンバ関数
 	/// </summary>
 	void DSVCreate();
 
-
 };
-

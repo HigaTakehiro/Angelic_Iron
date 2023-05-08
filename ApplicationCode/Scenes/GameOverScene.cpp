@@ -11,16 +11,16 @@ void GameOverScene::Initialize()
 	camera_->SetEye(cameraPos_);
 	camera_->SetTarget(cameraTargetPos_);
 
-	score_ = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	score_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumbers_[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+		scoreNumbers_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 		scoreNumbers_[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers_[i]->SetSize({ 64, 64 });
 	}
-	titleBack_ = Sprite::Create(ImageManager::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	titleBackAlpha_ = 1.0f;
 	titleBackSize_ = titleBack_->GetSize();
-	restart_ = Sprite::Create(ImageManager::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	restart_ = Sprite::Create((UINT)ImageManager::ImageName::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	restartAlpha_ = 1.0f;
 	restartSize_ = restart_->GetSize();
 	restartSize_.x /= 2;
@@ -62,7 +62,7 @@ void GameOverScene::Initialize()
 	//PostEffect‚Ì‰Šú‰»
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();
-	postEffectNo_ = PostEffect::DAMAGE;
+	postEffectNo_ = PostEffect::PostEffectNo::DAMAGE;
 }
 
 void GameOverScene::Update()
@@ -178,7 +178,7 @@ void GameOverScene::SceneChange()
 			spriteSize.x *= 0.9f;
 			spriteSize.y *= 0.9f;
 			titleBack_->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 				ground_->SetAmbient({ 1, 1, 1 });
 				celetialSphere_->SetAmbient({ 1, 1, 1 });
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
@@ -192,7 +192,7 @@ void GameOverScene::SceneChange()
 			spriteSize.x *= 0.9f;
 			spriteSize.y *= 0.9f;
 			restart_->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 				ground_->SetAmbient({ 1, 1, 1 });
 				celetialSphere_->SetAmbient({ 1, 1, 1 });
 				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);

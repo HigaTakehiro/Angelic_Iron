@@ -22,71 +22,71 @@ public://サブクラス
 	// 頂点データ構造体
 	struct VertexPosNormalUv
 	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT3 normal; // 法線ベクトル
-		XMFLOAT2 uv;  // uv座標
+		XMFLOAT3 pos_; // xyz座標
+		XMFLOAT3 normal_; // 法線ベクトル
+		XMFLOAT2 uv_;  // uv座標
 	};
 	//定数バッファ用データ構造体
 	struct ConstBufferDataB1
 	{
-		XMFLOAT3 ambient;
-		float pad1;
-		XMFLOAT3 diffuse;
-		float pad2;
-		XMFLOAT3 specular;
-		float alpha;
+		XMFLOAT3 ambient_;
+		float pad1_;
+		XMFLOAT3 diffuse_;
+		float pad2_;
+		XMFLOAT3 specular_;
+		float alpha_;
 	};
 	//マテリアル
 	struct Material
 	{
-		std::string name;
-		XMFLOAT3 ambient;
-		XMFLOAT3 diffuse;
-		XMFLOAT3 specular;
-		float alpha;
-		std::string textureFilename;
+		std::string name_;
+		XMFLOAT3 ambient_;
+		XMFLOAT3 diffuse_;
+		XMFLOAT3 specular_;
+		float alpha_;
+		std::string textureFilename_;
 
 		Material() {
-			ambient = { 0.3f, 0.3f, 0.3f };
-			diffuse = { 0.0f, 0.0f, 0.0f };
-			specular = { 0.0f, 0.0f, 0.0f };
-			alpha = 1.0f;
+			ambient_ = { 0.3f, 0.3f, 0.3f };
+			diffuse_ = { 0.0f, 0.0f, 0.0f };
+			specular_ = { 0.0f, 0.0f, 0.0f };
+			alpha_ = 1.0f;
 		}
 	};
 
 private: //静的メンバ変数
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//デスクリプタサイズ
-	static UINT descriptorHandleIncrementSize;
+	static UINT descriptorHandleIncrementSize_;
 
 private: //メンバ変数
 	//頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	//インデックスバッファ
-	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> indexBuff_;
 	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUv> vertices_;
 	// 頂点インデックス配列
-	std::vector<unsigned short> indices;
+	std::vector<unsigned short> indices_;
 	//頂点法線スムージング用データ
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 	//マテリアル
-	Material material;
+	Material material_;
 	// テクスチャバッファ
-	ComPtr<ID3D12Resource> texbuff;
+	ComPtr<ID3D12Resource> texbuff_;
 	//定数バッファ
-	ComPtr<ID3D12Resource> constBuffB1;
+	ComPtr<ID3D12Resource> constBuffB1_;
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 	// デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeap;
+	ComPtr<ID3D12DescriptorHeap> descHeap_;
 
 public: //静的メンバ関数
 	/// <summary>
@@ -114,13 +114,13 @@ public: //メンバ関数
 	/// マテリアルの取得
 	/// </summary>
 	/// <returns></returns>
-	Material GetMaterial() { return material; }
+	Material GetMaterial() { return material_; }
 
 	/// <summary>
 	/// アンビエントをセット
 	/// </summary>
 	/// <param name="ambient"></param>
-	void SetAmbient(const XMFLOAT3& ambient) { material.ambient = ambient; }
+	void SetAmbient(const XMFLOAT3& ambient) { material_.ambient_ = ambient; }
 
 	/// <summary>
 	/// デスクリプタヒープの初期化

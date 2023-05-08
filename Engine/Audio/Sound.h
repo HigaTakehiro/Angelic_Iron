@@ -45,30 +45,30 @@ public: // サブクラス
 	// チャンクヘッダ
 	struct Chunk
 	{
-		char	id[4]; // チャンク毎のID
-		int32_t		size;  // チャンクサイズ
+		char id_[4]; // チャンク毎のID
+		int32_t	size_;  // チャンクサイズ
 	};
 
 	// RIFFヘッダチャンク
 	struct RiffHeader
 	{
-		Chunk	chunk;   // "RIFF"
-		char	type[4]; // "WAVE"
+		Chunk chunk_;   // "RIFF"
+		char type_[4]; // "WAVE"
 	};
 
 	// FMTチャンク
 	struct FormatChunk
 	{
-		Chunk		chunk; // "fmt "
-		WAVEFORMAT	fmt;   // 波形フォーマット
+		Chunk chunk_; // "fmt "
+		WAVEFORMAT fmt_;   // 波形フォーマット
 	};
 
 	struct SoundData {
-		IXAudio2SourceVoice* sound;
-		Chunk data;
-		std::string fileName;
-		char* pBuffer;
-		bool isPlay;
+		IXAudio2SourceVoice* sound_;
+		Chunk data_;
+		std::string fileName_;
+		char* pBuffer_;
+		bool isPlay_;
 	};
 
 public: // メンバ関数
@@ -102,8 +102,8 @@ public: // メンバ関数
 	void LoadSound(const std::string& fileName, SoundData& soundData);
 
 private: // メンバ変数
-	ComPtr<IXAudio2> xAudio2;
-	IXAudio2MasteringVoice* masterVoice;
-	XSound2VoiceCallback voiceCallback;
+	ComPtr<IXAudio2> xAudio2_;
+	IXAudio2MasteringVoice* masterVoice_;
+	XSound2VoiceCallback voiceCallback_;
 };
 

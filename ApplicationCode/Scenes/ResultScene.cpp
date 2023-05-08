@@ -11,13 +11,13 @@ void ResultScene::Initialize()
 	camera_->SetEye(cameraPos_);
 	camera_->SetTarget(cameraTargetPos_);
 
-	score_ = Sprite::Create(ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	score_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 300, 100 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumbers_[i] = Sprite::Create(ImageManager::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+		scoreNumbers_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 450 - ((float)i * 60), 250 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 		scoreNumbers_[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers_[i]->SetSize({ 64, 64 });
 	}
-	titleBack_ = Sprite::Create(ImageManager::TitleBack, { 640, 600 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
+	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 600 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
 	titleBackSize_ = titleBack_->GetSize();
 	titleBackAlpha_ = 1.0f;
 
@@ -59,7 +59,7 @@ void ResultScene::Initialize()
 	//PostEffect‚Ì‰Šú‰»
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();
-	postEffectNo_ = PostEffect::NORMAL;
+	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 }
 
 void ResultScene::Update()
@@ -177,7 +177,7 @@ void ResultScene::SceneChange()
 		spriteSize.x *= 0.9f;
 		spriteSize.y *= 0.9f;
 		titleBack_->SetSize(spriteSize);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
 	}

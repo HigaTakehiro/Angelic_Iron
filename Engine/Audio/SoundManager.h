@@ -23,13 +23,13 @@ class SoundManager final
 	SoundManager& operator=(const SoundManager& obj) = delete;
 
 public: //サブクラス
-	enum BGMKey {
+	enum class BGMKey {
 		TITLE,
 		STAGE1_RAIL,
 		STAGE1_BOSS
 	};
 
-	enum SEKey {
+	enum class SEKey {
 		SHOT,
 		DAMAGE,
 		NOISE,
@@ -97,10 +97,10 @@ private: //メンバ変数
 
 private: //メンバ変数
 	//サウンドクラスのインスタンス
-	Sound* sound = nullptr;
+	Sound* sound_ = nullptr;
 	//BGM連想配列
-	std::map<BGMKey, Sound::SoundData> bgmMap;
+	std::map<BGMKey, Sound::SoundData> bgmMap_;
 	//SE連想配列
-	std::map<SEKey, Sound::SoundData> seMap;
+	std::map<SEKey, Sound::SoundData> seMap_;
 };
 

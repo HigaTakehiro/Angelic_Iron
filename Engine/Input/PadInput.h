@@ -13,7 +13,7 @@
 class PadInput final
 {
 public: //enum
-	enum PadButton {
+	enum class PadButton {
 		Button_A,
 		Button_B,
 		Button_X,
@@ -26,7 +26,7 @@ public: //enum
 		Button_RS
 	};
 
-	enum PadCrossKey {
+	enum class PadCrossKey {
 		CrossKey_Neutral = -1,
 		CrossKey_Up = 0,
 		CrossKey_UpperRight = 4500,
@@ -97,14 +97,12 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//DirectInputのインスタンス
-	ComPtr<IDirectInput8> dinput;
+	ComPtr<IDirectInput8> dinput_;
 	//コントローラのデバイス
-	ComPtr<IDirectInputDevice8> devPad;
+	ComPtr<IDirectInputDevice8> devPad_;
 	//コントローラの情報
-	DIJOYSTATE padState;
-	DIJOYSTATE prePadState;
+	DIJOYSTATE padState_;
+	DIJOYSTATE prePadState_;
 	//WindowsAPI
-	WinApp* winApp = nullptr;
+	WinApp* winApp_ = nullptr;
 };
-
-

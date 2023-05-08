@@ -6,15 +6,15 @@
 using namespace std;
 
 void MapChip::MapChipInitialize() {
-	blockModel = Model::CreateModel("Block");
+	blockModel_ = Model::CreateModel("Block");
 }
 
 int32_t** MapChip::MapLoad(const std::string& mapname, int32_t map_width, int32_t map_height) {
 
-	map = (int32_t**)malloc(sizeof(int32_t*) * map_height); //â°
-	map[0] = (int32_t*)malloc(map_width * map_height * sizeof(int32_t)); //èc
+	map_ = (int32_t**)malloc(sizeof(int32_t*) * map_height); //â°
+	map_[0] = (int32_t*)malloc(map_width * map_height * sizeof(int32_t)); //èc
 	for (int32_t i = 0; i < map_height; i++) {
-		map[i] = map[0] + i * map_width;
+		map_[i] = map_[0] + i * map_width;
 	}
 
 	const string& filename = "Engine/Resources/Mapchip/" + mapname + ".csv";
@@ -25,29 +25,29 @@ int32_t** MapChip::MapLoad(const std::string& mapname, int32_t map_width, int32_
 	fopen_s(&fp, mapfile, "r");
 	for (int32_t i = 0; i < map_height; i++) {
 		for (int32_t j = 0; j < map_width; j++) {
-			fscanf_s(fp, "%d,", &map[i][j]);
+			fscanf_s(fp, "%d,", &map_[i][j]);
 		}
 	}
 
 	fclose(fp);
 
-	return map;
+	return map_;
 }
 
-std::vector<Object3d*> MapChip::MapSet(int32_t** map, int32_t map_width, int32_t map_height, int32_t height) {
+std::vector<Object3d*> MapChip::MapSet(int32_t** map_, int32_t map_width, int32_t map_height, int32_t height) {
 	const float LAND_SCALE = 30.0f;
 
 	std::vector<Object3d*> objects;
 
 	Model* modeltable[] = {
 		nullptr,
-		blockModel,
+		blockModel_,
 	};
 
 	for (int32_t i = 0; i < map_height; i++) {
 		for (int32_t j = 0; j < map_width; j++) {
 
-			int32_t modelIndex = map[i][j];
+			int32_t modelIndex = map_[i][j];
 
 			if (modeltable[modelIndex] != nullptr) {
 				Object3d* object = Object3d::Create(modeltable[modelIndex]);
@@ -63,5 +63,5 @@ std::vector<Object3d*> MapChip::MapSet(int32_t** map, int32_t map_width, int32_t
 
 
 void MapChip::MapChipFinalize() {
-	safe_delete(blockModel);
+	safe_delete(blockModel_);
 }

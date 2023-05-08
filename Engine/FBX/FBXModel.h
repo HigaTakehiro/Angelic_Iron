@@ -12,19 +12,19 @@
 struct Node
 {
 	//名前
-	std::string name;
+	std::string name_;
 	//ローカルスケール
-	DirectX::XMVECTOR scaling = { 1, 1, 1, 0 };
+	DirectX::XMVECTOR scaling_ = { 1, 1, 1, 0 };
 	//ローカル回転角
-	DirectX::XMVECTOR rotation = { 0, 0, 0, 0 };
+	DirectX::XMVECTOR rotation_ = { 0, 0, 0, 0 };
 	//ローカル移動
-	DirectX::XMVECTOR translation = { 0, 0, 0, 1 };
+	DirectX::XMVECTOR translation_ = { 0, 0, 0, 1 };
 	//ローカル変形行列
-	DirectX::XMMATRIX transform;
+	DirectX::XMMATRIX transform_;
 	//グローバル変形行列
-	DirectX::XMMATRIX globalTransform;
+	DirectX::XMMATRIX globalTransform_;
 	//親ノード
-	Node* parent = nullptr;
+	Node* parent_ = nullptr;
 };
 
 class FBXModel
@@ -54,24 +54,24 @@ public: //サブクラス
 	//頂点データ構造体
 	struct VertexPosNormalUvSkin
 	{
-		XMFLOAT3 pos;    //xyz座標
-		XMFLOAT3 normal; //法線ベクトル
-		XMFLOAT2 uv;     //uv座標
-		UINT boneIndex[MAX_BONE_INDICES];   //ボーン番号
-		float boneWeight[MAX_BONE_INDICES]; //ボーン重み
+		XMFLOAT3 pos_;    //xyz座標
+		XMFLOAT3 normal_; //法線ベクトル
+		XMFLOAT2 uv_;     //uv座標
+		UINT boneIndex_[MAX_BONE_INDICES];   //ボーン番号
+		float boneWeight_[MAX_BONE_INDICES]; //ボーン重み
 	};
 
 	struct Bone
 	{
 		//名前
-		std::string name;
+		std::string name_;
 		//初期姿勢の逆行列
-		DirectX::XMMATRIX invInitialPose;
+		DirectX::XMMATRIX invInitialPose_;
 		//クラスター(FBX側のボーン情報)
-		FbxCluster* fbxCluster;
+		FbxCluster* fbxCluster_;
 		//コンストラクタ
 		Bone(const std::string& name) {
-			this->name = name;
+			this->name_ = name;
 		}
 	};
 
@@ -96,46 +96,45 @@ public: //メンバ関数
 	/// モデルの変換行列のゲッター
 	/// </summary>
 	/// <returns>モデルの変換行列</returns>
-	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	const XMMATRIX& GetModelTransform() { return meshNode_->globalTransform_; }
 
 	//ゲッター
-	std::vector<Bone>& GetBones() { return bones; }
-	FbxScene* GetFbxScene() { return fbxScene; }
+	std::vector<Bone>& GetBones() { return bones_; }
+	FbxScene* GetFbxScene() { return fbxScene_; }
 
 private: //メンバ変数
 	//モデル名
-	string name;
+	string name_;
 	//ノード配列
-	vector<Node> nodes;
+	vector<Node> nodes_;
 	//メッシュを持つノード
-	Node* meshNode = nullptr;
+	Node* meshNode_ = nullptr;
 	//頂点データ配列
-	vector<VertexPosNormalUvSkin> vertices;
+	vector<VertexPosNormalUvSkin> vertices_;
 	//頂点インデックス
-	vector<unsigned short> indices;
+	vector<unsigned short> indices_;
 	//アンビエント係数
-	XMFLOAT3 ambient = { 1, 1, 1 };
+	XMFLOAT3 ambient_ = { 1, 1, 1 };
 	//ディフューズ係数
-	XMFLOAT3 diffuse = { 1, 1, 1 };
+	XMFLOAT3 diffuse_ = { 1, 1, 1 };
 	//テクスチャメタデータ
-	TexMetaData metadata = {};
+	TexMetaData metadata_ = {};
 	//スクラッチイメージ
-	ScratchImage scratchImg = {};
+	ScratchImage scratchImg_ = {};
 	//頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	//インデックスバッファ
-	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> indexBuff_;
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texBuff_;
 	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	//SRV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 	//ボーン配列
-	std::vector<Bone> bones;
+	std::vector<Bone> bones_;
 	//FBXシーン
-	FbxScene* fbxScene = nullptr;
+	FbxScene* fbxScene_ = nullptr;
 };
-

@@ -6,18 +6,18 @@
 void Player::Initialize(Camera* camera, float clearTime) {
 	camera_ = camera;
 
-	playerUI_ = Sprite::Create(ImageManager::ImageName::playerUI, { 1000, 650 });
+	playerUI_ = Sprite::Create((UINT)ImageManager::ImageName::playerUI, { 1000, 650 });
 	for (int i = 0; i < maxHp; i++) {
 		float hpUiXPos = 1178.0f;
 		hpUiXPos -= (float)(i * 87);
-		hpUI_[i] = Sprite::Create(ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
+		hpUI_[i] = Sprite::Create((UINT)ImageManager::ImageName::playerHP, { hpUiXPos, 688 });
 	}
 	for (int i = 0; i < maxBulletCount; i++) {
 		float bulletUiPos = 1242.0f;
 		bulletUiPos -= (float)(i * 16);
-		bulletUI_[i] = Sprite::Create(ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
+		bulletUI_[i] = Sprite::Create((UINT)ImageManager::ImageName::playerBullet, { bulletUiPos, 652 });
 	}
-	reloadUI_ = Sprite::Create(ImageManager::ImageName::reload, { 1065, 652 });
+	reloadUI_ = Sprite::Create((UINT)ImageManager::ImageName::reload, { 1065, 652 });
 
 	player_ = Object3d::Create(ModelManager::GetIns()->GetModel("player_Normal"));
 	playerScale_ = { 2, 2, 2 };
@@ -29,7 +29,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	player_->SetCameraParent(camera_);
 
 	for (int i = 0; i < 3; i++) {
-		bomb_[i] = Sprite::Create(ImageManager::Bomb, { 1050.0f + (float)(i * 80), 600.0f });
+		bomb_[i] = Sprite::Create((UINT)ImageManager::ImageName::Bomb, { 1050.0f + (float)(i * 80), 600.0f });
 		bomb_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 	}
 
@@ -114,7 +114,7 @@ void Player::Update(bool isClear) {
 			shotCoolTimer_ = 0;
 		}
 
-		if ((MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK)) && !isShot_ && bulletCount_ > noneBulletCount && !isBomb_) {
+		if ((MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK)) && !isShot_ && bulletCount_ > noneBulletCount && !isBomb_) {
 			isShot_ = true;
 			Shot();
 		}
@@ -122,13 +122,13 @@ void Player::Update(bool isClear) {
 			bulletCount_ = noneBulletCount;
 		}
 
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK) && bombCount_ > 0) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK) && bombCount_ > 0) {
 			isBomb_ = true;
 		}
 
 		if (isBomb_) {
 			bombTimer_--;
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK) || bombTimer_ <= 0) {
+			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK) || bombTimer_ <= 0) {
 				BombShot();
 			}
 		}

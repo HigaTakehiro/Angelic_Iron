@@ -51,29 +51,29 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos_) {
 	leftHandAngle_ = 0.0f;
 	rightHandAngle_ = 180.0f;
 
-	hpBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	hpBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
 	hpBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	hpBar_->SetLeftSizeCorrection(false);
 	hpBar_->SetColor({ 0.0f, 0.7f, 0.0f });
-	hpRedBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	hpRedBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
 	hpRedBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	hpRedBar_->SetLeftSizeCorrection(false);
 	hpRedBar_->SetColor({ 0.7f, 0.0f, 0.0f });
 
-	leftHpBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	leftHpBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
 	leftHpBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	leftHpBar_->SetLeftSizeCorrection(false);
 	leftHpBar_->SetColor({ 0.0f, 0.7f, 0.0f });
-	leftHpRedBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	leftHpRedBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
 	leftHpRedBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	leftHpRedBar_->SetLeftSizeCorrection(false);
 	leftHpRedBar_->SetColor({ 0.7f, 0.0f, 0.0f });
 
-	rightHpBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
+	rightHpBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.0f, 0.7f, 0.0f, 1.0f });
 	rightHpBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	rightHpBar_->SetLeftSizeCorrection(false);
 	rightHpBar_->SetColor({ 0.0f, 0.7f, 0.0f });
-	rightHpRedBar_ = Sprite::Create(ImageManager::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
+	rightHpRedBar_ = Sprite::Create((UINT)ImageManager::ImageName::HPBar, { 0.0f, 0.0f }, { 0.7f, 0.0f, 0.0f, 1.0f });
 	rightHpRedBar_->SetAnchorPoint({ 0.5f, 0.5f });
 	rightHpRedBar_->SetLeftSizeCorrection(false);
 	rightHpRedBar_->SetColor({ 0.7f, 0.0f, 0.0f });

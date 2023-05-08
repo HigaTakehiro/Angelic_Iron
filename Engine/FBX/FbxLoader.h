@@ -106,11 +106,11 @@ private: //メンバ関数
 
 private: //メンバ変数
 	//D3D12デバイス
-	ID3D12Device* device = nullptr;
+	ID3D12Device* device_ = nullptr;
 	//FBXマネージャ
-	FbxManager* fbxManager = nullptr;
+	FbxManager* fbxManager_ = nullptr;
 	//FBXインポータ
-	FbxImporter* fbxImporter = nullptr;
+	FbxImporter* fbxImporter_ = nullptr;
 	//コントロールポイントデータ
-	std::vector<std::vector<int32_t>> controlPoints;
+	std::vector<std::vector<int32_t>> controlPoints_;
 };

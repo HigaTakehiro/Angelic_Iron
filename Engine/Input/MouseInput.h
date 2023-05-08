@@ -13,7 +13,7 @@
 class MouseInput final
 {
 public: //enum
-	enum MouseState {
+	enum class MouseState {
 		LEFT_CLICK,
 		RIGHT_CLICK,
 		WHEEL_CLICK
@@ -58,12 +58,12 @@ public: //メンバ関数
 	/// <summary>
 	/// クリック検知
 	/// </summary>
-	bool PushClick(BYTE mouseClick);
+	bool PushClick(MouseState mouseClick);
 
 	/// <summary>
 	/// クリックした瞬間のみ検知
 	/// </summary>
-	bool TriggerClick(BYTE mouseClick);
+	bool TriggerClick(MouseState mouseClick);
 
 	/// <summary>
 	/// インスタンス取得
@@ -75,30 +75,30 @@ public: //メンバ関数
 	/// マウスポインタの位置取得
 	/// </summary>
 	/// <returns></returns>
-	const POINT& GetMousePoint() { return mousePoint; }
+	const POINT& GetMousePoint() { return mousePoint_; }
 
 	/// <summary>
 	/// マウスポインタの1フレームでの移動量取得(X軸)
 	/// </summary>
 	/// <returns>1フレームでの移動量</returns>
-	float GetMouseXVelocity() { return (float)mouseState.lX; }
+	float GetMouseXVelocity() { return (float)mouseState_.lX; }
 
 	/// <summary>
 	/// マウスポインタの1フレームでの移動量取得(Y軸)
 	/// </summary>
 	/// <returns>1フレームでの移動量</returns>
-	float GetMouseYVelocity() { return (float)mouseState.lY; }
+	float GetMouseYVelocity() { return (float)mouseState_.lY; }
 
 private: //メンバ変数
 	//DirectInputのインスタンス
-	ComPtr<IDirectInput8> dinput;
+	ComPtr<IDirectInput8> dinput_;
 	//マウスのデバイス
-	ComPtr<IDirectInputDevice8> devMouse;
+	ComPtr<IDirectInputDevice8> devMouse_;
 	//マウスの情報
-	DIMOUSESTATE mouseState;
+	DIMOUSESTATE mouseState_;
 	DIMOUSESTATE preMouseState;
-	POINT mousePoint;
+	POINT mousePoint_;
 	//WindowsAPI
-	WinApp* winApp = nullptr;
+	WinApp* winApp_ = nullptr;
 };
 

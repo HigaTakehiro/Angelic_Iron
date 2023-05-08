@@ -17,7 +17,7 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 	static ImageManager* GetIns();
 
 public: //‰æ‘œ–¼
-	enum ImageName {
+	enum class ImageName {
 		aim = 1,
 		title,
 		score,

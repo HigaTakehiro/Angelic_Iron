@@ -10,7 +10,7 @@ void AimingEnemy::Initialize(const std::string modelKey, const Vector3& pos, con
 {
 	enemy_ = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
 	enemy_->SetPosition(pos);
-	target_ = Sprite::Create(ImageManager::ImageName::aim, { 0, 0 });
+	target_ = Sprite::Create((UINT)ImageManager::ImageName::aim, { 0, 0 });
 	target_->SetSize(XMFLOAT2(100.0f, 100.0f));
 	target_->SetAnchorPoint({ 0.5f, 0.5f });
 	oldPos_ = pos;

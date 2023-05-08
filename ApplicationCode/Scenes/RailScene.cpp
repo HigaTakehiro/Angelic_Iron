@@ -33,84 +33,84 @@ void RailScene::Initialize() {
 	debugText_.Initialize(debugTextNumber);
 
 	//スプライト画像初期化
-	pause_ = Sprite::Create(ImageManager::ImageName::Pause, { 640, 100 });
+	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack_ = Sprite::Create(ImageManager::ImageName::TitleBack, { 640, 300 });
+	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
 	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBackSize_ = titleBack_->GetSize();
-	back_ = Sprite::Create(ImageManager::ImageName::Back, { 640, 450 });
+	back_ = Sprite::Create((UINT)ImageManager::ImageName::Back, { 640, 450 });
 	back_->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize_ = back_->GetSize();
-	restart_ = Sprite::Create(ImageManager::Restart, { 640, 600 });
+	restart_ = Sprite::Create((UINT)ImageManager::ImageName::Restart, { 640, 600 });
 	restart_->SetAnchorPoint({ 0.5f, 0.5f });
 	restartSize_ = restart_->GetSize();
 	restartSize_.x /= 2;
 	restartSize_.y /= 2;
-	scoreSprite_ = Sprite::Create(ImageManager::score, { 1180, 50 });
+	scoreSprite_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 1180, 50 });
 	scoreSprite_->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreSprite_->SetSize({ scoreSprite_->GetSize().x / 2.0f, scoreSprite_->GetSize().y / 2.0f });
-	textWindow_ = Sprite::Create(ImageManager::TextWindow, { 580, 630 });
+	textWindow_ = Sprite::Create((UINT)ImageManager::ImageName::TextWindow, { 580, 630 });
 	textWindow_->SetAlpha(0.4f);
 	textWindowSize_ = textWindow_->GetSize();
 	textWindowSize_.y = 0;
 	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow_ = Sprite::Create(ImageManager::FaceWindow, { 90, 630 });
+	faceWindow_ = Sprite::Create((UINT)ImageManager::ImageName::FaceWindow, { 90, 630 });
 	faceWindowSize_ = faceWindow_->GetSize();
 	faceWindowSize_.y = 0;
 	faceWindow_->SetAlpha(0.4f);
 	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
 	faceGraphicSize_ = { 160, 0 };
 	for (int32_t i = 0; i < 3; i++) {
-		opeNormal_[i] = Sprite::Create(ImageManager::OPE_NORMAL, { 90, 630 });
+		opeNormal_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_NORMAL, { 90, 630 });
 		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeNormal_[i]->SetSize({ 160, 160 });
 		opeNormal_[i]->SetColor({ 2, 2, 2 });
 		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSurprise_[i] = Sprite::Create(ImageManager::OPE_SURPRISE, { 90, 630 });
+		opeSurprise_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SURPRISE, { 90, 630 });
 		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeSurprise_[i]->SetSize({ 160, 160 });
 		opeSurprise_[i]->SetColor({ 2, 2, 2 });
 		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		opeSmile_[i] = Sprite::Create(ImageManager::OPE_SMILE, { 90, 630 });
+		opeSmile_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SMILE, { 90, 630 });
 		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
 		opeSmile_[i]->SetSize({ 160, 160 });
 		opeSmile_[i]->SetColor({ 2, 2, 2 });
 		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		bombTimerNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 0.0f, 0.0f });
+		bombTimerNumber_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 0.0f, 0.0f });
 		bombTimerNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		bombTimerNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		bombTimerNumber_[i]->SetSize({ 32, 32 });
 	}
 	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber_[i] = Sprite::Create(ImageManager::scoreNumbers, { 1252 - ((float)i * 30), 100 });
+		scoreNumber_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 1252 - ((float)i * 30), 100 });
 		scoreNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		scoreNumber_[i]->SetSize({ 32, 32 });
 	}
-	how_to_up_ = Sprite::Create(ImageManager::How_to_Up, { 0, 0 });
+	how_to_up_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Up, { 0, 0 });
 	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_up_->SetSize({ 64.0f, 64.0f });
 	how_to_up_alpha_ = 1.0f;
-	how_to_down_ = Sprite::Create(ImageManager::How_to_Down, { 0, 0 });
+	how_to_down_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Down, { 0, 0 });
 	how_to_down_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_down_->SetSize({ 64.0f, 64.0f });
 	how_to_down_alpha_ = 1.0f;
-	how_to_left_ = Sprite::Create(ImageManager::How_to_Left, { 0, 0 });
+	how_to_left_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Left, { 0, 0 });
 	how_to_left_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_left_->SetSize({ 64.0f, 64.0f });
 	how_to_left_alpha_ = 1.0f;
-	how_to_right_ = Sprite::Create(ImageManager::How_to_Right, { 0, 0 });
+	how_to_right_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Right, { 0, 0 });
 	how_to_right_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_right_->SetSize({ 64.0f, 64.0f });
 	how_to_right_alpha_ = 1.0f;
-	how_to_shot_ = Sprite::Create(ImageManager::How_to_Shot, { 0, 0 });
+	how_to_shot_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Shot, { 0, 0 });
 	how_to_shot_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_shot_->SetSize({ 64.0f, 64.0f });
 	how_to_shot_alpha_ = 1.0f;
-	how_to_bomb_ = Sprite::Create(ImageManager::How_to_Bomb, { 0, 0 });
+	how_to_bomb_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Bomb, { 0, 0 });
 	how_to_bomb_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_bomb_->SetSize({ 64.0f, 64.0f });
 	how_to_bomb_alpha_ = 1.0f;
@@ -164,7 +164,7 @@ void RailScene::Initialize() {
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();
-	postEffectNo_ = PostEffect::NORMAL;
+	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 
 	//ゲームシーン用変数の初期化
 	textAddTimer_ = 0;
@@ -249,15 +249,15 @@ void RailScene::Draw() {
 	bool isRoop = false;
 
 	if (player_->GetIsDamage()) {
-		postEffectNo_ = PostEffect::DAMAGE;
+		postEffectNo_ = PostEffect::PostEffectNo::DAMAGE;
 	}
 	else {
-		postEffectNo_ = PostEffect::NORMAL;
+		postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 		isRoop = true;
 	}
 
 	if (player_->GetIsBomb()) {
-		postEffectNo_ = PostEffect::SLOW;
+		postEffectNo_ = PostEffect::PostEffectNo::SLOW;
 		isRoop = false;
 	}
 
@@ -1044,10 +1044,10 @@ void RailScene::AddEffect()
 
 		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
 		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
+		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::ImageName::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
 		particles2d_.push_back(std::move(new2DParticle));
 		isPlayerDead_ = true;
-		SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+		SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 	}
 
 	//マズルフラッシュを発生させる
@@ -1101,7 +1101,7 @@ void RailScene::BombHitEffect(Bomb* bomb) {
 
 void RailScene::Pause()
 {
-	SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+	SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 	XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	//ボタン選択中アルファ値
 	const float selectAlpha = 0.5f;
@@ -1114,7 +1114,7 @@ void RailScene::Pause()
 		selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
 		titleBack_->SetSize(selectSize);
 		titleBack_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isTitleBack_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
@@ -1128,7 +1128,7 @@ void RailScene::Pause()
 		selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
 		back_->SetSize(selectSize);
 		back_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isPause_ = !isPause_;
 		}
 	}
@@ -1141,7 +1141,7 @@ void RailScene::Pause()
 		selectSize = { restartSize_.x * 0.9f, restartSize_.y * 0.9f };
 		restart_->SetSize(selectSize);
 		restart_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isRestart_ = true;
 			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 		}
@@ -1192,10 +1192,10 @@ void RailScene::Tutorial()
 	if (KeyInput::GetIns()->TriggerKey(DIK_D)) {
 		isMoveRight_ = true;
 	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 		isShot_ = true;
 	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK)) {
 		isBombShot_ = true;
 	}
 
@@ -1252,7 +1252,7 @@ void RailScene::SceneChange()
 			else if (SceneManager::GetStageNo() == 2) {
 				SceneManager::SceneChange(SceneManager::SceneName::Stage2_Boss);
 			}
-			SoundManager::GetIns()->StopBGM(SoundManager::STAGE1_RAIL);
+			SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 		}
 		//タイトルバックボタンが押された場合
 		else if (isTitleBack_) {

@@ -27,16 +27,16 @@ private: //静的メンバ変数
 	static const int SpotLightNum = 3;
 	static const int CircleShadowNum = 1;
 	static const int ShadowMapNum = 1;
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 
 public: //サブクラス
 	struct ConstBufferData {
-		XMFLOAT3 ambientColor;
-		float pad1;
-		DirectionalLight::ConstBufferData dirLights[DirLightNum];
-		PointLight::ConstBufferData pointLights[PointLightNum];
-		SpotLight::ConstBufferData spotLights[SpotLightNum];
-		CircleShadow::ConstBufferData circleShadow[CircleShadowNum];
+		XMFLOAT3 ambientColor_;
+		float pad1_;
+		DirectionalLight::ConstBufferData dirLights_[DirLightNum];
+		PointLight::ConstBufferData pointLights_[PointLightNum];
+		SpotLight::ConstBufferData spotLights_[SpotLightNum];
+		CircleShadow::ConstBufferData circleShadow_[CircleShadowNum];
 	};
 
 public: //静的メンバ関数
@@ -226,18 +226,18 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
+	ComPtr<ID3D12Resource> constBuff_;
 	//環境光
-	XMFLOAT3 ambientColor;
+	XMFLOAT3 ambientColor_;
 	//平行光源配列
-	DirectionalLight dirLights[DirLightNum];
+	DirectionalLight dirLights_[DirLightNum];
 	//点光源配列
-	PointLight pointLights[PointLightNum];
+	PointLight pointLights_[PointLightNum];
 	//スポットライト配列
-	SpotLight spotLights[SpotLightNum];
+	SpotLight spotLights_[SpotLightNum];
 	//丸影配列
-	CircleShadow circleShadows[CircleShadowNum];
+	CircleShadow circleShadows_[CircleShadowNum];
 	//ダーティフラグ
-	bool isDirty;
+	bool isDirty_;
 };
 

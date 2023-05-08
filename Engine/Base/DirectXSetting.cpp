@@ -18,7 +18,7 @@ void DirectXSetting::Initialize(WinApp* winApp) {
 	//nullチェック
 	assert(winApp);
 	//メンバ変数に保存
-	this->winApp = winApp;
+	winApp_ = winApp;
 
 	//FPS固定初期化処理
 	InitializeFixFPS();
@@ -44,48 +44,48 @@ void DirectXSetting::Initialize(WinApp* winApp) {
 
 void DirectXSetting::PreDraw(XMFLOAT4 color) {
 	// バックバッファの番号を取得（2つなので0番か1番）
-	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
+	UINT bbIndex = swapchain_->GetCurrentBackBufferIndex();
 
 	// １．リソースバリアで書き込み可能に変更
-	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers[bbIndex].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+	cmdList_->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers_[bbIndex].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
 	// ２．描画先指定
 	// レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeaps->GetCPUDescriptorHandleForHeapStart(), bbIndex, dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeaps_->GetCPUDescriptorHandleForHeapStart(), bbIndex, dev_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(dsvHeap->GetCPUDescriptorHandleForHeapStart());
-	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(dsvHeap_->GetCPUDescriptorHandleForHeapStart());
+	cmdList_->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	// ３．画面クリア           R     G     B    A
 	float clearColor[] = { color.x, color.y, color.z, color.w }; // 青っぽい色
-	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
-	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	cmdList_->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	cmdList_->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// ビューポート領域の設定
-	cmdList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width, WinApp::window_height));
+	cmdList_->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width, WinApp::window_height));
 	// シザー矩形の設定
-	cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
+	cmdList_->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
 }
 
 void DirectXSetting::PostDraw() {
 	// バックバッファの番号を取得（2つなので0番か1番）
-	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
-	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers[bbIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+	UINT bbIndex = swapchain_->GetCurrentBackBufferIndex();
+	cmdList_->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers_[bbIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 
 	// 命令のクローズ
-	cmdList->Close();
+	cmdList_->Close();
 	// コマンドリストの実行
-	ID3D12CommandList* cmdLists[] = { cmdList.Get() }; // コマンドリストの配列
-	cmdQueue->ExecuteCommandLists(1, cmdLists);
+	ID3D12CommandList* cmdLists[] = { cmdList_.Get() }; // コマンドリストの配列
+	cmdQueue_->ExecuteCommandLists(1, cmdLists);
 
 	// バッファをフリップ（裏表の入替え）
-	//swapchain->Present(1, 0);
+	//swapchain_->Present(1, 0);
 
 	// コマンドリストの実行完了を待つ
-	cmdQueue->Signal(fence.Get(), ++fenceVal);
-	if (fence->GetCompletedValue() != fenceVal) {
+	cmdQueue_->Signal(fence_.Get(), ++fenceVal_);
+	if (fence_->GetCompletedValue() != fenceVal_) {
 		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVal, event);
+		fence_->SetEventOnCompletion(fenceVal_, event);
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
@@ -93,8 +93,8 @@ void DirectXSetting::PostDraw() {
 	//FPS固定
 	UpdateFixFPS();
 
-	cmdAllocator->Reset(); // キューをクリア
-	cmdList->Reset(cmdAllocator.Get(), nullptr);  // 再びコマンドリストを貯める準備
+	cmdAllocator_->Reset(); // キューをクリア
+	cmdList_->Reset(cmdAllocator_.Get(), nullptr);  // 再びコマンドリストを貯める準備
 }
 
 void DirectXSetting::InitializeDev() {
@@ -108,14 +108,14 @@ void DirectXSetting::InitializeDev() {
 	}
 
 	// DXGIファクトリーの生成
-	result = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
+	result = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory_));
 
 	// アダプターの列挙用
 	std::vector<ComPtr<IDXGIAdapter1>> adapters;
 	// ここに特定の名前を持つアダプターオブジェクトが入る
 	ComPtr<IDXGIAdapter1> tmpAdapter = nullptr;
 	for (int32_t i = 0;
-		dxgiFactory->EnumAdapters1(i, &tmpAdapter) != DXGI_ERROR_NOT_FOUND;
+		dxgiFactory_->EnumAdapters1(i, &tmpAdapter) != DXGI_ERROR_NOT_FOUND;
 		i++)
 	{
 		adapters.push_back(tmpAdapter); // 動的配列に追加する
@@ -154,7 +154,7 @@ void DirectXSetting::InitializeDev() {
 	for (int32_t i = 0; i < _countof(levels); i++)
 	{
 		// 採用したアダプターでデバイスを生成
-		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(&dev));
+		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(&dev_));
 		if (result == S_OK)
 		{
 			// デバイスを生成できた時点でループを抜ける
@@ -168,27 +168,27 @@ void DirectXSetting::InitializeCmd() {
 	HRESULT result = S_FALSE;
 
 	// コマンドアロケータを生成
-	result = dev->CreateCommandAllocator(
+	result = dev_->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		IID_PPV_ARGS(&cmdAllocator));
+		IID_PPV_ARGS(&cmdAllocator_));
 
 	// コマンドリストを生成
-	result = dev->CreateCommandList(0,
+	result = dev_->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator.Get(), nullptr,
-		IID_PPV_ARGS(&cmdList));
+		cmdAllocator_.Get(), nullptr,
+		IID_PPV_ARGS(&cmdList_));
 
 	// 標準設定でコマンドキューを生成
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
 
-	result = dev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue));
+	result = dev_->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue_));
 }
 
 void DirectXSetting::InitializeDev11()
 {
 	HRESULT result = S_FALSE;
 	//DirectWriteFactoryの生成
-	result = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, _uuidof(IDWriteFactory), &directWriteFactory);
+	result = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, _uuidof(IDWriteFactory), &directWriteFactory_);
 	//D3D11デバイスの生成
 	ComPtr<ID3D11Device> d3d11Device;
 	UINT d3d11DeviceFlags = 0U;
@@ -200,13 +200,13 @@ void DirectXSetting::InitializeDev11()
 #endif
 
 	result = D3D11On12CreateDevice(
-		dev.Get(), d3d11DeviceFlags, nullptr, 0,
-		reinterpret_cast<IUnknown**>(cmdQueue.GetAddressOf()),
+		dev_.Get(), d3d11DeviceFlags, nullptr, 0,
+		reinterpret_cast<IUnknown**>(cmdQueue_.GetAddressOf()),
 		1, 0, &d3d11Device,
-		&devContext11, nullptr
+		&devContext11_, nullptr
 	);
 
-	d3d11Device.As(&id3d11On12Device);
+	d3d11Device.As(&id3d11On12Device_);
 }
 
 void DirectXSetting::InitializeID2DDeviceContext()
@@ -218,12 +218,12 @@ void DirectXSetting::InitializeID2DDeviceContext()
 	result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory3), &factoryOption, &d2dFactory);
 
 	ComPtr<IDXGIDevice> dxgiDevice = nullptr;
-	id3d11On12Device.As(&dxgiDevice);
+	id3d11On12Device_.As(&dxgiDevice);
 
 	ComPtr<ID2D1Device> d2dDevice = nullptr;
 	d2dFactory->CreateDevice(dxgiDevice.Get(), d2dDevice.ReleaseAndGetAddressOf());
 
-	d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, d2dDeviceContext.ReleaseAndGetAddressOf());
+	d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, d2dDeviceContext_.ReleaseAndGetAddressOf());
 }
 
 void DirectXSetting::CreateD2DRenderdTarget()
@@ -231,7 +231,7 @@ void DirectXSetting::CreateD2DRenderdTarget()
 	HRESULT result;
 
 	D3D11_RESOURCE_FLAGS flags = { D3D11_BIND_RENDER_TARGET };
-	const UINT dpi = GetDpiForWindow(winApp->GetHwnd());
+	const UINT dpi = GetDpiForWindow(winApp_->GetHwnd());
 	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
 		D2D1::BitmapProperties1(D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
@@ -239,8 +239,8 @@ void DirectXSetting::CreateD2DRenderdTarget()
 
 	for (int32_t i = 0; i < 2; i++) {
 		ComPtr<ID3D11Resource> wrappedBackBuffer = nullptr;
-		result = id3d11On12Device->CreateWrappedResource(
-			backBuffers[i].Get(),
+		result = id3d11On12Device_->CreateWrappedResource(
+			backBuffers_[i].Get(),
 			&flags,
 			D3D12_RESOURCE_STATE_RENDER_TARGET,
 			D3D12_RESOURCE_STATE_PRESENT,
@@ -250,10 +250,10 @@ void DirectXSetting::CreateD2DRenderdTarget()
 		wrappedBackBuffer.As(&dxgiSurface);
 
 		ComPtr<ID2D1Bitmap1> d2dRenderTarget = nullptr;
-		result = d2dDeviceContext->CreateBitmapFromDxgiSurface(dxgiSurface.Get(), &bitmapProperties, &d2dRenderTarget);
+		result = d2dDeviceContext_->CreateBitmapFromDxgiSurface(dxgiSurface.Get(), &bitmapProperties, &d2dRenderTarget);
 
-		wrappedBackBuffers.emplace_back(wrappedBackBuffer);
-		d2dRenderTargets.emplace_back(d2dRenderTarget);
+		wrappedBackBuffers_.emplace_back(wrappedBackBuffer);
+		d2dRenderTargets_.emplace_back(d2dRenderTarget);
 
 	}
 
@@ -274,16 +274,16 @@ void DirectXSetting::InitializeSwapChain() {
 	ComPtr<IDXGISwapChain1> swapchain1;
 
 	// スワップチェーンの生成
-	dxgiFactory->CreateSwapChainForHwnd(
-		cmdQueue.Get(),
-		winApp->GetHwnd(),
+	dxgiFactory_->CreateSwapChainForHwnd(
+		cmdQueue_.Get(),
+		winApp_->GetHwnd(),
 		&swapchainDesc,
 		nullptr,
 		nullptr,
 		&swapchain1);
 
 	// 生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
-	swapchain1.As(&swapchain);
+	swapchain1.As(&swapchain_);
 }
 
 void DirectXSetting::InitializeRenderTarget() {
@@ -293,22 +293,22 @@ void DirectXSetting::InitializeRenderTarget() {
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
 	heapDesc.NumDescriptors = 2;    // 裏表の２つ
-	dev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&rtvHeaps));
+	dev_->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&rtvHeaps_));
 	// 裏表の２つ分について
-	backBuffers.resize(2);
+	backBuffers_.resize(2);
 	for (int32_t i = 0; i < 2; i++)
 	{
 		// スワップチェーンからバッファを取得
-		result = swapchain->GetBuffer(i, IID_PPV_ARGS(&backBuffers[i]));
+		result = swapchain_->GetBuffer(i, IID_PPV_ARGS(&backBuffers_[i]));
 
 		// レンダーターゲットビューの生成
-		dev->CreateRenderTargetView(
-			backBuffers[i].Get(),
+		dev_->CreateRenderTargetView(
+			backBuffers_[i].Get(),
 			nullptr,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(
-				rtvHeaps->GetCPUDescriptorHandleForHeapStart(),
+				rtvHeaps_->GetCPUDescriptorHandleForHeapStart(),
 				i,
-				dev->GetDescriptorHandleIncrementSize(heapDesc.Type)
+				dev_->GetDescriptorHandleIncrementSize(heapDesc.Type)
 			)
 		);
 	}
@@ -326,39 +326,39 @@ void DirectXSetting::InitializeDepthBuffer() {
 		1, 0,
 		D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 	// 深度バッファの生成
-	result = dev->CreateCommittedResource(
+	result = dev_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE, // 深度値書き込みに使用
 		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0),
-		IID_PPV_ARGS(&depthBuffer));
+		IID_PPV_ARGS(&depthBuffer_));
 
 	// 深度ビュー用デスクリプタヒープ作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1; // 深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV; // デプスステンシルビュー
-	//ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
-	result = dev->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	//ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
+	result = dev_->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap_));
 
 	// 深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT; // 深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dev->CreateDepthStencilView(
-		depthBuffer.Get(),
+	dev_->CreateDepthStencilView(
+		depthBuffer_.Get(),
 		&dsvDesc,
-		dsvHeap->GetCPUDescriptorHandleForHeapStart());
+		dsvHeap_->GetCPUDescriptorHandleForHeapStart());
 }
 
 void DirectXSetting::InitializeFence() {
 	HRESULT result = S_FALSE;
 
-	result = dev->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+	result = dev_->CreateFence(fenceVal_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 }
 
 void DirectXSetting::InitializeFixFPS() {
-	reference = std::chrono::steady_clock::now();
+	reference_ = std::chrono::steady_clock::now();
 }
 
 void DirectXSetting::UpdateFixFPS() {
@@ -369,52 +369,52 @@ void DirectXSetting::UpdateFixFPS() {
 	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 
 	//経過時間の取得
-	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference);
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
 
 	if (elapsed < kMinCheckTime) {
-		while (std::chrono::steady_clock::now() - reference < kMinTime) {
+		while (std::chrono::steady_clock::now() - reference_ < kMinTime) {
 			std::this_thread::sleep_for(std::chrono::microseconds(1));
 		}
 	}
 
-	reference = std::chrono::steady_clock::now();
+	reference_ = std::chrono::steady_clock::now();
 }
 
 void DirectXSetting::beginDrawWithDirect2D()
 {
-	const auto backBufferIndex = swapchain->GetCurrentBackBufferIndex();
-	const auto wrappedBackBuffer = wrappedBackBuffers[backBufferIndex];
-	const auto backBufferForD2D = d2dRenderTargets[backBufferIndex];
+	const auto backBufferIndex = swapchain_->GetCurrentBackBufferIndex();
+	const auto wrappedBackBuffer = wrappedBackBuffers_[backBufferIndex];
+	const auto backBufferForD2D = d2dRenderTargets_[backBufferIndex];
 
-	id3d11On12Device->AcquireWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
-	d2dDeviceContext->SetTarget(backBufferForD2D.Get());
-	d2dDeviceContext->BeginDraw();
-	d2dDeviceContext->SetTransform(D2D1::Matrix3x2F::Identity());
+	id3d11On12Device_->AcquireWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
+	d2dDeviceContext_->SetTarget(backBufferForD2D.Get());
+	d2dDeviceContext_->BeginDraw();
+	d2dDeviceContext_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void DirectXSetting::endDrawWithDirect2D()
 {
-	const auto backBufferIndex = swapchain->GetCurrentBackBufferIndex();
-	const auto wrappedBackBuffer = wrappedBackBuffers[backBufferIndex];
+	const auto backBufferIndex = swapchain_->GetCurrentBackBufferIndex();
+	const auto wrappedBackBuffer = wrappedBackBuffers_[backBufferIndex];
 
-	d2dDeviceContext->EndDraw();
-	id3d11On12Device->ReleaseWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
-	devContext11->Flush();
+	d2dDeviceContext_->EndDraw();
+	id3d11On12Device_->ReleaseWrappedResources(wrappedBackBuffer.GetAddressOf(), 1);
+	devContext11_->Flush();
 
-	swapchain->Present(1, 0);
+	swapchain_->Present(1, 0);
 }
 
 void DirectXSetting::registerSolidColorBrush(const std::string& key, const D2D1::ColorF color)
 {
 	ComPtr<ID2D1SolidColorBrush> brush = nullptr;
-	d2dDeviceContext->CreateSolidColorBrush(D2D1::ColorF(color), brush.GetAddressOf());
-	solidColorBlushes[key] = brush;
+	d2dDeviceContext_->CreateSolidColorBrush(D2D1::ColorF(color), brush.GetAddressOf());
+	solidColorBlushes_[key] = brush;
 }
 
 void DirectXSetting::registerTextFormat(const std::string& key, const std::wstring& fontName, const float fontSize)
 {
 	ComPtr<IDWriteTextFormat> textFormat = nullptr;
-	directWriteFactory->CreateTextFormat(
+	directWriteFactory_->CreateTextFormat(
 		fontName.c_str(),
 		nullptr,
 		DWRITE_FONT_WEIGHT_NORMAL,
@@ -422,5 +422,5 @@ void DirectXSetting::registerTextFormat(const std::string& key, const std::wstri
 		DWRITE_FONT_STRETCH_NORMAL,
 		fontSize, L"ja-JP", textFormat.GetAddressOf());
 
-	textFormats[key] = textFormat;
+	textFormats_[key] = textFormat;
 }

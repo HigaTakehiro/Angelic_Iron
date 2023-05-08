@@ -40,12 +40,12 @@ public: //メンバ関数
 	/// ウィンドウハンドルの取得
 	/// </summary>
 	/// <returns></returns>
-	HWND GetHwnd() { return hwnd; }
-	HINSTANCE GetInstance() { return w.hInstance; }
+	HWND GetHwnd() { return hwnd_; }
+	HINSTANCE GetInstance() { return w_.hInstance; }
 
 private: //メンバ変数
-	HWND hwnd = nullptr;
-	WNDCLASSEX w;
-	LONG windowStyle; //ウィンドウスタイル
+	HWND hwnd_ = nullptr;
+	WNDCLASSEX w_;
+	LONG windowStyle_; //ウィンドウスタイル
 };
 

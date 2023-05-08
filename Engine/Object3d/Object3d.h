@@ -29,15 +29,15 @@ public: // サブクラス
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
-		XMMATRIX viewproj;	// ビュー変換行列
-		XMMATRIX world; //ワールド行列
-		XMFLOAT4 color; // 色
-		XMFLOAT3 cameraPos; //カメラ座標
-		float time; //時間
+		XMMATRIX viewproj_;	// ビュー変換行列
+		XMMATRIX world_; //ワールド行列
+		XMFLOAT4 color_; // 色
+		XMFLOAT3 cameraPos_; //カメラ座標
+		float time_; //時間
 	};
 
 	// 頂点シェーダ番号
-	enum VSPipelineNo {
+	enum class VSPipelineNo {
 		Normal,
 		Wave,
 	};
@@ -78,17 +78,17 @@ public: // 静的メンバ関数
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//頂点シェーダー数
 	static const int32_t vsSize = 2;
 	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* cmdList_;
 	// ルートシグネチャ
-	static ComPtr<ID3D12RootSignature> rootsignature;
+	static ComPtr<ID3D12RootSignature> rootsignature_;
 	// パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate[vsSize];
+	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize];
 	//ライト
-	static LightGroup* light;
+	static LightGroup* light_;
 
 private:// 静的メンバ関数
 	/// <summary>
@@ -116,7 +116,7 @@ public: //静的メンバ関数
 	/// ライトをセット
 	/// </summary>
 	/// <param name="light">ライト</param>
-	static void SetLight(LightGroup* light) { Object3d::light = light; }
+	static void SetLight(LightGroup* light) { Object3d::light_ = light; }
 
 public: // メンバ関数
 	bool Initialize();
@@ -135,126 +135,126 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return position; }
+	const XMFLOAT3& GetPosition() { return position_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(XMFLOAT3 position) { position_ = position; }
 
 	/// <summary>
 	/// 大きさの取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetScale() { return scale; }
+	const XMFLOAT3& GetScale() { return scale_; }
 
 	/// <summary>
 	/// 大きさの設定
 	/// </summary>
 	/// <param name="scale"></param>
-	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	void SetScale(XMFLOAT3 scale) { scale_ = scale; }
 
 	/// <summary>
 	/// 回転角の取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetRotation() { return rotation; }
+	const XMFLOAT3& GetRotation() { return rotation_; }
 
 	/// <summary>
 	/// 回転角の設定
 	/// </summary>
 	/// <param name="rotation"></param>
-	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetRotation(XMFLOAT3 rotation) { rotation_ = rotation; }
 
 	//モデルのセット
-	void SetModel(Model* model) { this->model = model; }
+	void SetModel(Model* model) { model_ = model; }
 
 	/// <summary>
 	/// ワールド変換行列の取得
 	/// </summary>
 	/// <returns>ワールド変換行列</returns>
-	const XMMATRIX& GetMatWorld() { return matWorld; }
+	const XMMATRIX& GetMatWorld() { return matWorld_; }
 
 	/// <summary>
 	/// 親オブジェクト設定(カメラ)
 	/// </summary>
-	void SetCameraParent(Camera* cameraParent) { this->cameraParent = cameraParent; }
+	void SetCameraParent(Camera* cameraParent) { cameraParent_ = cameraParent; }
 
 	/// <summary>
 	/// 親オブジェクト設定(obj)
 	/// </summary>
 	/// <param name="parent"></param>
-	void SetParent(Object3d* parent) { this->parent = parent; }
+	void SetParent(Object3d* parent) { parent_ = parent; }
 
 	/// <summary>
 	/// アンビエントをセット
 	/// </summary>
 	/// <param name="ambient">アンビエント</param>
-	void SetAmbient(const XMFLOAT3& ambient) { model->SetAmbient(ambient); }
+	void SetAmbient(const XMFLOAT3& ambient) { model_->SetAmbient(ambient); }
 
 	/// <summary>
 	/// 色をセット
 	/// </summary>
 	/// <param name="color"></param>
-	void SetColor(XMFLOAT4 color) { this->color = color; }
+	void SetColor(XMFLOAT4 color) { this->color_ = color; }
 
 	/// <summary>
 	/// ビルボード行列を掛ける
 	/// </summary>
 	/// <param name="isBillboard">ビルボードフラグ</param>
-	void SetIsBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
+	void SetIsBillboard(bool isBillboard) { this->isBillboard_ = isBillboard; }
 
 	/// <summary>
 	/// Y軸ビルボード行列を掛ける
 	/// </summary>
 	/// <param name="isBillboardY">Y軸ビルボードフラグ</param>
-	void SetIsBillboardY(bool isBillboardY) { this->isBillboardY = isBillboardY; }
+	void SetIsBillboardY(bool isBillboardY) { this->isBillboardY_ = isBillboardY; }
 
 	/// <summary>
 	/// 波用シェーダー適用フラグをセット
 	/// </summary>
-	void SetIsWave(bool isWave) { this->isWave = isWave; }
+	void SetIsWave(bool isWave) { this->isWave_ = isWave; }
 
 	/// <summary>
 	/// 親オブジェクト取得
 	/// </summary>
 	/// <returns>親オブジェクト</returns>
-	Object3d* GetParent() { return parent; }
+	Object3d* GetParent() { return parent_; }
 
 	/// <summary>
 	/// 親オブジェクト(カメラ)取得
 	/// </summary>
 	/// <returns>親オブジェクト(カメラ)</returns>
-	Camera* GetCameraParent() { return cameraParent; }
+	Camera* GetCameraParent() { return cameraParent_; }
 
 private: // メンバ変数
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	XMFLOAT4 color_ = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation_ = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld_;
 	// 親オブジェクト
-	Object3d* parent = nullptr;
+	Object3d* parent_ = nullptr;
 	//親オブジェクト(カメラ)
-	Camera* cameraParent = nullptr;
+	Camera* cameraParent_ = nullptr;
 	//モデルデータ
-	Model* model = nullptr;
+	Model* model_ = nullptr;
 	//カメラ
-	Camera* camera = nullptr;
+	Camera* camera_ = nullptr;
 	//ビルボード行列フラグ
-	bool isBillboard;
+	bool isBillboard_;
 	//Y軸ビルボード行列フラグ
-	bool isBillboardY;
+	bool isBillboardY_;
 	//波用シェーダー適用フラグ
-	bool isWave;
+	bool isWave_;
 	//シェーダー用タイマー
-	float timer = 0.0f;
+	float timer_ = 0.0f;
 };
 

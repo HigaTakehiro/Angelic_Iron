@@ -15,20 +15,20 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* Object3d::device = nullptr;
-ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
-ComPtr<ID3D12RootSignature> Object3d::rootsignature;
-ComPtr<ID3D12PipelineState> Object3d::pipelinestate[] = {};
-LightGroup* Object3d::light = nullptr;
+ID3D12Device* Object3d::device_ = nullptr;
+ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
+ComPtr<ID3D12RootSignature> Object3d::rootsignature_;
+ComPtr<ID3D12PipelineState> Object3d::pipelinestate_[] = {};
+LightGroup* Object3d::light_ = nullptr;
 
 bool Object3d::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	// nullptrチェック
 	assert(device);
 
-	Object3d::device = device;
+	Object3d::device_ = device;
 
-	Model::StaticInitialize(device);
+	Model::StaticInitialize(device_);
 
 	// カメラ初期化
 	Camera::InitializeCamera(window_width, window_height);
@@ -39,25 +39,25 @@ bool Object3d::StaticInitialize(ID3D12Device* device, int32_t window_width, int3
 	return true;
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(Object3d::cmdList == nullptr);
+	assert(Object3d::cmdList_ == nullptr);
 
 	// コマンドリストをセット
-	Object3d::cmdList = cmdList;
+	Object3d::cmdList_ = cmdList_;
 
 	// プリミティブ形状を設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Object3d::PostDraw()
 {
 	// コマンドリストを解除
-	Object3d::cmdList = nullptr;
+	Object3d::cmdList_ = nullptr;
 }
 
-Object3d* Object3d::Create(Model* model)
+Object3d* Object3d::Create(Model* model_)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -65,7 +65,7 @@ Object3d* Object3d::Create(Model* model)
 		return nullptr;
 	}
 
-	object3d->SetModel(model);
+	object3d->SetModel(model_);
 
 	// 初期化
 	if (!object3d->Initialize()) {
@@ -77,7 +77,7 @@ Object3d* Object3d::Create(Model* model)
 	return object3d;
 }
 
-std::unique_ptr<Object3d> Object3d::UniquePtrCreate(Model* model)
+std::unique_ptr<Object3d> Object3d::UniquePtrCreate(Model* model_)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	std::unique_ptr<Object3d> object3d = std::make_unique<Object3d>();
@@ -85,7 +85,7 @@ std::unique_ptr<Object3d> Object3d::UniquePtrCreate(Model* model)
 		return nullptr;
 	}
 
-	object3d->SetModel(model);
+	object3d->SetModel(model_);
 
 	// 初期化
 	if (!object3d->Initialize()) {
@@ -105,10 +105,10 @@ bool Object3d::InitializeGraphicsPipeline()
 
 	for (int32_t i = 0; i < vsSize; i++) {
 		//頂点シェーダーの読み込み
-		if (i == Normal) {
+		if ((VSPipelineNo)i == VSPipelineNo::Normal) {
 			LoadVS(L"Engine/Resources/shaders/Object3d/obj/OBJVertexShader.hlsl", vsBlob);
 		}
-		else if (i == Wave) {
+		else if ((VSPipelineNo)i == VSPipelineNo::Wave) {
 			LoadVS(L"Engine/Resources/shaders/Object3d/obj/WaveVS.hlsl", vsBlob);
 		}
 		//ピクセルシェーダーの読み込み
@@ -198,15 +198,15 @@ bool Object3d::InitializeGraphicsPipeline()
 		// バージョン自動判定のシリアライズ
 		result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 		// ルートシグネチャの生成
-		result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
+		result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature_));
 		if (FAILED(result)) {
 			return result;
 		}
 
-		gpipeline.pRootSignature = rootsignature.Get();
+		gpipeline.pRootSignature = rootsignature_.Get();
 
 		// グラフィックスパイプラインの生成
-		result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate[i]));
+		result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate_[i]));
 	}
 	
 	if (FAILED(result)) {
@@ -219,97 +219,97 @@ bool Object3d::InitializeGraphicsPipeline()
 bool Object3d::Initialize()
 {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 
 	HRESULT result;
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB0));
+		IID_PPV_ARGS(&constBuffB0_));
 
-	model->Initialize();
+	model_->Initialize();
 
 	return true;
 }
 
 void Object3d::Update(const float maxTime)
 {
-	timer++;
-	if (timer >= maxTime) {
-		timer = 0.0f;
+	timer_++;
+	if (timer_ >= maxTime) {
+		timer_ = 0.0f;
 	}
 
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
+	matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
 	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
+	matWorld_ = XMMatrixIdentity(); // 変形をリセット
 
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	if (isBillboard) {
-		matWorld *= Camera::GetMatBillboard(); //ワールド行列にビルボード行列を掛ける
+	matWorld_ *= matScale; // ワールド行列にスケーリングを反映
+	matWorld_ *= matRot; // ワールド行列に回転を反映
+	if (isBillboard_) {
+		matWorld_ *= Camera::GetMatBillboard(); //ワールド行列にビルボード行列を掛ける
 	}
-	if (isBillboardY) {
-		matWorld *= Camera::GetMatBillboardY();
+	if (isBillboardY_) {
+		matWorld_ *= Camera::GetMatBillboardY();
 	}
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	matWorld_ *= matTrans; // ワールド行列に平行移動を反映
 
 	// 親オブジェクトがあれば
-	if (parent != nullptr) {
+	if (parent_ != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->GetMatWorld();
+		matWorld_ *= parent_->GetMatWorld();
 	}
 
-	if (cameraParent != nullptr) {
-		matWorld *= cameraParent->GetMatWorld();
+	if (cameraParent_ != nullptr) {
+		matWorld_ *= cameraParent_->GetMatWorld();
 	}
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
-	if (SUCCEEDED(constBuffB0->Map(0, nullptr, (void**)&constMap0))) {
-		constMap0->viewproj = camera->GetMatView() * camera->GetMatProjection();
-		constMap0->world = matWorld;
-		constMap0->color = color;
-		constMap0->cameraPos = camera->GetEye();
-		constMap0->time = timer / maxTime;
-		constBuffB0->Unmap(0, nullptr);
+	if (SUCCEEDED(constBuffB0_->Map(0, nullptr, (void**)&constMap0))) {
+		constMap0->viewproj_ = camera_->GetMatView() * camera_->GetMatProjection();
+		constMap0->world_ = matWorld_;
+		constMap0->color_ = color_;
+		constMap0->cameraPos_ = camera_->GetEye();
+		constMap0->time_ = timer_ / maxTime;
+		constBuffB0_->Unmap(0, nullptr);
 	}
 
-	model->Update(model->GetMaterial());
+	model_->Update(model_->GetMaterial());
 }
 
 void Object3d::Draw()
 {
 	// nullptrチェック
-	assert(device);
-	assert(Object3d::cmdList);
+	assert(device_);
+	assert(Object3d::cmdList_);
 
 	//パイプラインステートの設定
-	if (isWave) {
-		cmdList->SetPipelineState(pipelinestate[Wave].Get());
+	if (isWave_) {
+		cmdList_->SetPipelineState(pipelinestate_[(int32_t)VSPipelineNo::Wave].Get());
 	}
 	else {
-		cmdList->SetPipelineState(pipelinestate[Normal].Get());
+		cmdList_->SetPipelineState(pipelinestate_[(int32_t)VSPipelineNo::Normal].Get());
 	}
 	//ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList_->SetGraphicsRootSignature(rootsignature_.Get());
 	//定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
 	
-	light->Draw(3);
-	model->Draw(cmdList);
+	light_->Draw(3);
+	model_->Draw(cmdList_);
 }
 
 void Object3d::LoadVS(const wchar_t* vsName, ComPtr<ID3DBlob>& vsBlob) {
