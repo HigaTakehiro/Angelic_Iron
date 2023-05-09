@@ -84,6 +84,9 @@
     <Filter Include="ソース ファイル\Engine\Object3d">
       <UniqueIdentifier>{ba496a77-61e5-4391-ba80-8710154294fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Command">
+      <UniqueIdentifier>{f3ae3e56-806e-43f9-b889-2dca130e89cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -253,6 +256,21 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\UI\Score.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\UpMoveCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\LeftMoveCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\RightMoveCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +456,27 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\UI\Score.h">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\Command.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\PlayerCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\LeftMoveCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\RightMoveCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\KeyInputHandler.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

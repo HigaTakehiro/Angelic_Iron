@@ -56,6 +56,8 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	}
 
 	shotDistance_ = 200.0f;
+	controller_ = new KeyInputHandler;
+	controller_->Initialize(this);
 }
 
 void Player::Finalize() {
@@ -72,6 +74,7 @@ void Player::Finalize() {
 		safe_delete(bulletUI_[i]);
 	}
 	safe_delete(reloadUI_);
+	safe_delete(controller_);
 }
 
 void Player::Update(bool isClear) {
@@ -137,7 +140,7 @@ void Player::Update(bool isClear) {
 			DamageEffect();
 		}
 		if (hpCount_ > deadHp && isStart_) {
-			Move();
+			controller_->PlayerHandleInput();
 		}
 
 		playerWPos_ = player_->GetMatWorld().r[3];

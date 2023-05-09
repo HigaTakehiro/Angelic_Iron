@@ -21,12 +21,14 @@
 #include "RailScene.h"
 #include "ParticleManager.h"
 #include "BulletCase.h"
+#include "KeyInputHandler.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
 class RailScene;
 class BaseEnemy;
+class KeyInputHandler;
 
 class Player
 {
@@ -115,19 +117,25 @@ public: //メンバ関数
 	/// ゲームシーンをセット
 	/// </summary>
 	/// <param name="RailScene">ゲームシーン</param>
-	void SetRailScene(RailScene* RailScene) { this->railScene_ = RailScene; }
+	void SetRailScene(RailScene* RailScene) { railScene_ = RailScene; }
 
 	/// <summary>
 	/// クリア演出最終地点をセット
 	/// </summary>
 	/// <param name="clearPos">クリア演出最終地点</param>
-	void SetClearPos(const Vector3 clearPos) { this->clearPos_ = clearPos; }
+	void SetClearPos(const Vector3 clearPos) { clearPos_ = clearPos; }
 
 	/// <summary>
 	/// 発射位置をセット
 	/// </summary>
 	/// <param name="shotDistance"></param>
-	void SetShotDistance(const float shotDistance) { this->shotDistance_ = shotDistance; }
+	void SetShotDistance(const float shotDistance) { shotDistance_ = shotDistance; }
+
+	/// <summary>
+	/// プレイヤー座標にベクトルを加算
+	/// </summary>
+	/// <param name="vector">ベクトル</param>
+	void AddPlayerVector(const Vector3 vector) { playerLPos_ += vector; }
 
 	/// <summary>
 	/// ダメージフラグ取得
@@ -280,4 +288,6 @@ private: //メンバ変数
 	int32_t bombCount_;
 	//発射位置
 	float shotDistance_;
+	//コントローラー
+	KeyInputHandler* controller_;
 };

@@ -447,16 +447,4 @@ void TitleScene::SceneChange()
 			}
 		}
 	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_1)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_2)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_3)) {
-		SceneManager::SceneChange(SceneManager::SceneName::GameOver);
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_4)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
-	}
 }

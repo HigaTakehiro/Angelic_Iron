@@ -1,4 +1,4 @@
-#include "RailScene.h"
+ï»¿#include "RailScene.h"
 #include "FBXObject3d.h"
 #include "KeyInput.h"
 #include "MouseInput.h"
@@ -23,16 +23,16 @@ void RailScene::Initialize() {
 
 	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
 
-	//ƒJƒƒ‰‰Šú‰»
+	//ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	camera_ = new Camera;
 	camera_->SetEye(XMFLOAT3(50, 1, -100));
 	camera_->SetTarget(XMFLOAT3(50, 0, 0));
 	railCamera_ = new RailCamera;
 
-	//ƒfƒoƒbƒOƒeƒLƒXƒg‰Šú‰»
+	//ãƒ‡ãƒãƒƒã‚°ãƒ†ã‚­ã‚¹ãƒˆåˆæœŸåŒ–
 	debugText_.Initialize(debugTextNumber);
 
-	//ƒXƒvƒ‰ƒCƒg‰æ‘œ‰Šú‰»
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç”»åƒåˆæœŸåŒ–
 	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
@@ -115,7 +115,7 @@ void RailScene::Initialize() {
 	how_to_bomb_->SetSize({ 64.0f, 64.0f });
 	how_to_bomb_alpha_ = 1.0f;
 
-	//ƒ‰ƒCƒg‰Šú‰»
+	//ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–
 	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
 		light_->SetDirLightActive(0, true);
@@ -130,25 +130,25 @@ void RailScene::Initialize() {
 	light_->SetCircleShadowAngle(0, { 0.0f, 0.5f });
 	Object3d::SetLight(light_);
 
-	//3dƒIƒuƒWƒFƒNƒg‰Šú‰»
+	//3dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåˆæœŸåŒ–
 	int32_t stageNo;
 	stageNo = SceneManager::GetStageNo();
 
-	//ƒXƒe[ƒW”wŒiƒIƒuƒWƒFƒNƒg‰Šú‰»
+	//ã‚¹ãƒ†ãƒ¼ã‚¸èƒŒæ™¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåˆæœŸåŒ–
 	jsonLoader_ = std::make_unique<JsonLoader>();
 
-	//ƒvƒŒƒCƒ„[‰Šú‰»
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆæœŸåŒ–
 	player_ = new Player;
 	player_->Initialize(camera_, clearTime);
 	player_->SetRailScene(this);
 
-	//ƒp[ƒeƒBƒNƒ‹‰Šú‰»
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«åˆæœŸåŒ–
 	bombParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 	enemyParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 	gunParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 	thrusterParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 
-	//ƒXƒe[ƒWƒf[ƒ^“Ç‚İ‚İ
+	//ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	if (stageNo == 1) {
 		player_->SetClearPos({ 130.0f, 20.0f, 55.0f });
 		LoadRailPoint("Stage1RailPoints.aid");
@@ -161,12 +161,12 @@ void RailScene::Initialize() {
 		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
 
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ì‰Šú‰»
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();
 	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 
-	//ƒQ[ƒ€ƒV[ƒ“—p•Ï”‚Ì‰Šú‰»
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ç”¨å¤‰æ•°ã®åˆæœŸåŒ–
 	textAddTimer_ = 0;
 	textSpeed_ = 1;
 	textCount_ = 0;
@@ -181,48 +181,48 @@ void RailScene::Initialize() {
 }
 
 void RailScene::Update() {
-	//ƒIƒuƒWƒFƒNƒgƒŠƒXƒg‰ğ•úˆ—
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒªã‚¹ãƒˆè§£æ”¾å‡¦ç†
 	enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	enemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bulletCases_.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
 	bombs_.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
-	//ŠÛ‰e—pƒvƒŒƒCƒ„[À•WƒZƒbƒg
+	//ä¸¸å½±ç”¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™ã‚»ãƒƒãƒˆ
 	light_->SetCircleShadowCasterPos(0, { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
-	//ƒ|[ƒYØ‚è‘Ö‚¦
+	//ãƒãƒ¼ã‚ºåˆ‡ã‚Šæ›¿ãˆ
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player_->GetHPCount() != noneHP && !railCamera_->GetIsEnd()) {
 		isPause_ = !isPause_;
 	}
-	//ƒŒ[ƒ‹‚ÌÅŒã‚Ü‚Å‚¢‚Á‚½‚çƒNƒŠƒA
+	//ãƒ¬ãƒ¼ãƒ«ã®æœ€å¾Œã¾ã§ã„ã£ãŸã‚‰ã‚¯ãƒªã‚¢
 	ClearPaformance();
-	//ƒvƒŒƒCƒ„[‚ª€–S‚µ‚Ä‚¢‚é‚©
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã—ã¦ã„ã‚‹ã‹
 	if (player_->GetIsDead()) {
 		isDead_ = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
-	//ƒXƒRƒA•\¦
+	//ã‚¹ã‚³ã‚¢è¡¨ç¤º
 	for (int32_t i = 0; i < 6; i++) {
 		scoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(score_, i), 0 }, { 64, 64 });
 	}
-	//ƒŒƒeƒBƒNƒ‹XVˆ—
+	//ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«æ›´æ–°å‡¦ç†
 	Reticle::GetIns()->Update();
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	if (!isPause_) {
-		//ƒGƒtƒFƒNƒg”­¶ˆ—
+		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç™ºç”Ÿå‡¦ç†
 		AddEffect();
-		//“–‚½‚è”»’èƒ`ƒFƒbƒN
+		//å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
 		CollisionCheck();
-		//ƒIƒuƒWƒFƒNƒgXVˆ—
+		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°å‡¦ç†
 		for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 			enemy->RockOnPerformance();
 		}
-		//ƒ{ƒ€UŒ‚‚ÉƒXƒ[‚É‚·‚éXVˆ—
+		//ãƒœãƒ æ”»æ’ƒæ™‚ã«ã‚¹ãƒ­ãƒ¼ã«ã™ã‚‹æ›´æ–°å‡¦ç†
 		DelayUpdates();
 		BombPerformance();
-		//ƒ`ƒ…[ƒgƒŠƒAƒ‹XVˆ—
+		//ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«æ›´æ–°å‡¦ç†
 		Tutorial();
 
 		enemyParticle_->Update();
@@ -238,13 +238,13 @@ void RailScene::Update() {
 		Pause();
 	}
 
-	//ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
+	//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†
 	SceneChangeEffect::GetIns()->Update();
 	SceneChange();
 }
 
 void RailScene::Draw() {
-	//”wŒiF
+	//èƒŒæ™¯è‰²
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
 
@@ -263,12 +263,12 @@ void RailScene::Draw() {
 
 	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
-	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(”wŒi)
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‡¦ç†(èƒŒæ™¯)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	//background->Draw();
 	Sprite::PostDraw();
 
-	//3DƒIƒuƒWƒFƒNƒg•`‰æˆ—
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‡¦ç†
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	jsonLoader_->Draw();
 	if (!isDead_) {
@@ -295,7 +295,7 @@ void RailScene::Draw() {
 	thrusterParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
-	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(UI“™)
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‡¦ç†(UIç­‰)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	scoreSprite_->Draw();
 	for (int32_t i = 0; i < 6; i++) {
@@ -426,7 +426,7 @@ void RailScene::EnemyDataUpdate() {
 	while (getline(enemyData_, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
-		//”¼Šp‹æØ‚è‚Å•¶š—ñ‚ğæ“¾
+		//åŠè§’åŒºåˆ‡ã‚Šã§æ–‡å­—åˆ—ã‚’å–å¾—
 		getline(line_stream, word, ' ');
 		if (word == "#") {
 			continue;
@@ -458,7 +458,7 @@ void RailScene::EnemyDataUpdate() {
 		}
 		if (word == "MoveTime") {
 			line_stream >> moveTime;
-			//•b”Š·Z‚È‚Ì‚Å60”{‚·‚é
+			//ç§’æ•°æ›ç®—ãªã®ã§60å€ã™ã‚‹
 			moveTime *= 60.0f;
 		}
 		if (word == "LifeTime") {
@@ -551,7 +551,7 @@ void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
 }
 
 void RailScene::LoadRailPoint(const std::string& filename) {
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::stringstream railcameraPointsData;
 	railcameraPointsData = ExternalFileLoader::GetIns()->ExternalFileOpen(filename);
 
@@ -574,7 +574,7 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 	while (getline(railcameraPointsData, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
-		//”¼Šp‹æØ‚è‚Å•¶š—ñ‚ğæ“¾
+		//åŠè§’åŒºåˆ‡ã‚Šã§æ–‡å­—åˆ—ã‚’å–å¾—
 		getline(line_stream, word, ' ');
 		if (word == "#") {
 			continue;
@@ -690,7 +690,7 @@ void RailScene::TextMessageUpdate()
 	while (getline(textData_, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
-		//”¼Šp‹æØ‚è‚Å•¶š—ñ‚ğæ“¾
+		//åŠè§’åŒºåˆ‡ã‚Šã§æ–‡å­—åˆ—ã‚’å–å¾—
 		getline(line_stream, word, ' ');
 		if (word == "#") {
 			continue;
@@ -731,38 +731,38 @@ void RailScene::TextMessageUpdate()
 
 void RailScene::TextMessageDraw()
 {
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY(ƒNƒ[ƒY)
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º(ã‚¯ãƒ­ãƒ¼ã‚ºæ™‚)
 	const float closeWindowSizeY = 0.0f;
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY(ƒI[ƒvƒ“)
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º(ã‚ªãƒ¼ãƒ—ãƒ³æ™‚)
 	const float openWindowSizeY = 160.0f;
 
-	//ƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒEŠJ•Âˆ—
-	//ƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒE•Â½ˆ—
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–‹é–‰å‡¦ç†
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–‰é–å‡¦ç†
 	if (!isTextWindowOpen_) {
 		openWindowTimer_ = 0;
 		closeWindowTimer_++;
 		if (closeWindowTimer_ >= closeWindowTime) {
 			closeWindowTimer_ = closeWindowTime;
 		}
-		//ƒC[ƒYƒCƒ“ƒAƒEƒg‚ÅƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
+		//ã‚¤ãƒ¼ã‚ºã‚¤ãƒ³ã‚¢ã‚¦ãƒˆã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
 		textWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, textWindowSize_.y);
 		faceWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceWindowSize_.y);
 		faceGraphicSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceGraphicSize_.y);
 	}
-	//ƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒEŠJ•úˆ—
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–‹æ”¾å‡¦ç†
 	else if (isTextWindowOpen_) {
 		closeWindowTimer_ = 0;
 		openWindowTimer_++;
 		if (openWindowTimer_ >= openWindowTime) {
 			openWindowTimer_ = openWindowTime;
 		}
-		//ƒC[ƒYƒCƒ“ƒAƒEƒg‚ÅƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+		//ã‚¤ãƒ¼ã‚ºã‚¤ãƒ³ã‚¢ã‚¦ãƒˆã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 		textWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, textWindowSize_.y);
 		faceWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceWindowSize_.y);
 		faceGraphicSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceGraphicSize_.y);
 	}
 
-	//ƒƒbƒZ[ƒWƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğ•ÏX
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’å¤‰æ›´
 	textWindow_->SetSize(textWindowSize_);
 	faceWindow_->SetSize(faceWindowSize_);
 	for (int32_t i = 0; i < 3; i++) {
@@ -771,7 +771,7 @@ void RailScene::TextMessageDraw()
 		opeSmile_[i]->SetSize(faceGraphicSize_);
 	}
 
-	//ŠçƒOƒ‰ƒtƒBƒbƒNƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ‰ÁZ
+	//é¡”ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ™‚é–“åŠ ç®—
 	faceAnimeTimer_++;
 	if (faceAnimeTimer_ >= faceAnimeTime) {
 		faceAnimeTimer_ = 0;
@@ -780,23 +780,23 @@ void RailScene::TextMessageDraw()
 			faceAnimeCount_ = 0;
 		}
 	}
-	//“Ç‚İ‚ñ‚¾ƒeƒLƒXƒg•`‰æ‚ªŠ®—¹‚µ‚Ä‚¢‚½‚ç
+	//èª­ã¿è¾¼ã‚“ã ãƒ†ã‚­ã‚¹ãƒˆæç”»ãŒå®Œäº†ã—ã¦ã„ãŸã‚‰
 	if (isTextDrawComplete_) {
 		faceAnimeCount_ = 0;
 		faceAnimeTimer_ = 0;
 	}
-	//ƒeƒLƒXƒgƒXƒs[ƒh‚ª0ˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+	//ãƒ†ã‚­ã‚¹ãƒˆã‚¹ãƒ”ãƒ¼ãƒ‰ãŒ0ä»¥ä¸‹ã«ãªã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 	if (textSpeed_ <= 0) {
 		textSpeed_ = 1;
 	}
-	//ƒeƒLƒXƒg•`‰æ”ÍˆÍ
+	//ãƒ†ã‚­ã‚¹ãƒˆæç”»ç¯„å›²
 	D2D1_RECT_F textDrawPos = {
 		200, 560, 950, 700
 	};
 	D2D1_RECT_F bombMessageDrawPos = {
 		400, 0, 900, 300
 	};
-	//ƒeƒLƒXƒg‚ğ1•¶š‚¸‚Âw’èŠÔ‚²‚Æ‚É’Ç‰Á‚·‚é
+	//ãƒ†ã‚­ã‚¹ãƒˆã‚’1æ–‡å­—ãšã¤æŒ‡å®šæ™‚é–“ã”ã¨ã«è¿½åŠ ã™ã‚‹
 	textAddTimer_++;
 	isTextDrawComplete_ = false;
 	if (textAddTimer_ >= textSpeed_) {
@@ -810,15 +810,15 @@ void RailScene::TextMessageDraw()
 			}
 			textCount_++;
 		}
-		//“Ç‚İ‚ñ‚¾ƒeƒLƒXƒg•`‰æ‚ªŠ®—¹‚µ‚½‚ç
+		//èª­ã¿è¾¼ã‚“ã ãƒ†ã‚­ã‚¹ãƒˆæç”»ãŒå®Œäº†ã—ãŸã‚‰
 		if (textCount_ >= message_.size()) {
 			isTextDrawComplete_ = true;
 		}
 	}
-	//Œ»İ’Ç‰Á‚³‚ê‚Ä‚¢‚é•¶š‚ğ‘S‚Ä•`‰æ‚·‚é
+	//ç¾åœ¨è¿½åŠ ã•ã‚Œã¦ã„ã‚‹æ–‡å­—ã‚’å…¨ã¦æç”»ã™ã‚‹
 	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
 	if (player_->GetIsBomb()) {
-		textDraw_->Draw("meiryo", "orange", L"ŠÔ“à‚É‚Å‚«‚é‚¾‚¯‘½‚­‚Ì“G‚ğ\nƒƒbƒNƒIƒ“‚µ‚Ä‚­‚¾‚³‚¢B\n¶ƒNƒŠƒbƒN‚Å”­Ë‰Â”\", bombMessageDrawPos);
+		textDraw_->Draw("meiryo", "orange", L"æ™‚é–“å†…ã«ã§ãã‚‹ã ã‘å¤šãã®æ•µã‚’\nãƒ­ãƒƒã‚¯ã‚ªãƒ³ã—ã¦ãã ã•ã„ã€‚\nå·¦ã‚¯ãƒªãƒƒã‚¯ã§ç™ºå°„å¯èƒ½", bombMessageDrawPos);
 	}
 }
 
@@ -829,21 +829,21 @@ bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
 
 void RailScene::DelayUpdates()
 {
-	//ƒXƒ[‰‰o—pƒ^ƒCƒ}[
+	//ã‚¹ãƒ­ãƒ¼æ¼”å‡ºç”¨ã‚¿ã‚¤ãƒãƒ¼
 	float delayTime = 0.0f;
 	if (player_->GetIsBomb()) {
 		delayTime = 3.0f;
 	}
 	delayTimer_++;
 
-	//ƒXƒ[‰‰o
+	//ã‚¹ãƒ­ãƒ¼æ¼”å‡º
 	if (delayTimer_ >= delayTime) {
-		//“GoŒ»ˆ—
+		//æ•µå‡ºç¾å‡¦ç†
 		EnemyDataUpdate();
-		//ƒeƒLƒXƒgXVˆ—
+		//ãƒ†ã‚­ã‚¹ãƒˆæ›´æ–°å‡¦ç†
 		TextMessageUpdate();
 
-		//ƒvƒŒƒCƒ„[‚ª¶‚«‚Ä‚¢‚éê‡‚ÉXV
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç”Ÿãã¦ã„ã‚‹å ´åˆã«æ›´æ–°
 		if (player_->GetHPCount() > 0) {
 			if (!railCamera_->GetIsEnd()) {
 				railCamera_->Update();
@@ -878,11 +878,11 @@ void RailScene::DelayUpdates()
 
 void RailScene::ClearPaformance()
 {
-	//ƒŒ[ƒ‹ƒJƒƒ‰‚ªÅI’n“_‚É“’B‚µ‚½‚Æ‚«
+	//ãƒ¬ãƒ¼ãƒ«ã‚«ãƒ¡ãƒ©ãŒæœ€çµ‚åœ°ç‚¹ã«åˆ°é”ã—ãŸã¨ã
 	if (railCamera_->GetIsEnd()) {
 		clearTimer_--;
 	}
-	//ƒNƒŠƒA‰‰oŒãƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	//ã‚¯ãƒªã‚¢æ¼”å‡ºå¾Œã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	if (clearTimer_ <= 0) {
 		isClear_ = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
@@ -933,19 +933,19 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 {
 	const int32_t randMax = 4;
 
-	//“GÀ•W
+	//æ•µåº§æ¨™
 	Vector3 enemyPos;
 	enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
 
-	//“G‚ÌHP‚ª0‚È‚çƒp[ƒeƒBƒNƒ‹‚ğ”­¶‚³‚¹‚é
+	//æ•µã®HPãŒ0ãªã‚‰ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç™ºç”Ÿã•ã›ã‚‹
 	if (enemy->GetHP() <= 0) {
 		enemyParticle_->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
 	}
 
-	//ƒƒbƒNƒIƒ“ˆ—
-	XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ƒ[ƒ‹ƒhÀ•W
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“ƒrƒ…[ƒ|[ƒgs—ñ
-	enemy3dPos = XMVector3TransformCoord(enemy3dPos, matViewProjectionViewport); //ƒXƒNƒŠ[ƒ“À•W
+	//ãƒ­ãƒƒã‚¯ã‚ªãƒ³å‡¦ç†
+	XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
+	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—
+	enemy3dPos = XMVector3TransformCoord(enemy3dPos, matViewProjectionViewport); //ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™
 
 	DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
 
@@ -956,7 +956,7 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 		}
 	}
 
-	//“G‚ª€–S‚µ‚½‚çƒGƒtƒFƒNƒg‚ğ”­¶‚³‚¹‚é
+	//æ•µãŒæ­»äº¡ã—ãŸã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
 	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
 		const Vector3 explosionAcc = { 0.0f, 0.0f, 0.0f };
 		const float startScale = 10.0f;
@@ -995,23 +995,23 @@ void RailScene::EnemyReactions(BaseEnemy* enemy)
 
 void RailScene::AddEffect()
 {
-	//ÅI“I‚È‘å‚«‚³
+	//æœ€çµ‚çš„ãªå¤§ãã•
 	const float endScale = 0.0f;
-	//ƒfƒtƒHƒ‹ƒg‰Á‘¬“x
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆåŠ é€Ÿåº¦
 	const Vector3 defaultAcc = { 0.0f, 0.0f, 0.0f };
 
-	//ƒvƒŒƒCƒ„[‚ÌHP‚ª1ˆÈã‚È‚çƒGƒtƒFƒNƒg‚ğ”­¶‚³‚¹‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®HPãŒ1ä»¥ä¸Šãªã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
 	if (player_->GetHPCount() > noneHP) {
-		//—”ãŒÀ
+		//ä¹±æ•°ä¸Šé™
 		const int32_t randMax = 5;
-		//ƒp[ƒeƒBƒNƒ‹¶¬ŠÔ
+		//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿæˆæ™‚é–“
 		int32_t particleLife = 3;
-		//‰ŠúƒAƒ‹ƒtƒ@’l
+		//åˆæœŸã‚¢ãƒ«ãƒ•ã‚¡å€¤
 		Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
-		//ÅI“I‚ÈƒAƒ‹ƒtƒ@’l
+		//æœ€çµ‚çš„ãªã‚¢ãƒ«ãƒ•ã‚¡å€¤
 		Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
 
-		//ƒvƒŒƒCƒ„[‚Ìƒ[ƒ‹ƒhs—ñ‚©‚çƒp[ƒeƒBƒNƒ‹‚Ì¶¬ˆÊ’u‚ğ‹‚ß‚é
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‹ã‚‰ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ç”Ÿæˆä½ç½®ã‚’æ±‚ã‚ã‚‹
 		XMVECTOR playerPos = { 0.0f, 1.2f, -1.0f };
 		playerPos = XMVector3TransformCoord(playerPos, player_->GetPlayerObject()->GetMatWorld());
 		Vector3 thrusterPos = playerPos;
@@ -1036,7 +1036,7 @@ void RailScene::AddEffect()
 		}
 	}
 
-	//ƒvƒŒƒCƒ„[‚ÌHP‚ª0‚È‚çƒGƒtƒFƒNƒg‚ğ”­¶‚³‚¹‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®HPãŒ0ãªã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
 	if (player_->GetHPCount() <= noneHP && !isPlayerDead_) {
 		XMVECTOR playerPos = { player_->GetPlayerPos().x, player_->GetPlayerPos().y, player_->GetPlayerPos().z };
 		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
@@ -1050,7 +1050,7 @@ void RailScene::AddEffect()
 		SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 	}
 
-	//ƒ}ƒYƒ‹ƒtƒ‰ƒbƒVƒ…‚ğ”­¶‚³‚¹‚é
+	//ãƒã‚ºãƒ«ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã‚’ç™ºç”Ÿã•ã›ã‚‹
 	if (player_->GetIsShot()) {
 		Vector3 gunPos = player_->GetGunObject()->GetMatWorld().r[3];
 		gunParticle_->Add(2, gunPos,
@@ -1063,7 +1063,7 @@ void RailScene::AddEffect()
 	}
 
 	for (std::unique_ptr<Bomb>& bomb : bombs_) {
-		//ƒ{ƒ€‚Ì‹OÕ‚Éƒp[ƒeƒBƒNƒ‹‚ğ”­¶‚³‚¹‚é
+		//ãƒœãƒ ã®è»Œè·¡ã«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç™ºç”Ÿã•ã›ã‚‹
 		Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
 		bombParticle_->Add(20, bombPos,
 			{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
@@ -1103,13 +1103,13 @@ void RailScene::Pause()
 {
 	SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 	XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-	//ƒ{ƒ^ƒ“‘I‘ğ’†ƒAƒ‹ƒtƒ@’l
+	//ãƒœã‚¿ãƒ³é¸æŠä¸­ã‚¢ãƒ«ãƒ•ã‚¡å€¤
 	const float selectAlpha = 0.5f;
-	//ƒ{ƒ^ƒ“’ÊíƒAƒ‹ƒtƒ@’l
+	//ãƒœã‚¿ãƒ³é€šå¸¸æ™‚ã‚¢ãƒ«ãƒ•ã‚¡å€¤
 	const float normalAlpha = 1.0f;
-	//‘I‘ğ’†ƒ{ƒ^ƒ“ƒTƒCƒY
+	//é¸æŠä¸­ãƒœã‚¿ãƒ³ã‚µã‚¤ã‚º
 	XMFLOAT2 selectSize;
-	//ƒ^ƒCƒgƒ‹ƒoƒbƒNƒ{ƒ^ƒ“‚ğ‘I‘ğ’†
+	//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒƒã‚¯ãƒœã‚¿ãƒ³ã‚’é¸æŠä¸­
 	if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
 		selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
 		titleBack_->SetSize(selectSize);
@@ -1123,7 +1123,7 @@ void RailScene::Pause()
 		titleBack_->SetSize(titleBackSize_);
 		titleBack_->SetAlpha(normalAlpha);
 	}
-	//ƒ|[ƒY‰ğœƒ{ƒ^ƒ“‚ğ‘I‘ğ’†
+	//ãƒãƒ¼ã‚ºè§£é™¤ãƒœã‚¿ãƒ³ã‚’é¸æŠä¸­
 	if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {
 		selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
 		back_->SetSize(selectSize);
@@ -1136,7 +1136,7 @@ void RailScene::Pause()
 		back_->SetSize(backSize_);
 		back_->SetAlpha(normalAlpha);
 	}
-	//ƒŠƒXƒ^[ƒgƒ{ƒ^ƒ“‚ğ‘I‘ğ’†
+	//ãƒªã‚¹ã‚¿ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã‚’é¸æŠä¸­
 	if (IsMouseHitSprite(mousePos, restart_->GetPosition(), restartSize_.x, restartSize_.y)) {
 		selectSize = { restartSize_.x * 0.9f, restartSize_.y * 0.9f };
 		restart_->SetSize(selectSize);
@@ -1154,7 +1154,7 @@ void RailScene::Pause()
 
 void RailScene::Tutorial()
 {
-	//’è”
+	//å®šæ•°
 	const float iconSlidePos = 100.0f;
 
 	if (enemies_.size() > 0) {
@@ -1165,13 +1165,13 @@ void RailScene::Tutorial()
 		isShot_ = true;
 	}
 
-	//ƒvƒŒƒCƒ„[ƒLƒƒƒ‰‚Ì‰æ–Êã‚ÌˆÊ’u‚ğ‹‚ß‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚­ãƒ£ãƒ©ã®ç”»é¢ä¸Šã®ä½ç½®ã‚’æ±‚ã‚ã‚‹
 	XMVECTOR playerPos = { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	playerPos = XMVector3TransformCoord(playerPos, matVPV);
 	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 
-	//ƒ`ƒ…[ƒgƒŠƒAƒ‹ƒAƒCƒRƒ“‚ÌÀ•W‚ğ‹‚ß‚é
+	//ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	how_to_up_->SetPosition({ player2dPos.x, player2dPos.y - iconSlidePos });
 	how_to_down_->SetPosition({ player2dPos.x, player2dPos.y + iconSlidePos });
 	how_to_left_->SetPosition({ player2dPos.x - iconSlidePos, player2dPos.y });
@@ -1179,7 +1179,7 @@ void RailScene::Tutorial()
 	how_to_shot_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
 	how_to_bomb_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
 
-	//ƒ`ƒ…[ƒgƒŠƒ‹Š®—¹‚µ‚½‚ç“§–¾‚É‚·‚é
+	//ãƒãƒ¥ãƒ¼ãƒˆãƒªãƒ«å®Œäº†ã—ãŸã‚‰é€æ˜ã«ã™ã‚‹
 	if (KeyInput::GetIns()->TriggerKey(DIK_W)) {
 		isMoveUp_ = true;
 	}
@@ -1235,17 +1235,17 @@ void RailScene::BombPerformance()
 
 void RailScene::SceneChange()
 {
-	//ƒV[ƒ“Ø‚è‘Ö‚¦
+	//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
-		//€–Sƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éê‡
+		//æ­»äº¡ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹å ´åˆ
 		if (isDead_ && !isClear_) {
 			SceneManager::AddScore(score_);
 			SceneManager::SceneChange(SceneManager::SceneName::GameOver);
 		}
-		//ƒNƒŠƒAƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éê‡
+		//ã‚¯ãƒªã‚¢ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹å ´åˆ
 		else if (isClear_ && !isDead_) {
 			SceneManager::AddScore(score_);
-			//ƒXƒe[ƒW”Ô†‚É‚æ‚è”h¶
+			//ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ã«ã‚ˆã‚Šæ´¾ç”Ÿ
 			if (SceneManager::GetStageNo() == 1) {
 				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
 			}
@@ -1254,13 +1254,13 @@ void RailScene::SceneChange()
 			}
 			SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 		}
-		//ƒ^ƒCƒgƒ‹ƒoƒbƒNƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½ê‡
+		//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒƒã‚¯ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸå ´åˆ
 		else if (isTitleBack_) {
 			SceneManager::SceneChange(SceneManager::SceneName::Title);
 		}
-		//ƒŠƒXƒ^[ƒgƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½ê‡
+		//ãƒªã‚¹ã‚¿ãƒ¼ãƒˆãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸå ´åˆ
 		else if (isRestart_) {
-			//ƒXƒe[ƒW”Ô†‚É‚æ‚è”h¶
+			//ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ã«ã‚ˆã‚Šæ´¾ç”Ÿ
 			if (SceneManager::GetStageNo() == 1) {
 				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
 			}
@@ -1270,7 +1270,7 @@ void RailScene::SceneChange()
 		}
 	}
 
-	//ƒfƒoƒbƒO—p
+	//ãƒ‡ãƒãƒƒã‚°ç”¨
 	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 	//	SceneManager::AddScore(score_);
 	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
