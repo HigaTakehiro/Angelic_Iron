@@ -272,6 +272,15 @@
     <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\ShotCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\BombCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Command\ReloadCommand.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -466,9 +475,6 @@
     <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h">
-      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Command\LeftMoveCommand.h">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClInclude>
@@ -476,6 +482,18 @@
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Command\KeyInputHandler.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\ShotCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\BombCommand.h">
+      <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Command\ReloadCommand.h">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
     </ClInclude>
   </ItemGroup>

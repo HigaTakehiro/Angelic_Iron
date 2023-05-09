@@ -6,6 +6,9 @@
 #include "RightMoveCommand.h"
 #include "UpMoveCommand.h"
 #include "DownMoveCommand.h"
+#include "ShotCommand.h"
+#include "ReloadCommand.h"
+#include "BombCommand.h"
 #include "Player.h"
 
 class KeyInputHandler
@@ -17,8 +20,10 @@ public: //列挙型
 		RightMove,
 		UpMove,
 		DownMove,
+		Reload,
 		Shot,
-		Bomb
+		Bomb,
+		None
 	};
 
 public: //メンバ関数
@@ -79,16 +84,30 @@ public: //メンバ関数
 	/// <param name="command">割り当てるコマンド</param>
 	void KeyBindChange_RightClick(Commands command);
 
+	/// <summary>
+	/// Rキー割り当て変更
+	/// </summary>
+	/// <param name="command">割り当てるコマンド</param>
+	void KeyBindChange_R(Commands command);
+
+	/// <summary>
+	/// Spaceキー割り当て変更
+	/// </summary>
+	/// <param name="command">割り当てるコマンド</param>
+	void KeyBindChange_Space(Commands command);
+
+	/// <summary>
+	/// 左Shiftキー割り当て変更
+	/// </summary>
+	/// <param name="command">割り当てるコマンド</param>
+	void KeyBindChange_LShift(Commands command);
+
 private: //メンバ関数
 	/// <summary>
 	/// キーバインド変更
 	/// </summary>
-	/// <param name="key">変更するキー</param>
 	/// <param name="command">割り当てるコマンド</param>
-	void KeyBindChange(PlayerCommand* key, Commands command);
-
-
-	PlayerCommand* KeyBindChangeW (Commands command);
+	PlayerCommand* KeyBindChange (Commands command);
 
 private: //メンバ変数
 	//プレイヤー
@@ -106,5 +125,11 @@ private: //メンバ変数
 	PlayerCommand* leftClick_;
 	//右クリックに割り当てているコマンド
 	PlayerCommand* rightClick_;
+	//左Shiftキーに割り当てているコマンド
+	PlayerCommand* leftShiftKey_;
+	//Rキーに割り当てているコマンド
+	PlayerCommand* rKey_;
+	//Spaceキーに割り当てているコマンド
+	PlayerCommand* spaceKey_;
 
 };

@@ -818,7 +818,7 @@ void RailScene::TextMessageDraw()
 	//現在追加されている文字を全て描画する
 	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
 	if (player_->GetIsBomb()) {
-		textDraw_->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n左クリックで発射可能", bombMessageDrawPos);
+		textDraw_->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n右クリックで発射可能", bombMessageDrawPos);
 	}
 }
 

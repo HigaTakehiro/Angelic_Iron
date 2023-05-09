@@ -161,21 +161,27 @@ public: //メンバ関数
 	/// <returns>発射フラグ</returns>
 	bool GetIsShot() { return isShot_; }
 
-private: //メンバ関数
-	/// <summary>
-	/// 移動処理
-	/// </summary>
-	void Move();
-
 	/// <summary>
 	/// 通常攻撃処理
 	/// </summary>
 	void Shot();
 
 	/// <summary>
+	/// ボムモードに切り替える
+	/// </summary>
+	void SetBombMode();
+
+	/// <summary>
+	/// リロード処理
+	/// </summary>
+	void Reload();
+
+	/// <summary>
 	/// ボム攻撃処理
 	/// </summary>
 	void BombShot();
+
+private: //メンバ関数
 
 	/// <summary>
 	/// 3dレティクル更新処理
@@ -204,13 +210,18 @@ private: //メンバ関数
 	/// </summary>
 	void StartPerformance();
 
+	/// <summary>
+	/// プレイヤー位置補正
+	/// </summary>
+	void PlayerPosCorrection();
+
 private: //静的メンバ変数
 	//最大残弾数
 	static const int32_t maxBulletCount = 16;
 	//最大HP
 	static const int32_t maxHp = 3;
 	//リロード時間
-	static const int32_t reloadTime = 20;
+	static const int32_t reloadTime = 60;
 	//弾発射クールタイム
 	static const int32_t shotCoolTime = 10;
 	//ダメージエフェクト発生時間
@@ -221,6 +232,8 @@ private: //静的メンバ変数
 	static const int32_t startTime = 60;
 	//ボム攻撃タイマー
 	static const int32_t bombTime = 60 * 5;
+	//弾数がない状態
+	static const int32_t noneBulletCount = 0;
 
 private: //メンバ変数
 	Vector3 playerLPos_ = { 0, 0, 0 };
@@ -251,6 +264,7 @@ private: //メンバ変数
 	Vector3 aimPos3d_;
 	Camera* camera_;
 	RailScene* railScene_;
+	Vector3 prePos;
 
 	//残弾数
 	int32_t bulletCount_;

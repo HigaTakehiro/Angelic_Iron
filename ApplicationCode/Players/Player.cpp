@@ -78,22 +78,21 @@ void Player::Finalize() {
 }
 
 void Player::Update(bool isClear) {
-	const int deadHp = 0;
-	const int noneBulletCount = 0;
-	const int reloadTimeOver = 0;
-	const int shotCoolTimeOver = 0;
+	const int32_t deadHp = 0;
+	const int32_t reloadTimeOver = 0;
+	const int32_t shotCoolTimeOver = 0;
 
-	startTimer_++;
-	if (startTimer_ >= startTime) {
-		startTimer_ = startTime;
-		isStart_ = true;
+	if (isBomb_) {
+		controller_->KeyBindChange_LeftClick(KeyInputHandler::Commands::None);
 	}
-	if (!isStart_) {
-		playerLPos_.y = Easing::easeIn((float)startTimer_, (float)startTime, 0, playerLPos_.y);
-		playerRot_.x = Easing::easeIn((float)startTimer_, (float)startTime * 2, 0, playerRot_.x);
+	else {
+		controller_->KeyBindChange_LeftClick(KeyInputHandler::Commands::Shot);
 	}
+
+	StartPerformance();
 
 	if (!isClear) {
+		PlayerPosCorrection();
 		if (hpCount_ <= deadHp) {
 			DeadPerformance();
 		}
@@ -115,18 +114,6 @@ void Player::Update(bool isClear) {
 		else if (shotCoolTimer_ <= shotCoolTimeOver) {
 			isShot_ = false;
 			shotCoolTimer_ = 0;
-		}
-
-		if ((MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK)) && !isShot_ && bulletCount_ > noneBulletCount && !isBomb_) {
-			isShot_ = true;
-			Shot();
-		}
-		if (KeyInput::GetIns()->TriggerKey(DIK_R) && bulletCount_ != maxBulletCount) {
-			bulletCount_ = noneBulletCount;
-		}
-
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK) && bombCount_ > 0) {
-			isBomb_ = true;
 		}
 
 		if (isBomb_) {
@@ -181,79 +168,11 @@ void Player::ObjectDraw() {
 	}
 }
 
-void Player::Move() {
-	const float moveSpeed = 1.0f;
-	const float stopPosX = 40.0f;
-	const float stopPosY = 20.0f;
-	const float stopRotX = 30.0f;
-	const float stopRotY = 50.0f;
-	const Vector3 initRot = { 0, 0, 0 };
-	const float timeOver = 100.0f;
-	const float initTime = 0.0f;
-
-	if (KeyInput::GetIns()->HoldKey(DIK_W)) {
-		if (holdTimer_[0] <= timeOver) {
-			holdTimer_[0]++;
-		}
-		if (playerLPos_.y <= stopPosY) {
-			playerLPos_.y += moveSpeed;
-		}
-		playerRot_.x = Easing::easeOut(holdTimer_[0], timeOver, initRot.x - stopRotX, playerRot_.x);
-	}
-	else {
-		holdTimer_[0] = initTime;
-	}
-	if (KeyInput::GetIns()->HoldKey(DIK_S)) {
-		if (holdTimer_[1] <= timeOver) {
-			holdTimer_[1]++;
-		}
-		if (playerLPos_.y >= -stopPosY) {
-			playerLPos_.y -= moveSpeed;
-		}
-		playerRot_.x = Easing::easeOut(holdTimer_[1], timeOver, initRot.x + stopRotX, playerRot_.x);
-	}
-	else {
-		holdTimer_[1] = initTime;
-	}
-	if (KeyInput::GetIns()->HoldKey(DIK_A)) {
-		if (holdTimer_[2] <= timeOver) {
-			holdTimer_[2]++;
-		}
-		if (playerLPos_.x >= -stopPosX) {
-			playerLPos_.x -= moveSpeed;
-		}
-		playerRot_.y = Easing::easeOut(holdTimer_[2], timeOver, initRot.y - stopRotY, playerRot_.y);
-	}
-	else {
-		holdTimer_[2] = initTime;
-	}
-	if (KeyInput::GetIns()->HoldKey(DIK_D)) {
-		if (holdTimer_[3] <= timeOver) {
-			holdTimer_[3]++;
-		}
-		if (playerLPos_.x <= stopPosX) {
-			playerLPos_.x += moveSpeed;
-		}
-		playerRot_.y = Easing::easeOut(holdTimer_[3], timeOver, initRot.y + stopRotX, playerRot_.y);
-	}
-	else {
-		holdTimer_[3] = initTime;
-	}
-
-	if (!KeyInput::GetIns()->HoldKey(DIK_W) && !KeyInput::GetIns()->HoldKey(DIK_S) && !KeyInput::GetIns()->HoldKey(DIK_A) && !KeyInput::GetIns()->HoldKey(DIK_D)) {
-		if (returnTimer_ <= timeOver * 2) {
-			returnTimer_++;
-		}
-		playerRot_.x = Easing::easeInOut(returnTimer_, timeOver * 2, initRot.x, playerRot_.x);
-		playerRot_.y = Easing::easeInOut(returnTimer_, timeOver * 2, initRot.y, playerRot_.y);
-	}
-	else {
-		returnTimer_ = initTime;
-	}
-
-}
-
 void Player::Shot() {
+	if (bulletCount_ <= noneBulletCount) return;
+	if (isBomb_) return;
+	if (isShot_) return;
+
 	const float bulletSpeed = 5.0f;
 	XMVECTOR velocity;
 	velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
@@ -277,6 +196,18 @@ void Player::Shot() {
 	bulletCount_--;
 	shotCoolTimer_ = shotCoolTime;
 	//sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);
+	isShot_ = true;
+}
+
+void Player::SetBombMode()
+{
+	const int32_t noneBomb = 0;
+	if(bombCount_ > noneBomb) isBomb_ = true;
+}
+
+void Player::Reload()
+{
+	if (bulletCount_ < maxBulletCount && bulletCount_ > noneBulletCount) bulletCount_ = noneBulletCount;
 }
 
 void Player::BombShot() {
@@ -375,4 +306,42 @@ void Player::ClearPerformance() {
 	player_->SetPosition(playerWPos_);
 	player_->SetRotation(playerRot_);
 	camera_->SetTarget(playerWPos_);
+}
+
+void Player::StartPerformance()
+{
+	startTimer_++;
+	if (startTimer_ >= startTime) {
+		startTimer_ = startTime;
+		isStart_ = true;
+	}
+	if (!isStart_) {
+		playerLPos_.y = Easing::easeIn((float)startTimer_, (float)startTime, 0, playerLPos_.y);
+		playerRot_.x = Easing::easeIn((float)startTimer_, (float)startTime * 2, 0, playerRot_.x);
+	}
+}
+
+void Player::PlayerPosCorrection()
+{
+	const float playerWidth = 4.0f;
+	const float playerHeight = 8.0f;
+	const float moveRangeLeft = 200.0f;
+	const float moveRangeRight = 1100.0f;
+	const float moveRangeTop = 100.0f;
+	const float moveRangeBottom = 600.0f;
+
+	//プレイヤーの画面上の位置を求める
+	XMVECTOR playerPos = { player_->GetMatWorld().r[3].m128_f32[0], player_->GetMatWorld().r[3].m128_f32[1], player_->GetMatWorld().r[3].m128_f32[2] };
+	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
+	playerPos = XMVector3TransformCoord(playerPos, matVPV);
+	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
+
+	if (isStart_) {
+		if (player2dPos.x < moveRangeLeft + playerWidth) playerLPos_ = prePos;
+		if (player2dPos.x > moveRangeRight - playerWidth) playerLPos_ = prePos;
+		if (player2dPos.y < moveRangeTop + playerHeight) playerLPos_ = prePos;
+		if (player2dPos.y > moveRangeBottom - playerHeight) playerLPos_ = prePos;
+	}
+
+	prePos = playerLPos_;
 }

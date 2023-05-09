@@ -9,6 +9,9 @@ KeyInputHandler::~KeyInputHandler()
 	safe_delete(dKey_);
 	safe_delete(leftClick_);
 	safe_delete(rightClick_);
+	safe_delete(rKey_);
+	safe_delete(leftShiftKey_);
+	safe_delete(spaceKey_);
 }
 
 void KeyInputHandler::Initialize(Player* player)
@@ -20,47 +23,25 @@ void KeyInputHandler::Initialize(Player* player)
 	KeyBindChange_D(Commands::RightMove);
 	KeyBindChange_LeftClick(Commands::Shot);
 	KeyBindChange_RightClick(Commands::Bomb);
+	KeyBindChange_R(Commands::Reload);
+	KeyBindChange_LShift(Commands::None);
+	KeyBindChange_Space(Commands::None);
 }
 
 void KeyInputHandler::PlayerHandleInput()
 {
-	if (KeyInput::GetIns()->PushKey(DIK_W)) wKey_->Execute(player_);
-	if (KeyInput::GetIns()->PushKey(DIK_A)) aKey_->Execute(player_);
-	if (KeyInput::GetIns()->PushKey(DIK_S)) sKey_->Execute(player_);
-	if (KeyInput::GetIns()->PushKey(DIK_D)) dKey_->Execute(player_);
-	//if (MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK)) leftClick_->Execute(player_);
-	//if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK)) rightClick_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_W) && wKey_ != nullptr) wKey_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_A) && aKey_ != nullptr) aKey_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_S) && sKey_ != nullptr) sKey_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_D) && dKey_ != nullptr) dKey_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_R) && rKey_ != nullptr) rKey_->Execute(player_);
+	if (KeyInput::GetIns()->TriggerKey(DIK_LSHIFT) && leftShiftKey_ != nullptr) leftShiftKey_->Execute(player_);
+	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && spaceKey_ != nullptr) spaceKey_->Execute(player_);
+	if (MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK) && leftClick_ != nullptr) leftClick_->Execute(player_);
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK) && rightClick_ != nullptr) rightClick_->Execute(player_);
 }
 
-void KeyInputHandler::KeyBindChange(PlayerCommand* key, Commands command)
-{
-	if (key != nullptr) {
-		safe_delete(key);
-	}
-
-	switch (command) {
-	case Commands::LeftMove:
-		key = new LeftMoveCommand();
-		break;
-	case Commands::RightMove:
-		key = new RightMoveCommand();
-		break;
-	case Commands::UpMove:
-		key = new UpMoveCommand();
-		break;
-	case Commands::DownMove:
-		key = new DownMoveCommand();
-		break;
-	case Commands::Shot:
-		return;
-		break;
-	case Commands::Bomb:
-		return;
-		break;
-	}
-}
-
-PlayerCommand* KeyInputHandler::KeyBindChangeW(Commands command)
+PlayerCommand* KeyInputHandler::KeyBindChange(Commands command)
 {
 	switch (command) {
 	case Commands::LeftMove:
@@ -75,10 +56,16 @@ PlayerCommand* KeyInputHandler::KeyBindChangeW(Commands command)
 	case Commands::DownMove:
 		return new DownMoveCommand();
 		break;
+	case Commands::Reload:
+		return new ReloadCommand();
+		break;
 	case Commands::Shot:
-		return nullptr;
+		return new ShotCommand();
 		break;
 	case Commands::Bomb:
+		return new BombCommand();
+		break;
+	case Commands::None:
 		return nullptr;
 		break;
 	}
@@ -86,34 +73,45 @@ PlayerCommand* KeyInputHandler::KeyBindChangeW(Commands command)
 
 void KeyInputHandler::KeyBindChange_W(Commands command)
 {
-	KeyBindChange(wKey_, command);
-	wKey_ = KeyBindChangeW(command);
+	wKey_ = KeyBindChange(command);
 }
 
 void KeyInputHandler::KeyBindChange_A(Commands command)
 {
-	KeyBindChange(aKey_, command);
-	aKey_ = KeyBindChangeW(command);
+	aKey_ = KeyBindChange(command);
 }
 
 void KeyInputHandler::KeyBindChange_S(Commands command)
 {
-	KeyBindChange(sKey_, command);
-	sKey_ = KeyBindChangeW(command);
+	sKey_ = KeyBindChange(command);
 }
 
 void KeyInputHandler::KeyBindChange_D(Commands command)
 {
-	KeyBindChange(dKey_, command);
-	dKey_ = KeyBindChangeW(command);
+	dKey_ = KeyBindChange(command);
 }
 
 void KeyInputHandler::KeyBindChange_LeftClick(Commands command)
 {
-	KeyBindChange(leftClick_, command);
+	leftClick_ = KeyBindChange(command);
 }
 
 void KeyInputHandler::KeyBindChange_RightClick(Commands command)
 {
-	KeyBindChange(rightClick_, command);
+	rightClick_ = KeyBindChange(command);
+}
+
+void KeyInputHandler::KeyBindChange_R(Commands command)
+{
+	rKey_ = KeyBindChange(command);
+}
+
+void KeyInputHandler::KeyBindChange_Space(Commands command)
+{
+	spaceKey_ = KeyBindChange(command);
+}
+
+void KeyInputHandler::KeyBindChange_LShift(Commands command)
+{
+	leftShiftKey_ = KeyBindChange(command);
 }
