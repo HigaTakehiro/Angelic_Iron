@@ -3,6 +3,8 @@
 #include "MotionMath.h"
 #include "Easing.h"
 
+const float Player::moveSpeed = 1.0f;
+
 void Player::Initialize(Camera* camera, float clearTime) {
 	camera_ = camera;
 
@@ -337,10 +339,10 @@ void Player::PlayerPosCorrection()
 	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 
 	if (isStart_) {
-		if (player2dPos.x < moveRangeLeft + playerWidth) playerLPos_ = prePos;
-		if (player2dPos.x > moveRangeRight - playerWidth) playerLPos_ = prePos;
-		if (player2dPos.y < moveRangeTop + playerHeight) playerLPos_ = prePos;
-		if (player2dPos.y > moveRangeBottom - playerHeight) playerLPos_ = prePos;
+		if (player2dPos.x < moveRangeLeft + playerWidth) playerLPos_.x += moveSpeed;
+		if (player2dPos.x > moveRangeRight - playerWidth) playerLPos_.x += -moveSpeed;
+		if (player2dPos.y < moveRangeTop + playerHeight) playerLPos_.y += -moveSpeed;
+		if (player2dPos.y > moveRangeBottom - playerHeight) playerLPos_.y += moveSpeed;
 	}
 
 	prePos = playerLPos_;

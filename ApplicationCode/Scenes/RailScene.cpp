@@ -468,7 +468,6 @@ void RailScene::EnemyDataUpdate() {
 		}
 		if (word == "ShotCoolTime") {
 			line_stream >> shotIntervalTime;
-			shotIntervalTime *= 60;
 		}
 		if (word == "Hp") {
 			line_stream >> hp;

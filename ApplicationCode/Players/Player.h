@@ -234,6 +234,8 @@ private: //静的メンバ変数
 	static const int32_t bombTime = 60 * 5;
 	//弾数がない状態
 	static const int32_t noneBulletCount = 0;
+	//移動速度
+	static const float moveSpeed;
 
 private: //メンバ変数
 	Vector3 playerLPos_ = { 0, 0, 0 };
