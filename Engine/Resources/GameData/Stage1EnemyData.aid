@@ -23,8 +23,8 @@ MoveTime 8
 LifeTime 10
 Hp 2
 ShotCoolTime 2
-Type AIM
-Wait 780
+Type SPR
+Wait 750
 
 #Enemy2
 
@@ -43,6 +43,100 @@ Hp 1
 LifeTime 15
 Type STR
 Wait 0
+
+#--------------------------------------------
+
+Pos 100.0 90.0 200.0
+Rot 90.0 180.0 0.0
+Move 100.0 90.0 0.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 150.0 90.0 200.0
+Rot 90.0 180.0 0.0
+Move 150.0 90.0 0.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 50.0 90.0 200.0
+Rot 90.0 180.0 0.0
+Move 50.0 90.0 0.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 100.0 90.0 150.0
+Rot 90.0 180.0 0.0
+Move 100.0 90.0 -50.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 150.0 90.0 150.0
+Rot 90.0 180.0 0.0
+Move 150.0 90.0 -50.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 50.0 90.0 150.0
+Rot 90.0 180.0 0.0
+Move 50.0 90.0 -50.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 100.0 90.0 50.0
+Rot 90.0 180.0 0.0
+Move 100.0 90.0 -150.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 150.0 90.0 50.0
+Rot 90.0 180.0 0.0
+Move 150.0 90.0 -150.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+Pos 50.0 90.0 50.0
+Rot 90.0 180.0 0.0
+Move 50.0 90.0 -150.0
+End
+MoveTime 12
+Hp 1
+LifeTime 15
+Type STR
+Wait 0
+
+#-------------------------------------------
 
 #Enemy4
 

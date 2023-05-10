@@ -54,7 +54,8 @@ public: //‰æ‘œ–¼
 		How_to_Up,
 		How_to_Down,
 		How_to_Left,
-		How_to_Right
+		How_to_Right,
+		Plus
 	};
 
 public: //ƒƒ“ƒoŠÖ”

@@ -11,6 +11,7 @@
 #include "StraightEnemy.h"
 #include "AimingEnemy.h"
 #include "HomingEnemy.h"
+#include "SpreadEnemy.h"
 #include "DirectXSetting.h"
 #include "ExternalFileLoader.h"
 #include <algorithm>
@@ -516,6 +517,20 @@ void RailScene::EnemyDataUpdate() {
 				newEnemy->SetPlayer(player_);
 				newEnemy->SetHP(hp);
 				newEnemy->SetLifeTime(lifeTime);
+				newEnemy->SetShotIntervalTime(shotIntervalTime);
+				if (isMovePoint) {
+					movePoints.insert(movePoints.begin(), pos);
+					newEnemy->SetMaxTime(moveTime);
+					newEnemy->SetMovePoints(movePoints);
+				}
+				enemies_.push_back(std::move(newEnemy));
+			}
+			if (type == "SPR") {
+				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<SpreadEnemy>();
+				newEnemy->Initialize("enemy1", pos, rot);
+				newEnemy->SetRailScene(this);
+				newEnemy->SetLifeTime(lifeTime);
+				newEnemy->SetHP(hp);
 				newEnemy->SetShotIntervalTime(shotIntervalTime);
 				if (isMovePoint) {
 					movePoints.insert(movePoints.begin(), pos);

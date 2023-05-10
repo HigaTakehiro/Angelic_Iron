@@ -1,11 +1,13 @@
-#include "StraightEnemy.h"
+#include "SpreadEnemy.h"
 
-StraightEnemy::~StraightEnemy() {
+SpreadEnemy::~SpreadEnemy()
+{
 	safe_delete(enemy_);
 	safe_delete(target_);
 }
 
-void StraightEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot) {
+void SpreadEnemy::Initialize(const std::string modelKey, const Vector3& pos, const Vector3& rot)
+{
 	enemy_ = Object3d::Create(ModelManager::GetIns()->GetModel(modelKey));
 	enemy_->SetPosition(pos);
 	target_ = Sprite::Create((UINT)ImageManager::ImageName::aim, { 0, 0 });
@@ -22,7 +24,7 @@ void StraightEnemy::Initialize(const std::string modelKey, const Vector3& pos, c
 	targetReactionTimer_ = 0;
 }
 
-void StraightEnemy::Update()
+void SpreadEnemy::Update()
 {
 	const int32_t lifeTimeOver = 0;
 
@@ -45,19 +47,19 @@ void StraightEnemy::Update()
 	enemy_->Update();
 }
 
-void StraightEnemy::Draw()
+void SpreadEnemy::Draw()
 {
 	enemy_->Draw();
 }
 
-void StraightEnemy::SpriteDraw()
+void SpreadEnemy::SpriteDraw()
 {
 	if (isTarget_) {
 		target_->Draw();
 	}
 }
 
-void StraightEnemy::DeadPerformance()
+void SpreadEnemy::DeadPerformance()
 {
 	const float downSpeed = 0.5f;
 	const float rotSpeed = 15.0f;
@@ -73,13 +75,33 @@ void StraightEnemy::DeadPerformance()
 	}
 }
 
-void StraightEnemy::Attack()
+void SpreadEnemy::Attack()
 {
-	if (++shotIntervalTimer_ >= shotIntervalTime_) {
-		const float bulletSpeed = 0.01f;
+	if (++shotIntervalTimer_ <= shotIntervalTime_) return;
+	for (int32_t i = 1; i <= 9; i++) {
+		const float bulletSpeed = 0.4f;
 		XMVECTOR velocity = { 0, 0, 1 };
+		if (i > 0) {
+			velocity.m128_f32[1] = -0.5f;
+			if (i < 2) velocity.m128_f32[0] = -0.5f;
+			else if (i > 2) velocity.m128_f32[0] = 0.5f;
+			else velocity.m128_f32[0] = 0;
+		}
+		if (i > 3) {
+			velocity.m128_f32[1] = 0;
+			if (i < 5) velocity.m128_f32[0] = -0.5f;
+			else if (i > 5) velocity.m128_f32[0] = 0.5f;
+			else velocity.m128_f32[0] = 0;
+		}
+		if (i > 6) {
+			velocity.m128_f32[1] = 0.5f;
+			if (i < 8) velocity.m128_f32[0] = -0.5f;
+			else if (i > 8) velocity.m128_f32[0] = 0.5f;
+			else velocity.m128_f32[0] = 0;
+		}
 
 		velocity = XMVector3TransformNormal(velocity, enemy_->GetMatWorld());
+		velocity *= bulletSpeed;
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemy_->GetMatWorld().r[3], velocity);
@@ -87,4 +109,5 @@ void StraightEnemy::Attack()
 		railScene_->AddEnemyBullet(std::move(newBullet));
 		shotIntervalTimer_ = 0;
 	}
+
 }

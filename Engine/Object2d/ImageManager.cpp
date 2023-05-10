@@ -44,4 +44,5 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture((UINT)ImageName::How_to_Down, L"Engine/Resources/Images/How_to_down.png");
 	Sprite::LoadTexture((UINT)ImageName::How_to_Left, L"Engine/Resources/Images/How_to_left.png");
 	Sprite::LoadTexture((UINT)ImageName::How_to_Right, L"Engine/Resources/Images/How_to_right.png");
+	Sprite::LoadTexture((UINT)ImageName::Plus, L"Engine/Resources/Images/Plus.png");
 }

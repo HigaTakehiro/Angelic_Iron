@@ -68,6 +68,9 @@ PlayerCommand* KeyInputHandler::KeyBindChange(Commands command)
 	case Commands::None:
 		return nullptr;
 		break;
+	default:
+		return nullptr;
+		break;
 	}
 }
 

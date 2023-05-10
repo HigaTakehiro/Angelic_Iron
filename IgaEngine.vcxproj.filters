@@ -89,9 +89,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Audio\Sound.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
@@ -280,6 +277,12 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Command\ReloadCommand.cpp">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemies\SpreadEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +498,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Command\ReloadCommand.h">
       <Filter>ソース ファイル\ApplicationCode\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemies\SpreadEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

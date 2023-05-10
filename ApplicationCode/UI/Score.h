@@ -63,16 +63,58 @@ public: //メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// nの位の数字を判定する
+	/// </summary>
+	/// <param name="score">判定したいスコア</param>
+	/// <param name="place">判定したいスコアの位</param>
+	/// <returns></returns>
+	ScoreNumber JudgeDigitNumber(int32_t score, int32_t digit);
+
+	/// <summary>
 	/// スコアを加算
 	/// </summary>
 	/// <param name="score">加算するスコア</param>
-	void AddScore(int32_t score) { score += score; }
+	void AddScore(int32_t score);
+
+	/// <summary>
+	/// スコアをセット
+	/// </summary>
+	/// <param name="score">セットするスコア</param>
+	void SetScore(int32_t score) { score_ = score; }
+	
+	/// <summary>
+	/// スコアを取得
+	/// </summary>
+	/// <returns></returns>
+	int32_t GetScore() { return score_; }
+
+private: //メンバ関数
+	/// <summary>
+	/// スコア加算演出
+	/// </summary>
+	void AddScorePerformance();
+
+private: //静的メンバ変数
+	//スコア加算演出時間
+	const static int32_t scoreAddTime = 60;
+	//スコア
+	static int32_t score_;
 
 private: //メンバ変数
-	//スコア
-	int32_t score_;
-	//以前のスコア
-	int32_t preScore_;
-
+	//スコアロール演出用座標
+	float scoreRollPosX_[6];
+	//加算するスコア
+	int32_t addScore_;
+	//加算するスコアのアルファ値
+	float addScoreAlpha_;
+	//スコア加算演出タイマー
+	int32_t scoreAddTimer_;
+	//スコア画像
 	std::unique_ptr<Sprite> scoreNumber_[6];
+	//プラス画像
+	std::unique_ptr<Sprite> plus_;
+	//加算スコア画像
+	std::unique_ptr<Sprite> addScoreNumber_[4];
+	//スコア加算フラグ
+	bool isAddScore_;
 };
