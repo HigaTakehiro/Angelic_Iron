@@ -192,6 +192,7 @@
     <ClCompile Include="Engine\Base\ExternalFileLoader.cpp" />
     <ClCompile Include="Engine\Base\JsonLoader.cpp" />
     <ClCompile Include="Engine\Base\Quaternion.cpp" />
+    <ClCompile Include="Engine\Base\Vector2.cpp" />
     <ClCompile Include="Engine\Base\Vector3.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Engine\Base\JsonLoader.h" />
     <ClInclude Include="Engine\Base\Quaternion.h" />
     <ClInclude Include="Engine\Base\SafeDelete.h" />
+    <ClInclude Include="Engine\Base\Vector2.h" />
     <ClInclude Include="Engine\Base\Vector3.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />

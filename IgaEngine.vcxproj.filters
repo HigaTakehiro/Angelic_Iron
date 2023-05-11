@@ -284,6 +284,9 @@
     <ClCompile Include="ApplicationCode\Enemies\SpreadEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\Vector2.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -501,6 +504,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Enemies\SpreadEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Vector2.h">
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

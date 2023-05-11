@@ -22,7 +22,7 @@ End
 MoveTime 8
 LifeTime 10
 Hp 2
-ShotCoolTime 10
+ShotCoolTime 60
 Type SPR
 Wait 750
 
@@ -212,7 +212,7 @@ End
 MoveTime 5
 Hp 1
 LifeTime 5
-ShotCoolTime 180
+ShotCoolTime 50
 Type AIM
 Wait 0
 
@@ -225,7 +225,7 @@ End
 MoveTime 5
 Hp 1
 LifeTime 5
-ShotCoolTime 180
+ShotCoolTime 50
 Type AIM
 Wait 0
 
@@ -238,7 +238,7 @@ End
 MoveTime 5
 Hp 1
 LifeTime 5
-ShotCoolTime 180
+ShotCoolTime 50
 Type AIM
 Wait 0
 
@@ -251,7 +251,7 @@ End
 MoveTime 5
 Hp 1
 LifeTime 5
-ShotCoolTime 180
+ShotCoolTime 50
 Type AIM
 Wait 370
 
@@ -261,9 +261,9 @@ Rot 0.0 0.0 0.0
 Move 110.0 110.0 -100.0
 Move 10000.0 150.0 -200.0
 End
-MoveTime 30
+MoveTime 27
 Hp 5
-LifeTime 31
+LifeTime 28
 ShotCoolTime 20
 Type HOM
 Wait 0a
@@ -274,9 +274,9 @@ Rot 0.0 0.0 0.0
 Move 110.0 90.0 -100.0
 Move 10000.0 150.0 -200.0
 End
-MoveTime 30
+MoveTime 27
 Hp 5
-LifeTime 31
+LifeTime 28
 ShotCoolTime 30
 Type HOM
 Wait 0
@@ -287,9 +287,9 @@ Rot 0.0 0.0 0.0
 Move 90.0 110.0 -100.0
 Move -10000.0 150.0 -200.0
 End
-MoveTime 40
+MoveTime 27
 Hp 5
-LifeTime 31
+LifeTime 28
 ShotCoolTime 40
 Type HOM
 Wait 0
@@ -300,9 +300,9 @@ Rot 0.0 0.0 0.0
 Move 90.0 90.0 -100.0
 Move -10000.0 150.0 -200.0
 End
-MoveTime 30
+MoveTime 27
 Hp 5
-LifeTime 31
+LifeTime 28
 ShotCoolTime 50
 Type HOM
 Wait 0
