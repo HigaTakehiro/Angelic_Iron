@@ -19,6 +19,7 @@
 #include "DebugText.h"
 #include "MotionMath.h"
 #include "JsonLoader.h"
+#include "ShadowMap.h"
 
 class TitleScene : public BaseScene
 {
@@ -69,102 +70,105 @@ private: //メンバ変数
 
 	//スプライト
 	//タイトル
-	std::unique_ptr<Sprite> title = nullptr;
+	std::unique_ptr<Sprite> title_ = nullptr;
 	//スタートボタン
-	std::unique_ptr<Sprite> startButton = nullptr;
+	std::unique_ptr<Sprite> startButton_ = nullptr;
 	//ステージ1ボタン
-	std::unique_ptr<Sprite> stage1 = nullptr;
+	std::unique_ptr<Sprite> stage1_ = nullptr;
 	//マニュアルボタン
-	std::unique_ptr<Sprite> manualButton = nullptr;
+	std::unique_ptr<Sprite> manualButton_ = nullptr;
 	//操作説明1
-	std::unique_ptr<Sprite> manual = nullptr;
+	std::unique_ptr<Sprite> manual_ = nullptr;
 	//操作説明2
-	std::unique_ptr<Sprite> manual2 = nullptr;
+	std::unique_ptr<Sprite> manual2_ = nullptr;
 	//マニュアル閉じボタン
-	std::unique_ptr<Sprite> close = nullptr;
+	std::unique_ptr<Sprite> close_ = nullptr;
 	//マニュアルページ変更ボタン
-	std::unique_ptr<Sprite> allow = nullptr;
+	std::unique_ptr<Sprite> allow_ = nullptr;
 	//デバッグテキスト表示用クラス
-	DebugText debugText;
+	DebugText debugText_;
 	//ポストエフェクト番号
-	PostEffect::PostEffectNo postEffectNo;
+	PostEffect::PostEffectNo postEffectNo_;
 
 	//スプライト用変数
 	//タイトル座標
-	DirectX::XMFLOAT2 titlePos;
+	DirectX::XMFLOAT2 titlePos_;
 	//スタートボタン座標
-	DirectX::XMFLOAT2 startButtonPos;
+	DirectX::XMFLOAT2 startButtonPos_;
 	//スタートボタンサイズ
-	DirectX::XMFLOAT2 startButtonSize;
+	DirectX::XMFLOAT2 startButtonSize_;
 	//ステージ1座標
-	DirectX::XMFLOAT2 stage1Pos;
+	DirectX::XMFLOAT2 stage1Pos_;
 	//ステージ1サイズ
-	DirectX::XMFLOAT2 stage1Size;
+	DirectX::XMFLOAT2 stage1Size_;
 	//マニュアルボタン座標
-	DirectX::XMFLOAT2 manualButtonPos;
+	DirectX::XMFLOAT2 manualButtonPos_;
 	//マニュアルボタンサイズ
-	DirectX::XMFLOAT2 manualButtonSize;
+	DirectX::XMFLOAT2 manualButtonSize_;
 	//操作説明サイズ
-	DirectX::XMFLOAT2 manualSize;
+	DirectX::XMFLOAT2 manualSize_;
 	//操作説明最大サイズ
-	DirectX::XMFLOAT2 manualMaxSize;
+	DirectX::XMFLOAT2 manualMaxSize_;
 	//操作説明座標
-	DirectX::XMFLOAT2 manualPos;
+	DirectX::XMFLOAT2 manualPos_;
 	//マニュアルページ変更ボタン座標
-	DirectX::XMFLOAT2 allowPos;
+	DirectX::XMFLOAT2 allowPos_;
 	//マニュアルページ変更ボタンサイズ
-	DirectX::XMFLOAT2 allowSize;
+	DirectX::XMFLOAT2 allowSize_;
 	//マニュアル閉じるボタン座標
-	DirectX::XMFLOAT2 closePos;
+	DirectX::XMFLOAT2 closePos_;
 	//マニュアル閉じるボタンサイズ
-	DirectX::XMFLOAT2 closeSize;
+	DirectX::XMFLOAT2 closeSize_;
 	//マウス座標
-	DirectX::XMFLOAT2 mousePos;
+	DirectX::XMFLOAT2 mousePos_;
 	//ステージ選択演出用タイマー
-	int32_t stageSelectTimer;
+	int32_t stageSelectTimer_;
 	//マニュアル開閉演出用タイマー
-	int32_t manualTimer;
+	int32_t manualTimer_;
 	//ステージ開始演出時間
-	int32_t startTimer;
+	int32_t startTimer_;
 	//マニュアルページ変更時間
-	int32_t manualSlideTimer;
+	int32_t manualSlideTimer_;
 
 	//ポストエフェクト
-	std::unique_ptr<PostEffect> postEffect = nullptr;
+	std::unique_ptr<PostEffect> postEffect_ = nullptr;
 	//タイトル画面プレイヤー
-	std::unique_ptr<Object3d> titlePlayer = nullptr;
+	std::unique_ptr<Object3d> titlePlayer_ = nullptr;
 	//カメラ
-	std::unique_ptr<Camera> camera = nullptr;
+	std::unique_ptr<Camera> camera_ = nullptr;
 	//ライト
-	std::unique_ptr<LightGroup> light = nullptr;
+	std::unique_ptr<LightGroup> light_ = nullptr;
 	//パーティクル
-	std::unique_ptr<ParticleManager> particle = nullptr;
+	std::unique_ptr<ParticleManager> particle_ = nullptr;
 	//jsonローダー
-	std::unique_ptr<JsonLoader> jsonLoader = nullptr;
+	std::unique_ptr<JsonLoader> jsonLoader_ = nullptr;
 	//プレイヤー回転角
-	Vector3 playerRot;
+	Vector3 playerRot_;
 	//プレイヤー座標
-	Vector3 playerPos;
+	Vector3 playerPos_;
 	//プレイヤーサイズ
-	Vector3 playerScale;
+	Vector3 playerScale_;
 	//カメラ座標
-	Vector3 cameraPos;
+	Vector3 cameraPos_;
 	//カメラ注視点
-	Vector3 cameraTargetPos;
+	Vector3 cameraTargetPos_;
 	//ページ番号
-	int32_t pageNumber;
+	int32_t pageNumber_;
 	//前ページ番号
-	int32_t prePageNumber;
+	int32_t prePageNumber_;
 	//ステージ選択画面フラグ
-	bool isStageSelectMenu;
+	bool isStageSelectMenu_;
 	//ステージ選択フラグ
-	bool isStageChoice;
+	bool isStageChoice_;
 	//マニュアル表示フラグ
-	bool isManual;
+	bool isManual_;
 	//ステージ1選択フラグ
-	bool isStage1;
+	bool isStage1_;
 	//ページ変更フラグ(次のページ)
-	bool isNextPage;
+	bool isNextPage_;
 	//ページ変更フラグ(前のページ)
-	bool isPrevPage;
+	bool isPrevPage_;
+
+	ShadowMap* shadow_;
+
 };

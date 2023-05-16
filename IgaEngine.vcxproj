@@ -302,6 +302,7 @@
     <None Include="Engine\Resources\shaders\Object3d\obj\Basic.hlsli" />
     <None Include="Engine\Resources\shaders\Object3d\obj\BasicShaderHeader.hlsli" />
     <None Include="Engine\Resources\shaders\Object3d\obj\OBJShaderHeader.hlsli" />
+    <None Include="Engine\Resources\shaders\Object3d\obj\ShadowMapHeader.hlsli" />
     <None Include="Engine\Resources\shaders\Particle\Particle.hlsli" />
     <None Include="Engine\Resources\shaders\PostEffect\PostEffect.hlsli" />
   </ItemGroup>
@@ -349,6 +350,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ShadowMapPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ShadowMapVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

@@ -536,6 +536,9 @@
     <None Include="Engine\Resources\shaders\PostEffect\PostEffect.hlsli">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </None>
+    <None Include="Engine\Resources\shaders\Object3d\obj\ShadowMapHeader.hlsli">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\shaders\Object2d\SpritePS.hlsl">
@@ -606,6 +609,12 @@
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffect\PostShout.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ShadowMapPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\ShadowMapVS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
