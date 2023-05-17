@@ -8,6 +8,7 @@
 #include "Object3d.h"
 #include "ModelManager.h"
 #include "BaseEnemy.h"
+#include "ShadowMap.h"
 
 class JsonLoader
 {

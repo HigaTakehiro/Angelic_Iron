@@ -293,8 +293,8 @@ void TitleScene::Update()
 		manualSize_ = { 0.0f, 0.0f };
 	}
 
+	shadow_->Update(titlePlayer_.get());
 	jsonLoader_->Update();
-	shadow_->Update(titlePlayer_.get(), camera_.get());
 
 	if (isStageChoice_) {
 		SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::TITLE);
@@ -325,7 +325,7 @@ void TitleScene::Draw()
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	shadow_->Draw();
 	titlePlayer_->Draw();
-	jsonLoader_->Draw();
+	//jsonLoader_->Draw();
 	particle_->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 

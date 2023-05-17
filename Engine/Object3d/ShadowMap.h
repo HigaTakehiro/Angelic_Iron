@@ -32,7 +32,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// XVˆ—
 	/// </summary>
-	void Update(Object3d* obj, Camera* camera);
+	void Update(Object3d* obj);
 
 	/// <summary>
 	/// •`‰æˆ—
