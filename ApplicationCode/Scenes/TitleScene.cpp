@@ -98,16 +98,6 @@ void TitleScene::Update()
 	sprintf_s(lightPosText, "PlayerWPos = (x : %f, y : %f, z : %f)", lightPos.x, lightPos.y, lightPos.z);
 	debugText_.Print(lightPosText, 0, 0, 2);
 
-	std::random_device rnd;
-	std::mt19937_64 seed(rnd());
-	std::uniform_int_distribution<> randomNumber(-300, 300);
-
-	XMFLOAT3 cloudPos;
-	cloudPos.x = (float)randomNumber(seed);
-	cloudPos.y = 200.0f;
-	cloudPos.z = (float)randomNumber(seed);
-	particle_->Add(300, cloudPos, { 0, 0, 0.2f }, { 0, 0, 0 }, 30.0f, 30.0f, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 0.5f, 0.5f);
-
 	light_->SetDirLightDirection(0, { 0, -1, 0 });
 
 	titlePlayer_->SetPosition(playerPos_);
@@ -293,6 +283,7 @@ void TitleScene::Update()
 		manualSize_ = { 0.0f, 0.0f };
 	}
 
+	ParticleCreate();
 	shadow_->Update(titlePlayer_.get());
 	jsonLoader_->Update();
 
@@ -323,9 +314,9 @@ void TitleScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	shadow_->Draw();
+	//shadow_->Draw();
 	titlePlayer_->Draw();
-	//jsonLoader_->Draw();
+	jsonLoader_->Draw();
 	particle_->Draw(DirectXSetting::GetIns()->GetCmdList());
 	Object3d::PostDraw();
 
@@ -381,48 +372,6 @@ void TitleScene::SceneChange()
 		if (startTimer_ <= startTime) {
 			startTimer_++;
 		}
-		//開始演出時間が半分過ぎたら
-		if (startTimer_ >= startTime / 2.0f) {
-			//ブラーをかける
-			postEffectNo_ = PostEffect::PostEffectNo::DASH;
-			//パーティクルを発生させる
-			//乱数上限
-			const int32_t randMax = 18;
-			//パーティクル生成時間
-			int32_t particleLife = 3;
-			//加速度
-			Vector3 acc = { 0.0f, 0.0f, 0.0f };
-			//初期アルファ値
-			Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
-			//最終的なアルファ値
-			Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
-			//最終的な大きさ
-			float endScale = 0.0f;
-
-			//プレイヤーのワールド行列からパーティクルの生成位置を求める
-			XMVECTOR playerPos_ = { 0.0f, 1.2f, -1.0f };
-			playerPos_ = XMVector3TransformCoord(playerPos_, titlePlayer_->GetMatWorld());
-			Vector3 thrusterPos = playerPos_;
-
-			for (int32_t i = 0; i < 10; i++) {
-				float thrusterPower = (float)(rand() % randMax);
-				thrusterPower *= -0.1f;
-				float startScale = (float)(rand() % (randMax - 2));
-				XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
-				playerBack = XMVector3TransformNormal(playerBack, titlePlayer_->GetMatWorld());
-				Vector3 thrusterDir = playerBack;
-				particle_->Add(
-					particleLife,
-					thrusterPos,
-					thrusterDir,
-					acc,
-					startScale,
-					endScale,
-					initAlpha,
-					endAlpha
-				);
-			}
-		}
 		//時間を0~1の値をとるようにする
 		float timeRate = min((float)startTimer_ / (float)startTime, 1.0f);
 		//線分補間用座標
@@ -451,6 +400,62 @@ void TitleScene::SceneChange()
 			if (isStage1_) {
 				SceneManager::SceneChange(SceneManager::SceneName::Stage1_Rail);
 			}
+		}
+	}
+}
+
+void TitleScene::ParticleCreate()
+{
+	std::random_device rnd;
+	std::mt19937_64 seed(rnd());
+	std::uniform_int_distribution<> randomNumber(-300, 300);
+
+	XMFLOAT3 cloudPos;
+	cloudPos.x = (float)randomNumber(seed);
+	cloudPos.y = 200.0f;
+	cloudPos.z = (float)randomNumber(seed);
+	particle_->Add(120, cloudPos, { 0, 0, 0.2f }, { 0, 0, 0 }, 30.0f, 30.0f, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
+
+	//開始演出時間が半分過ぎたら
+	if (startTimer_ >= startTime / 2.0f) {
+		//ブラーをかける
+		postEffectNo_ = PostEffect::PostEffectNo::DASH;
+		//パーティクルを発生させる
+		//乱数上限
+		const int32_t randMax = 18;
+		//パーティクル生成時間
+		int32_t particleLife = 3;
+		//加速度
+		Vector3 acc = { 0.0f, 0.0f, 0.0f };
+		//初期アルファ値
+		Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
+		//最終的なアルファ値
+		Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
+		//最終的な大きさ
+		float endScale = 0.0f;
+
+		//プレイヤーのワールド行列からパーティクルの生成位置を求める
+		XMVECTOR playerPos_ = { 0.0f, 1.2f, -1.0f };
+		playerPos_ = XMVector3TransformCoord(playerPos_, titlePlayer_->GetMatWorld());
+		Vector3 thrusterPos = playerPos_;
+
+		for (int32_t i = 0; i < 10; i++) {
+			float thrusterPower = (float)(rand() % randMax);
+			thrusterPower *= -0.1f;
+			float startScale = (float)(rand() % (randMax - 2));
+			XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
+			playerBack = XMVector3TransformNormal(playerBack, titlePlayer_->GetMatWorld());
+			Vector3 thrusterDir = playerBack;
+			particle_->Add(
+				particleLife,
+				thrusterPos,
+				thrusterDir,
+				acc,
+				startScale,
+				endScale,
+				initAlpha,
+				endAlpha
+			);
 		}
 	}
 }

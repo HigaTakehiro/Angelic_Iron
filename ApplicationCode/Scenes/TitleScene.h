@@ -48,6 +48,11 @@ private: //メンバ関数
 	/// </summary>
 	void SceneChange();
 
+	/// <summary>
+	/// パーティクル生成
+	/// </summary>
+	void ParticleCreate();
+
 private: //静的メンバ変数
 	//タイトルが画面外に出る時間
 	static const int32_t titleOutTime = 40;

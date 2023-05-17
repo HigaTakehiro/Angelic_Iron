@@ -99,6 +99,7 @@ private: // 静的メンバ変数
 	static ID3D12GraphicsCommandList* cmdList_;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature_;
+	static ComPtr<ID3D12RootSignature> shadowRootSignature_;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize + shadowSize];
 	//ライト
