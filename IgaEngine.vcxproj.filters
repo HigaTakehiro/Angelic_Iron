@@ -287,6 +287,9 @@
     <ClCompile Include="Engine\Base\Vector2.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Effects\ScoreItem.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -507,6 +510,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Vector2.h">
       <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Effects\ScoreItem.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

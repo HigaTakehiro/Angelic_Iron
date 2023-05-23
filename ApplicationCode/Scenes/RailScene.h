@@ -20,8 +20,10 @@
 #include "TextDraw.h"
 #include "BulletCase.h"
 #include "JsonLoader.h"
+#include "ScoreItem.h"
 
 class Player;
+class ScoreItem;
 
 class RailScene : public BaseScene
 {
@@ -218,6 +220,8 @@ private: //メンバ変数
 	std::list<std::unique_ptr<Bomb>> bombs_;
 	//薬莢リスト
 	std::list<std::unique_ptr<BulletCase>> bulletCases_;
+	//スコアアイテムリスト
+	std::list<std::unique_ptr<ScoreItem>> scoreItems_;
 	//jsonローダー
 	std::unique_ptr<JsonLoader> jsonLoader_;
 	//ボム用パーティクル

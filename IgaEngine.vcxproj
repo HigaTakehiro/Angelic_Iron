@@ -164,6 +164,7 @@
     <ClCompile Include="ApplicationCode\Command\UpMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Effects\BulletCase.cpp" />
     <ClCompile Include="ApplicationCode\Effects\Particle2d.cpp" />
+    <ClCompile Include="ApplicationCode\Effects\ScoreItem.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\BaseEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\EnemyBullet.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\AimingEnemy.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Effects\BulletCase.h" />
     <ClInclude Include="ApplicationCode\Effects\Particle2d.h" />
+    <ClInclude Include="ApplicationCode\Effects\ScoreItem.h" />
     <ClInclude Include="ApplicationCode\Enemies\BaseEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\EnemyBullet.h" />
     <ClInclude Include="ApplicationCode\Enemies\AimingEnemy.h" />
