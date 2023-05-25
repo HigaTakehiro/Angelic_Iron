@@ -189,7 +189,7 @@ void RailScene::Update() {
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	bulletCases_.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
 	bombs_.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
-	//scoreItems_.remove_if([](std::unique_ptr<ScoreItem>& scoreItem) {return scoreItem->GetIsDead(); });
+	scoreItems_.remove_if([](std::unique_ptr<ScoreItem>& scoreItem) {return scoreItem->GetIsDead(); });
 	//丸影用プレイヤー座標セット
 	light_->SetCircleShadowCasterPos(0, { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
 	//ポーズ切り替え
@@ -289,7 +289,7 @@ void RailScene::Draw() {
 		bomb->Draw();
 	}
 	for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-		//scoreItem->Draw();
+		scoreItem->Draw();
 	}
 	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases_) {
 		bulletCase->Draw();
@@ -888,7 +888,7 @@ void RailScene::DelayUpdates()
 			bulletCase->Update();
 		}
 		for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-			//scoreItem->Update();
+			scoreItem->Update();
 		}
 
 		delayTimer_ = 0;
@@ -914,10 +914,10 @@ void RailScene::CollisionCheck()
 {
 	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f) && enemy->GetHP() - 1 <= 0 && enemy->GetHP() > 0) {
-				//std::unique_ptr<ScoreItem> scoreItem = std::make_unique<ScoreItem>();
-				//scoreItem->Initialize(enemy->GetEnemyObj()->GetMatWorld().r[3], player_, camera_);
-				//scoreItems_.push_back(std::move(scoreItem));
+			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f) && enemy->GetHP() - 1 == 0 && enemy->GetHP() > 0) {
+				std::unique_ptr<ScoreItem> scoreItem = std::make_unique<ScoreItem>();
+				scoreItem->Initialize(enemy->GetEnemyObj()->GetMatWorld().r[3], player_, camera_);
+				scoreItems_.push_back(std::move(scoreItem));
 				enemy->OnCollision();
 				playerBullet->OnCollision();
 			}
@@ -951,12 +951,12 @@ void RailScene::CollisionCheck()
 		}
 	}
 
-	//for (const std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-	//	if (Collision::GetIns()->OBJSphereCollision(scoreItem->GetScoreItemObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
-	//		score_ += 500;
-	//		scoreItem->OnCollision();
-	//	}
-	//}
+	for (const std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
+		if (Collision::GetIns()->OBJSphereCollision(scoreItem->GetScoreItemObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
+			score_ += 500;
+			scoreItem->OnCollision();
+		}
+	}
 }
 
 void RailScene::EnemyReactions(BaseEnemy* enemy)

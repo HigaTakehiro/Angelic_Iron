@@ -57,10 +57,10 @@ public: //メンバ関数
 
 private: //静的メンバ変数
 	//待機時間
-	static const int32_t standByTime = 20;
+	static const int32_t standByTime = 60;
 
 	//移動時間
-	static const int32_t moveTime = 12;
+	static const float moveTime;
 
 private: //メンバ変数
 	//スコアアイテムオブジェクト
@@ -80,6 +80,6 @@ private: //メンバ変数
 	//待機タイマー
 	int32_t standByTimer_;
 	//移動タイマー
-	int32_t moveTimer_;
+	float moveTimer_;
 };
 

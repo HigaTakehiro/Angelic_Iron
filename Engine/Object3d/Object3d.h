@@ -93,15 +93,15 @@ private: // 静的メンバ変数
 	static ID3D12Device* device_;
 	//頂点シェーダー数
 	static const int32_t vsSize = 2;
-	//シャドウマップシェーダー
-	static const int32_t shadowSize = 1;
+	////シャドウマップシェーダー
+	//static const int32_t shadowSize = 1;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList_;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature_;
-	static ComPtr<ID3D12RootSignature> shadowRootSignature_;
+	//static ComPtr<ID3D12RootSignature> shadowRootSignature_;
 	// パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize + shadowSize];
+	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize];
 	//ライト
 	static LightGroup* light_;
 
@@ -130,7 +130,7 @@ private:// 静的メンバ関数
 	/// シャドウマップ初期化
 	/// </summary>
 	/// <returns>成功</returns>
-	static bool InitializeShadowBuff();
+	//static bool InitializeShadowBuff();
 
 public: //静的メンバ関数
 	/// <summary>
@@ -252,9 +252,9 @@ public: // メンバ関数
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
 	//シャドウマップ用バッファ
-	ComPtr<ID3D12Resource> shadowBuff_;
+	//ComPtr<ID3D12Resource> shadowBuff_;
 	//ライト用バッファ
-	ComPtr<ID3D12Resource> lightBuff_;
+	//ComPtr<ID3D12Resource> lightBuff_;
 	// 色
 	XMFLOAT4 color_ = { 1,1,1,1 };
 	// ローカルスケール
