@@ -71,6 +71,7 @@ void HomingEnemy::DeadPerformance()
 	enemy_->SetPosition(enemyPos);
 	enemy_->SetRotation(enemyRot);
 	if (deadTimer_ >= deadTime) {
+		isScoreItemDrop_ = true;
 		isDead_ = true;
 	}
 }
@@ -89,7 +90,7 @@ void HomingEnemy::Attack()
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemy_->GetMatWorld().r[3], velocity, player_->GetPlayerObject());
 
-		railScene_->AddEnemyBullet(std::move(newBullet));
+		bulletManager_->AddEnemyBullet(std::move(newBullet));
 		shotIntervalTimer_ = 0;
 	}
 }

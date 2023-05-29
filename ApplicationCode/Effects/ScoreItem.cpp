@@ -28,24 +28,21 @@ void ScoreItem::Initialize(const Vector3& pos, Player* player, Camera* camera)
 
 void ScoreItem::Update()
 {
-	DirectX::XMVECTOR vel = { 0, 0, 1 };
+	DirectX::XMVECTOR vel = { 0, 0, 0 };
 	XMVector3TransformNormal(vel, Camera::GetMatWorld());
 	Vector3 velocity = vel;
 	Vector3 acc = { 0, 0, 0 };
-	float initScale = 3.0f;
+	float initScale = 10.0f;
 	float endScale = 1.0f;
 	Vector3 particleColor = { 0.6f, 0.3f, 0.0f };
-	particle_->Add(2, pos_, velocity, acc, initScale, endScale, particleColor, particleColor);
+	particle_->Add(10, pos_, velocity, acc, initScale, endScale, particleColor, particleColor);
 	if (rot_.y < 360.0f) {
 		rot_.y += 3.0f;
 	}
 	else {
 		rot_.y = 0;
 	}
-	if (++standByTimer_ < standByTime) {
-
-	}
-	else {
+	if (++standByTimer_ >= standByTime) {
 		float t = ++moveTimer_ / moveTime;
 		pos_ = easeIn(pos_, player_->GetPlayerObject()->GetMatWorld().r[3], t);
 	}

@@ -21,12 +21,12 @@
 #include "RailScene.h"
 #include "ParticleManager.h"
 #include "BulletCase.h"
+#include "BulletManager.h"
 #include "KeyInputHandler.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-class RailScene;
 class BaseEnemy;
 class KeyInputHandler;
 
@@ -118,6 +118,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="RailScene">ゲームシーン</param>
 	void SetRailScene(RailScene* RailScene) { railScene_ = RailScene; }
+
+	/// <summary>
+	/// 弾マネージャーをセット
+	/// </summary>
+	/// <param name="bulletManager">弾マネージャー</param>
+	void SetBulletManager(BulletManager* bulletManager) { bulletManager_ = bulletManager; }
 
 	/// <summary>
 	/// クリア演出最終地点をセット
@@ -266,7 +272,7 @@ private: //メンバ変数
 	Vector3 aimPos3d_;
 	Camera* camera_;
 	RailScene* railScene_;
-	Vector3 prePos;
+	BulletManager* bulletManager_;
 
 	//残弾数
 	int32_t bulletCount_;

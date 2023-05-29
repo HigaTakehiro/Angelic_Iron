@@ -21,8 +21,8 @@
 #include "BulletCase.h"
 #include "JsonLoader.h"
 #include "ScoreItem.h"
+#include "BulletManager.h"
 
-class Player;
 class ScoreItem;
 
 class RailScene : public BaseScene
@@ -88,28 +88,6 @@ public: //メンバ関数
 	/// テキストデータの描画
 	/// </summary>
 	void TextMessageDraw();
-
-	/// <summary>
-	/// 敵弾を追加
-	/// </summary>
-	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
-
-	/// <summary>
-	/// プレイヤー弾を追加
-	/// </summary>
-	void AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet);
-
-	/// <summary>
-	/// 薬莢を追加
-	/// </summary>
-	/// <param name="bulletCase">薬莢</param>
-	void AddBulletCase(std::unique_ptr<BulletCase> bulletCase);
-
-	/// <summary>
-	/// ボムの弾を追加
-	/// </summary>
-	/// <param name="bomb"></param>
-	void AddBomb(std::unique_ptr<Bomb> bomb);
 
 	/// <summary>
 	/// 敵オブジェクト取得
@@ -208,18 +186,12 @@ private: //メンバ変数
 	//ゲームオブジェクト & スプライト
 	//プレイヤークラス
 	Player* player_ = nullptr;
+	//弾マネージャー
+	BulletManager* bulletManager_ = nullptr;
 	//敵リスト
 	std::list<std::unique_ptr<BaseEnemy>> enemies_;
-	//エネミーの弾リスト
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
-	//プレイヤーの弾リスト
-	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
 	//2dパーティクルのリスト
 	std::list<std::unique_ptr<Particle2d>> particles2d_;
-	//ボムの弾リスト
-	std::list<std::unique_ptr<Bomb>> bombs_;
-	//薬莢リスト
-	std::list<std::unique_ptr<BulletCase>> bulletCases_;
 	//スコアアイテムリスト
 	std::list<std::unique_ptr<ScoreItem>> scoreItems_;
 	//jsonローダー

@@ -7,6 +7,7 @@
 #include "ModelManager.h"
 #include "EnemyBullet.h"
 #include "ImageManager.h"
+#include "BulletManager.h"
 #include "Sprite.h"
 #include "Easing.h"
 
@@ -63,6 +64,11 @@ public: //メンバ関数
 	/// <param name="isDead"></param>
 	bool GetIsDead() { return isDead_; }
 	/// <summary>
+	/// スコアアイテム発生フラグをセット
+	/// </summary>
+	/// <returns>スコアアイテム発生フラグ</returns>
+	bool GetIsScoreItemDrop() { return isScoreItemDrop_; }
+	/// <summary>
 	/// HP取得
 	/// </summary>
 	/// <returns>HP</returns>
@@ -108,6 +114,11 @@ public: //メンバ関数
 	/// <param name="movePoints">移動ポイント</param>
 	void SetMovePoints(const std::vector<Vector3>& movePoints) { movePoints_ = movePoints; }
 	/// <summary>
+	/// 弾マネージャーをセット
+	/// </summary>
+	/// <param name="bulletManager">弾マネージャー</param>
+	void SetBulletManager(BulletManager* bulletManager) { bulletManager_ = bulletManager; }
+	/// <summary>
 	/// ロックオンフラグを取得
 	/// </summary>
 	/// <returns>ロックオンフラグ</returns>
@@ -147,6 +158,8 @@ protected: //静的メンバ変数
 protected: //メンバ変数
 	//敵オブジェクト
 	Object3d* enemy_;
+	//弾マネージャー
+	BulletManager* bulletManager_;
 	//ロックオン画像
 	Sprite* target_;
 	//座標
@@ -163,6 +176,8 @@ protected: //メンバ変数
 	bool isTarget_;
 	//ダメージフラグ
 	bool isDamage_;
+	//スコアアイテム発生フラグ
+	bool isScoreItemDrop_;
 	//ゲームシーンのポインタ
 	RailScene* railScene_;
 	//移動するポイント

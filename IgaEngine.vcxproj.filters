@@ -87,6 +87,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Command">
       <UniqueIdentifier>{f3ae3e56-806e-43f9-b889-2dca130e89cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Manager">
+      <UniqueIdentifier>{4a2987d2-8b02-48af-b5f1-c0ed1d002dae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Audio\Sound.cpp">
@@ -289,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Effects\ScoreItem.cpp">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Manager\BulletManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +519,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Effects\ScoreItem.h">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Manager\BulletManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

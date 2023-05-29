@@ -33,6 +33,9 @@ void RailScene::Initialize() {
 	//デバッグテキスト初期化
 	debugText_.Initialize(debugTextNumber);
 
+	//弾管理クラスの初期化
+	bulletManager_ = new BulletManager();
+
 	//スプライト画像初期化
 	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
@@ -142,6 +145,7 @@ void RailScene::Initialize() {
 	player_ = new Player;
 	player_->Initialize(camera_, clearTime);
 	player_->SetRailScene(this);
+	player_->SetBulletManager(bulletManager_);
 
 	//パーティクル初期化
 	bombParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
@@ -182,14 +186,20 @@ void RailScene::Initialize() {
 }
 
 void RailScene::Update() {
+	//スコアアイテムドロップ
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+		if (enemy->GetIsScoreItemDrop() && !enemy->GetIsTarget()) {
+			std::unique_ptr<ScoreItem> scoreItem = std::make_unique<ScoreItem>();
+			scoreItem->Initialize(enemy->GetEnemyObj()->GetMatWorld().r[3], player_, camera_);
+			scoreItems_.push_back(std::move(scoreItem));
+		}
+	}
+
 	//オブジェクトリスト解放処理
 	enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
-	enemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
-	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
-	bulletCases_.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });
-	bombs_.remove_if([](std::unique_ptr<Bomb>& bomb) {return bomb->GetIsDead(); });
 	scoreItems_.remove_if([](std::unique_ptr<ScoreItem>& scoreItem) {return scoreItem->GetIsDead(); });
+
 	//丸影用プレイヤー座標セット
 	light_->SetCircleShadowCasterPos(0, { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] });
 	//ポーズ切り替え
@@ -267,32 +277,20 @@ void RailScene::Draw() {
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	//background->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	jsonLoader_->Draw();
+	bulletManager_->Draw();
 	if (!isDead_) {
 		player_->ObjectDraw();
 	}
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
 		enemy->Draw();
 	}
-	for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
-		enemyBullet->Draw();
-	}
-	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-		playerBullet->Draw();
-	}
-	for (std::unique_ptr<Bomb>& bomb : bombs_) {
-		bomb->Draw();
-	}
 	for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
 		scoreItem->Draw();
-	}
-	for (std::unique_ptr<BulletCase>& bulletCase : bulletCases_) {
-		bulletCase->Draw();
 	}
 	enemyParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
 	bombParticle_->Draw(DirectXSetting::GetIns()->GetCmdList());
@@ -383,6 +381,7 @@ void RailScene::Finalize() {
 	safe_delete(textDraw_);
 	safe_delete(textWindow_);
 	safe_delete(faceWindow_);
+	safe_delete(bulletManager_);
 	for (int32_t i = 0; i < 3; i++) {
 		safe_delete(opeNormal_[i]);
 		safe_delete(opeSurprise_[i]);
@@ -496,6 +495,7 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
+				newEnemy->SetBulletManager(bulletManager_);
 				enemies_.push_back(std::move(newEnemy));
 			}
 			if (type == "AIM") {
@@ -511,6 +511,7 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
+				newEnemy->SetBulletManager(bulletManager_);
 				enemies_.push_back(std::move(newEnemy));
 			}
 			if (type == "HOM") {
@@ -526,6 +527,7 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
+				newEnemy->SetBulletManager(bulletManager_);
 				enemies_.push_back(std::move(newEnemy));
 			}
 			if (type == "SPR") {
@@ -540,6 +542,7 @@ void RailScene::EnemyDataUpdate() {
 					newEnemy->SetMaxTime(moveTime);
 					newEnemy->SetMovePoints(movePoints);
 				}
+				newEnemy->SetBulletManager(bulletManager_);
 				enemies_.push_back(std::move(newEnemy));
 			}
 
@@ -549,23 +552,6 @@ void RailScene::EnemyDataUpdate() {
 			isMovePoint = false;
 		}
 	}
-}
-
-void RailScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
-	enemyBullets_.push_back(std::move(enemyBullet));
-}
-
-void RailScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet) {
-	playerBullets_.push_back(std::move(playerBullet));
-}
-
-void RailScene::AddBulletCase(std::unique_ptr<BulletCase> bulletCase)
-{
-	bulletCases_.push_back(std::move(bulletCase));
-}
-
-void RailScene::AddBomb(std::unique_ptr<Bomb> bomb) {
-	bombs_.push_back(std::move(bomb));
 }
 
 void RailScene::LoadRailPoint(const std::string& filename) {
@@ -870,25 +856,14 @@ void RailScene::DelayUpdates()
 				enemy->Update();
 				EnemyReactions(enemy.get());
 			}
-			for (std::unique_ptr<Bomb>& bomb : bombs_) {
-				bomb->Update();
+			for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
+				scoreItem->Update();
 			}
 		}
 
-		for (std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
-			enemyBullet->Update();
-		}
-		for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-			playerBullet->Update();
-		}
+		bulletManager_->Update();
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 			particle2d->Update();
-		}
-		for (std::unique_ptr<BulletCase>& bulletCase : bulletCases_) {
-			bulletCase->Update();
-		}
-		for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-			scoreItem->Update();
 		}
 
 		delayTimer_ = 0;
@@ -913,15 +888,8 @@ void RailScene::ClearPaformance()
 void RailScene::CollisionCheck()
 {
 	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-		for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f) && enemy->GetHP() - 1 == 0 && enemy->GetHP() > 0) {
-				std::unique_ptr<ScoreItem> scoreItem = std::make_unique<ScoreItem>();
-				scoreItem->Initialize(enemy->GetEnemyObj()->GetMatWorld().r[3], player_, camera_);
-				scoreItems_.push_back(std::move(scoreItem));
-				enemy->OnCollision();
-				playerBullet->OnCollision();
-			}
-			else if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+		for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
+			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 				score_ += 100;
 				enemy->OnCollision();
 				playerBullet->OnCollision();
@@ -929,7 +897,7 @@ void RailScene::CollisionCheck()
 		}
 	}
 
-	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets_) {
+	for (const std::unique_ptr<EnemyBullet>& enemyBullet : bulletManager_->GetEnemyBullets()) {
 		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
 			if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
 				player_->OnCollision();
@@ -940,13 +908,12 @@ void RailScene::CollisionCheck()
 	}
 
 	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-		for (const std::unique_ptr<Bomb>& bomb : bombs_) {
+		for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 				score_ += 100;
 				enemy->BombHitCollision();
 				BombHitEffect(bomb.get());
 				bomb->OnCollision();
-
 			}
 		}
 	}
@@ -1092,7 +1059,7 @@ void RailScene::AddEffect()
 		);
 	}
 
-	for (std::unique_ptr<Bomb>& bomb : bombs_) {
+	for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
 		//ボムの軌跡にパーティクルを発生させる
 		Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
 		bombParticle_->Add(20, bombPos,

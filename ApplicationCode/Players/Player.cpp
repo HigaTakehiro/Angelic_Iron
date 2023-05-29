@@ -192,8 +192,11 @@ void Player::Shot() {
 	std::unique_ptr<BulletCase> newBulletCase = std::make_unique<BulletCase>();
 	newBulletCase->Initialize(gunPos, velocity, gunForward);
 
-	railScene_->AddPlayerBullet(std::move(newBullet));
-	railScene_->AddBulletCase(std::move(newBulletCase));
+	//railScene_->AddPlayerBullet(std::move(newBullet));
+	//railScene_->AddBulletCase(std::move(newBulletCase));
+	
+	bulletManager_->AddPlayerBullet(std::move(newBullet));
+	bulletManager_->AddBulletCase(std::move(newBulletCase));
 
 	bulletCount_--;
 	shotCoolTimer_ = shotCoolTime;
@@ -220,7 +223,7 @@ void Player::BombShot() {
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
 			newBomb->Initialize(playerWPos_, enemy->GetEnemyObj());
 
-			railScene_->AddBomb(std::move(newBomb));
+			bulletManager_->AddBomb(std::move(newBomb));
 		}
 	}
 	
@@ -344,6 +347,4 @@ void Player::PlayerPosCorrection()
 		if (player2dPos.y < moveRangeTop + playerHeight) playerLPos_.y += -moveSpeed;
 		if (player2dPos.y > moveRangeBottom - playerHeight) playerLPos_.y += moveSpeed;
 	}
-
-	prePos = playerLPos_;
 }
