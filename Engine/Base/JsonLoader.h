@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <list>
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Object3d.h"
 #include "ModelManager.h"
@@ -29,7 +30,7 @@ public:
 		STR,
 		AIM
 	};
-
+	//敵データ
 	struct EnemyData {
 		struct EnemyStatus {
 			std::string fileName_;
@@ -43,6 +44,18 @@ public:
 			int32_t hp_;
 		};
 		std::vector<EnemyStatus> enemyObjects_;
+	};
+	//UIデータ
+	struct UIData {
+		struct SpriteData {
+			std::string fileName_;
+			Vector2 pos_;
+			Vector2 scale_;
+			float rot_;
+			std::vector<Vector2> movePoints_;
+			bool isButton_;
+		};
+		std::vector<SpriteData> uiObjects_;
 	};
 
 public:
@@ -61,6 +74,13 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="fileName"></param>
 	void EnemyDataLoad(const std::string fileName);
+
+	/// <summary>
+	/// UIデータ読み込み
+	/// </summary>
+	/// <param name="fileName">jsonファイル</param>
+	/// <returns>UIデータ</returns>
+	std::list<std::unique_ptr<UIData>> UIDataLoad(const std::string fileName);
 
 	/// <summary>
 	/// エネミーデータ更新処理

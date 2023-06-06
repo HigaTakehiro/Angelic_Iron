@@ -22,6 +22,7 @@
 #include "JsonLoader.h"
 #include "ScoreItem.h"
 #include "BulletManager.h"
+#include "Button.h"
 
 class ScoreItem;
 
@@ -208,6 +209,7 @@ private: //メンバ変数
 	Sprite* pause_ = nullptr;
 	//タイトルバックボタン
 	Sprite* titleBack_ = nullptr;
+	std::unique_ptr<Button> titleBackButton_;
 	//ポーズ画面クローズボタン
 	Sprite* back_ = nullptr;
 	//リスタートボタン

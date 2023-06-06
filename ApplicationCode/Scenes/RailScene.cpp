@@ -42,6 +42,9 @@ void RailScene::Initialize() {
 	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
 	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
 	titleBackSize_ = titleBack_->GetSize();
+
+	titleBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 640, 300 }, { 256, 128 }, 0.0f);
+
 	back_ = Sprite::Create((UINT)ImageManager::ImageName::Back, { 640, 450 });
 	back_->SetAnchorPoint({ 0.5f, 0.5f });
 	backSize_ = back_->GetSize();
@@ -341,7 +344,8 @@ void RailScene::Draw() {
 	}
 	if (isPause_) {
 		pause_->Draw();
-		titleBack_->Draw();
+		titleBackButton_->Draw();
+		//titleBack_->Draw();
 		back_->Draw();
 		restart_->Draw();
 	}
@@ -1098,6 +1102,8 @@ void RailScene::BombHitEffect(Bomb* bomb) {
 
 void RailScene::Pause()
 {
+	titleBackButton_->Update();
+
 	SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
 	XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 	//ボタン選択中アルファ値
@@ -1107,18 +1113,22 @@ void RailScene::Pause()
 	//選択中ボタンサイズ
 	XMFLOAT2 selectSize;
 	//タイトルバックボタンを選択中
-	if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
-		selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
-		titleBack_->SetSize(selectSize);
-		titleBack_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-			isTitleBack_ = true;
-			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-		}
-	}
-	else {
-		titleBack_->SetSize(titleBackSize_);
-		titleBack_->SetAlpha(normalAlpha);
+	//if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
+	//	selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
+	//	titleBack_->SetSize(selectSize);
+	//	titleBack_->SetAlpha(selectAlpha);
+	//	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
+	//		isTitleBack_ = true;
+	//		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
+	//	}
+	//}
+	//else {
+	//	titleBack_->SetSize(titleBackSize_);
+	//	titleBack_->SetAlpha(normalAlpha);
+	//}
+	if (titleBackButton_->GetIsClick()) {
+		isTitleBack_ = true;
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 	//ポーズ解除ボタンを選択中
 	if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {

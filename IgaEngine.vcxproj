@@ -172,6 +172,8 @@
     <ClCompile Include="ApplicationCode\Enemies\SpreadEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Manager\BulletManager.cpp" />
+    <ClCompile Include="ApplicationCode\Manager\SceneManager.cpp" />
+    <ClCompile Include="ApplicationCode\Manager\UIManager.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
     <ClCompile Include="ApplicationCode\Players\Bomb.cpp" />
     <ClCompile Include="ApplicationCode\Players\BossScenePlayer.cpp" />
@@ -184,8 +186,8 @@
     <ClCompile Include="ApplicationCode\Scenes\RailScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\ResultScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp" />
-    <ClCompile Include="ApplicationCode\Scenes\SceneManager.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Button.cpp" />
     <ClCompile Include="ApplicationCode\UI\Reticle.cpp" />
     <ClCompile Include="ApplicationCode\UI\Score.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
@@ -244,6 +246,8 @@
     <ClInclude Include="ApplicationCode\Enemies\SpreadEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h" />
     <ClInclude Include="ApplicationCode\Manager\BulletManager.h" />
+    <ClInclude Include="ApplicationCode\Manager\SceneManager.h" />
+    <ClInclude Include="ApplicationCode\Manager\UIManager.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
     <ClInclude Include="ApplicationCode\Players\Bomb.h" />
     <ClInclude Include="ApplicationCode\Players\BossScenePlayer.h" />
@@ -256,8 +260,8 @@
     <ClInclude Include="ApplicationCode\Scenes\RailScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\ResultScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h" />
-    <ClInclude Include="ApplicationCode\Scenes\SceneManager.h" />
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
+    <ClInclude Include="ApplicationCode\UI\Button.h" />
     <ClInclude Include="ApplicationCode\UI\Reticle.h" />
     <ClInclude Include="ApplicationCode\UI\Score.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />

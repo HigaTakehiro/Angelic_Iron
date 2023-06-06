@@ -239,9 +239,6 @@
     <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Scenes\SceneManager.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
@@ -295,6 +292,15 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Manager\BulletManager.cpp">
       <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Manager\UIManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Manager\SceneManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\UI\Button.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,9 +469,6 @@
     <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Scenes\SceneManager.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
@@ -522,6 +525,15 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Manager\BulletManager.h">
       <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Manager\UIManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Manager\SceneManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Button.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

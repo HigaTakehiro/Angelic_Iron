@@ -1,6 +1,7 @@
 #include "JsonLoader.h"
 #include "StraightEnemy.h"
 #include "AimingEnemy.h"
+#include "ImageManager.h"
 #include <istream>
 
 const std::string JsonLoader::baseDirectory = "Engine/Resources/GameData/";
@@ -100,6 +101,79 @@ void JsonLoader::EnemyDataLoad(const std::string fileName)
 	}
 
 	file >> enemyJsonData_;
+}
+
+std::list<std::unique_ptr<JsonLoader::UIData>> JsonLoader::UIDataLoad(const std::string fileName)
+{
+	const std::string fullpath = baseDirectory + fileName + extension;
+
+	std::ifstream file;
+	std::list<std::unique_ptr<JsonLoader::UIData>> uiObjects;
+
+	file.open(fullpath);
+	if (file.fail()) {
+		assert(0);
+	}
+
+	nlohmann::json deserialised;
+
+	file >> deserialised;
+
+	assert(deserialised.is_object());
+	assert(deserialised.contains("name"));
+	assert(deserialised["name"].is_string());
+
+	std::string name = deserialised["name"].get<std::string>();
+
+	assert(name.compare("scene") == 0);
+
+	UIData* uiData = new UIData();
+
+	for (nlohmann::json& object : deserialised["objects"]) {
+		assert(object.contains("type"));
+
+		std::string type = object["type"].get<std::string>();
+
+		if (type.compare("MESH") == 0) {
+			uiData->uiObjects_.emplace_back(UIData::SpriteData{});
+			UIData::SpriteData& spriteData = uiData->uiObjects_.back();
+
+			if (object.contains("file_name")) {
+				spriteData.fileName_ = object["file_name"];
+			}
+
+			nlohmann::json& transform = object["transform"];
+			//•½sˆÚ“®
+			spriteData.pos_.x = (float)transform["translation"][0];
+			spriteData.pos_.y = (float)transform["translation"][1];
+			//‰ñ“]Šp
+			spriteData.rot_ = (float)transform["rotation"];
+			//ƒXƒP[ƒ‹
+			spriteData.scale_.x = (float)transform["scaling"][0];
+			spriteData.scale_.y = (float)transform["scaling"][1];
+		}
+	}
+
+	//for (auto& spriteData : uiData->uiObjects_) {
+	//	std::string modelName = spriteData.fileName_;
+	//	ImageManager::ImageName imageName = ImageManager::ImageName::aim;
+	//	Sprite* newObject = Sprite::Create(modelName, {0.0f, 0.0f});
+	//	Vector2 pos;
+	//	pos = spriteData.pos_;
+	//	newObject->SetPosition(pos);
+	//	float rot;
+	//	rot = spriteData.rot_;
+	//	newObject->SetRotation(rot);
+	//	Vector2 scale;
+	//	scale = spriteData.scale_;
+	//	newObject->SetSize(scale);
+	//	uiObjects.emplace_back(newObject);
+	//}
+
+	delete(uiData);
+	uiData = nullptr;
+
+	return uiObjects;
 }
 
 //void JsonLoader::EnemyDataUpdate(bool isPause)
