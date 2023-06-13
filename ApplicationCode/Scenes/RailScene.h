@@ -208,12 +208,11 @@ private: //メンバ変数
 	//ポーズテキスト
 	Sprite* pause_ = nullptr;
 	//タイトルバックボタン
-	Sprite* titleBack_ = nullptr;
 	std::unique_ptr<Button> titleBackButton_;
 	//ポーズ画面クローズボタン
-	Sprite* back_ = nullptr;
+	std::unique_ptr<Button> back_ = nullptr;
 	//リスタートボタン
-	Sprite* restart_ = nullptr;
+	std::unique_ptr<Button> restart_ = nullptr;
 	//スコアテキスト
 	Sprite* scoreSprite_ = nullptr;
 	//顔グラフィックウィンドウ
@@ -237,12 +236,6 @@ private: //メンバ変数
 	Sprite* how_to_right_;
 	Sprite* how_to_shot_;
 	Sprite* how_to_bomb_;
-	//タイトルバックボタンサイズ
-	DirectX::XMFLOAT2 titleBackSize_;
-	//ポーズ画面クローズボタンサイズ
-	DirectX::XMFLOAT2 backSize_;
-	//リスタートボタンサイズ
-	DirectX::XMFLOAT2 restartSize_;
 	//テキストウィンドウサイズ
 	DirectX::XMFLOAT2 textWindowSize_;
 	//顔グラフィックウィンドウサイズ

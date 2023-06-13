@@ -39,20 +39,11 @@ void RailScene::Initialize() {
 	//スプライト画像初期化
 	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
-	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBackSize_ = titleBack_->GetSize();
 
 	titleBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 640, 300 }, { 256, 128 }, 0.0f);
+	back_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 640, 450 }, { 256, 128 }, 0.0f);
+	restart_ = Button::CreateUniqueButton(ImageManager::ImageName::Restart, { 640, 600 }, { 256, 128 }, 0.0f);
 
-	back_ = Sprite::Create((UINT)ImageManager::ImageName::Back, { 640, 450 });
-	back_->SetAnchorPoint({ 0.5f, 0.5f });
-	backSize_ = back_->GetSize();
-	restart_ = Sprite::Create((UINT)ImageManager::ImageName::Restart, { 640, 600 });
-	restart_->SetAnchorPoint({ 0.5f, 0.5f });
-	restartSize_ = restart_->GetSize();
-	restartSize_.x /= 2;
-	restartSize_.y /= 2;
 	scoreSprite_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 1180, 50 });
 	scoreSprite_->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreSprite_->SetSize({ scoreSprite_->GetSize().x / 2.0f, scoreSprite_->GetSize().y / 2.0f });
@@ -372,9 +363,6 @@ void RailScene::Finalize() {
 	safe_delete(railCamera_);
 	safe_delete(postEffect_);
 	safe_delete(pause_);
-	safe_delete(titleBack_);
-	safe_delete(back_);
-	safe_delete(restart_);
 	safe_delete(scoreSprite_);
 	safe_delete(light_);
 	safe_delete(bombParticle_);
@@ -1102,59 +1090,24 @@ void RailScene::BombHitEffect(Bomb* bomb) {
 void RailScene::Pause()
 {
 	titleBackButton_->Update();
+	back_->Update();
+	restart_->Update();
 
 	SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
-	XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-	//ボタン選択中アルファ値
-	const float selectAlpha = 0.5f;
-	//ボタン通常時アルファ値
-	const float normalAlpha = 1.0f;
-	//選択中ボタンサイズ
-	XMFLOAT2 selectSize;
-	//タイトルバックボタンを選択中
-	//if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
-	//	selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
-	//	titleBack_->SetSize(selectSize);
-	//	titleBack_->SetAlpha(selectAlpha);
-	//	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-	//		isTitleBack_ = true;
-	//		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-	//	}
-	//}
-	//else {
-	//	titleBack_->SetSize(titleBackSize_);
-	//	titleBack_->SetAlpha(normalAlpha);
-	//}
+
 	if (titleBackButton_->GetIsClick()) {
 		isTitleBack_ = true;
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 	//ポーズ解除ボタンを選択中
-	if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {
-		selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
-		back_->SetSize(selectSize);
-		back_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-			isPause_ = !isPause_;
-		}
+	if (back_->GetIsClick()) {
+		isPause_ = !isPause_;
 	}
-	else {
-		back_->SetSize(backSize_);
-		back_->SetAlpha(normalAlpha);
-	}
+
 	//リスタートボタンを選択中
-	if (IsMouseHitSprite(mousePos, restart_->GetPosition(), restartSize_.x, restartSize_.y)) {
-		selectSize = { restartSize_.x * 0.9f, restartSize_.y * 0.9f };
-		restart_->SetSize(selectSize);
-		restart_->SetAlpha(selectAlpha);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-			isRestart_ = true;
-			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-		}
-	}
-	else {
-		restart_->SetSize(restartSize_);
-		restart_->SetAlpha(normalAlpha);
+	if (restart_->GetIsClick()) {
+		isRestart_ = true;
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 }
 
