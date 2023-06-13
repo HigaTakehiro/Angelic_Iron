@@ -22,7 +22,7 @@ using namespace Microsoft::WRL;
 
 void RailScene::Initialize() {
 
-	//SoundManager::GetIns()->PlayBGM(SoundManager::STAGE1_RAIL, true, 0.2f);
+	//SoundManager::GetIns()->PlayBGM(SoundManager::BGMKey::STAGE1_RAIL, true, 0.2f);
 
 	//カメラ初期化
 	camera_ = new Camera;
@@ -345,7 +345,6 @@ void RailScene::Draw() {
 	if (isPause_) {
 		pause_->Draw();
 		titleBackButton_->Draw();
-		//titleBack_->Draw();
 		back_->Draw();
 		restart_->Draw();
 	}

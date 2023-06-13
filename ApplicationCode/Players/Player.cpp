@@ -217,11 +217,15 @@ void Player::Reload()
 
 void Player::BombShot() {
 	bombTimer_ = bombTime;
+	int32_t targetEnemyCount = 0;
 
 	for (std::unique_ptr<BaseEnemy>& enemy : railScene_->GetEnemyObj()) {
 		if (enemy->GetIsTarget()) {
+			targetEnemyCount++;
+			XMVECTOR vector = { 1, 0, -0.5f };
+			vector = BombVectorDirectionJudge(targetEnemyCount);
 			std::unique_ptr<Bomb> newBomb = std::make_unique<Bomb>();
-			newBomb->Initialize(playerWPos_, enemy->GetEnemyObj());
+			newBomb->Initialize(playerWPos_, enemy->GetEnemyObj(), vector);
 
 			bulletManager_->AddBomb(std::move(newBomb));
 		}
@@ -347,4 +351,40 @@ void Player::PlayerPosCorrection()
 		if (player2dPos.y < moveRangeTop + playerHeight) playerLPos_.y += -moveSpeed;
 		if (player2dPos.y > moveRangeBottom - playerHeight) playerLPos_.y += moveSpeed;
 	}
+}
+
+XMVECTOR Player::BombVectorDirectionJudge(const int32_t enemyCount)
+{
+	int32_t targetEnemyCount = enemyCount;
+	XMVECTOR bombVector = { 0, 0, -0.5f };
+
+	if (targetEnemyCount > 9) {
+		targetEnemyCount %= 10;
+	}
+
+	if (targetEnemyCount <= 0) {
+		targetEnemyCount = 1;
+	}
+
+	if (targetEnemyCount == 1 || targetEnemyCount == 4 || targetEnemyCount == 7) {
+		bombVector.m128_f32[0] = -1;
+	}
+	else if (targetEnemyCount % 2 == 0) {
+		bombVector.m128_f32[0] = 0;
+	}
+	else if (targetEnemyCount % 2 == 1) {
+		bombVector.m128_f32[0] = 1;
+	}
+
+	if (targetEnemyCount >= 7) {
+		bombVector.m128_f32[1] = -1;
+	}
+	else if (targetEnemyCount >= 4) {
+		bombVector.m128_f32[1] = 0;
+	}
+	else {
+		bombVector.m128_f32[1] = 1;
+	}
+
+	return bombVector;
 }

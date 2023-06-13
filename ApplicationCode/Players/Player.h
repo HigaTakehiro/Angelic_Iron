@@ -221,6 +221,13 @@ private: //メンバ関数
 	/// </summary>
 	void PlayerPosCorrection();
 
+	/// <summary>
+	/// ボム攻撃時ベクトル方向判定
+	/// </summary>
+	/// <param name="enemyCount">ターゲットしている敵の数</param>
+	/// <returns>ベクトル方向</returns>
+	XMVECTOR BombVectorDirectionJudge(const int32_t enemyCount);
+
 private: //静的メンバ変数
 	//最大残弾数
 	static const int32_t maxBulletCount = 16;

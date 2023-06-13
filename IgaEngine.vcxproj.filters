@@ -302,6 +302,9 @@
     <ClCompile Include="ApplicationCode\UI\Button.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Manager\EnemyManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -534,6 +537,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\UI\Button.h">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Manager\EnemyManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

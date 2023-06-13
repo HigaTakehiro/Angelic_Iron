@@ -10,7 +10,7 @@ Bomb::~Bomb() {
 	safe_delete(bullet_);
 }
 
-void Bomb::Initialize(const Vector3& playerPos, Object3d* target) {
+void Bomb::Initialize(const Vector3& playerPos, Object3d* target, const XMVECTOR& vector) {
 	const Vector3 bulletScale = { 2, 2, 2 };
 	const Vector3 bulletRot = { 0, 0, 0 };
 
@@ -20,16 +20,18 @@ void Bomb::Initialize(const Vector3& playerPos, Object3d* target) {
 	bulletPos_ = playerPos;
 	initBulletPos_ = playerPos;
 	targetEnemy_ = target;
+	vector_ = vector;
 	bullet_->SetPosition(bulletPos_);
 	isUp_ = true;
 }
 
 void Bomb::Update() {
-	const float bulletSpeed = 5.0f;
+	const float bulletSpeed = 3.0f;
 	Vector3 enemyPos = targetEnemy_->GetMatWorld().r[3];
 
-	XMVECTOR velocity = {0, 1, 0};
-	if (bulletPos_.y >= initBulletPos_.y + 100.0f) {
+	XMVECTOR velocity = vector_;
+	velocity = XMVector3TransformNormal(vector_, Camera::GetMatWorld());
+	if (++bombTimer_ > bombTime_) {
 		isUp_ = false;
 	}
 
@@ -37,9 +39,10 @@ void Bomb::Update() {
 		velocity.m128_f32[0] = enemyPos.x - bulletPos_.x;
 		velocity.m128_f32[1] = enemyPos.y - bulletPos_.y;
 		velocity.m128_f32[2] = enemyPos.z - bulletPos_.z;
+		velocity = XMVector3Normalize(velocity);
 	}
 
-	velocity = XMVector3Normalize(velocity) * bulletSpeed;
+	velocity = velocity * bulletSpeed;
 
 	bulletPos_ += velocity;
 

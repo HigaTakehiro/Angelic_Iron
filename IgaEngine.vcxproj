@@ -172,6 +172,7 @@
     <ClCompile Include="ApplicationCode\Enemies\SpreadEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Manager\BulletManager.cpp" />
+    <ClCompile Include="ApplicationCode\Manager\EnemyManager.cpp" />
     <ClCompile Include="ApplicationCode\Manager\SceneManager.cpp" />
     <ClCompile Include="ApplicationCode\Manager\UIManager.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="ApplicationCode\Enemies\SpreadEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h" />
     <ClInclude Include="ApplicationCode\Manager\BulletManager.h" />
+    <ClInclude Include="ApplicationCode\Manager\EnemyManager.h" />
     <ClInclude Include="ApplicationCode\Manager\SceneManager.h" />
     <ClInclude Include="ApplicationCode\Manager\UIManager.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />

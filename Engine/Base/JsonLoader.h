@@ -52,8 +52,7 @@ public:
 			Vector2 pos_;
 			Vector2 scale_;
 			float rot_;
-			std::vector<Vector2> movePoints_;
-			bool isButton_;
+			std::string type_;
 		};
 		std::vector<SpriteData> uiObjects_;
 	};

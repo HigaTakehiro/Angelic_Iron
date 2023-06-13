@@ -1,0 +1,70 @@
+{
+    "name": "ui",
+    "UI" : [
+        {
+            "type" : "Back",
+            "transform" : [
+                {
+                    "pos" : [
+                        0.0, 0.0
+                    ],
+                    "size" : [
+                        128.0, 128.0
+                    ],
+                    "rot" : 0.0
+                }
+            ],
+            "file_name" : "PlayerUI.png"
+        },
+        {
+            "type" : "HP",
+            "transform" : [
+                {
+                    "pos" : [
+                        0.0, 0.0
+                    ],
+                    "size" : [
+                        128.0, 128.0
+                    ],
+                    "rot" : 0.0
+                }
+            ],
+            "file_name" : "PlayerHP.png",
+            "hp" : 3,
+            "dirction" : "Right"
+        },
+        {
+            "type" : "Bullet",
+            "transform" : [
+                {
+                    "pos" : [
+                        0.0, 0.0
+                    ],
+                    "size" : [
+                        128.0, 128.0
+                    ],
+                    "rot" : 0.0
+                }
+            ],
+            "file_name" : "PlayerBullet.png",
+            "bullet" : 16,
+            "dirction" : "Left"
+        },
+        {
+            "type" : "Button",
+            "transform" : [
+                {
+                    "pos" : [
+                        0.0, 0.0
+                    ],
+                    "size" : [
+                        128.0, 128.0
+                    ],
+                    "rot" : 0.0
+                }
+            ],
+            "file_name" : "Restart.png",
+            "if" : "Pause"
+        }
+    ]
+}

@@ -17,7 +17,8 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="playerPos">プレイヤーの位置</param>
 	/// <param name="enemyPos">ロックオンされた敵の位置</param>
-	void Initialize(const Vector3& playerPos, Object3d* target);
+	/// <param name="vetor">ベクトル</param>
+	void Initialize(const Vector3& playerPos, Object3d* target, const DirectX::XMVECTOR& vector);
 
 	/// <summary>
 	/// 更新
@@ -46,12 +47,18 @@ public: //メンバ関数
 	/// <returns>弾オブジェクト</returns>
 	Object3d* GetBullet() { return bullet_; }
 
+private: //定数
+	static const int32_t bombTime_ = 10;
+
 private: //メンバ変数
 	Object3d* bullet_;
 	Object3d* targetEnemy_;
 	Vector3 bulletPos_;
 	Vector3 enemyPos_;
 	Vector3 initBulletPos_;
+	DirectX::XMVECTOR vector_;
+
+	int32_t bombTimer_;
 
 	bool isDead_;
 	bool isUp_;
