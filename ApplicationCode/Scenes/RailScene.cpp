@@ -42,11 +42,11 @@ void RailScene::Initialize() {
 
 	titleBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 640, 300 }, { 256, 128 }, 0.0f);
 	back_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 640, 450 }, { 256, 128 }, 0.0f);
-	restart_ = Button::CreateUniqueButton(ImageManager::ImageName::Restart, { 640, 600 }, { 256, 128 }, 0.0f);
+	restart_ = Button::CreateUniqueButton(ImageManager::ImageName::Restart, { 640, 600 }, { 320, 64 }, 0.0f);
 
-	scoreSprite_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 1180, 50 });
-	scoreSprite_->SetAnchorPoint({ 0.5f, 0.5f });
-	scoreSprite_->SetSize({ scoreSprite_->GetSize().x / 2.0f, scoreSprite_->GetSize().y / 2.0f });
+	uiManager_ = new UIManager();
+	uiManager_->Initialize();
+
 	textWindow_ = Sprite::Create((UINT)ImageManager::ImageName::TextWindow, { 580, 630 });
 	textWindow_->SetAlpha(0.4f);
 	textWindowSize_ = textWindow_->GetSize();
@@ -77,16 +77,6 @@ void RailScene::Initialize() {
 		opeSmile_[i]->SetColor({ 2, 2, 2 });
 		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 
-		bombTimerNumber_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 0.0f, 0.0f });
-		bombTimerNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		bombTimerNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
-		bombTimerNumber_[i]->SetSize({ 32, 32 });
-	}
-	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber_[i] = Sprite::Create((UINT)ImageManager::ImageName::scoreNumbers, { 1252 - ((float)i * 30), 100 });
-		scoreNumber_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
-		scoreNumber_[i]->SetSize({ 32, 32 });
 	}
 	how_to_up_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Up, { 0, 0 });
 	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
@@ -208,10 +198,10 @@ void RailScene::Update() {
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
-	//スコア表示
-	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(score_, i), 0 }, { 64, 64 });
-	}
+	//ui更新処理
+	uiManager_->Update(isPause_, player_);
+	uiManager_->SetScore(score_);
+
 	//レティクル更新処理
 	Reticle::GetIns()->Update();
 	Reticle::GetIns()->SetIsSelectReticle(false);
@@ -227,7 +217,6 @@ void RailScene::Update() {
 		}
 		//ボム攻撃時にスローにする更新処理
 		DelayUpdates();
-		BombPerformance();
 		//チュートリアル更新処理
 		Tutorial();
 
@@ -294,15 +283,6 @@ void RailScene::Draw() {
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	scoreSprite_->Draw();
-	for (int32_t i = 0; i < 6; i++) {
-		scoreNumber_[i]->Draw();
-	}
-	for (int32_t i = 0; i < 3; i++) {
-		if (player_->GetIsBomb()) {
-			bombTimerNumber_[i]->Draw();
-		}
-	}
 	if (!isPause_) {
 		textWindow_->Draw();
 		faceWindow_->Draw();
@@ -340,7 +320,6 @@ void RailScene::Draw() {
 		restart_->Draw();
 	}
 	Reticle::GetIns()->Draw();
-	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -353,6 +332,11 @@ void RailScene::Draw() {
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, isRoop);
+
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	uiManager_->Draw(isPause_, player_);
+	SceneChangeEffect::GetIns()->Draw();
+	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
 
@@ -363,7 +347,6 @@ void RailScene::Finalize() {
 	safe_delete(railCamera_);
 	safe_delete(postEffect_);
 	safe_delete(pause_);
-	safe_delete(scoreSprite_);
 	safe_delete(light_);
 	safe_delete(bombParticle_);
 	safe_delete(gunParticle_);
@@ -373,14 +356,11 @@ void RailScene::Finalize() {
 	safe_delete(textWindow_);
 	safe_delete(faceWindow_);
 	safe_delete(bulletManager_);
+	safe_delete(uiManager_);
 	for (int32_t i = 0; i < 3; i++) {
 		safe_delete(opeNormal_[i]);
 		safe_delete(opeSurprise_[i]);
 		safe_delete(opeSmile_[i]);
-		safe_delete(bombTimerNumber_[i]);
-	}
-	for (int32_t i = 0; i < 6; i++) {
-		safe_delete(scoreNumber_[i]);
 	}
 	safe_delete(how_to_up_);
 	safe_delete(how_to_down_);
@@ -1181,14 +1161,6 @@ void RailScene::Tutorial()
 	if (isBombShot_ && how_to_bomb_alpha_ > 0) {
 		how_to_bomb_alpha_ -= 0.1f;
 		how_to_bomb_->SetAlpha(how_to_bomb_alpha_);
-	}
-}
-
-void RailScene::BombPerformance()
-{
-	for (int32_t i = 0; i < 3; i++) {
-		bombTimerNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber((player_->GetBombTimer() * 100 / 60), i), 0.0f }, { 64.0f, 64.0f });
-		bombTimerNumber_[i]->SetPosition({ Reticle::GetIns()->GetPos().x - (30.0f * i) + 30.0f, Reticle::GetIns()->GetPos().y - 100.0f });
 	}
 }
 

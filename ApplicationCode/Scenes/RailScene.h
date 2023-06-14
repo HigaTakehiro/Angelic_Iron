@@ -23,8 +23,10 @@
 #include "ScoreItem.h"
 #include "BulletManager.h"
 #include "Button.h"
+#include "UIManager.h"
 
 class ScoreItem;
+class UIManager;
 
 class RailScene : public BaseScene
 {
@@ -143,11 +145,6 @@ private: //メンバ関数
 	void Tutorial();
 
 	/// <summary>
-	/// ボム攻撃演出
-	/// </summary>
-	void BombPerformance();
-
-	/// <summary>
 	/// ボム攻撃エフェクト
 	/// </summary>
 	void BombHitEffect(Bomb* bomb);
@@ -169,8 +166,8 @@ private: //静的メンバ変数
 	static const int32_t openWindowTime = 120;
 	//ゲームオーバー条件HP
 	static const int32_t noneHP = 0;
-	//ボム攻撃時間
-	static const int32_t bombTime = 60 * 5;
+	////ボム攻撃時間
+	//static const int32_t bombTime = 60 * 5;
 
 private: //メンバ変数
 	//ウィンドウ設定クラス
@@ -213,8 +210,6 @@ private: //メンバ変数
 	std::unique_ptr<Button> back_ = nullptr;
 	//リスタートボタン
 	std::unique_ptr<Button> restart_ = nullptr;
-	//スコアテキスト
-	Sprite* scoreSprite_ = nullptr;
 	//顔グラフィックウィンドウ
 	Sprite* faceWindow_ = nullptr;
 	//テキストウィンドウ
@@ -225,10 +220,6 @@ private: //メンバ変数
 	Sprite* opeSurprise_[3] = {};
 	//オペレーター笑顔フェイス
 	Sprite* opeSmile_[3] = {};
-	//スコア数字
-	Sprite* scoreNumber_[6] = {};
-	//ボム攻撃タイマー数字
-	Sprite* bombTimerNumber_[3] = {};
 	//チュートリアルアイコン
 	Sprite* how_to_up_;
 	Sprite* how_to_down_;
@@ -242,6 +233,9 @@ private: //メンバ変数
 	DirectX::XMFLOAT2 faceWindowSize_;
 	//顔グラフィックサイズ
 	DirectX::XMFLOAT2 faceGraphicSize_;
+
+	//UIマネージャ
+	UIManager* uiManager_ = nullptr;
 
 	//ライトオブジェクト
 	LightGroup* light_ = nullptr;
