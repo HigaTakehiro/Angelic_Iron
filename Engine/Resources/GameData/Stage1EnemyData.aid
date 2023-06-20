@@ -10,19 +10,16 @@
 #LifeTime ←出現させている時間[s]
 #End ←移動するポイントはここまで
 
-Wait 100
-
 Pos -100.0 60.0 1000.0
 Rot 0.0 180.0 0.0
 Move -100.0 60.0 0.0
 End
-MoveTime 25
+MoveTime 45
 LifeTime 20
 Hp 1
 ShotCoolTime 360
+Wait 480
 Type STR
-
-Wait 350
 
 #Enemy1
 
@@ -35,8 +32,8 @@ MoveTime 8
 LifeTime 9
 Hp 2
 ShotCoolTime 60
+Wait 480
 Type SPR
-Wait 500
 
 Pos 100.0 0.0 760.0
 Rot 30.0 0.0 0.0
@@ -47,8 +44,8 @@ MoveTime 7
 LifeTime 12
 Hp 2
 ShotCoolTime 60
+Wait 150
 Type HOM
-Wait 250
 
 #Enemy2
 
@@ -56,8 +53,8 @@ Pos 180.0 90.0 100.0
 Rot 45.0 90.0 0.0
 LifeTime 15
 Hp 1
-Type STR
 Wait 0
+Type STR
 
 #Enemy3
 
@@ -65,8 +62,8 @@ Pos 0.0 90.0 0.0
 Rot 45.0 -90.0 0.0
 Hp 1
 LifeTime 15
-Type STR
 Wait 0
+Type STR
 
 #--------------------------------------------
 
@@ -77,8 +74,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 150.0 90.0 200.0
 Rot 90.0 180.0 0.0
@@ -87,8 +84,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 50.0 90.0 200.0
 Rot 90.0 180.0 0.0
@@ -97,8 +94,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 100.0 90.0 150.0
 Rot 90.0 180.0 0.0
@@ -107,8 +104,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 150.0 90.0 150.0
 Rot 90.0 180.0 0.0
@@ -117,8 +114,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 50.0 90.0 150.0
 Rot 90.0 180.0 0.0
@@ -127,8 +124,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 100.0 90.0 50.0
 Rot 90.0 180.0 0.0
@@ -137,8 +134,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 150.0 90.0 50.0
 Rot 90.0 180.0 0.0
@@ -147,8 +144,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
-Type STR
 Wait 0
+Type STR
 
 Pos 50.0 90.0 50.0
 Rot 90.0 180.0 0.0
@@ -157,8 +154,8 @@ End
 MoveTime 12
 Hp 1
 LifeTime 20
+Wait 1150
 Type STR
-Wait 50
 
 #-------------------------------------------
 
@@ -168,8 +165,8 @@ Pos 100.0 120.0 150.0
 Rot 45.0 45.0 0.0
 Hp 1
 LifeTime 15
+Wait 0
 Type STR
-Wait 950
 
 #Enemy5
 
@@ -181,8 +178,8 @@ End
 MoveTime 10
 Hp 3
 LifeTime 12
-Type STR
 Wait 0
+Type STR
 
 #Enemy6
 
@@ -194,8 +191,8 @@ End
 MoveTime 10
 Hp 3
 LifeTime 12
+Wait 450
 Type STR
-Wait 500
 
 #Enemy7
 
@@ -209,8 +206,8 @@ MoveTime 10
 Hp 3
 ShotCoolTime 60
 LifeTime 12
-Type HOM
 Wait 0
+Type HOM
 
 #Enemy8
 
@@ -224,81 +221,90 @@ MoveTime 10
 Hp 3
 LifeTime 12
 ShotCoolTime 60
+Wait 860
 Type HOM
-Wait 900
+
 
 Pos 100.0 80.0 50.0
 Rot -90.0 0.0 0.0
 Move 100.0 80.0 -300.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 150.0 80.0 50.0
 Rot -90.0 0.0 0.0
 Move 150.0 80.0 -300.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 200.0 100.0 50.0
 Rot -90.0 0.0 0.0
 Move 200.0 100.0 -300.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 100.0 100.0 0.0
 Rot -90.0 0.0 0.0
 Move 100.0 100.0 -350.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 150.0 100.0 0.0
 Rot -90.0 0.0 0.0
 Move 150.0 100.0 -350.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 200.0 100.0 0.0
 Rot -90.0 0.0 0.0
 Move 200.0 100.0 -400.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 100.0 100.0 -50.0
 Rot -90.0 0.0 0.0
 Move 100.0 100.0 -450.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 150.0 100.0 -50.0
 Rot -90.0 0.0 0.0
 Move 150.0 100.0 -450.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
+Wait 0
 Type STR
 
 Pos 200.0 100.0 -50.0
 Rot -90.0 0.0 0.0
 Move 200.0 100.0 -450.0
 End
-MoveTime 10
+MoveTime 40
 LifeTime 15
-Type STR
 Wait 550
+Type STR
 
 #Enemy9
 Pos 100.0 150.0 300.0
@@ -310,8 +316,8 @@ MoveTime 5
 Hp 1
 LifeTime 5
 ShotCoolTime 50
-Type AIM
 Wait 0
+Type AIM
 
 #Enemy10
 Pos 150.0 100.0 300.0
@@ -323,8 +329,8 @@ MoveTime 5
 Hp 1
 LifeTime 5
 ShotCoolTime 50
-Type AIM
 Wait 0
+Type AIM
 
 #Enemy11
 Pos 100.0 50.0 300.0
@@ -336,8 +342,8 @@ MoveTime 5
 Hp 1
 LifeTime 5
 ShotCoolTime 50
-Type AIM
 Wait 0
+Type AIM
 
 #Enemy12
 Pos 50.0 100.0 300.0
@@ -349,8 +355,8 @@ MoveTime 5
 Hp 1
 LifeTime 5
 ShotCoolTime 50
-Type AIM
 Wait 370
+Type AIM
 
 #Enemy13
 Pos 150.0 150.0 -200.0
@@ -362,8 +368,9 @@ MoveTime 27
 Hp 5
 LifeTime 28
 ShotCoolTime 20
+Wait 0
 Type HOM
-Wait 0a
+
 
 #Enemy14
 Pos 150.0 50.0 -200.0
@@ -375,8 +382,8 @@ MoveTime 27
 Hp 5
 LifeTime 28
 ShotCoolTime 30
-Type HOM
 Wait 0
+Type HOM
 
 #Enemy15
 Pos 50.0 150.0 -200.0
@@ -388,8 +395,8 @@ MoveTime 27
 Hp 5
 LifeTime 28
 ShotCoolTime 40
-Type HOM
 Wait 0
+Type HOM
 
 #Enemy16
 Pos 50.0 50.0 -200.0
@@ -401,5 +408,5 @@ MoveTime 27
 Hp 5
 LifeTime 28
 ShotCoolTime 50
-Type HOM
 Wait 0
+Type HOM

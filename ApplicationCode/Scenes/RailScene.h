@@ -41,6 +41,20 @@ private: //サブクラス
 		OPE_SMILEFACE
 	};
 
+	//敵ポップ用情報
+	struct EnemyData {
+		Vector3 pos_;
+		Vector3 scale_;
+		Vector3 rot_;
+		std::vector<Vector3> movePoints_;
+		std::string type_;
+		float moveTime_;
+		int32_t lifeTime_;
+		int32_t shotInterval_;
+		int32_t hp_;
+		int32_t waitTime_;
+	};
+
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -71,6 +85,11 @@ public: //メンバ関数
 	/// 終了処理
 	/// </summary>
 	void Finalize();
+
+	/// <summary>
+	/// 敵データ読み込み
+	/// </summary>
+	void LoadEnemyData();
 
 	/// <summary>
 	/// 読み込んだエネミーデータの更新
@@ -186,6 +205,10 @@ private: //メンバ変数
 	Player* player_ = nullptr;
 	//弾マネージャー
 	BulletManager* bulletManager_ = nullptr;
+	//敵ポップ用情報リスト
+	std::list<EnemyData> enemyDatas_;
+	//敵データ更新用イテレータ
+	std::list<EnemyData>::iterator it_;
 	//敵リスト
 	std::list<std::unique_ptr<BaseEnemy>> enemies_;
 	//2dパーティクルのリスト

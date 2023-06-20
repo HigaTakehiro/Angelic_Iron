@@ -149,6 +149,8 @@ void RailScene::Initialize() {
 		LoadRailPoint("Stage2RailPoints.aid");
 		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
+	//敵データ読み込み
+	LoadEnemyData();
 
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
@@ -371,7 +373,8 @@ void RailScene::Finalize() {
 	jsonLoader_->Finalize();
 }
 
-void RailScene::EnemyDataUpdate() {
+void RailScene::LoadEnemyData()
+{
 	std::string line;
 	Vector3 pos{};
 	Vector3 rot{};
@@ -383,20 +386,11 @@ void RailScene::EnemyDataUpdate() {
 	int32_t lifeTime = 240;//4[s]
 	int32_t shotIntervalTime = 60;//1[s]
 	int32_t hp = 1;
+	int32_t waitTime = 0;
 	bool isPos = false;
 	bool isRot = false;
 	bool isStyle = false;
 	bool isMovePoint = false;
-
-	if (isWait_) {
-		if (!isPause_) {
-			waitTimer_--;
-		}
-		if (waitTimer_ <= 0) {
-			isWait_ = false;
-		}
-		return;
-	}
 
 	while (getline(enemyData_, line)) {
 		std::istringstream line_stream(line);
@@ -447,75 +441,25 @@ void RailScene::EnemyDataUpdate() {
 			line_stream >> hp;
 		}
 		if (word == "Wait") {
-			isWait_ = true;
-			line_stream >> waitTimer_;
-
-			break;
+			line_stream >> waitTime;
+			//break;
 		}
 
 		if (isPos && isRot && isStyle) {
-			if (type == "STR") {
-				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
-				newEnemy->Initialize("enemy1", pos, rot);
-				newEnemy->SetRailScene(this);
-				newEnemy->SetLifeTime(lifeTime);
-				newEnemy->SetHP(hp);
-				newEnemy->SetShotIntervalTime(shotIntervalTime);
-				if (isMovePoint) {
-					movePoints.insert(movePoints.begin(), pos);
-					newEnemy->SetMaxTime(moveTime);
-					newEnemy->SetMovePoints(movePoints);
-				}
-				newEnemy->SetBulletManager(bulletManager_);
-				enemies_.push_back(std::move(newEnemy));
+			EnemyData enemyData;
+			enemyData.pos_ = pos;
+			enemyData.rot_ = rot;
+			enemyData.type_ = type;
+			if (isMovePoint) {
+				enemyData.movePoints_ = movePoints;
+				movePoints.clear();
 			}
-			if (type == "AIM") {
-				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<AimingEnemy>();
-				newEnemy->Initialize("enemy1", pos, rot);
-				newEnemy->SetRailScene(this);
-				newEnemy->SetPlayer(player_);
-				newEnemy->SetLifeTime(lifeTime);
-				newEnemy->SetHP(hp);
-				newEnemy->SetShotIntervalTime(shotIntervalTime);
-				if (isMovePoint) {
-					movePoints.insert(movePoints.begin(), pos);
-					newEnemy->SetMaxTime(moveTime);
-					newEnemy->SetMovePoints(movePoints);
-				}
-				newEnemy->SetBulletManager(bulletManager_);
-				enemies_.push_back(std::move(newEnemy));
-			}
-			if (type == "HOM") {
-				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
-				newEnemy->Initialize("enemy1", pos, rot);
-				newEnemy->SetRailScene(this);
-				newEnemy->SetPlayer(player_);
-				newEnemy->SetHP(hp);
-				newEnemy->SetLifeTime(lifeTime);
-				newEnemy->SetShotIntervalTime(shotIntervalTime);
-				if (isMovePoint) {
-					movePoints.insert(movePoints.begin(), pos);
-					newEnemy->SetMaxTime(moveTime);
-					newEnemy->SetMovePoints(movePoints);
-				}
-				newEnemy->SetBulletManager(bulletManager_);
-				enemies_.push_back(std::move(newEnemy));
-			}
-			if (type == "SPR") {
-				std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<SpreadEnemy>();
-				newEnemy->Initialize("enemy1", pos, rot);
-				newEnemy->SetRailScene(this);
-				newEnemy->SetLifeTime(lifeTime);
-				newEnemy->SetHP(hp);
-				newEnemy->SetShotIntervalTime(shotIntervalTime);
-				if (isMovePoint) {
-					movePoints.insert(movePoints.begin(), pos);
-					newEnemy->SetMaxTime(moveTime);
-					newEnemy->SetMovePoints(movePoints);
-				}
-				newEnemy->SetBulletManager(bulletManager_);
-				enemies_.push_back(std::move(newEnemy));
-			}
+			enemyData.moveTime_ = moveTime;
+			enemyData.lifeTime_ = lifeTime;
+			enemyData.shotInterval_ = shotIntervalTime;
+			enemyData.hp_ = hp;
+			enemyData.waitTime_ = waitTime;
+			enemyDatas_.push_back(enemyData);
 
 			isPos = false;
 			isRot = false;
@@ -523,6 +467,96 @@ void RailScene::EnemyDataUpdate() {
 			isMovePoint = false;
 		}
 	}
+
+	it_ = enemyDatas_.begin();
+}
+
+void RailScene::EnemyDataUpdate() {
+	if (isWait_) {
+		if (!isPause_) {
+			waitTimer_--;
+			if (waitTimer_ <= 0) {
+				isWait_ = false;
+			}
+		}
+		return;
+	}
+
+	if (it_ == enemyDatas_.end()) {
+		return;
+	}
+
+	if (it_->type_ == "STR") {
+		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
+		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
+		newEnemy->SetRailScene(this);
+		newEnemy->SetLifeTime(it_->lifeTime_);
+		newEnemy->SetHP(it_->hp_);
+		newEnemy->SetShotIntervalTime(it_->shotInterval_);
+		if (it_->movePoints_.size() > 0) {
+			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
+			newEnemy->SetMaxTime(it_->moveTime_);
+			newEnemy->SetMovePoints(it_->movePoints_);
+		}
+		newEnemy->SetBulletManager(bulletManager_);
+		enemies_.push_back(std::move(newEnemy));
+	}
+	if (it_->type_ == "AIM") {
+		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<AimingEnemy>();
+		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
+		newEnemy->SetRailScene(this);
+		newEnemy->SetPlayer(player_);
+		newEnemy->SetLifeTime(it_->lifeTime_);
+		newEnemy->SetHP(it_->hp_);
+		newEnemy->SetShotIntervalTime(it_->shotInterval_);
+		if (it_->movePoints_.size() > 0) {
+			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
+			newEnemy->SetMaxTime(it_->moveTime_);
+			newEnemy->SetMovePoints(it_->movePoints_);
+		}
+		newEnemy->SetBulletManager(bulletManager_);
+		enemies_.push_back(std::move(newEnemy));
+	}
+	if (it_->type_ == "HOM") {
+		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
+		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
+		newEnemy->SetRailScene(this);
+		newEnemy->SetPlayer(player_);
+		newEnemy->SetHP(it_->hp_);
+		newEnemy->SetLifeTime(it_->lifeTime_);
+		newEnemy->SetShotIntervalTime(it_->shotInterval_);
+		if (it_->movePoints_.size() > 0) {
+			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
+			newEnemy->SetMaxTime(it_->moveTime_);
+			newEnemy->SetMovePoints(it_->movePoints_);
+		}
+		newEnemy->SetBulletManager(bulletManager_);
+		enemies_.push_back(std::move(newEnemy));
+	}
+	if (it_->type_ == "SPR") {
+		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<SpreadEnemy>();
+		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
+		newEnemy->SetRailScene(this);
+		newEnemy->SetLifeTime(it_->lifeTime_);
+		newEnemy->SetHP(it_->hp_);
+		newEnemy->SetShotIntervalTime(it_->shotInterval_);
+		if (it_->movePoints_.size() > 0) {
+			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
+			newEnemy->SetMaxTime(it_->moveTime_);
+			newEnemy->SetMovePoints(it_->movePoints_);
+		}
+		newEnemy->SetBulletManager(bulletManager_);
+		enemies_.push_back(std::move(newEnemy));
+	}
+
+	if (it_->waitTime_ > 0) {
+		isWait_ = true;
+		waitTimer_ = it_->waitTime_;
+	}
+
+
+	it_++;
+
 }
 
 void RailScene::LoadRailPoint(const std::string& filename) {
