@@ -24,9 +24,11 @@
 #include "BulletManager.h"
 #include "Button.h"
 #include "UIManager.h"
+#include "EnemyManager.h"
 
 class ScoreItem;
 class UIManager;
+class EnemyManager;
 
 class RailScene : public BaseScene
 {
@@ -39,20 +41,6 @@ private: //サブクラス
 		OPE_NORMALFACE,
 		OPE_SURPRISEFACE,
 		OPE_SMILEFACE
-	};
-
-	//敵ポップ用情報
-	struct EnemyData {
-		Vector3 pos_;
-		Vector3 scale_;
-		Vector3 rot_;
-		std::vector<Vector3> movePoints_;
-		std::string type_;
-		float moveTime_;
-		int32_t lifeTime_;
-		int32_t shotInterval_;
-		int32_t hp_;
-		int32_t waitTime_;
 	};
 
 public: //メンバ関数
@@ -87,16 +75,6 @@ public: //メンバ関数
 	void Finalize();
 
 	/// <summary>
-	/// 敵データ読み込み
-	/// </summary>
-	void LoadEnemyData();
-
-	/// <summary>
-	/// 読み込んだエネミーデータの更新
-	/// </summary>
-	void EnemyDataUpdate();
-
-	/// <summary>
 	/// レールカメラ指定点を外部ファイルから読み込み
 	/// </summary>
 	void LoadRailPoint(const std::string& filename);
@@ -115,17 +93,9 @@ public: //メンバ関数
 	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns></returns>
-	std::list<std::unique_ptr<BaseEnemy>>& GetEnemyObj() { return enemies_; }
+	std::list<std::unique_ptr<BaseEnemy>>& GetEnemyObj();
 
 private: //メンバ関数
-
-	/// <summary>
-	/// ロックオン距離か判定
-	/// </summary>
-	/// <param name="enemyPos">敵の画面上の位置</param>
-	/// <param name="aimPos">マウスカーソルの位置</param>
-	/// <returns>敵の位置にカーソルがあるかどうか</returns>
-	bool IsTargetCheck(DirectX::XMFLOAT2 enemyPos, DirectX::XMFLOAT2 aimPos);
 
 	/// <summary>
 	/// スローにする更新処理
@@ -141,12 +111,6 @@ private: //メンバ関数
 	/// 当たり判定チェック
 	/// </summary>
 	void CollisionCheck();
-
-	/// <summary>
-	/// 敵関連の更新処理
-	/// </summary>
-	/// <param name="enemy"></param>
-	void EnemyReactions(BaseEnemy* enemy);
 
 	/// <summary>
 	/// エフェクト発生処理
@@ -205,12 +169,8 @@ private: //メンバ変数
 	Player* player_ = nullptr;
 	//弾マネージャー
 	BulletManager* bulletManager_ = nullptr;
-	//敵ポップ用情報リスト
-	std::list<EnemyData> enemyDatas_;
-	//敵データ更新用イテレータ
-	std::list<EnemyData>::iterator it_;
-	//敵リスト
-	std::list<std::unique_ptr<BaseEnemy>> enemies_;
+	// 敵管理マネージャー
+	EnemyManager* enemyManager_ = nullptr;
 	//2dパーティクルのリスト
 	std::list<std::unique_ptr<Particle2d>> particles2d_;
 	//スコアアイテムリスト

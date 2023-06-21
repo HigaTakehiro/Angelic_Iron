@@ -367,23 +367,23 @@ XMVECTOR Player::BombVectorDirectionJudge(const int32_t enemyCount)
 	}
 
 	if (targetEnemyCount == 1 || targetEnemyCount == 4 || targetEnemyCount == 7) {
-		bombVector.m128_f32[0] = -1;
+		bombVector.m128_f32[0] = -1.0f;
 	}
 	else if (targetEnemyCount % 2 == 0) {
 		bombVector.m128_f32[0] = 0;
 	}
 	else if (targetEnemyCount % 2 == 1) {
-		bombVector.m128_f32[0] = 1;
+		bombVector.m128_f32[0] = +1.0f;
 	}
 
 	if (targetEnemyCount >= 7) {
-		bombVector.m128_f32[1] = -1;
+		bombVector.m128_f32[1] = -1.0f;
 	}
 	else if (targetEnemyCount >= 4) {
 		bombVector.m128_f32[1] = 0;
 	}
 	else {
-		bombVector.m128_f32[1] = 1;
+		bombVector.m128_f32[1] = +1.0f;
 	}
 
 	return bombVector;

@@ -137,20 +137,24 @@ void RailScene::Initialize() {
 	gunParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 	thrusterParticle_ = ParticleManager::Create(DirectXSetting::GetIns()->GetDev(), camera_);
 
+	enemyManager_ = new EnemyManager();
+	enemyManager_->SetBulletManager(bulletManager_);
+	enemyManager_->SetPlayer(player_);
+	enemyManager_->SetRailScene(this);
+	enemyManager_->SetParticleManager(enemyParticle_);
+
 	//ステージデータ読み込み
 	if (stageNo == 1) {
 		player_->SetClearPos({ 130.0f, 20.0f, 55.0f });
 		LoadRailPoint("Stage1RailPoints.aid");
 		jsonLoader_->StageDataLoadandSet("stage1");
-		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1EnemyData.aid");
+		enemyManager_->Initialize("Stage1EnemyData.aid");
 		textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
 		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
-	//敵データ読み込み
-	LoadEnemyData();
 
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
@@ -173,7 +177,7 @@ void RailScene::Initialize() {
 
 void RailScene::Update() {
 	//スコアアイテムドロップ
-	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+	for (std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
 		if (enemy->GetIsScoreItemDrop() && !enemy->GetIsTarget()) {
 			std::unique_ptr<ScoreItem> scoreItem = std::make_unique<ScoreItem>();
 			scoreItem->Initialize(enemy->GetEnemyObj()->GetMatWorld().r[3], player_, camera_);
@@ -182,7 +186,7 @@ void RailScene::Update() {
 	}
 
 	//オブジェクトリスト解放処理
-	enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
+	//enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	scoreItems_.remove_if([](std::unique_ptr<ScoreItem>& scoreItem) {return scoreItem->GetIsDead(); });
 
@@ -214,15 +218,12 @@ void RailScene::Update() {
 		//当たり判定チェック
 		CollisionCheck();
 		//オブジェクト更新処理
-		for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-			enemy->RockOnPerformance();
-		}
+		enemyManager_->EnemyRockOnPerformance();
 		//ボム攻撃時にスローにする更新処理
 		DelayUpdates();
 		//チュートリアル更新処理
 		Tutorial();
 
-		enemyParticle_->Update();
 		bombParticle_->Update();
 		gunParticle_->Update();
 		thrusterParticle_->Update();
@@ -271,9 +272,7 @@ void RailScene::Draw() {
 	if (!isDead_) {
 		player_->ObjectDraw();
 	}
-	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-		enemy->Draw();
-	}
+	enemyManager_->Draw();
 	for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
 		scoreItem->Draw();
 	}
@@ -304,14 +303,12 @@ void RailScene::Draw() {
 	how_to_down_->Draw();
 	how_to_left_->Draw();
 	how_to_right_->Draw();
-	if (enemies_.size() > 0) {
+	if (enemyManager_->GetEnemies().size() > 0) {
 		how_to_bomb_->Draw();
 	}
 	how_to_shot_->Draw();
 	player_->SpriteDraw();
-	for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-		enemy->SpriteDraw();
-	}
+	enemyManager_->SpriteDraw();
 	for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 		particle2d->Draw();
 	}
@@ -359,6 +356,7 @@ void RailScene::Finalize() {
 	safe_delete(faceWindow_);
 	safe_delete(bulletManager_);
 	safe_delete(uiManager_);
+	safe_delete(enemyManager_);
 	for (int32_t i = 0; i < 3; i++) {
 		safe_delete(opeNormal_[i]);
 		safe_delete(opeSurprise_[i]);
@@ -371,192 +369,6 @@ void RailScene::Finalize() {
 	safe_delete(how_to_shot_);
 	safe_delete(how_to_bomb_);
 	jsonLoader_->Finalize();
-}
-
-void RailScene::LoadEnemyData()
-{
-	std::string line;
-	Vector3 pos{};
-	Vector3 rot{};
-	Vector3 scale{};
-	Vector3 movePoint{};
-	std::vector<Vector3> movePoints{};
-	std::string type;
-	float moveTime = 120.0f;//2[s]
-	int32_t lifeTime = 240;//4[s]
-	int32_t shotIntervalTime = 60;//1[s]
-	int32_t hp = 1;
-	int32_t waitTime = 0;
-	bool isPos = false;
-	bool isRot = false;
-	bool isStyle = false;
-	bool isMovePoint = false;
-
-	while (getline(enemyData_, line)) {
-		std::istringstream line_stream(line);
-		std::string word;
-		//半角区切りで文字列を取得
-		getline(line_stream, word, ' ');
-		if (word == "#") {
-			continue;
-		}
-		if (word == "Pos") {
-			line_stream >> pos.x;
-			line_stream >> pos.y;
-			line_stream >> pos.z;
-			isPos = true;
-		}
-		if (word == "Rot") {
-			line_stream >> rot.x;
-			line_stream >> rot.y;
-			line_stream >> rot.z;
-			isRot = true;
-		}
-		if (word == "Type") {
-			line_stream >> type;
-			isStyle = true;
-		}
-		if (word == "Move") {
-			line_stream >> movePoint.x;
-			line_stream >> movePoint.y;
-			line_stream >> movePoint.z;
-			movePoints.push_back(movePoint);
-		}
-		if (word == "End") {
-			isMovePoint = true;
-		}
-		if (word == "MoveTime") {
-			line_stream >> moveTime;
-			//秒数換算なので60倍する
-			moveTime *= 60.0f;
-		}
-		if (word == "LifeTime") {
-			line_stream >> lifeTime;
-			lifeTime *= 60;
-		}
-		if (word == "ShotCoolTime") {
-			line_stream >> shotIntervalTime;
-		}
-		if (word == "Hp") {
-			line_stream >> hp;
-		}
-		if (word == "Wait") {
-			line_stream >> waitTime;
-			//break;
-		}
-
-		if (isPos && isRot && isStyle) {
-			EnemyData enemyData;
-			enemyData.pos_ = pos;
-			enemyData.rot_ = rot;
-			enemyData.type_ = type;
-			if (isMovePoint) {
-				enemyData.movePoints_ = movePoints;
-				movePoints.clear();
-			}
-			enemyData.moveTime_ = moveTime;
-			enemyData.lifeTime_ = lifeTime;
-			enemyData.shotInterval_ = shotIntervalTime;
-			enemyData.hp_ = hp;
-			enemyData.waitTime_ = waitTime;
-			enemyDatas_.push_back(enemyData);
-
-			isPos = false;
-			isRot = false;
-			isStyle = false;
-			isMovePoint = false;
-		}
-	}
-
-	it_ = enemyDatas_.begin();
-}
-
-void RailScene::EnemyDataUpdate() {
-	if (isWait_) {
-		if (!isPause_) {
-			waitTimer_--;
-			if (waitTimer_ <= 0) {
-				isWait_ = false;
-			}
-		}
-		return;
-	}
-
-	if (it_ == enemyDatas_.end()) {
-		return;
-	}
-
-	if (it_->type_ == "STR") {
-		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<StraightEnemy>();
-		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
-		newEnemy->SetRailScene(this);
-		newEnemy->SetLifeTime(it_->lifeTime_);
-		newEnemy->SetHP(it_->hp_);
-		newEnemy->SetShotIntervalTime(it_->shotInterval_);
-		if (it_->movePoints_.size() > 0) {
-			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
-			newEnemy->SetMaxTime(it_->moveTime_);
-			newEnemy->SetMovePoints(it_->movePoints_);
-		}
-		newEnemy->SetBulletManager(bulletManager_);
-		enemies_.push_back(std::move(newEnemy));
-	}
-	if (it_->type_ == "AIM") {
-		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<AimingEnemy>();
-		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
-		newEnemy->SetRailScene(this);
-		newEnemy->SetPlayer(player_);
-		newEnemy->SetLifeTime(it_->lifeTime_);
-		newEnemy->SetHP(it_->hp_);
-		newEnemy->SetShotIntervalTime(it_->shotInterval_);
-		if (it_->movePoints_.size() > 0) {
-			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
-			newEnemy->SetMaxTime(it_->moveTime_);
-			newEnemy->SetMovePoints(it_->movePoints_);
-		}
-		newEnemy->SetBulletManager(bulletManager_);
-		enemies_.push_back(std::move(newEnemy));
-	}
-	if (it_->type_ == "HOM") {
-		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<HomingEnemy>();
-		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
-		newEnemy->SetRailScene(this);
-		newEnemy->SetPlayer(player_);
-		newEnemy->SetHP(it_->hp_);
-		newEnemy->SetLifeTime(it_->lifeTime_);
-		newEnemy->SetShotIntervalTime(it_->shotInterval_);
-		if (it_->movePoints_.size() > 0) {
-			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
-			newEnemy->SetMaxTime(it_->moveTime_);
-			newEnemy->SetMovePoints(it_->movePoints_);
-		}
-		newEnemy->SetBulletManager(bulletManager_);
-		enemies_.push_back(std::move(newEnemy));
-	}
-	if (it_->type_ == "SPR") {
-		std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<SpreadEnemy>();
-		newEnemy->Initialize("enemy1", it_->pos_, it_->rot_);
-		newEnemy->SetRailScene(this);
-		newEnemy->SetLifeTime(it_->lifeTime_);
-		newEnemy->SetHP(it_->hp_);
-		newEnemy->SetShotIntervalTime(it_->shotInterval_);
-		if (it_->movePoints_.size() > 0) {
-			it_->movePoints_.insert(it_->movePoints_.begin(), it_->pos_);
-			newEnemy->SetMaxTime(it_->moveTime_);
-			newEnemy->SetMovePoints(it_->movePoints_);
-		}
-		newEnemy->SetBulletManager(bulletManager_);
-		enemies_.push_back(std::move(newEnemy));
-	}
-
-	if (it_->waitTime_ > 0) {
-		isWait_ = true;
-		waitTimer_ = it_->waitTime_;
-	}
-
-
-	it_++;
-
 }
 
 void RailScene::LoadRailPoint(const std::string& filename) {
@@ -831,9 +643,9 @@ void RailScene::TextMessageDraw()
 	}
 }
 
-bool RailScene::IsTargetCheck(XMFLOAT2 enemyPos, XMFLOAT2 aimPos) {
-	const float aimPosCorrection = 20.0f;
-	return (enemyPos.x >= aimPos.x - aimPosCorrection && enemyPos.x <= aimPos.x + aimPosCorrection && enemyPos.y >= aimPos.y - aimPosCorrection && enemyPos.y <= aimPos.y + aimPosCorrection);
+std::list<std::unique_ptr<BaseEnemy>>& RailScene::GetEnemyObj()
+{
+	return enemyManager_->GetEnemies();
 }
 
 void RailScene::DelayUpdates()
@@ -847,8 +659,6 @@ void RailScene::DelayUpdates()
 
 	//スロー演出
 	if (delayTimer_ >= delayTime) {
-		//敵出現処理
-		EnemyDataUpdate();
 		//テキスト更新処理
 		TextMessageUpdate();
 
@@ -857,10 +667,7 @@ void RailScene::DelayUpdates()
 			if (!railCamera_->GetIsEnd()) {
 				railCamera_->Update();
 			}
-			for (std::unique_ptr<BaseEnemy>& enemy : enemies_) {
-				enemy->Update();
-				EnemyReactions(enemy.get());
-			}
+			enemyManager_->Update(isPause_);
 			for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
 				scoreItem->Update();
 			}
@@ -892,7 +699,7 @@ void RailScene::ClearPaformance()
 
 void RailScene::CollisionCheck()
 {
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
 		for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
 			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
 				score_ += 100;
@@ -912,7 +719,7 @@ void RailScene::CollisionCheck()
 		}
 	}
 
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemies_) {
+	for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
 		for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
 			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
 				score_ += 100;
@@ -928,149 +735,6 @@ void RailScene::CollisionCheck()
 			score_ += 500;
 			scoreItem->OnCollision();
 		}
-	}
-}
-
-void RailScene::EnemyReactions(BaseEnemy* enemy)
-{
-	const int32_t randMax = 4;
-
-	//敵座標
-	Vector3 enemyPos;
-	enemyPos = enemy->GetEnemyObj()->GetMatWorld().r[3];
-
-	//敵のHPが0ならパーティクルを発生させる
-	if (enemy->GetHP() <= 0) {
-		enemyParticle_->Add(30, enemyPos, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.02f, 0.0f }, 5.0f, 0.0f);
-	}
-
-	//ロックオン処理
-	XMVECTOR enemy3dPos = { enemy->GetEnemyObj()->GetMatWorld().r[3] }; //ワールド座標
-	XMMATRIX matViewProjectionViewport = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
-	enemy3dPos = XMVector3TransformCoord(enemy3dPos, matViewProjectionViewport); //スクリーン座標
-
-	DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
-
-	if (IsTargetCheck(enemy2dPos, Reticle::GetIns()->GetPos())) {
-		Reticle::GetIns()->SetIsSelectReticle(true);
-		if (player_->GetIsBomb()) {
-			enemy->SetTarget(true);
-		}
-	}
-
-	//敵が死亡したらエフェクトを発生させる
-	if (enemy->GetIsDead() && enemy->GetHP() <= 0) {
-		const Vector3 explosionAcc = { 0.0f, 0.0f, 0.0f };
-		const float startScale = 10.0f;
-		const float endScale = 0.0f;
-		const Vector3 startColor = { 1.0f, 1.0f, 1.0f };
-		const Vector3 endColor = { 1.0f, 0.2f, 0.0f };
-		for (int32_t i = 0; i < 32; i++) {
-			const float rnd_vel = 2.0f;
-
-			Vector3 particlePos = enemyPos;
-			particlePos.x += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			particlePos.y += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			particlePos.z += (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-			XMFLOAT3 vel{};
-			vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-			XMFLOAT3 acc{};
-			const float rnd_acc = 0.01f;
-			acc.x = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-			acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-			acc.z = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-			enemyParticle_->Add(20,
-				particlePos,
-				vel,
-				acc,
-				startScale,
-				endScale,
-				startColor,
-				endColor);
-		}
-	}
-}
-
-void RailScene::AddEffect()
-{
-	//最終的な大きさ
-	const float endScale = 0.0f;
-	//デフォルト加速度
-	const Vector3 defaultAcc = { 0.0f, 0.0f, 0.0f };
-
-	//プレイヤーのHPが1以上ならエフェクトを発生させる
-	if (player_->GetHPCount() > noneHP) {
-		//乱数上限
-		const int32_t randMax = 5;
-		//パーティクル生成時間
-		int32_t particleLife = 3;
-		//初期アルファ値
-		Vector3 initAlpha = { 0.0f, 0.0f, 0.6f };
-		//最終的なアルファ値
-		Vector3 endAlpha = { 1.0f, 1.0f, 1.0f };
-
-		//プレイヤーのワールド行列からパーティクルの生成位置を求める
-		XMVECTOR playerPos = { 0.0f, 1.2f, -1.0f };
-		playerPos = XMVector3TransformCoord(playerPos, player_->GetPlayerObject()->GetMatWorld());
-		Vector3 thrusterPos = playerPos;
-
-		for (int32_t i = 0; i < 10; i++) {
-			float thrusterPower = (float)(rand() % randMax);
-			thrusterPower *= -0.1f;
-			float startScale = (float)(rand() % (randMax - 2));
-			XMVECTOR playerBack = { 0.0f, 0.0f, thrusterPower };
-			playerBack = XMVector3TransformNormal(playerBack, player_->GetPlayerObject()->GetMatWorld());
-			Vector3 thrusterDir = playerBack;
-			thrusterParticle_->Add(
-				particleLife,
-				thrusterPos,
-				thrusterDir,
-				defaultAcc,
-				startScale,
-				endScale,
-				initAlpha,
-				endAlpha
-			);
-		}
-	}
-
-	//プレイヤーのHPが0ならエフェクトを発生させる
-	if (player_->GetHPCount() <= noneHP && !isPlayerDead_) {
-		XMVECTOR playerPos = { player_->GetPlayerPos().x, player_->GetPlayerPos().y, player_->GetPlayerPos().z };
-		XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
-		playerPos = XMVector3TransformCoord(playerPos, matVPV);
-
-		XMFLOAT2 player2dPos = { playerPos.m128_f32[0] - 150, playerPos.m128_f32[1] - 140 };
-		std::unique_ptr<Particle2d> new2DParticle = std::make_unique<Particle2d>();
-		new2DParticle->Initialize(player2dPos, { 200, 200 }, 80, ImageManager::ImageName::enemyDead, { 0.5f, 0.5f }, 8, { 0, 0 }, { 32, 32 });
-		particles2d_.push_back(std::move(new2DParticle));
-		isPlayerDead_ = true;
-		SoundManager::GetIns()->StopBGM(SoundManager::BGMKey::STAGE1_RAIL);
-	}
-
-	//マズルフラッシュを発生させる
-	if (player_->GetIsShot()) {
-		Vector3 gunPos = player_->GetGunObject()->GetMatWorld().r[3];
-		gunParticle_->Add(2, gunPos,
-			{ 0.0f, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 0.0f },
-			5.0f, 0.0f,
-			{ 0.5f, 0.0f, 0.0f },
-			{ 0.5f, 0.3f, 0.0f }
-		);
-	}
-
-	for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
-		//ボムの軌跡にパーティクルを発生させる
-		Vector3 bombPos = bomb->GetBullet()->GetMatWorld().r[3];
-		bombParticle_->Add(20, bombPos,
-			{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-			3.0f, 0.0f, { 1.0f, 1.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f }, 1.0f, 0.0f);
 	}
 }
 
@@ -1130,7 +794,7 @@ void RailScene::Tutorial()
 	//定数
 	const float iconSlidePos = 100.0f;
 
-	if (enemies_.size() > 0) {
+	if (enemyManager_->GetEnemies().size() > 0) {
 		isMoveUp_ = true;
 		isMoveDown_ = true;
 		isMoveLeft_ = true;
