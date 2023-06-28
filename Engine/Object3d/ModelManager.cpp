@@ -38,6 +38,7 @@ void ModelManager::Initialize() {
 	LoadModel("GlassGround", "grass_ground");
 	LoadModel("DirtRoad", "dirt_road");
 	LoadModel("ScoreItem", "scoreItem");
+	LoadModel("Tower", "tower");
 	//LoadFBXModel("Player_Attack");
 }
 

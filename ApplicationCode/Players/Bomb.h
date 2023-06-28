@@ -48,7 +48,7 @@ public: //ƒƒ“ƒoŠÖ”
 	Object3d* GetBullet() { return bullet_; }
 
 private: //’è”
-	static const int32_t bombTime_ = 10;
+	static const int32_t bombTime_ = 30;
 
 private: //ƒƒ“ƒo•Ï”
 	Object3d* bullet_;
@@ -56,6 +56,8 @@ private: //ƒƒ“ƒo•Ï”
 	Vector3 bulletPos_;
 	Vector3 enemyPos_;
 	Vector3 initBulletPos_;
+	float accel_;
+	float maxAccel_;
 	DirectX::XMVECTOR vector_;
 
 	int32_t bombTimer_;
