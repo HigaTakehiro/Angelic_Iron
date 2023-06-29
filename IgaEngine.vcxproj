@@ -189,6 +189,7 @@
     <ClCompile Include="ApplicationCode\Scenes\SceneChangeEffect.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="ApplicationCode\UI\Button.cpp" />
+    <ClCompile Include="ApplicationCode\UI\MessageWindow.cpp" />
     <ClCompile Include="ApplicationCode\UI\Reticle.cpp" />
     <ClCompile Include="ApplicationCode\UI\Score.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="ApplicationCode\Scenes\SceneChangeEffect.h" />
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="ApplicationCode\UI\Button.h" />
+    <ClInclude Include="ApplicationCode\UI\MessageWindow.h" />
     <ClInclude Include="ApplicationCode\UI\Reticle.h" />
     <ClInclude Include="ApplicationCode\UI\Score.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />

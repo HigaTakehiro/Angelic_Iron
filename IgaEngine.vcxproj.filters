@@ -305,6 +305,9 @@
     <ClCompile Include="ApplicationCode\Manager\EnemyManager.cpp">
       <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\UI\MessageWindow.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -540,6 +543,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Manager\EnemyManager.h">
       <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\MessageWindow.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -48,21 +48,16 @@ public: //ƒƒ“ƒoŠÖ”
 	Object3d* GetBullet() { return bullet_; }
 
 private: //’è”
-	static const int32_t bombTime_ = 30;
+	static const int32_t lifeTime = 300;
+	static const int32_t coercionAttackTime = 200;
 
 private: //ƒƒ“ƒo•Ï”
 	Object3d* bullet_;
 	Object3d* targetEnemy_;
 	Vector3 bulletPos_;
-	Vector3 enemyPos_;
-	Vector3 initBulletPos_;
-	float accel_;
-	float maxAccel_;
-	DirectX::XMVECTOR vector_;
-
-	int32_t bombTimer_;
+	Vector3 velocity_;
+	int32_t lifeTimer_;
+	int32_t coercionAttackTimer_;
 
 	bool isDead_;
-	bool isUp_;
 };
-
