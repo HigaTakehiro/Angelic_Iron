@@ -437,7 +437,17 @@ void BossScene::Draw()
 	}
 	Object3d::PostDraw();
 
-	//スプライト描画処理(UI等)
+	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	if (!isPause_) {
+		TextMessageDraw();
+	}
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
+	DirectXSetting::GetIns()->PreDraw(backColor);
+	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime_, postEffectNo_, isRoop);
+	//ポストエフェクトを掛けないスプライト描画(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (!firstBoss_->GetIsMovie()) {
 		scoreText_->Draw();
@@ -468,17 +478,6 @@ void BossScene::Draw()
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
-
-	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
-
-	DirectXSetting::GetIns()->beginDrawWithDirect2D();
-	if (!isPause_) {
-		TextMessageDraw();
-	}
-	DirectXSetting::GetIns()->endDrawWithDirect2D();
-
-	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime_, postEffectNo_, isRoop);
 	DirectXSetting::GetIns()->PostDraw();
 }
 

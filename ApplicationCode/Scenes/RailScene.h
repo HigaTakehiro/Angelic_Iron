@@ -149,8 +149,8 @@ private: //静的メンバ変数
 	static const int32_t openWindowTime = 120;
 	//ゲームオーバー条件HP
 	static const int32_t noneHP = 0;
-	////ボム攻撃時間
-	//static const int32_t bombTime = 60 * 5;
+	//チュートリアル表示時間
+	static const int32_t tutorialTime = 180;
 
 private: //メンバ変数
 	//ウィンドウ設定クラス
@@ -278,6 +278,8 @@ private: //メンバ変数
 	int32_t closeWindowTimer_;
 	//ウィンドウ解放時間
 	int32_t openWindowTimer_;
+	//チュートリアル表示時間
+	int32_t tutorialTimer_;
 	//エネミーデータ格納用文字列
 	std::stringstream enemyData_;
 	//メッセージデータ格納用文字列

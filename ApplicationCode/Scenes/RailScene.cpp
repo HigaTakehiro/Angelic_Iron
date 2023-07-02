@@ -794,7 +794,7 @@ void RailScene::Tutorial()
 	//定数
 	const float iconSlidePos = 100.0f;
 
-	if (enemyManager_->GetEnemies().size() > 0) {
+	if (++tutorialTimer_ > tutorialTime) {
 		isMoveUp_ = true;
 		isMoveDown_ = true;
 		isMoveLeft_ = true;
