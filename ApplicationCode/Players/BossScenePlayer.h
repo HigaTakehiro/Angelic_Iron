@@ -12,6 +12,7 @@
 #include "PlayerBullet.h"
 #include "Easing.h"
 #include "BossScene.h"
+#include "BulletManager.h"
 #include "Sound.h"
 
 class BossScene;
@@ -92,7 +93,13 @@ public: //メンバ関数
 	/// ボスシーンをセット
 	/// </summary>
 	/// <param name="bossScene">ボスシーン</param>
-	void SetBossScene(BossScene* bossScene) { this->bossScene_ = bossScene; }
+	void SetBossScene(BossScene* bossScene) { bossScene_ = bossScene; }
+
+	/// <summary>
+	/// 弾管理クラスをセット
+	/// </summary>
+	/// <param name="bulletManeger">弾管理クラス</param>
+	void SetBulletManager(BulletManager* bulletManeger) { bulletManager_ = bulletManeger; }
 
 private: //メンバ関数
 	/// <summary>
@@ -168,6 +175,8 @@ private: //メンバ変数
 	BossScene* bossScene_;
 	//サウンドクラス
 	Sound* sound_;
+	//弾管理クラス
+	BulletManager* bulletManager_;
 
 	//ゲームシーン用変数
 	//回転時間

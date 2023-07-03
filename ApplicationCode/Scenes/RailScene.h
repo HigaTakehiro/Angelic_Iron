@@ -17,7 +17,6 @@
 #include "BaseEnemy.h"
 #include "LightGroup.h"
 #include "ParticleManager.h"
-#include "TextDraw.h"
 #include "BulletCase.h"
 #include "JsonLoader.h"
 #include "ScoreItem.h"
@@ -25,6 +24,7 @@
 #include "Button.h"
 #include "UIManager.h"
 #include "EnemyManager.h"
+#include "MessageWindow.h"
 
 class ScoreItem;
 class UIManager;
@@ -35,13 +35,6 @@ class RailScene : public BaseScene
 private: //静的メンバ変数
 	//デバックテキスト用テクスチャ番号
 	static const int32_t debugTextNumber = 0;
-
-private: //サブクラス
-	enum class FaceGraphics {
-		OPE_NORMALFACE,
-		OPE_SURPRISEFACE,
-		OPE_SMILEFACE
-	};
 
 public: //メンバ関数
 	/// <summary>
@@ -78,16 +71,6 @@ public: //メンバ関数
 	/// レールカメラ指定点を外部ファイルから読み込み
 	/// </summary>
 	void LoadRailPoint(const std::string& filename);
-
-	/// <summary>
-	/// 読み込んだテキストデータの更新
-	/// </summary>
-	void TextMessageUpdate();
-
-	/// <summary>
-	/// テキストデータの描画
-	/// </summary>
-	void TextMessageDraw();
 
 	/// <summary>
 	/// 敵オブジェクト取得
@@ -141,12 +124,6 @@ private: //メンバ関数
 private: //静的メンバ変数
 	//クリア演出用時間
 	static const int32_t clearTime = 120;
-	//顔グラフィックアニメーション時間
-	static const int32_t faceAnimeTime = 6;
-	//テキストウィンドウ閉鎖時間
-	static const int32_t closeWindowTime = 120;
-	//テキストウィンドウ開放時間
-	static const int32_t openWindowTime = 120;
 	//ゲームオーバー条件HP
 	static const int32_t noneHP = 0;
 	//チュートリアル表示時間
@@ -171,6 +148,8 @@ private: //メンバ変数
 	BulletManager* bulletManager_ = nullptr;
 	// 敵管理マネージャー
 	EnemyManager* enemyManager_ = nullptr;
+	//メッセージウィンドウ
+	MessageWindow* messageWindow_ = nullptr;
 	//2dパーティクルのリスト
 	std::list<std::unique_ptr<Particle2d>> particles2d_;
 	//スコアアイテムリスト
@@ -193,16 +172,6 @@ private: //メンバ変数
 	std::unique_ptr<Button> back_ = nullptr;
 	//リスタートボタン
 	std::unique_ptr<Button> restart_ = nullptr;
-	//顔グラフィックウィンドウ
-	Sprite* faceWindow_ = nullptr;
-	//テキストウィンドウ
-	Sprite* textWindow_ = nullptr;
-	//オペレーター通常フェイス
-	Sprite* opeNormal_[3] = {};
-	//オペレーター驚愕フェイス
-	Sprite* opeSurprise_[3] = {};
-	//オペレーター笑顔フェイス
-	Sprite* opeSmile_[3] = {};
 	//チュートリアルアイコン
 	Sprite* how_to_up_;
 	Sprite* how_to_down_;
@@ -210,12 +179,6 @@ private: //メンバ変数
 	Sprite* how_to_right_;
 	Sprite* how_to_shot_;
 	Sprite* how_to_bomb_;
-	//テキストウィンドウサイズ
-	DirectX::XMFLOAT2 textWindowSize_;
-	//顔グラフィックウィンドウサイズ
-	DirectX::XMFLOAT2 faceWindowSize_;
-	//顔グラフィックサイズ
-	DirectX::XMFLOAT2 faceGraphicSize_;
 
 	//UIマネージャ
 	UIManager* uiManager_ = nullptr;
@@ -223,35 +186,17 @@ private: //メンバ変数
 	//ライトオブジェクト
 	LightGroup* light_ = nullptr;
 
-	//テキスト描画用変数
-	//DirectWriteテキスト描画クラス
-	TextDraw* textDraw_ = nullptr;
-	//テキストスピード
-	int32_t textSpeed_;
-	//テキスト数
-	int32_t textCount_;
-	//テキスト追加時間
-	int32_t textAddTimer_;
-
 	//ゲームシーン用変数
 	//プレイヤー死亡フラグ
 	bool isDead_;
 	//クリアシーンフラグ
 	bool isClear_;
-	//エネミー読み込み待機フラグ
-	bool isWait_;
-	//メッセージデータ読み込み待機フラグ
-	bool isMessageWait_;
-	//メッセージデータ出力完了フラグ
-	bool isTextDrawComplete_;
 	//プレイヤー死亡時演出用フラグ
 	bool isPlayerDead_;
 	//ポーズフラグ
 	bool isPause_;
 	//タイトル画面変更フラグ
 	bool isTitleBack_;
-	//メッセージウィンドウオープンフラグ
-	bool isTextWindowOpen_;
 	//リスタートフラグ
 	bool isRestart_;
 	//チュートリアル完了フラグ
@@ -268,26 +213,12 @@ private: //メンバ変数
 	float how_to_right_alpha_;
 	float how_to_shot_alpha_;
 	float how_to_bomb_alpha_;
-	//エネミー読み込み待機時間
-	int32_t waitTimer_;
 	//メッセージデータ読み込み待機時間
 	int32_t waitMessageTimer_;
 	//クリア演出用時間
 	int32_t clearTimer_;
-	//ウィンドウ閉鎖時間
-	int32_t closeWindowTimer_;
-	//ウィンドウ解放時間
-	int32_t openWindowTimer_;
 	//チュートリアル表示時間
 	int32_t tutorialTimer_;
-	//エネミーデータ格納用文字列
-	std::stringstream enemyData_;
-	//メッセージデータ格納用文字列
-	std::stringstream textData_;
-	//メッセージ内容出力用文字列
-	std::wstring drawMessage_;
-	//メッセージ内容格納文字列
-	std::wstring message_;
 	//レールカメラ用スプライン指定点格納コンテナ
 	std::vector<Vector3> points_;
 	//レールカメラ用カメラ回転角度格納コンテナ
@@ -296,12 +227,6 @@ private: //メンバ変数
 	std::vector<float> cameraMoveTimes_;
 	//スコア
 	int32_t score_;
-	//顔グラフィックアニメーションタイマー
-	int32_t faceAnimeTimer_;
-	//顔グラフィックアニメーション番号
-	int32_t faceAnimeCount_;
-	//顔グラフィックタイプ
-	FaceGraphics faceType_;
 	//スロー演出用タイマー
 	int32_t delayTimer_;
 	//ポストエフェクト番号

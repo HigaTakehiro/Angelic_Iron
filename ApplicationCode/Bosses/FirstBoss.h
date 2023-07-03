@@ -2,6 +2,7 @@
 #include "BaseBoss.h"
 #include "BossScene.h"
 #include "BossScenePlayer.h"
+#include "BulletManager.h"
 
 class FirstBoss : public BaseBoss
 {
@@ -90,6 +91,11 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>右手オブジェクト</returns>
 	Object3d* GetRightHandObj() { return rightHand_; }
+	/// <summary>
+	/// 弾管理クラスをセット
+	/// </summary>
+	/// <param name="bulletManager">弾管理クラス</param>
+	void SetBulletManager(BulletManager* bulletManager) { bulletManager_ = bulletManager; }
 
 private: //メンバ関数
 	/// <summary>
@@ -100,14 +106,6 @@ private: //メンバ関数
 	/// 回転攻撃
 	/// </summary>
 	void RollingShot(const int32_t actionPreTime);
-	/// <summary>
-	/// 押しつぶし攻撃
-	/// </summary>
-	void Stomp();
-	/// <summary>
-	/// ラリアット攻撃
-	/// </summary>
-	void Lariat();
 	/// <summary>
 	/// 死亡演出
 	/// </summary>
@@ -187,5 +185,6 @@ private: //メンバ変数
 	int32_t actionPostTimer_;
 	bool isActionPos_;
 	bool isActionPost_;
+	BulletManager* bulletManager_;
 };
 

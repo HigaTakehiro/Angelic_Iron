@@ -177,7 +177,13 @@ void Player::Shot() {
 
 	const float bulletSpeed = 5.0f;
 	XMVECTOR velocity;
-	velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
+	if (targetEnemy_ != nullptr) {
+		Vector3 enemyPos = targetEnemy_->GetEnemyObj()->GetMatWorld().r[3];
+		velocity = { enemyPos.x - playerWPos_.x, enemyPos.y - playerWPos_.y, enemyPos.z - playerWPos_.z };
+	}
+	else {
+		velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
+	}
 	velocity = XMVector3Normalize(velocity) * bulletSpeed;
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -191,9 +197,6 @@ void Player::Shot() {
 
 	std::unique_ptr<BulletCase> newBulletCase = std::make_unique<BulletCase>();
 	newBulletCase->Initialize(gunPos, velocity, gunForward);
-
-	//railScene_->AddPlayerBullet(std::move(newBullet));
-	//railScene_->AddBulletCase(std::move(newBulletCase));
 	
 	bulletManager_->AddPlayerBullet(std::move(newBullet));
 	bulletManager_->AddBulletCase(std::move(newBulletCase));

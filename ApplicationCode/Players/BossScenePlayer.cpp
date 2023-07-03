@@ -372,7 +372,7 @@ void BossScenePlayer::Shot(Vector3 mouse3dPos)
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initialize(playerWPos_, velocity);
 
-	bossScene_->AddPlayerBullet(std::move(newBullet));
+	bulletManager_->AddPlayerBullet(std::move(newBullet));
 
 	bulletCount_--;
 	//sound->PlayWave("Engine/Resources/Sound/SE/short_bomb.wav", false, 0.01f);

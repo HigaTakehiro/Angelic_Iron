@@ -138,6 +138,12 @@ public: //メンバ関数
 	void SetShotDistance(const float shotDistance) { shotDistance_ = shotDistance; }
 
 	/// <summary>
+	/// エイムアシスト用敵インスタンスセット
+	/// </summary>
+	/// <param name="enemy">敵インスタンス</param>
+	void SetEnemy(BaseEnemy* enemy = nullptr) { targetEnemy_ = enemy; }
+
+	/// <summary>
 	/// プレイヤー座標にベクトルを加算
 	/// </summary>
 	/// <param name="vector">ベクトル</param>
@@ -280,6 +286,7 @@ private: //メンバ変数
 	Camera* camera_;
 	RailScene* railScene_;
 	BulletManager* bulletManager_;
+	BaseEnemy* targetEnemy_;
 
 	//残弾数
 	int32_t bulletCount_;

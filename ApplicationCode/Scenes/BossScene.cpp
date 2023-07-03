@@ -55,47 +55,11 @@ void BossScene::Initialize()
 
 	int32_t stageNo = 0;
 	stageNo = SceneManager::GetStageNo();
+	messageWindow_ = new MessageWindow();
 	if (stageNo == 1) {
-		LoadTextMessage("Stage1BossText.aid");
+		messageWindow_->Initialize("Stage1BossText.aid");
 	}
 
-	textWindow_ = Sprite::Create((UINT)ImageManager::ImageName::TextWindow, { 580, 630 });
-	textWindow_->SetAlpha(0.4f);
-	textWindowSize_ = textWindow_->GetSize();
-	textWindowSize_.y = 0;
-	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow_ = Sprite::Create((UINT)ImageManager::ImageName::FaceWindow, { 90, 630 });
-	faceWindowSize_ = faceWindow_->GetSize();
-	faceWindowSize_.y = 0;
-	faceWindow_->SetAlpha(0.4f);
-	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	for (int32_t i = 0; i < 3; i++) {
-		opeNormal_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_NORMAL, { 90, 630 });
-		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeNormal_[i]->SetSize({ 160, 160 });
-		opeNormal_[i]->SetColor({ 2, 2, 2 });
-		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-
-		opeSurprise_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SURPRISE, { 90, 630 });
-		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSurprise_[i]->SetSize({ 160, 160 });
-		opeSurprise_[i]->SetColor({ 2, 2, 2 });
-		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-
-		opeSmile_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SMILE, { 90, 630 });
-		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSmile_[i]->SetSize({ 160, 160 });
-		opeSmile_[i]->SetColor({ 2, 2, 2 });
-		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-	}
-	for (int32_t i = 0; i < 2; i++) {
-		movieBarPos_[i] = { 600.0f, 710.0f * (float)i };
-		movieBar_[i] = Sprite::Create((UINT)ImageManager::ImageName::SceneChangeBar, movieBarPos_[i]);
-		movieBar_[i]->SetSize({ 1680, 200 });
-		movieBar_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-	}
-	textAddTimer_ = 0;
-	textSpeed_ = 1;
 	//boss = new FirstBoss;
 	//boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
 
@@ -106,12 +70,8 @@ void BossScene::Initialize()
 
 	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 300 });
-	titleBack_->SetAnchorPoint({ 0.5f, 0.5f });
-	titleBackSize_ = titleBack_->GetSize();
-	back_ = Sprite::Create((UINT)ImageManager::ImageName::Back, { 640, 450 });
-	back_->SetAnchorPoint({ 0.5f, 0.5f });
-	backSize_ = back_->GetSize();
+	titleBack_ = Button::CreateButton(ImageManager::ImageName::TitleBack, { 640, 300 }, { 256, 128 }, 0.0f);
+	back_ = Button::CreateButton(ImageManager::ImageName::Back, { 640, 450 }, { 256, 128 }, 0.0f);
 	scoreText_ = Sprite::Create((UINT)ImageManager::ImageName::score, { 1180, 50 });
 	scoreText_->SetAnchorPoint({ 0.5f, 0.5f });
 	scoreText_->SetSize({ scoreText_->GetSize().x / 2.0f, scoreText_->GetSize().y / 2.0f });
@@ -121,7 +81,12 @@ void BossScene::Initialize()
 		scoreNumber_[i]->SetTextureRect({ nine, 0.0f }, { 64, 64 });
 		scoreNumber_[i]->SetSize({ 32, 32 });
 	}
-	operatorSize_ = { 160.0f, 0.0f };
+	for (int32_t i = 0; i < 2; i++) {
+		movieBarPos_[i] = { 600.0f, 710.0f * (float)i };
+		movieBar_[i] = Sprite::Create((UINT)ImageManager::ImageName::SceneChangeBar, movieBarPos_[i]);
+		movieBar_[i]->SetSize({ 1680, 200 });
+		movieBar_[i]->SetAnchorPoint({ 0.5f, 0.5f });
+	}
 	score_ = 0;
 
 	light_ = LightGroup::Create();
@@ -134,17 +99,18 @@ void BossScene::Initialize()
 	Object3d::SetLight(light_);
 
 	isPause_ = false;
-	isTitleBack_ = false;
 	isDead_ = false;
 
 	movieTimer_ = 0;
 	cameraPos_ = { 220.0f, 0.0f, 0.0f };
+
+	bulletManager_ = new BulletManager();
+	player_->SetBulletManager(bulletManager_);
+	firstBoss_->SetBulletManager(bulletManager_);
 }
 
 void BossScene::Update()
 {
-	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
-	bossBullets_.remove_if([](std::unique_ptr<EnemyBullet>& bossBullet) { return bossBullet->IsDead(); });
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle2d) {return particle2d->IsDelete(); });
 
 	const int32_t delayTime = 0;
@@ -196,42 +162,8 @@ void BossScene::Update()
 		scoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(score_ + SceneManager::GetScore(), i), 0 }, { 64, 64 });
 	}
 
-	if (!isTextWindowOpen_) {
-		closeWindowTimer_++;
-		if (closeWindowTimer_ >= closeWindowTime) {
-			closeWindowTimer_ = closeWindowTime;
-		}
-		textWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, textWindowSize_.y);
-		faceWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceWindowSize_.y);
-		operatorSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, operatorSize_.y);
-
-		textWindow_->SetSize(textWindowSize_);
-		faceWindow_->SetSize(faceWindowSize_);
-		for (int32_t i = 0; i < 3; i++) {
-			opeNormal_[i]->SetSize(operatorSize_);
-		}
-	}
-	else if (isTextWindowOpen_) {
-		closeWindowTimer_ = 0;
-		openWindowTimer_++;
-		if (openWindowTimer_ >= openWindowTime) {
-			openWindowTimer_ = openWindowTime;
-		}
-		textWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, textWindowSize_.y);
-		faceWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceWindowSize_.y);
-		operatorSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, operatorSize_.y);
-
-		textWindow_->SetSize(textWindowSize_);
-		faceWindow_->SetSize(faceWindowSize_);
-		for (int32_t i = 0; i < 3; i++) {
-			opeNormal_[i]->SetSize(operatorSize_);
-			opeSurprise_[i]->SetSize(operatorSize_);
-			opeSmile_[i]->SetSize(operatorSize_);
-		}
-	}
-
 	if (!isPause_) {
-		TextMessageUpdate();
+		messageWindow_->Update();
 
 		ground_->Update();
 		celetialSphere_->Update();
@@ -266,19 +198,13 @@ void BossScene::Update()
 		if (player_->GetHPCount() > noneHP) {
 			firstBoss_->Update(player_->GetPlayerObj()->GetMatWorld().r[3]);
 
-			for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-				playerBullet->Update();
-			}
-
 			for (std::unique_ptr<Object3d>& building : buildings_) {
 				building->Update();
 			}
+			
+			bulletManager_->Update();
 
-			for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
-				bossBullet->Update();
-			}
-
-			for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
+			for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
 				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetBossObj(), 1.0f, 100.0f)) {
 					if (firstBoss_->GetBossHp() > 0) {
 						score_ += 100;
@@ -304,7 +230,7 @@ void BossScene::Update()
 				}
 			}
 
-			for (const std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
+			for (const std::unique_ptr<EnemyBullet>& bossBullet : bulletManager_->GetEnemyBullets()) {
 				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player_->GetPlayerObj(), 2.0f, 5.0f)) {
 					bossBullet->OnCollision();
 					if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
@@ -327,37 +253,15 @@ void BossScene::Update()
 
 	}
 	else {
-		XMFLOAT2 mousePos = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
-		const float selectAlpha = 0.5f;
-		const float normalAlpha = 1.0f;
-		XMFLOAT2 selectSize;
-		if (IsMouseHitSprite(mousePos, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
-			selectSize = { titleBackSize_.x * 0.9f, titleBackSize_.y * 0.9f };
-			titleBack_->SetSize(selectSize);
-			titleBack_->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-				isTitleBack_ = true;
-				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-			}
-		}
-		else {
-			titleBack_->SetSize(titleBackSize_);
-			titleBack_->SetAlpha(normalAlpha);
-		}
+		titleBack_->Update();
+		back_->Update();
 
-		if (IsMouseHitSprite(mousePos, back_->GetPosition(), backSize_.x, backSize_.y)) {
-			selectSize = { backSize_.x * 0.9f, backSize_.y * 0.9f };
-			back_->SetSize(selectSize);
-			back_->SetAlpha(selectAlpha);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-				isPause_ = !isPause_;
-			}
+		if (titleBack_->GetIsClick()) {
+			isTitleBack_ = true;
 		}
-		else {
-			back_->SetSize(backSize_);
-			back_->SetAlpha(normalAlpha);
+		if (back_->GetIsClick()) {
+			isPause_ = false;
 		}
-
 	}
 
 	//ライト更新処理
@@ -373,20 +277,6 @@ void BossScene::Draw()
 	//背景色
 	const XMFLOAT4 backColor = { 0.1f,0.25f, 0.5f, 0.0f };
 	bool isRoop = false;
-
-	opeAnimeTimer_++;
-	if (opeAnimeTimer_ >= opeAnimeTime) {
-		opeAnimeTimer_ = 0;
-		opeAnimeCount_++;
-		if (opeAnimeCount_ >= 3) {
-			opeAnimeCount_ = 0;
-		}
-	}
-
-	if (isTextDraw_) {
-		opeAnimeCount_ = 0;
-		opeAnimeTimer_ = 0;
-	}
 
 	if (player_->GetIsDamage()) {
 		postEffectNo_ = PostEffect::PostEffectNo::DAMAGE;
@@ -429,19 +319,14 @@ void BossScene::Draw()
 	for (std::unique_ptr<Object3d>& building : buildings_) {
 		building->Draw();
 	}
-	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
-		playerBullet->Draw();
-	}
-	for (std::unique_ptr<EnemyBullet>& bossBullet : bossBullets_) {
-		bossBullet->Draw();
-	}
+	bulletManager_->Draw();
 	Object3d::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	if (!isPause_) {
-		TextMessageDraw();
+		messageWindow_->TextMessageDraw(false);
 	}
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -470,9 +355,7 @@ void BossScene::Draw()
 		particle2d->Draw();
 	}
 	if (!isPause_) {
-		textWindow_->Draw();
-		faceWindow_->Draw();
-		opeNormal_[opeAnimeCount_]->Draw();
+		messageWindow_->SpriteDraw();
 		firstBoss_->SpriteDraw();
 	}
 	Reticle::GetIns()->Draw();
@@ -496,156 +379,14 @@ void BossScene::Finalize()
 	safe_delete(player_);
 	safe_delete(scoreText_);
 	safe_delete(light_);
-	safe_delete(textDraw_);
-	safe_delete(textWindow_);
-	safe_delete(faceWindow_);
-	for (int32_t i = 0; i < 3; i++) {
-		safe_delete(opeNormal_[i]);
-		safe_delete(opeSurprise_[i]);
-		safe_delete(opeSmile_[i]);
-	}
+	safe_delete(bulletManager_);
+	safe_delete(messageWindow_);
 	for (int32_t i = 0; i < 2; i++) {
 		safe_delete(movieBar_[i]);
 	}
 	for (int32_t i = 0; i < 6; i++) {
 		safe_delete(scoreNumber_[i]);
 	}
-}
-
-void BossScene::AddPlayerBullet(std::unique_ptr<PlayerBullet> playerBullet)
-{
-	playerBullets_.push_back(std::move(playerBullet));
-}
-
-void BossScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> bossBullet)
-{
-	bossBullets_.push_back(std::move(bossBullet));
-}
-
-void BossScene::LoadTextMessage(const std::string fileName)
-{
-	//ファイルストリーム
-	std::ifstream file;
-	textData_.str("");
-	textData_.clear(std::stringstream::goodbit);
-
-	const std::string directory = "Engine/Resources/GameData/";
-	file.open(directory + fileName);
-	if (file.fail()) {
-		assert(0);
-	}
-
-	textData_ << file.rdbuf();
-
-	file.close();
-}
-
-void BossScene::TextMessageUpdate()
-{
-	std::string line;
-	std::string face;
-	std::string messageData;
-	std::wstring messageDataW;
-
-	if (isMessageWait_) {
-		if (isTextDraw_) {
-			waitMessageTimer_--;
-		}
-		if (waitMessageTimer_ <= 0) {
-			isMessageWait_ = false;
-			textCount_ = 0;
-			message_.clear();
-			drawMessage_.clear();
-		}
-		return;
-	}
-
-	while (getline(textData_, line)) {
-		std::istringstream line_stream(line);
-		std::string word;
-		//半角区切りで文字列を取得
-		getline(line_stream, word, ' ');
-		if (word == "#") {
-			continue;
-		}
-		if (word == "OPEN") {
-			isTextWindowOpen_ = true;
-		}
-		if (word == "FACE") {
-			line_stream >> face;
-			if (face == "OPE_NORMAL") {
-				faceType_ = FaceGraphics::OPE_NORMALFACE;
-			}
-			else if (face == "OPE_SURPRISE") {
-				faceType_ = FaceGraphics::OPE_SURPRISEFACE;
-			}
-			else if (face == "OPE_SMILE") {
-				faceType_ = FaceGraphics::OPE_SMILEFACE;
-			}
-		}
-		if (word == "TEXT") {
-			line_stream >> messageData;
-			messageDataW = StringToWstring(messageData);
-			message_ = messageDataW;
-		}
-		if (word == "SPEED") {
-			line_stream >> textSpeed_;
-		}
-		if (word == "WAIT") {
-			isMessageWait_ = true;
-			line_stream >> waitMessageTimer_;
-			break;
-		}
-		if (word == "CLOSE") {
-			isTextWindowOpen_ = false;
-		}
-	}
-}
-
-void BossScene::TextMessageDraw()
-{
-	if (textSpeed_ <= 0) {
-		textSpeed_ = 1;
-	}
-
-	D2D1_RECT_F textDrawPos = {
-		200, 560, 950, 700
-	};
-
-	textAddTimer_++;
-	isTextDraw_ = false;
-	if (textAddTimer_ >= textSpeed_) {
-		textAddTimer_ = 0;
-		if (textCount_ < message_.size()) {
-			if (message_.substr(textCount_, 1) != L"/") {
-				drawMessage_ += message_.substr(textCount_, 1);
-			}
-			else {
-				drawMessage_ += L"\n";
-			}
-			textCount_++;
-		}
-
-		if (textCount_ >= message_.size()) {
-			isTextDraw_ = true;
-		}
-	}
-
-	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
-}
-
-std::wstring BossScene::StringToWstring(const std::string& text)
-{
-	//文字サイズを取得
-	int32_t iBufferSize = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, (wchar_t*)NULL, 0);
-	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
-	//SJISからwstringに変換
-	MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, cpUCS2, iBufferSize);
-	std::wstring oRet(cpUCS2, cpUCS2 + iBufferSize - 1);
-
-	delete[] cpUCS2;
-
-	return oRet;
 }
 
 void BossScene::SceneChange()

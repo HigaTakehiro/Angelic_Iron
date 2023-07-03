@@ -436,7 +436,7 @@ void FirstBoss::RollingShot(const int32_t actionPreTime) {
 			velocity = XMVector3TransformNormal(velocity, leftHand_->GetMatWorld());
 			std::unique_ptr<EnemyBullet> newLeftBullet = std::make_unique<EnemyBullet>();
 			newLeftBullet->Initialize(leftHand_->GetMatWorld().r[3], velocity);
-			bossScene_->AddEnemyBullet(std::move(newLeftBullet));
+			bulletManager_->AddEnemyBullet(std::move(newLeftBullet));
 		}
 
 		if (rightHandHP_ > deadHP) {
@@ -454,7 +454,7 @@ void FirstBoss::RollingShot(const int32_t actionPreTime) {
 			velocity = XMVector3TransformNormal(velocity, rightHand_->GetMatWorld());
 			std::unique_ptr<EnemyBullet> newRightBullet = std::make_unique<EnemyBullet>();
 			newRightBullet->Initialize(rightHand_->GetMatWorld().r[3], velocity);
-			bossScene_->AddEnemyBullet(std::move(newRightBullet));
+			bulletManager_->AddEnemyBullet(std::move(newRightBullet));
 		}
 	}
 	else {
@@ -511,82 +511,6 @@ void FirstBoss::RollingShot(const int32_t actionPreTime) {
 			isActionPost_ = false;
 		}
 		
-	}
-}
-
-void FirstBoss::Stomp()
-{
-	stompTimer_++;
-	if (stompTimer_ <= 50) {
-		leftHandAngle_ = player_->GetAngle();
-		leftHandPos_ = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, leftHandPos_, leftHandAngle_, 15, MotionMath::Y);
-		leftHandPos_.y = 10.0f;
-		leftHandRot_.x = 0.0f;
-	}
-	else {
-		leftHandPos_.y -= 3.0f;
-	}
-
-	if (stompTimer_ >= stompTime) {
-		actionCoolTimer_ = 0;
-		stompTimer_ = 0;
-		actionPattern_ = 1;
-	}
-
-	if (rightHandHP_ > deadHP) {
-		rightHandAngle_++;
-		if (rightHandAngle_ >= 360.0f) {
-			rightHandAngle_ = 0;
-		}
-
-		rightHandPos_.y = -3.5f;
-		rightHandPos_ = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandPos_, rightHandAngle_, 15, MotionMath::Y);
-
-		rightHandRot_.y = -rightHandAngle_;
-
-		XMVECTOR velocity = { 0, -1, 0 };
-		velocity = XMVector3TransformNormal(velocity, rightHand_->GetMatWorld());
-		std::unique_ptr<EnemyBullet> newRightBullet = std::make_unique<EnemyBullet>();
-		newRightBullet->Initialize(rightHand_->GetMatWorld().r[3], velocity);
-		bossScene_->AddEnemyBullet(std::move(newRightBullet));
-	}
-}
-
-void FirstBoss::Lariat()
-{
-	punchTimer_++;
-	if (punchTimer_ >= punchTime) {
-		actionCoolTimer_ = 0;
-		actionPattern_ = 1;
-		punchTimer_ = 0;
-	}
-
-	if (leftHandHP_ > deadHP) {
-		leftHandAngle_ += 2.0f;
-		if (leftHandAngle_ >= 360.0f) {
-			leftHandAngle_ = 0;
-		}
-
-		leftHandPos_ = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, leftHandPos_, leftHandAngle_, 18, MotionMath::Y);
-		leftHandPos_.y = -3.5f;
-
-		leftHandRot_.y = -leftHandAngle_ + 60;
-
-		leftHandScale_ = { 0.8f, 0.8f, 0.8f };
-	}
-
-	if (rightHandHP_ > deadHP) {
-		rightHandAngle_ += 2.0f;
-		if (rightHandAngle_ >= 360.0f) {
-			rightHandAngle_ = 0;
-		}
-
-		rightHandPos_.y = -3.5f;
-		rightHandPos_ = MotionMath::CircularMotion({ 0.0f, 0.0f, 0.0f }, rightHandPos_, rightHandAngle_, 18, MotionMath::Y);
-
-		rightHandRot_.y = -rightHandAngle_ + 60;
-
-		rightHandScale_ = { 0.8f, 0.8f, 0.8f };
 	}
 }
 

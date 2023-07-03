@@ -47,37 +47,6 @@ void RailScene::Initialize() {
 	uiManager_ = new UIManager();
 	uiManager_->Initialize();
 
-	textWindow_ = Sprite::Create((UINT)ImageManager::ImageName::TextWindow, { 580, 630 });
-	textWindow_->SetAlpha(0.4f);
-	textWindowSize_ = textWindow_->GetSize();
-	textWindowSize_.y = 0;
-	textWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	faceWindow_ = Sprite::Create((UINT)ImageManager::ImageName::FaceWindow, { 90, 630 });
-	faceWindowSize_ = faceWindow_->GetSize();
-	faceWindowSize_.y = 0;
-	faceWindow_->SetAlpha(0.4f);
-	faceWindow_->SetAnchorPoint({ 0.5f, 0.5f });
-	faceGraphicSize_ = { 160, 0 };
-	for (int32_t i = 0; i < 3; i++) {
-		opeNormal_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_NORMAL, { 90, 630 });
-		opeNormal_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeNormal_[i]->SetSize({ 160, 160 });
-		opeNormal_[i]->SetColor({ 2, 2, 2 });
-		opeNormal_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-
-		opeSurprise_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SURPRISE, { 90, 630 });
-		opeSurprise_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSurprise_[i]->SetSize({ 160, 160 });
-		opeSurprise_[i]->SetColor({ 2, 2, 2 });
-		opeSurprise_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-
-		opeSmile_[i] = Sprite::Create((UINT)ImageManager::ImageName::OPE_SMILE, { 90, 630 });
-		opeSmile_[i]->SetTextureRect({ 160.0f * (float)i, 0.0f }, { 160.0f, 160.0f });
-		opeSmile_[i]->SetSize({ 160, 160 });
-		opeSmile_[i]->SetColor({ 2, 2, 2 });
-		opeSmile_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-
-	}
 	how_to_up_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Up, { 0, 0 });
 	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
 	how_to_up_->SetSize({ 64.0f, 64.0f });
@@ -143,17 +112,17 @@ void RailScene::Initialize() {
 	enemyManager_->SetRailScene(this);
 	enemyManager_->SetParticleManager(enemyParticle_);
 
+	messageWindow_ = new MessageWindow();
 	//ステージデータ読み込み
 	if (stageNo == 1) {
 		player_->SetClearPos({ 130.0f, 20.0f, 55.0f });
 		LoadRailPoint("Stage1RailPoints.aid");
 		jsonLoader_->StageDataLoadandSet("stage1");
 		enemyManager_->Initialize("Stage1EnemyData.aid");
-		textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1RailText.aid");
+		messageWindow_->Initialize("Stage1RailText.aid");
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
-		enemyData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage2EnemyData.aid");;
 	}
 
 	//ポストエフェクトの初期化
@@ -162,13 +131,9 @@ void RailScene::Initialize() {
 	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 
 	//ゲームシーン用変数の初期化
-	textAddTimer_ = 0;
-	textSpeed_ = 1;
-	textCount_ = 0;
-	isTextDrawComplete_ = false;
 	score_ = 0;
 	clearTimer_ = clearTime;
-	faceType_ = FaceGraphics::OPE_NORMALFACE;
+	//faceType_ = FaceGraphics::OPE_NORMALFACE;
 	Reticle::GetIns()->SetIsSelectReticle(false);
 
 	SceneChangeEffect::GetIns()->SetIsSceneChangeComplete(true);
@@ -186,7 +151,6 @@ void RailScene::Update() {
 	}
 
 	//オブジェクトリスト解放処理
-	//enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy) {return enemy->GetIsDead(); });
 	particles2d_.remove_if([](std::unique_ptr<Particle2d>& particle) {return particle->IsDelete(); });
 	scoreItems_.remove_if([](std::unique_ptr<ScoreItem>& scoreItem) {return scoreItem->GetIsDead(); });
 
@@ -285,19 +249,7 @@ void RailScene::Draw() {
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	if (!isPause_) {
-		textWindow_->Draw();
-		faceWindow_->Draw();
-		switch (faceType_) {
-		case FaceGraphics::OPE_NORMALFACE:
-			opeNormal_[faceAnimeCount_]->Draw();
-			break;
-		case FaceGraphics::OPE_SURPRISEFACE:
-			opeSurprise_[faceAnimeCount_]->Draw();
-			break;
-		case FaceGraphics::OPE_SMILEFACE:
-			opeSmile_[faceAnimeCount_]->Draw();
-			break;
-		}
+		messageWindow_->SpriteDraw();
 	}
 	how_to_up_->Draw();
 	how_to_down_->Draw();
@@ -325,7 +277,7 @@ void RailScene::Draw() {
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	if (!isPause_) {
-		TextMessageDraw();
+		messageWindow_->TextMessageDraw(player_->GetIsBomb());
 	}
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -351,17 +303,10 @@ void RailScene::Finalize() {
 	safe_delete(gunParticle_);
 	safe_delete(thrusterParticle_);
 	safe_delete(enemyParticle_);
-	safe_delete(textDraw_);
-	safe_delete(textWindow_);
-	safe_delete(faceWindow_);
 	safe_delete(bulletManager_);
 	safe_delete(uiManager_);
 	safe_delete(enemyManager_);
-	for (int32_t i = 0; i < 3; i++) {
-		safe_delete(opeNormal_[i]);
-		safe_delete(opeSurprise_[i]);
-		safe_delete(opeSmile_[i]);
-	}
+	safe_delete(messageWindow_);
 	safe_delete(how_to_up_);
 	safe_delete(how_to_down_);
 	safe_delete(how_to_left_);
@@ -488,161 +433,6 @@ void RailScene::LoadRailPoint(const std::string& filename) {
 
 }
 
-void RailScene::TextMessageUpdate()
-{
-	std::string line;
-	std::string face;
-	std::string messageData;
-	std::wstring messageDataW;
-
-	if (isMessageWait_) {
-		if (isTextDrawComplete_) {
-			waitMessageTimer_--;
-		}
-		if (waitMessageTimer_ <= 0) {
-			isMessageWait_ = false;
-			textCount_ = 0;
-			message_.clear();
-			drawMessage_.clear();
-		}
-		return;
-	}
-
-	while (getline(textData_, line)) {
-		std::istringstream line_stream(line);
-		std::string word;
-		//半角区切りで文字列を取得
-		getline(line_stream, word, ' ');
-		if (word == "#") {
-			continue;
-		}
-		if (word == "OPEN") {
-			isTextWindowOpen_ = true;
-		}
-		if (word == "FACE") {
-			line_stream >> face;
-			if (face == "OPE_NORMAL") {
-				faceType_ = FaceGraphics::OPE_NORMALFACE;
-			}
-			else if (face == "OPE_SURPRISE") {
-				faceType_ = FaceGraphics::OPE_SURPRISEFACE;
-			}
-			else if (face == "OPE_SMILE") {
-				faceType_ = FaceGraphics::OPE_SMILEFACE;
-			}
-		}
-		if (word == "TEXT") {
-			line_stream >> messageData;
-			messageDataW = ExternalFileLoader::GetIns()->StringToWstring(messageData);
-			message_ = messageDataW;
-		}
-		if (word == "SPEED") {
-			line_stream >> textSpeed_;
-		}
-		if (word == "WAIT") {
-			isMessageWait_ = true;
-			line_stream >> waitMessageTimer_;
-			break;
-		}
-		if (word == "CLOSE") {
-			isTextWindowOpen_ = false;
-		}
-	}
-}
-
-void RailScene::TextMessageDraw()
-{
-	//ウィンドウサイズ(クローズ時)
-	const float closeWindowSizeY = 0.0f;
-	//ウィンドウサイズ(オープン時)
-	const float openWindowSizeY = 160.0f;
-
-	//メッセージウィンドウ開閉処理
-	//メッセージウィンドウ閉鎖処理
-	if (!isTextWindowOpen_) {
-		openWindowTimer_ = 0;
-		closeWindowTimer_++;
-		if (closeWindowTimer_ >= closeWindowTime) {
-			closeWindowTimer_ = closeWindowTime;
-		}
-		//イーズインアウトでメッセージウィンドウを閉じる
-		textWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, textWindowSize_.y);
-		faceWindowSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceWindowSize_.y);
-		faceGraphicSize_.y = Easing::easeInOut((float)closeWindowTimer_, (float)closeWindowTime, closeWindowSizeY, faceGraphicSize_.y);
-	}
-	//メッセージウィンドウ開放処理
-	else if (isTextWindowOpen_) {
-		closeWindowTimer_ = 0;
-		openWindowTimer_++;
-		if (openWindowTimer_ >= openWindowTime) {
-			openWindowTimer_ = openWindowTime;
-		}
-		//イーズインアウトでメッセージウィンドウを開く
-		textWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, textWindowSize_.y);
-		faceWindowSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceWindowSize_.y);
-		faceGraphicSize_.y = Easing::easeInOut((float)openWindowTimer_, (float)openWindowTime, openWindowSizeY, faceGraphicSize_.y);
-	}
-
-	//メッセージウィンドウサイズを変更
-	textWindow_->SetSize(textWindowSize_);
-	faceWindow_->SetSize(faceWindowSize_);
-	for (int32_t i = 0; i < 3; i++) {
-		opeNormal_[i]->SetSize(faceGraphicSize_);
-		opeSurprise_[i]->SetSize(faceGraphicSize_);
-		opeSmile_[i]->SetSize(faceGraphicSize_);
-	}
-
-	//顔グラフィックアニメーション時間加算
-	faceAnimeTimer_++;
-	if (faceAnimeTimer_ >= faceAnimeTime) {
-		faceAnimeTimer_ = 0;
-		faceAnimeCount_++;
-		if (faceAnimeCount_ >= 3) {
-			faceAnimeCount_ = 0;
-		}
-	}
-	//読み込んだテキスト描画が完了していたら
-	if (isTextDrawComplete_) {
-		faceAnimeCount_ = 0;
-		faceAnimeTimer_ = 0;
-	}
-	//テキストスピードが0以下にならないようにする
-	if (textSpeed_ <= 0) {
-		textSpeed_ = 1;
-	}
-	//テキスト描画範囲
-	D2D1_RECT_F textDrawPos = {
-		200, 560, 950, 700
-	};
-	D2D1_RECT_F bombMessageDrawPos = {
-		400, 0, 900, 300
-	};
-	//テキストを1文字ずつ指定時間ごとに追加する
-	textAddTimer_++;
-	isTextDrawComplete_ = false;
-	if (textAddTimer_ >= textSpeed_) {
-		textAddTimer_ = 0;
-		if (textCount_ < message_.size()) {
-			if (message_.substr(textCount_, 1) != L"/") {
-				drawMessage_ += message_.substr(textCount_, 1);
-			}
-			else {
-				drawMessage_ += L"\n";
-			}
-			textCount_++;
-		}
-		//読み込んだテキスト描画が完了したら
-		if (textCount_ >= message_.size()) {
-			isTextDrawComplete_ = true;
-		}
-	}
-	//現在追加されている文字を全て描画する
-	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
-	if (player_->GetIsBomb()) {
-		textDraw_->Draw("meiryo", "orange", L"時間内にできるだけ多くの敵を\nロックオンしてください。\n右クリックで発射可能", bombMessageDrawPos);
-	}
-}
-
 std::list<std::unique_ptr<BaseEnemy>>& RailScene::GetEnemyObj()
 {
 	return enemyManager_->GetEnemies();
@@ -660,7 +450,7 @@ void RailScene::DelayUpdates()
 	//スロー演出
 	if (delayTimer_ >= delayTime) {
 		//テキスト更新処理
-		TextMessageUpdate();
+		messageWindow_->Update();
 
 		//プレイヤーが生きている場合に更新
 		if (player_->GetHPCount() > 0) {
@@ -902,6 +692,6 @@ void RailScene::SceneChange()
 	//デバッグ用
 	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
 	//	SceneManager::AddScore(score_);
-	//	SceneManager::SceneChange(SceneManager::Stage1_Boss);
+	//	SceneManager::SceneChange(SceneManager::SceneName::Stage1_Boss);
 	//}
 }
