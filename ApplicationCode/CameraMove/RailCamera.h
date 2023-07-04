@@ -6,6 +6,7 @@
 #include "KeyInput.h"
 #include <chrono>
 #include <thread>
+#include <string>
 
 class RailCamera
 {
@@ -27,12 +28,10 @@ public: //構造体
 public: //メンバ関数
 
 	/// <summary>
-	/// 初期化
+	/// 初期化処理
 	/// </summary>
-	/// <param name="eye">カメラのワールド座標</param>
-	/// <param name="rot">回転角</param>
-	/// <param name="points">スプライン補間時に通る各ポイント</param>
-	void Initialize(const Vector3& eye, const Vector3& rot, const MovePoints& movePoints, bool isRoop = false);
+	/// <param name="fileName">読み込むレールポイントファイル</param>
+	void Initialize(const std::string& fileName);
 
 	/// <summary>
 	/// 更新処理
@@ -76,6 +75,12 @@ private: //メンバ関数
 	/// ワールド行列補間
 	/// </summary>
 	void UpdateMatWorld();
+
+	/// <summary>
+	/// レールポイント読み込み
+	/// </summary>
+	/// <param name="fileName">読み込むレールポイントファイル</param>
+	void LoadRailPoint(const std::string& fileName);
 
 private: //静的メンバ変数
 

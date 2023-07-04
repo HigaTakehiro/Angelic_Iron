@@ -69,11 +69,6 @@ public: //メンバ関数
 	void Finalize();
 
 	/// <summary>
-	/// レールカメラ指定点を外部ファイルから読み込み
-	/// </summary>
-	void LoadRailPoint(const std::string& filename);
-
-	/// <summary>
 	/// 敵オブジェクト取得
 	/// </summary>
 	/// <returns></returns>
@@ -195,12 +190,6 @@ private: //メンバ変数
 	bool isRestart_;
 	//クリア演出用時間
 	int32_t clearTimer_;
-	//レールカメラ用スプライン指定点格納コンテナ
-	std::vector<Vector3> points_;
-	//レールカメラ用カメラ回転角度格納コンテナ
-	std::vector<Vector3> cameraRots_;
-	//レールカメラ用カメラ移動時間格納コンテナ
-	std::vector<float> cameraMoveTimes_;
 	//スコア
 	int32_t score_;
 	//スロー演出用タイマー

@@ -92,14 +92,14 @@ void RailScene::Initialize() {
 	//ステージデータ読み込み
 	if (stageNo == 1) {
 		player_->SetClearPos({ 130.0f, 20.0f, 55.0f });
-		LoadRailPoint("Stage1RailPoints.aid");
+		railCamera_->Initialize("Stage1RailPoints.aid");
 		jsonLoader_->StageDataLoadandSet("stage1");
 		enemyManager_->Initialize("Stage1EnemyData.aid");
 		messageWindow_->Initialize("Stage1RailText.aid");
 		railTutorial_->Initialize();
 	}
 	else if (stageNo == 2) {
-		LoadRailPoint("Stage2RailPoints.aid");
+		railCamera_->Initialize("Stage2RailPoints.aid");
 	}
 
 	//ポストエフェクトの初期化
@@ -277,125 +277,8 @@ void RailScene::Finalize() {
 	safe_delete(uiManager_);
 	safe_delete(enemyManager_);
 	safe_delete(messageWindow_);
-	safe_delete(railTutorial_);
+	//safe_delete(railTutorial_);
 	jsonLoader_->Finalize();
-}
-
-void RailScene::LoadRailPoint(const std::string& filename) {
-	//ファイルストリーム
-	std::stringstream railcameraPointsData;
-	railcameraPointsData = ExternalFileLoader::GetIns()->ExternalFileOpen(filename);
-
-	std::string line;
-	Vector3 pos{};
-	Vector3 rot{};
-	rot = { 0, 0, 0 };
-	Vector3 startPos{};
-	bool isStart = false;
-	bool isEnd = false;
-	bool isRoop = false;
-	bool isCameraRoop = false;
-	bool isPoint = false;
-	bool isTime = false;
-	bool isRot = false;
-	float splineTime = 0;
-	int32_t stringCount = 0;
-	RailCamera::MovePoints movePoints;
-
-	while (getline(railcameraPointsData, line)) {
-		std::istringstream line_stream(line);
-		std::string word;
-		//半角区切りで文字列を取得
-		getline(line_stream, word, ' ');
-		if (word == "#") {
-			continue;
-		}
-		if (word == "Start") {
-			line_stream >> startPos.x;
-			line_stream >> startPos.y;
-			line_stream >> startPos.z;
-			isStart = true;
-		}
-
-		if (word == "Pos") {
-			line_stream >> pos.x;
-			line_stream >> pos.y;
-			line_stream >> pos.z;
-			isPoint = true;
-		}
-
-		if (word == "End") {
-			line_stream >> pos.x;
-			line_stream >> pos.y;
-			line_stream >> pos.z;
-			isEnd = true;
-		}
-
-		if (word == "Roop") {
-			line_stream >> pos.x;
-			line_stream >> pos.y;
-			line_stream >> pos.z;
-			isRoop = true;
-		}
-
-		if (word == "Time") {
-			line_stream >> splineTime;
-			isTime = true;
-		}
-
-		if (word == "Rot") {
-			line_stream >> rot.x;
-			line_stream >> rot.y;
-			line_stream >> rot.z;
-			isRot = true;
-		}
-
-		if (isStart) {
-			points_.push_back(startPos);
-			points_.push_back(startPos);
-			cameraMoveTimes_.push_back(0);
-			isStart = false;
-		}
-		else if (isEnd) {
-			points_.push_back(pos);
-			points_.push_back(pos);
-			cameraRots_.emplace_back(cameraRots_.back());
-			cameraMoveTimes_.push_back(0);
-			isEnd = false;
-		}
-		else if (isRot) {
-			if (cameraRots_.size() <= 0) {
-				cameraRots_.push_back(rot);
-			}
-			cameraRots_.push_back(rot);
-			isRot = false;
-		}
-		else if (isRoop) {
-			points_.push_back(pos);
-			points_.push_back(startPos);
-			points_.push_back(startPos);
-			isRoop = false;
-			isCameraRoop = true;
-		}
-		else if (isTime) {
-			splineTime *= 60;
-			cameraMoveTimes_.push_back(splineTime);
-			isTime = false;
-		}
-		else if (isPoint) {
-			points_.push_back(pos);
-		}
-
-		stringCount++;
-	}
-
-	movePoints.points_ = points_;
-	movePoints.cameraRot_ = cameraRots_;
-	movePoints.moveTime_ = cameraMoveTimes_;
-
-	assert(splineTime != 0);
-	railCamera_->Initialize(startPos, cameraRots_.front(), movePoints, isCameraRoop);
-
 }
 
 std::list<std::unique_ptr<BaseEnemy>>& RailScene::GetEnemyObj()
