@@ -277,7 +277,7 @@ void RailScene::Finalize() {
 	safe_delete(uiManager_);
 	safe_delete(enemyManager_);
 	safe_delete(messageWindow_);
-	//safe_delete(railTutorial_);
+	safe_delete(railTutorial_);
 	jsonLoader_->Finalize();
 }
 
