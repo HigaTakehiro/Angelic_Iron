@@ -47,31 +47,6 @@ void RailScene::Initialize() {
 	uiManager_ = new UIManager();
 	uiManager_->Initialize();
 
-	how_to_up_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Up, { 0, 0 });
-	how_to_up_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_up_->SetSize({ 64.0f, 64.0f });
-	how_to_up_alpha_ = 1.0f;
-	how_to_down_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Down, { 0, 0 });
-	how_to_down_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_down_->SetSize({ 64.0f, 64.0f });
-	how_to_down_alpha_ = 1.0f;
-	how_to_left_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Left, { 0, 0 });
-	how_to_left_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_left_->SetSize({ 64.0f, 64.0f });
-	how_to_left_alpha_ = 1.0f;
-	how_to_right_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Right, { 0, 0 });
-	how_to_right_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_right_->SetSize({ 64.0f, 64.0f });
-	how_to_right_alpha_ = 1.0f;
-	how_to_shot_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Shot, { 0, 0 });
-	how_to_shot_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_shot_->SetSize({ 64.0f, 64.0f });
-	how_to_shot_alpha_ = 1.0f;
-	how_to_bomb_ = Sprite::Create((UINT)ImageManager::ImageName::How_to_Bomb, { 0, 0 });
-	how_to_bomb_->SetAnchorPoint({ 0.5f, 0.5f });
-	how_to_bomb_->SetSize({ 64.0f, 64.0f });
-	how_to_bomb_alpha_ = 1.0f;
-
 	//ライト初期化
 	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
@@ -112,6 +87,7 @@ void RailScene::Initialize() {
 	enemyManager_->SetRailScene(this);
 	enemyManager_->SetParticleManager(enemyParticle_);
 
+	railTutorial_ = new RailTutorial();
 	messageWindow_ = new MessageWindow();
 	//ステージデータ読み込み
 	if (stageNo == 1) {
@@ -120,6 +96,7 @@ void RailScene::Initialize() {
 		jsonLoader_->StageDataLoadandSet("stage1");
 		enemyManager_->Initialize("Stage1EnemyData.aid");
 		messageWindow_->Initialize("Stage1RailText.aid");
+		railTutorial_->Initialize();
 	}
 	else if (stageNo == 2) {
 		LoadRailPoint("Stage2RailPoints.aid");
@@ -251,14 +228,7 @@ void RailScene::Draw() {
 	if (!isPause_) {
 		messageWindow_->SpriteDraw();
 	}
-	how_to_up_->Draw();
-	how_to_down_->Draw();
-	how_to_left_->Draw();
-	how_to_right_->Draw();
-	if (enemyManager_->GetEnemies().size() > 0) {
-		how_to_bomb_->Draw();
-	}
-	how_to_shot_->Draw();
+	railTutorial_->Draw();
 	player_->SpriteDraw();
 	enemyManager_->SpriteDraw();
 	for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
@@ -307,12 +277,7 @@ void RailScene::Finalize() {
 	safe_delete(uiManager_);
 	safe_delete(enemyManager_);
 	safe_delete(messageWindow_);
-	safe_delete(how_to_up_);
-	safe_delete(how_to_down_);
-	safe_delete(how_to_left_);
-	safe_delete(how_to_right_);
-	safe_delete(how_to_shot_);
-	safe_delete(how_to_bomb_);
+	safe_delete(railTutorial_);
 	jsonLoader_->Finalize();
 }
 
@@ -581,75 +546,15 @@ void RailScene::Pause()
 
 void RailScene::Tutorial()
 {
-	//定数
-	const float iconSlidePos = 100.0f;
-
-	if (++tutorialTimer_ > tutorialTime) {
-		isMoveUp_ = true;
-		isMoveDown_ = true;
-		isMoveLeft_ = true;
-		isMoveRight_ = true;
-		isShot_ = true;
-	}
-
 	//プレイヤーキャラの画面上の位置を求める
 	XMVECTOR playerPos = { player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[0], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[1], player_->GetPlayerObject()->GetMatWorld().r[3].m128_f32[2] };
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort();
 	playerPos = XMVector3TransformCoord(playerPos, matVPV);
 	XMFLOAT2 player2dPos = { playerPos.m128_f32[0], playerPos.m128_f32[1] };
 
-	//チュートリアルアイコンの座標を求める
-	how_to_up_->SetPosition({ player2dPos.x, player2dPos.y - iconSlidePos });
-	how_to_down_->SetPosition({ player2dPos.x, player2dPos.y + iconSlidePos });
-	how_to_left_->SetPosition({ player2dPos.x - iconSlidePos, player2dPos.y });
-	how_to_right_->SetPosition({ player2dPos.x + iconSlidePos, player2dPos.y });
-	how_to_shot_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
-	how_to_bomb_->SetPosition({ Reticle::GetIns()->GetPos().x, Reticle::GetIns()->GetPos().y - iconSlidePos });
+	railTutorial_->SetPlayer2DPos(player2dPos);
+	railTutorial_->Update();
 
-	//チュートリル完了したら透明にする
-	if (KeyInput::GetIns()->TriggerKey(DIK_W)) {
-		isMoveUp_ = true;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
-		isMoveDown_ = true;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_A)) {
-		isMoveLeft_ = true;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_D)) {
-		isMoveRight_ = true;
-	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-		isShot_ = true;
-	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK)) {
-		isBombShot_ = true;
-	}
-
-	if (isMoveUp_ && how_to_up_alpha_ > 0) {
-		how_to_up_alpha_ -= 0.05f;
-		how_to_up_->SetAlpha(how_to_up_alpha_);
-	}
-	if (isMoveDown_ && how_to_down_alpha_ > 0) {
-		how_to_down_alpha_ -= 0.05f;
-		how_to_down_->SetAlpha(how_to_down_alpha_);
-	}
-	if (isMoveLeft_ && how_to_left_alpha_ > 0) {
-		how_to_left_alpha_ -= 0.05f;
-		how_to_left_->SetAlpha(how_to_left_alpha_);
-	}
-	if (isMoveRight_ && how_to_right_alpha_ > 0) {
-		how_to_right_alpha_ -= 0.05f;
-		how_to_right_->SetAlpha(how_to_right_alpha_);
-	}
-	if (isShot_ && how_to_shot_alpha_ > 0) {
-		how_to_shot_alpha_ -= 0.05f;
-		how_to_shot_->SetAlpha(how_to_shot_alpha_);
-	}
-	if (isBombShot_ && how_to_bomb_alpha_ > 0) {
-		how_to_bomb_alpha_ -= 0.1f;
-		how_to_bomb_->SetAlpha(how_to_bomb_alpha_);
-	}
 }
 
 void RailScene::SceneChange()

@@ -192,6 +192,7 @@
     <ClCompile Include="ApplicationCode\UI\MessageWindow.cpp" />
     <ClCompile Include="ApplicationCode\UI\Reticle.cpp" />
     <ClCompile Include="ApplicationCode\UI\Score.cpp" />
+    <ClCompile Include="ApplicationCode\UI\RailTutorial.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="ApplicationCode\UI\MessageWindow.h" />
     <ClInclude Include="ApplicationCode\UI\Reticle.h" />
     <ClInclude Include="ApplicationCode\UI\Score.h" />
+    <ClInclude Include="ApplicationCode\UI\RailTutorial.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />

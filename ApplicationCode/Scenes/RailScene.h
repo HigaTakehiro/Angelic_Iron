@@ -25,6 +25,7 @@
 #include "UIManager.h"
 #include "EnemyManager.h"
 #include "MessageWindow.h"
+#include "RailTutorial.h"
 
 class ScoreItem;
 class UIManager;
@@ -126,8 +127,6 @@ private: //静的メンバ変数
 	static const int32_t clearTime = 120;
 	//ゲームオーバー条件HP
 	static const int32_t noneHP = 0;
-	//チュートリアル表示時間
-	static const int32_t tutorialTime = 180;
 
 private: //メンバ変数
 	//ウィンドウ設定クラス
@@ -172,13 +171,8 @@ private: //メンバ変数
 	std::unique_ptr<Button> back_ = nullptr;
 	//リスタートボタン
 	std::unique_ptr<Button> restart_ = nullptr;
-	//チュートリアルアイコン
-	Sprite* how_to_up_;
-	Sprite* how_to_down_;
-	Sprite* how_to_left_;
-	Sprite* how_to_right_;
-	Sprite* how_to_shot_;
-	Sprite* how_to_bomb_;
+	//チュートリアル表示クラス
+	RailTutorial* railTutorial_ = nullptr;
 
 	//UIマネージャ
 	UIManager* uiManager_ = nullptr;
@@ -199,26 +193,8 @@ private: //メンバ変数
 	bool isTitleBack_;
 	//リスタートフラグ
 	bool isRestart_;
-	//チュートリアル完了フラグ
-	bool isMoveUp_;
-	bool isMoveDown_;
-	bool isMoveLeft_;
-	bool isMoveRight_;
-	bool isShot_;
-	bool isBombShot_;
-	//チュートリアルアイコンアルファ値
-	float how_to_up_alpha_;
-	float how_to_down_alpha_;
-	float how_to_left_alpha_;
-	float how_to_right_alpha_;
-	float how_to_shot_alpha_;
-	float how_to_bomb_alpha_;
-	//メッセージデータ読み込み待機時間
-	int32_t waitMessageTimer_;
 	//クリア演出用時間
 	int32_t clearTimer_;
-	//チュートリアル表示時間
-	int32_t tutorialTimer_;
 	//レールカメラ用スプライン指定点格納コンテナ
 	std::vector<Vector3> points_;
 	//レールカメラ用カメラ回転角度格納コンテナ
