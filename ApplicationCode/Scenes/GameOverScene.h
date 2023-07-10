@@ -7,6 +7,7 @@
 #include "PostEffect.h"
 #include "SafeDelete.h"
 #include "MouseInput.h"
+#include "Button.h"
 #include "LightGroup.h"
 
 class GameOverScene : public BaseScene
@@ -64,8 +65,8 @@ private: //メンバ変数
 	PostEffect* postEffect_ = nullptr; //ポストエフェクトクラス
 	Sprite* score_ = nullptr; //スコア画像
 	Sprite* scoreNumbers_[6] = {}; ///スコア用連番数字画像
-	Sprite* titleBack_ = nullptr;
-	Sprite* restart_ = nullptr;
+	Button* titleBack_ = nullptr;
+	Button* restart_ = nullptr;
 
 	PostEffect::PostEffectNo postEffectNo_; //ポストエフェクト番号
 	//ライト
@@ -73,11 +74,7 @@ private: //メンバ変数
 
 	float scoreRollTimer_;
 	DirectX::XMFLOAT2 scoreRollPos_[6] = {};
-	DirectX::XMFLOAT2 titleBackSize_;
-	DirectX::XMFLOAT2 restartSize_;
 	DirectX::XMFLOAT2 mousePos_;
-	float titleBackAlpha_;
-	float restartAlpha_;
 
 	Object3d* resultPlayer_ = nullptr;
 	Object3d* ground_ = nullptr;
@@ -97,5 +94,6 @@ private: //メンバ変数
 	bool isTitleBack_;
 	bool isRestart_;
 	bool isSelectedButton_;
+	bool isButtonSelectTiming_;
 };
 

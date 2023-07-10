@@ -9,6 +9,7 @@
 #include "ImageManager.h"
 #include "Easing.h"
 #include "LightGroup.h"
+#include "Button.h"
 
 class ResultScene : public BaseScene
 {
@@ -43,13 +44,11 @@ private: //メンバ変数
 	PostEffect* postEffect_ = nullptr; //ポストエフェクトクラス
 	Sprite* score_ = nullptr; //スコア画像
 	Sprite* scoreNumbers_[6] = {}; ///スコア用連番数字画像
-	Sprite* titleBack_ = nullptr;
+	Button* titleBack_ = nullptr;
 
 	LightGroup* light_ = nullptr;
 
 	DirectX::XMFLOAT2 mousePos_;
-	DirectX::XMFLOAT2 titleBackSize_;
-	float titleBackAlpha_;
 
 	PostEffect::PostEffectNo postEffectNo_; //ポストエフェクト番号
 

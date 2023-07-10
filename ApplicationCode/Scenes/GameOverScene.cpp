@@ -17,14 +17,8 @@ void GameOverScene::Initialize()
 		scoreNumbers_[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers_[i]->SetSize({ 64, 64 });
 	}
-	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 840.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	titleBackAlpha_ = 1.0f;
-	titleBackSize_ = titleBack_->GetSize();
-	restart_ = Sprite::Create((UINT)ImageManager::ImageName::Restart, { 440.0f, 600.0f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	restartAlpha_ = 1.0f;
-	restartSize_ = restart_->GetSize();
-	restartSize_.x /= 2;
-	restartSize_.y /= 2;
+	titleBack_ = Button::CreateButton(ImageManager::ImageName::TitleBack, { 840.0f, 600.0f }, { 256.0f, 128.0f }, 0.0f);
+	restart_ = Button::CreateButton(ImageManager::ImageName::Restart, { 440.0f, 600.0f }, { 256.0f, 64.0f }, 0.0f);
 
 	light_ = LightGroup::Create();
 	for (int32_t i = 0; i < 3; i++) {
@@ -69,13 +63,37 @@ void GameOverScene::Update()
 {
 	const XMFLOAT2 scoreSize = { 64, 64 };
 	const float endPoint = 0;
-	const float scoreRollTime = 240;
+	const float scoreRollTime = 60;
 	const float fallTime = 120;
 	mousePos_ = { (float)MouseInput::GetIns()->GetMousePoint().x, (float)MouseInput::GetIns()->GetMousePoint().y };
 
 	scoreRollTimer_++;
 	if (scoreRollTimer_ >= scoreRollTime) {
 		scoreRollTimer_ = scoreRollTime;
+		isButtonSelectTiming_ = true;
+	}
+
+	if (isButtonSelectTiming_) {
+		restart_->Update();
+		titleBack_->Update();
+
+
+		if (!isSelectedButton_) {
+			if (titleBack_->GetIsClick()) {
+				ground_->SetAmbient({ 1, 1, 1 });
+				celetialSphere_->SetAmbient({ 1, 1, 1 });
+				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
+				isTitleBack_ = true;
+				isSelectedButton_ = true;
+			}
+			else if (restart_->GetIsClick()) {
+				ground_->SetAmbient({ 1, 1, 1 });
+				celetialSphere_->SetAmbient({ 1, 1, 1 });
+				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
+				isRestart_ = true;
+				isSelectedButton_ = true;
+			}
+		}
 	}
 
 	cameraTargetPos_.y = Easing::easeOut(scoreRollTimer_, fallTime, endPoint, cameraTargetPos_.y);
@@ -94,13 +112,6 @@ void GameOverScene::Update()
 	resultPlayer_->Update();
 	celetialSphere_->Update();
 	ground_->Update();
-
-	titleBack_->SetAlpha(titleBackAlpha_);
-	titleBack_->SetSize(titleBackSize_);
-	restart_->SetAlpha(restartAlpha_);
-	restart_->SetSize(restartSize_);
-	titleBackAlpha_ = 1.0f;
-	restartAlpha_ = 1.0f;
 
 	light_->Update();
 	//レティクル更新処理
@@ -136,10 +147,8 @@ void GameOverScene::Draw()
 	for (int32_t i = 0; i < 6; i++) {
 		scoreNumbers_[i]->Draw();
 	}
-	if (!isSelectedButton_) {
-		titleBack_->Draw();
-		restart_->Draw();
-	}
+	titleBack_->Draw();
+	restart_->Draw();
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
 	Sprite::PostDraw();
@@ -171,37 +180,6 @@ void GameOverScene::Finalize()
 
 void GameOverScene::SceneChange()
 {
-	if (!isSelectedButton_) {
-		if (IsMouseHitSprite(mousePos_, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
-			titleBackAlpha_ = 0.5f;
-			XMFLOAT2 spriteSize = titleBackSize_;
-			spriteSize.x *= 0.9f;
-			spriteSize.y *= 0.9f;
-			titleBack_->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-				ground_->SetAmbient({ 1, 1, 1 });
-				celetialSphere_->SetAmbient({ 1, 1, 1 });
-				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-				isTitleBack_ = true;
-				isSelectedButton_ = true;
-			}
-		}
-		else if (IsMouseHitSprite(mousePos_, restart_->GetPosition(), restartSize_.x, restartSize_.y)) {
-			restartAlpha_ = 0.5f;
-			XMFLOAT2 spriteSize = restartSize_;
-			spriteSize.x *= 0.9f;
-			spriteSize.y *= 0.9f;
-			restart_->SetSize(spriteSize);
-			if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-				ground_->SetAmbient({ 1, 1, 1 });
-				celetialSphere_->SetAmbient({ 1, 1, 1 });
-				SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-				isRestart_ = true;
-				isSelectedButton_ = true;
-			}
-		}
-	}
-
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		if (isTitleBack_) {
 			SceneManager::SceneChange(SceneManager::SceneName::Title);

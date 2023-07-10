@@ -17,9 +17,7 @@ void ResultScene::Initialize()
 		scoreNumbers_[i]->SetTextureRect({ nine, 0 }, { 64, 64 });
 		scoreNumbers_[i]->SetSize({ 64, 64 });
 	}
-	titleBack_ = Sprite::Create((UINT)ImageManager::ImageName::TitleBack, { 640, 600 }, { 1, 1, 1, 1 }, { 0.5f, 0.5f });
-	titleBackSize_ = titleBack_->GetSize();
-	titleBackAlpha_ = 1.0f;
+	titleBack_ = Button::CreateButton(ImageManager::ImageName::TitleBack, { 640, 600 }, { 256.0f, 128.0f }, 0.0f);
 
 	scoreRollTimer_ = 0;
 	for (int32_t i = 0; i < 6; i++) {
@@ -102,9 +100,7 @@ void ResultScene::Update()
 	ground_->Update();
 	gun_->Update();
 
-	titleBack_->SetAlpha(titleBackAlpha_);
-	titleBack_->SetSize(titleBackSize_);
-	titleBackAlpha_ = 1.0f;
+	titleBack_->Update();
 
 	light_->Update();
 
@@ -171,15 +167,8 @@ void ResultScene::Finalize()
 
 void ResultScene::SceneChange()
 {
-	if (IsMouseHitSprite(mousePos_, titleBack_->GetPosition(), titleBackSize_.x, titleBackSize_.y)) {
-		titleBackAlpha_ = 0.5f;
-		XMFLOAT2 spriteSize = titleBackSize_;
-		spriteSize.x *= 0.9f;
-		spriteSize.y *= 0.9f;
-		titleBack_->SetSize(spriteSize);
-		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
-			SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
-		}
+	if (titleBack_->GetIsClick()) {
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
