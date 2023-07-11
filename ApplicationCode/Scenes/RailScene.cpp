@@ -477,9 +477,4 @@ void RailScene::SceneChange()
 		}
 	}
 
-	//デバッグ用
-	//if (KeyInput::GetIns()->TriggerKey(DIK_N)) {
-	//	SceneManager::AddScore(score_);
-	//	SceneManager::SceneChange(SceneManager::SceneName::GameOver);
-	//}
 }

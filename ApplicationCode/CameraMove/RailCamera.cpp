@@ -12,10 +12,6 @@ void RailCamera::Initialize(const std::string& fileName)
 }
 
 void RailCamera::Update() {
-	//デバッグ用一時停止
-	//if (KeyInput::GetIns()->TriggerKey(DIK_P)) {
-	//	isStop_ = !isStop_;
-	//}
 
 	if (!isStop_) {
 		SplineMove();

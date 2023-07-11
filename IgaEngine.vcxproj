@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode\Manager;$(ProjectDir)ApplicationCode\Command;$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\Collision;$(ProjectDir)ApplicationCode\Manager;$(ProjectDir)ApplicationCode\Command;$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +154,8 @@
     <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp" />
     <ClCompile Include="ApplicationCode\Bosses\FirstBoss.cpp" />
     <ClCompile Include="ApplicationCode\CameraMove\RailCamera.cpp" />
+    <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp" />
+    <ClCompile Include="ApplicationCode\Collision\SphereShape.cpp" />
     <ClCompile Include="ApplicationCode\Command\BombCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp" />
@@ -180,7 +182,6 @@
     <ClCompile Include="ApplicationCode\Players\BossScenePlayer.cpp" />
     <ClCompile Include="ApplicationCode\Players\Player.cpp" />
     <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp" />
-    <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BossScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\GameOverScene.cpp" />
@@ -229,6 +230,10 @@
     <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h" />
     <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h" />
     <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h" />
+    <ClInclude Include="ApplicationCode\Collision\BaseCollision.h" />
+    <ClInclude Include="ApplicationCode\Collision\BaseShape.h" />
+    <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h" />
+    <ClInclude Include="ApplicationCode\Collision\SphereShape.h" />
     <ClInclude Include="ApplicationCode\Command\BombCommand.h" />
     <ClInclude Include="ApplicationCode\Command\Command.h" />
     <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h" />
@@ -257,7 +262,6 @@
     <ClInclude Include="ApplicationCode\Players\BossScenePlayer.h" />
     <ClInclude Include="ApplicationCode\Players\Player.h" />
     <ClInclude Include="ApplicationCode\Players\PlayerBullet.h" />
-    <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\BaseScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\BossScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\GameOverScene.h" />
