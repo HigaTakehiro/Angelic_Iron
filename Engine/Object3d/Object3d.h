@@ -54,6 +54,22 @@ public: // サブクラス
 		Wave,
 	};
 
+	//当たり判定タイプ
+	enum class CollisionType {
+		Sphere,
+		None
+	};
+
+	//オブジェクトタイプ
+	enum class OBJType {
+		Player,
+		Enemy,
+		Wall,
+		PlayerBullet,
+		EnemyBullet,
+		None,
+	};
+
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化
@@ -249,6 +265,42 @@ public: // メンバ関数
 	/// <returns>親オブジェクト(カメラ)</returns>
 	Camera* GetCameraParent() { return cameraParent_; }
 
+	/// <summary>
+	/// オブジェクトタイプ取得
+	/// </summary>
+	/// <returns>オブジェクトタイプ</returns>
+	OBJType GetObjType() { return objType_; }
+
+	/// <summary>
+	/// オブジェクトタイプセット
+	/// </summary>
+	/// <param name="objType">オブジェクトタイプ</param>
+	void SetObjType(OBJType objType) { objType_ = objType; }
+
+	/// <summary>
+	/// コリジョンタイプ取得
+	/// </summary>
+	/// <returns>コリジョンタイプ</returns>
+	CollisionType GetColType() { return colType_; }
+
+	/// <summary>
+	/// コリジョンタイプセット
+	/// </summary>
+	/// <param name="colType">コリジョンタイプ</param>
+	void SetColType(CollisionType colType) { colType_ = colType; }
+
+	/// <summary>
+	/// ヒット時コールバック関数
+	/// </summary>
+	/// <returns>当たっている</returns>
+	void OnCollision() { isHit_ = true; }
+
+	/// <summary>
+	/// ヒットフラグ取得
+	/// </summary>
+	/// <returns>ヒットフラグ</returns>
+	bool GetIsHit() { return isHit_; }
+
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
 	//シャドウマップ用バッファ
@@ -281,5 +333,11 @@ private: // メンバ変数
 	bool isWave_;
 	//シェーダー用タイマー
 	float timer_ = 0.0f;
+	//オブジェクトタイプ
+	OBJType objType_ = OBJType::None;
+	//当たり判定タイプ
+	CollisionType colType_ = CollisionType::None;
+	//当たり判定フラグ
+	bool isHit_;
 };
 

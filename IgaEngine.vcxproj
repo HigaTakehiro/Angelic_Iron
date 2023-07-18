@@ -154,8 +154,8 @@
     <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp" />
     <ClCompile Include="ApplicationCode\Bosses\FirstBoss.cpp" />
     <ClCompile Include="ApplicationCode\CameraMove\RailCamera.cpp" />
+    <ClCompile Include="ApplicationCode\Collision\CollisionManager.cpp" />
     <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp" />
-    <ClCompile Include="ApplicationCode\Collision\SphereShape.cpp" />
     <ClCompile Include="ApplicationCode\Command\BombCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp" />
@@ -230,10 +230,8 @@
     <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h" />
     <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h" />
     <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h" />
-    <ClInclude Include="ApplicationCode\Collision\BaseCollision.h" />
-    <ClInclude Include="ApplicationCode\Collision\BaseShape.h" />
+    <ClInclude Include="ApplicationCode\Collision\CollisionManager.h" />
     <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h" />
-    <ClInclude Include="ApplicationCode\Collision\SphereShape.h" />
     <ClInclude Include="ApplicationCode\Command\BombCommand.h" />
     <ClInclude Include="ApplicationCode\Command\Command.h" />
     <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h" />

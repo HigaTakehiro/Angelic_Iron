@@ -90,6 +90,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Manager">
       <UniqueIdentifier>{4a2987d2-8b02-48af-b5f1-c0ed1d002dae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Collision">
+      <UniqueIdentifier>{e7f2a163-5367-4de2-b9f8-67181062687b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Audio\Sound.cpp">
@@ -218,9 +221,6 @@
     <ClCompile Include="ApplicationCode\Players\PlayerBullet.cpp">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Scenes\BaseBattleScene.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
@@ -310,6 +310,12 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\UI\RailTutorial.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,9 +463,6 @@
     <ClInclude Include="ApplicationCode\Players\PlayerBullet.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Scenes\BaseBattleScene.h">
-      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\BaseScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
@@ -552,6 +555,12 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\UI\RailTutorial.h">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Collision\CollisionManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h">
+      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
