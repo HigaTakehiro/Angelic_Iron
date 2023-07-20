@@ -29,6 +29,8 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	player_->SetPosition(playerLPos_);
 	player_->SetRotation(playerRot_);
 	player_->SetCameraParent(camera_);
+	player_->SetObjType(Object3d::OBJType::Player);
+	player_->SetColType(Object3d::CollisionType::Sphere);
 
 	for (int i = 0; i < 3; i++) {
 		bomb_[i] = Sprite::Create((UINT)ImageManager::ImageName::Bomb, { 1050.0f + (float)(i * 80), 600.0f });

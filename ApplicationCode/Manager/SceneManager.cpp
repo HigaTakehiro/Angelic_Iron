@@ -6,6 +6,7 @@ BaseScene* SceneManager::nowScene_ = nullptr;
 int32_t SceneManager::stageNo_ = 1;
 int32_t SceneManager::score_ = 0;
 bool SceneManager::isBossScene_ = false;
+CollisionManager* SceneManager::colManager_ = nullptr;
 
 void SceneManager::Initialize() {
 	//マウスカーソルを非表示にする
@@ -61,6 +62,7 @@ void SceneManager::SceneChange(SceneName scene) {
 	case SceneName::Title:
 		nowScene_ = new TitleScene();
 		nowScene_->Initialize();
+		nowScene_->SetColManager(colManager_);
 		break;
 
 	case SceneName::Stage1_Rail:
@@ -68,10 +70,12 @@ void SceneManager::SceneChange(SceneName scene) {
 		score_ = 0;
 		nowScene_ = new RailScene();
 		nowScene_->Initialize();
+		nowScene_->SetColManager(colManager_);
 		break;
 	case SceneName::Stage1_Boss:
 		nowScene_ = new BossScene();
 		nowScene_->Initialize();
+		nowScene_->SetColManager(colManager_);
 		break;
 	case SceneName::Stage2_Rail:
 		stageNo_ = 2;

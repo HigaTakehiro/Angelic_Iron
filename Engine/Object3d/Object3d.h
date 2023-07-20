@@ -10,6 +10,9 @@
 #include "Model.h"
 #include "Camera.h"
 #include "LightGroup.h"
+#include "CollisionManager.h"
+
+class CollisionManager;
 
 /// <summary>
 /// 3Dオブジェクト
@@ -120,6 +123,8 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize];
 	//ライト
 	static LightGroup* light_;
+	//当たり判定マネージャー
+	static CollisionManager* colManager_;
 
 private:// 静的メンバ関数
 	/// <summary>
@@ -154,6 +159,12 @@ public: //静的メンバ関数
 	/// </summary>
 	/// <param name="light">ライト</param>
 	static void SetLight(LightGroup* light) { Object3d::light_ = light; }
+
+	/// <summary>
+	/// コリジョンマネージャーセット
+	/// </summary>
+	/// <param name="colManager">コリジョンマネージャー</param>
+	static void SetCollisionManager(CollisionManager* colManager) { Object3d::colManager_ = colManager; }
 
 public: // メンバ関数
 	bool Initialize();

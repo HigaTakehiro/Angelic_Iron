@@ -164,6 +164,7 @@ void RailScene::Update() {
 		DelayUpdates();
 		//チュートリアル更新処理
 		Tutorial();
+		colManager_->Update();
 
 		bombParticle_->Update();
 		gunParticle_->Update();

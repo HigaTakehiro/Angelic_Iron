@@ -26,6 +26,7 @@
 #include "EnemyManager.h"
 #include "MessageWindow.h"
 #include "RailTutorial.h"
+#include "CollisionManager.h"
 
 class ScoreItem;
 class UIManager;
@@ -134,7 +135,7 @@ private: //メンバ変数
 	RailCamera* railCamera_ = nullptr;
 	//ポストエフェクトクラス
 	PostEffect* postEffect_ = nullptr;
-
+	
 	//ゲームオブジェクト & スプライト
 	//プレイヤークラス
 	Player* player_ = nullptr;

@@ -9,6 +9,7 @@
 #include "Easing.h"
 #include "SafeDelete.h"
 #include "Reticle.h"
+#include "CollisionManager.h"
 
 class BaseScene
 {
@@ -74,6 +75,12 @@ public: //メンバ関数
 	/// <returns></returns>
 	ScoreNumber JudgeDigitNumber(int32_t score, int32_t digit);
 
-protected: //静的メンバ変数
+	/// <summary>
+	/// コリジョンマネージャーをセット
+	/// </summary>
+	/// <param name="colManager">コリジョンマネージャー</param>
+	void SetColManager(CollisionManager* colManager) { colManager_ = colManager; }
 
+protected: //メンバ変数
+	CollisionManager* colManager_;
 };

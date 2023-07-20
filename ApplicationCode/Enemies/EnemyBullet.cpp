@@ -23,6 +23,8 @@ void EnemyBullet::Initialize(const Vector3& pos, const Vector3& velocity, Object
 		isHoming_ = true;
 	}
 	enemyBullet_->SetPosition(pos_);
+	enemyBullet_->SetObjType(Object3d::OBJType::EnemyBullet);
+	enemyBullet_->SetColType(Object3d::CollisionType::Sphere);
 }
 
 void EnemyBullet::Update() {

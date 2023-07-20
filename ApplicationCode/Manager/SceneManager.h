@@ -11,6 +11,7 @@
 #include "KeyInput.h"
 #include "SafeDelete.h"
 #include "TextDraw.h"
+#include "CollisionManager.h"
 
 class SceneManager
 {
@@ -94,11 +95,19 @@ public: //静的メンバ関数
 	/// <returns>ボスシーンフラグ</returns>
 	static bool GetIsBossScene() { return isBossScene_; }
 
+	/// <summary>
+	/// コリジョンマネージャーをセット
+	/// </summary>
+	/// <param name="colManager">コリジョンマネージャー</param>
+	void SetCollisionManager(CollisionManager* colManager) { colManager_ = colManager; }
+
 private: //静的メンバ変数
 	static BaseScene* nowScene_;
 	static int32_t stageNo_;
 	static int32_t score_;
 	static bool isBossScene_;
+	static CollisionManager* colManager_;
+
 
 private: //メンバ変数
 	std::unique_ptr<TextDraw> textDraw_;

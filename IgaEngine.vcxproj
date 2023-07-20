@@ -230,6 +230,7 @@
     <ClInclude Include="ApplicationCode\Bosses\BaseBoss.h" />
     <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h" />
     <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h" />
+    <ClInclude Include="ApplicationCode\Collision\BaseCollision.h" />
     <ClInclude Include="ApplicationCode\Collision\CollisionManager.h" />
     <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h" />
     <ClInclude Include="ApplicationCode\Command\BombCommand.h" />
