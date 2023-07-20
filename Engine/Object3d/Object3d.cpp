@@ -266,6 +266,7 @@ void Object3d::Update(const float maxTime)
 	if (timer_ >= maxTime) {
 		timer_ = 0.0f;
 	}
+	isHit_ = false;
 
 	XMMATRIX matScale, matRot, matTrans;
 

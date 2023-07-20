@@ -338,41 +338,55 @@ void RailScene::ClearPaformance()
 
 void RailScene::CollisionCheck()
 {
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
-		for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
-			if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
-				score_ += 100;
-				enemy->OnCollision();
-				playerBullet->OnCollision();
-			}
+	//for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
+	//	for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
+	//		if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), enemy->GetEnemyObj(), 1.0f, 5.0f)) {
+	//			score_ += 100;
+	//			enemy->OnCollision();
+	//			playerBullet->OnCollision();
+	//		}
+	//	}
+	//}
+
+	//for (const std::unique_ptr<EnemyBullet>& enemyBullet : bulletManager_->GetEnemyBullets()) {
+	//	if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
+	//		if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
+	//			player_->OnCollision();
+	//		}
+	//		enemyBullet->OnCollision();
+	//		railCamera_->SetIsDamage();
+	//	}
+	//}
+
+	//for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
+	//	for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
+	//		if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
+	//			score_ += 100;
+	//			enemy->BombHitCollision();
+	//			BombHitEffect(bomb.get());
+	//			bomb->OnCollision();
+	//		}
+	//	}
+	//}
+
+	//for (const std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
+	//	if (Collision::GetIns()->OBJSphereCollision(scoreItem->GetScoreItemObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
+	//		score_ += 500;
+	//		scoreItem->OnCollision();
+	//	}
+	//}
+
+	for (std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
+		if (enemy->GetEnemyObj()->GetIsHit()) {
+			enemy->OnCollision();
+			score_ += 100;
 		}
 	}
 
-	for (const std::unique_ptr<EnemyBullet>& enemyBullet : bulletManager_->GetEnemyBullets()) {
-		if (Collision::GetIns()->OBJSphereCollision(enemyBullet->GetEnemyBulletObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
-			if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
-				player_->OnCollision();
-			}
-			enemyBullet->OnCollision();
-			railCamera_->SetIsDamage();
-		}
-	}
-
-	for (const std::unique_ptr<BaseEnemy>& enemy : enemyManager_->GetEnemies()) {
-		for (const std::unique_ptr<Bomb>& bomb : bulletManager_->GetBombs()) {
-			if (Collision::GetIns()->OBJSphereCollision(enemy->GetEnemyObj(), bomb->GetBullet(), 5.0f, 1.0f)) {
-				score_ += 100;
-				enemy->BombHitCollision();
-				BombHitEffect(bomb.get());
-				bomb->OnCollision();
-			}
-		}
-	}
-
-	for (const std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-		if (Collision::GetIns()->OBJSphereCollision(scoreItem->GetScoreItemObj(), player_->GetPlayerObject(), 1.0f, 2.0f)) {
-			score_ += 500;
+	for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
+		if (scoreItem->GetScoreItemObj()->GetIsHit()) {
 			scoreItem->OnCollision();
+			score_ += 500;
 		}
 	}
 }

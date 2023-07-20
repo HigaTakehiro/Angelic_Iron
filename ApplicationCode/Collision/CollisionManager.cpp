@@ -38,22 +38,25 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 	else if (obj1->GetObjType() == Object3d::OBJType::None || obj2->GetObjType() == Object3d::OBJType::None) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::Player && obj2->GetObjType() == Object3d::OBJType::PlayerBullet) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::Player && obj2->GetObjType() == Object3d::OBJType::PlayerBullet) || (obj1->GetObjType() == Object3d::OBJType::PlayerBullet && obj2->GetObjType() == Object3d::OBJType::Player)) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::PlayerBullet && obj2->GetObjType() == Object3d::OBJType::Player) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::Enemy && obj2->GetObjType() == Object3d::OBJType::EnemyBullet) || (obj1->GetObjType() == Object3d::OBJType::EnemyBullet && obj2->GetObjType() == Object3d::OBJType::Enemy)) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::Enemy && obj2->GetObjType() == Object3d::OBJType::EnemyBullet) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::Player && obj2->GetObjType() == Object3d::OBJType::Enemy) || (obj1->GetObjType() == Object3d::OBJType::Enemy && obj2->GetObjType() == Object3d::OBJType::Player)) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::EnemyBullet && obj2->GetObjType() == Object3d::OBJType::Enemy) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::ScoreItem && obj2->GetObjType() == Object3d::OBJType::Enemy) || (obj1->GetObjType() == Object3d::OBJType::Enemy && obj2->GetObjType() == Object3d::OBJType::ScoreItem)) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::Player && obj2->GetObjType() == Object3d::OBJType::Enemy) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::ScoreItem && obj2->GetObjType() == Object3d::OBJType::PlayerBullet) || (obj1->GetObjType() == Object3d::OBJType::PlayerBullet && obj2->GetObjType() == Object3d::OBJType::ScoreItem)) {
 		return;
 	}
-	else if (obj1->GetObjType() == Object3d::OBJType::Enemy && obj2->GetObjType() == Object3d::OBJType::Player) {
+	else if ((obj1->GetObjType() == Object3d::OBJType::ScoreItem && obj2->GetObjType() == Object3d::OBJType::EnemyBullet) || (obj1->GetObjType() == Object3d::OBJType::EnemyBullet && obj2->GetObjType() == Object3d::OBJType::ScoreItem)) {
+		return;
+	}
+	else if ((obj1->GetObjType() == Object3d::OBJType::PlayerBullet && obj2->GetObjType() == Object3d::OBJType::EnemyBullet) || (obj1->GetObjType() == Object3d::OBJType::EnemyBullet && obj2->GetObjType() == Object3d::OBJType::PlayerBullet)) {
 		return;
 	}
 

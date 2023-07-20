@@ -24,6 +24,8 @@ void ScoreItem::Initialize(const Vector3& pos, Player* player, Camera* camera)
 	scoreItem_->SetPosition(pos_);
 	scoreItem_->SetRotation(rot_);
 	scoreItem_->SetScale(scale_);
+	scoreItem_->SetObjType(Object3d::OBJType::ScoreItem);
+	scoreItem_->SetColType(Object3d::CollisionType::Sphere);
 }
 
 void ScoreItem::Update()

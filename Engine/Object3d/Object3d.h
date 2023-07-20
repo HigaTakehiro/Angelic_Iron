@@ -70,6 +70,7 @@ public: // サブクラス
 		Wall,
 		PlayerBullet,
 		EnemyBullet,
+		ScoreItem,
 		None,
 	};
 
