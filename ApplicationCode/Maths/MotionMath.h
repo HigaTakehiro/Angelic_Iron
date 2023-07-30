@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector3.h"
 #include <DirectXMath.h>
+#include <vector>
 
 class MotionMath
 {
@@ -26,6 +27,15 @@ public: //メンバ関数
 	/// <param name="axis">どの軸を中心に回転させるか</param>
 	/// <returns>座標</returns>
 	static Vector3 CircularMotion(const Vector3& centerPos, const Vector3& rotPos, float angle, const float length, const Axis axis);
+
+	/// <summary>
+	/// スプライン補間
+	/// </summary>
+	/// <param name="points">制御点</param>
+	/// <param name="startIndex"></param>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	static Vector3 Spline(const std::vector<Vector3>& points, int32_t startIndex, float t);
 
 	/// <summary>
 	/// 一次線形補間

@@ -58,15 +58,6 @@ public: //メンバ関数
 private: //メンバ関数
 
 	/// <summary>
-	/// スプライン補間
-	/// </summary>
-	/// <param name="points">通るポイント</param>
-	/// <param name="startIndex">ポイントを通った時のカウント</param>
-	/// <param name="t">時間</param>
-	/// <returns>座標</returns>
-	Vector3 Spline(const std::vector<Vector3>& points, int32_t startIndex, float t);
-
-	/// <summary>
 	/// スプライン補間の移動
 	/// </summary>
 	void SplineMove();
