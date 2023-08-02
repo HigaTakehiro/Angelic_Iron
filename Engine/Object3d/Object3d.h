@@ -64,14 +64,13 @@ public: // サブクラス
 	};
 
 	//オブジェクトタイプ
-	enum class OBJType {
-		Player,
-		Enemy,
-		Wall,
-		PlayerBullet,
-		EnemyBullet,
-		ScoreItem,
-		None,
+	enum class OBJType : int32_t {
+		None = 0x00,
+		Player = 0x01,
+		Enemy = 0x02,
+		Bullet = 0x04,
+		Bomb = 0x08,
+		ScoreItem = 0x15,
 	};
 
 public: // 静的メンバ関数
@@ -281,13 +280,13 @@ public: // メンバ関数
 	/// オブジェクトタイプ取得
 	/// </summary>
 	/// <returns>オブジェクトタイプ</returns>
-	OBJType GetObjType() { return objType_; }
+	int32_t GetObjType() { return objType_; }
 
 	/// <summary>
 	/// オブジェクトタイプセット
 	/// </summary>
 	/// <param name="objType">オブジェクトタイプ</param>
-	void SetObjType(OBJType objType) { objType_ = objType; }
+	void SetObjType(int32_t objType);
 
 	/// <summary>
 	/// コリジョンタイプ取得
@@ -308,10 +307,21 @@ public: // メンバ関数
 	void OnCollision() { isHit_ = true; }
 
 	/// <summary>
+	/// ボムヒット時コールバック関数
+	/// </summary>
+	void BombOnCollision() { isBombHit_ = true; }
+
+	/// <summary>
 	/// ヒットフラグ取得
 	/// </summary>
 	/// <returns>ヒットフラグ</returns>
 	bool GetIsHit() { return isHit_; }
+
+	/// <summary>
+	/// ボムヒットフラグ取得
+	/// </summary>
+	/// <returns>ヒットフラグ</returns>
+	bool GetIsBombHit() { return isBombHit_; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
@@ -346,10 +356,12 @@ private: // メンバ変数
 	//シェーダー用タイマー
 	float timer_ = 0.0f;
 	//オブジェクトタイプ
-	OBJType objType_ = OBJType::None;
+	int32_t objType_ = (int32_t)OBJType::None;
 	//当たり判定タイプ
 	CollisionType colType_ = CollisionType::None;
 	//当たり判定フラグ
 	bool isHit_;
+	//ボム当たり判定フラグ
+	bool isBombHit_;
 };
 

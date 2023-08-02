@@ -30,6 +30,12 @@ public: //メンバ関数
 	/// <param name="obj1"></param>
 	/// <param name="obj2"></param>
 	void CollisionCheck(Object3d* obj1, Object3d* obj2);
+	/// <summary>
+	/// 当たり判定計算
+	/// </summary>
+	/// <param name="obj1"></param>
+	/// <param name="obj2"></param>
+	void HitTest(Object3d* obj1, Object3d* obj2);
 private: //メンバ変数
 	//オブジェクトリスト
 	std::list<Object3d*> objList_;

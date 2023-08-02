@@ -255,7 +255,6 @@ bool Object3d::Initialize()
 	//	IID_PPV_ARGS(&lightBuff_));
 
 	model_->Initialize();
-	colManager_->AddObj(*this);
 
 	return true;
 }
@@ -356,6 +355,15 @@ void Object3d::Draw()
 	light_->Draw(3);
 	model_->Draw(cmdList_);
 
+}
+
+void Object3d::SetObjType(int32_t objType)
+{
+	if (objType == (int32_t)OBJType::None) {
+		return;
+	}
+	objType_ = objType;
+	colManager_->AddObj(*this);
 }
 
 void Object3d::LoadVS(const wchar_t* vsName, ComPtr<ID3DBlob>& vsBlob) {
