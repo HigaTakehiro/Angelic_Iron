@@ -95,6 +95,10 @@ void Player::Update(bool isClear) {
 
 	StartPerformance();
 
+	if (player_->GetIsHit()) {
+		OnCollision();
+	}
+
 	if (!isClear) {
 		PlayerPosCorrection();
 		if (hpCount_ <= deadHp) {
@@ -283,10 +287,12 @@ void Player::AimUpdate() {
 }
 
 void Player::OnCollision() {
-	hpCount_--;
-	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
-	isDamage_ = true;
+	if (!isDamage_) {
+		hpCount_--;
+		//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+		//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+		isDamage_ = true;
+	}
 }
 
 void Player::DamageEffect() {

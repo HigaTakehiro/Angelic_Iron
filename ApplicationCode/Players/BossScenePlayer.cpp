@@ -86,6 +86,10 @@ void BossScenePlayer::Update()
 	playerWPos_ = player_->GetMatWorld().r[3];
 	gun_->Update();
 
+	if (player_->GetIsHit()) {
+		player_->OnCollision();
+	}
+
 	if (hpCount_ > noneHP) {
 		if (!isDash_) {
 			Move();

@@ -70,7 +70,7 @@ public: // サブクラス
 		Enemy = 0x02,
 		Bullet = 0x04,
 		Bomb = 0x08,
-		ScoreItem = 0x15,
+		ScoreItem = 0x10,
 	};
 
 public: // 静的メンバ関数
@@ -263,6 +263,12 @@ public: // メンバ関数
 	/// 波用シェーダー適用フラグをセット
 	/// </summary>
 	void SetIsWave(bool isWave) { this->isWave_ = isWave; }
+
+	/// <summary>
+	/// ヒットフラグをセット
+	/// </summary>
+	/// <param name="isHit">ヒットフラグ</param>
+	void SetIsHit(bool isHit) { isHit_ = isHit; }
 
 	/// <summary>
 	/// 親オブジェクト取得

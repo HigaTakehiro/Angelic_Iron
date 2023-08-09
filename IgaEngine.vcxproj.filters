@@ -317,9 +317,6 @@
     <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object3d\CollisionObject3d.cpp">
-      <Filter>ソース ファイル\Engine\Object3d</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -564,9 +561,6 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object3d\CollisionObject3d.h">
-      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Collision\BaseCollision.h">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>

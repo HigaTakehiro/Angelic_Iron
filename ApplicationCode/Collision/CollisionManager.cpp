@@ -16,11 +16,12 @@ CollisionManager::~CollisionManager()
 	}
 }
 
-void CollisionManager::Update()
+void CollisionManager::Update(int32_t& score)
 {
+
 	for (auto obj1 : objList_) {
 		for (auto obj2 : objList_) {
-			CollisionCheck(obj1, obj2);
+			CollisionCheck(obj1, obj2, score);
 		}
 	}
 }
@@ -30,11 +31,25 @@ void CollisionManager::AddObj(Object3d& obj)
 	objList_.push_back(&obj);
 }
 
-void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
+void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2, int32_t& score)
 {
+
+	for (auto obj : objList_) {
+		if (obj == nullptr) {
+			objList_.remove(obj);
+		}
+	}
+
 	int32_t type;
 	int32_t type1 = obj1->GetObjType();
 	int32_t type2 = obj2->GetObjType();
+
+	const int32_t playerAndEnemyHit = 0x03;
+	const int32_t playerAndScoreItemHit = 0x11;
+	const int32_t bombAndEnemyHit = 0x0a;
+	const int32_t enemyAndEnemyBulletHit = 0x08;
+	const int32_t playerAndPlayerBulletHit = 0x06;
+	const int32_t playerAndBombHit = 0x09;
 
 	type = type1 | type2;
 
@@ -42,23 +57,27 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 		return;
 	}
 
-	if (type == 0x16) {
+	if (type == playerAndScoreItemHit) {
 		HitTest(obj1, obj2);
+		if (obj1->GetIsHit() || obj2->GetIsHit()) score += 500;
+		if (type1 == (int32_t)Object3d::OBJType::Player) obj1->SetIsHit(false);
+		if (type2 == (int32_t)Object3d::OBJType::Player) obj2->SetIsHit(false);
 		return;
 	}
-	if (type == 0x0a) {
+	if (type == bombAndEnemyHit) {
 		HitTest(obj1, obj2, true);
+		if (obj1->GetIsBombHit() || obj2->GetIsBombHit()) score += 100;
 		return;
 	}
 
-	if (type == 0x03) return;
-	if (type == 0x08) return;
-	if (type == 0x06) return;
-	if (type == 0x08) return;
-	if (type == 0x09) return;
+	if (type == playerAndEnemyHit) return;
+	if (type == enemyAndEnemyBulletHit) return;
+	if (type == playerAndPlayerBulletHit) return;
+	if (type == playerAndBombHit) return;
 
 	if (obj1->GetColType() == Object3d::CollisionType::Sphere && obj2->GetColType() == Object3d::CollisionType::Sphere) {
 		HitTest(obj1, obj2);
+		if (obj1->GetIsHit() || obj2->GetIsHit()) score += 100;
 	}
 }
 

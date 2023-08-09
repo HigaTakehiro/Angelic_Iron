@@ -30,6 +30,10 @@ void PlayerBullet::Update() {
 		pos_ += velocity_;
 	}
 
+	if (bullet_->GetIsHit()) {
+		OnCollision();
+	}
+
 	if (bullet_ != nullptr) {
 		bullet_->SetPosition(pos_);
 		bullet_->Update();

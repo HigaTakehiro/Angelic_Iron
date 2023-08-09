@@ -49,6 +49,10 @@ void ScoreItem::Update()
 		pos_ = easeIn(pos_, player_->GetPlayerObject()->GetMatWorld().r[3], t);
 	}
 
+	if (scoreItem_->GetIsHit())
+	{
+		OnCollision();
+	}
 	scoreItem_->SetPosition(pos_);
 	scoreItem_->SetRotation(rot_);
 

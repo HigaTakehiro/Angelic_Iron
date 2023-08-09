@@ -3,8 +3,8 @@
 
 bool SphereAndSphere::HitTest(Object3d* obj1, Object3d* obj2)
 {
-	Vector3 objPos1 = obj1->GetPosition();
-	Vector3 objPos2 = obj2->GetPosition();
+	Vector3 objPos1 = obj1->GetMatWorld().r[3];
+	Vector3 objPos2 = obj2->GetMatWorld().r[3];
 	float objRadius1 = obj1->GetScale().x;
 	float objRadius2 = obj2->GetScale().x;
 

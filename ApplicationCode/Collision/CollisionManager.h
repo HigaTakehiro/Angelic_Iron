@@ -18,7 +18,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(int32_t& score);
 	/// <summary>
 	/// オブジェクト追加
 	/// </summary>
@@ -29,7 +29,7 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="obj1"></param>
 	/// <param name="obj2"></param>
-	void CollisionCheck(Object3d* obj1, Object3d* obj2);
+	void CollisionCheck(Object3d* obj1, Object3d* obj2, int32_t& score);
 	/// <summary>
 	/// 当たり判定計算
 	/// </summary>

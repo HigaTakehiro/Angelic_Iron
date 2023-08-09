@@ -46,6 +46,10 @@ void EnemyBullet::Update() {
 		pos_ += velocity_;
 	}
 
+	if (enemyBullet_->GetIsHit()) {
+		OnCollision();
+	}
+
 	if (enemyBullet_ != nullptr) {
 		enemyBullet_->SetPosition(pos_);
 		enemyBullet_->Update();

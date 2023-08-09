@@ -83,16 +83,6 @@ private: //メンバ関数
 	void DelayUpdates();
 
 	/// <summary>
-	/// レールシューティングパートクリア演出
-	/// </summary>
-	void ClearPaformance();
-
-	/// <summary>
-	/// 当たり判定チェック
-	/// </summary>
-	void CollisionCheck();
-
-	/// <summary>
 	/// エフェクト発生処理
 	/// </summary>
 	void AddEffect();

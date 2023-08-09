@@ -35,6 +35,9 @@ void Bomb::Update() {
 	if (lifeTimer_++ >= lifeTime) {
 		isDead_ = true;
 	}
+	if (bullet_->GetIsBombHit()) {
+		OnCollision();
+	}
 
 	Vector3 toTarget = enemyPos - bulletPos_;
 	Vector3 normalVel = velocity_.normalize();

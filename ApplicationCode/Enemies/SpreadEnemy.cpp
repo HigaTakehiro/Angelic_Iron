@@ -36,6 +36,12 @@ void SpreadEnemy::Update()
 	if (++lifeTimer_ >= lifeTime_) {
 		isDead_ = true;
 	}
+	if (enemy_->GetIsHit()) {
+		OnCollision();
+	}
+	if (enemy_->GetIsBombHit()) {
+		BombHitCollision();
+	}
 
 	if (enemy_ != nullptr && hp_ > 0) {
 		if (pos_.x == 0 && pos_.y == 0 && pos_.z == 0) {
