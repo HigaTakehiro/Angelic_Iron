@@ -14,7 +14,7 @@ ScoreItem::~ScoreItem()
 void ScoreItem::Initialize(const Vector3& pos, Player* player, Camera* camera)
 {
 	const Vector3 initRot = { 0.0f, 0.0f, 0.0f };
-	const Vector3 initScale = { 1.0f, 1.0f, 1.0f };
+	const Vector3 initScale = { 2.0f, 2.0f, 2.0f };
 	pos_ = pos;
 	rot_ = initRot;
 	scale_ = initScale;
@@ -24,7 +24,7 @@ void ScoreItem::Initialize(const Vector3& pos, Player* player, Camera* camera)
 	scoreItem_->SetPosition(pos_);
 	scoreItem_->SetRotation(rot_);
 	scoreItem_->SetScale(scale_);
-	scoreItem_->SetObjType(Object3d::OBJType::ScoreItem);
+	scoreItem_->SetObjType((int32_t)Object3d::OBJType::ScoreItem);
 	scoreItem_->SetColType(Object3d::CollisionType::Sphere);
 }
 

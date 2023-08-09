@@ -280,6 +280,7 @@ void RailScene::Finalize() {
 	safe_delete(messageWindow_);
 	safe_delete(railTutorial_);
 	jsonLoader_->Finalize();
+	colManager_->Finalize();
 }
 
 std::list<std::unique_ptr<BaseEnemy>>& RailScene::GetEnemyObj()

@@ -32,29 +32,37 @@ void CollisionManager::AddObj(Object3d& obj)
 
 void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 {
+	int32_t type;
 	int32_t type1 = obj1->GetObjType();
 	int32_t type2 = obj2->GetObjType();
+
+	type = type1 | type2;
 
 	if (obj1 == obj2) {
 		return;
 	}
 
-	if ((type1 | type2) == 0x16) {
+	if (type == 0x16) {
 		HitTest(obj1, obj2);
 		return;
 	}
+	if (type == 0x0a) {
+		HitTest(obj1, obj2, true);
+		return;
+	}
 
-	if ((type1 | type2) == 0x03) return;
-	if ((type1 | type2) == 0x08) return;
-	if ((type1 | type2) == 0x06 && ((obj1->GetObjType() == 0x01) || (obj2->GetObjType() == 0x01))) return;
-
+	if (type == 0x03) return;
+	if (type == 0x08) return;
+	if (type == 0x06) return;
+	if (type == 0x08) return;
+	if (type == 0x09) return;
 
 	if (obj1->GetColType() == Object3d::CollisionType::Sphere && obj2->GetColType() == Object3d::CollisionType::Sphere) {
 		HitTest(obj1, obj2);
 	}
 }
 
-void CollisionManager::HitTest(Object3d* obj1, Object3d* obj2)
+void CollisionManager::HitTest(Object3d* obj1, Object3d* obj2, bool isBomb)
 {
 	if (obj1->GetColType() == Object3d::CollisionType::Sphere && obj2->GetColType() == Object3d::CollisionType::Sphere) {
 		if (collision_[(long long)Object3d::CollisionType::Sphere][(long long)Object3d::CollisionType::Sphere]->HitTest(obj1, obj2)) {
@@ -62,4 +70,14 @@ void CollisionManager::HitTest(Object3d* obj1, Object3d* obj2)
 			obj2->OnCollision();
 		}
 	}
+
+	if ((obj1->GetIsHit() || obj2->GetIsHit()) && isBomb) {
+		obj1->BombOnCollision();
+		obj2->BombOnCollision();
+	}
+}
+
+void CollisionManager::Finalize()
+{
+	objList_.clear();
 }

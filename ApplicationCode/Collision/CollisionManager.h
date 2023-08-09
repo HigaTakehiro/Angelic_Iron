@@ -35,7 +35,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="obj1"></param>
 	/// <param name="obj2"></param>
-	void HitTest(Object3d* obj1, Object3d* obj2);
+	void HitTest(Object3d* obj1, Object3d* obj2, bool isBomb = false);
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
+
 private: //メンバ変数
 	//オブジェクトリスト
 	std::list<Object3d*> objList_;
