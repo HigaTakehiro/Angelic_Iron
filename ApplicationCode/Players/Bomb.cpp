@@ -22,6 +22,7 @@ void Bomb::Initialize(const Vector3& playerPos, Object3d* target, const XMVECTOR
 	velocity_ = XMVector3TransformNormal(vector, Camera::GetMatWorld());
 	bullet_->SetPosition(bulletPos_);
 	bullet_->SetObjType((int32_t)Object3d::OBJType::Bomb);
+	bullet_->SetHitRadius(2.0f);
 	bullet_->SetColType(Object3d::CollisionType::Sphere);
 }
 

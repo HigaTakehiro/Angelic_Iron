@@ -83,6 +83,11 @@ private: //メンバ関数
 	void DelayUpdates();
 
 	/// <summary>
+	/// クリア演出
+	/// </summary>
+	void ClearPaformance();
+
+	/// <summary>
 	/// エフェクト発生処理
 	/// </summary>
 	void AddEffect();

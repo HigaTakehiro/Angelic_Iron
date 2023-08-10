@@ -18,6 +18,7 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
 	velocity_ = velocity;
 	bullet_->SetPosition(pos_);
 	bullet_->SetObjType((int32_t)Object3d::OBJType::Player | (int32_t)Object3d::OBJType::Bullet);
+	bullet_->SetHitRadius(2.0f);
 	bullet_->SetColType(Object3d::CollisionType::Sphere);
 }
 

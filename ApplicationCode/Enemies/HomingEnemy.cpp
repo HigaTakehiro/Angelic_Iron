@@ -17,6 +17,7 @@ void HomingEnemy::Initialize(const std::string modelKey, const Vector3& pos, con
 	enemy_->SetRotation(rot);
 	enemy_->SetScale(scale_);
 	enemy_->SetObjType((int32_t)Object3d::OBJType::Enemy);
+	enemy_->SetHitRadius(2.0f);
 	enemy_->SetColType(Object3d::CollisionType::Sphere);
 	hp_ = 1;
 	shotIntervalTime_ = 60;

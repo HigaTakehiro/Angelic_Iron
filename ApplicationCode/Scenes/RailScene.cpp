@@ -137,6 +137,8 @@ void RailScene::Update() {
 	if (KeyInput::GetIns()->TriggerKey(DIK_ESCAPE) && player_->GetHPCount() != noneHP && !railCamera_->GetIsEnd()) {
 		isPause_ = !isPause_;
 	}
+	//クリア演出
+	ClearPaformance();
 	//プレイヤーが死亡しているか
 	if (player_->GetIsDead()) {
 		isDead_ = true;
@@ -160,7 +162,7 @@ void RailScene::Update() {
 		DelayUpdates();
 		//チュートリアル更新処理
 		Tutorial();
-		colManager_->Update(score_);
+		colManager_->Update();
 
 		bombParticle_->Update();
 		gunParticle_->Update();
@@ -177,6 +179,19 @@ void RailScene::Update() {
 	//シーン切り替え処理
 	SceneChangeEffect::GetIns()->Update();
 	SceneChange();
+}
+
+void RailScene::ClearPaformance()
+{
+	//レールカメラが最終地点に到達したとき
+	if (railCamera_->GetIsEnd()) {
+		clearTimer_--;
+	}
+	//クリア演出後シーンを切り替える
+	if (clearTimer_ <= 0) {
+		isClear_ = true;
+		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
+	}
 }
 
 void RailScene::Draw() {

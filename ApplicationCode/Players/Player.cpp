@@ -30,6 +30,7 @@ void Player::Initialize(Camera* camera, float clearTime) {
 	player_->SetRotation(playerRot_);
 	player_->SetCameraParent(camera_);
 	player_->SetObjType((int32_t)Object3d::OBJType::Player);
+	player_->SetHitRadius(2.0f);
 	player_->SetColType(Object3d::CollisionType::Sphere);
 
 	for (int i = 0; i < 3; i++) {

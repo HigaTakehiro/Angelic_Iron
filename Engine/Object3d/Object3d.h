@@ -70,7 +70,7 @@ public: // サブクラス
 		Enemy = 0x02,
 		Bullet = 0x04,
 		Bomb = 0x08,
-		ScoreItem = 0x10,
+		ScoreItem = 0x0f,
 	};
 
 public: // 静的メンバ関数
@@ -307,6 +307,18 @@ public: // メンバ関数
 	void SetColType(CollisionType colType) { colType_ = colType; }
 
 	/// <summary>
+	/// 球の当たり判定半径をセット
+	/// </summary>
+	/// <param name="hitRadius">球の当たり判定半径</param>
+	void SetHitRadius(float hitRadius) { hitRadius_ = hitRadius; }
+
+	/// <summary>
+	/// 球の当たり判定を取得
+	/// </summary>
+	/// <returns>球の当たり判定</returns>
+	float GetHitRadius() { return hitRadius_; }
+
+	/// <summary>
 	/// ヒット時コールバック関数
 	/// </summary>
 	/// <returns>当たっている</returns>
@@ -328,6 +340,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>ヒットフラグ</returns>
 	bool GetIsBombHit() { return isBombHit_; }
+
+	//ComPtr<ID3D12Resource> GetConstBuff() { return constBuffB0_; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
@@ -365,6 +379,8 @@ private: // メンバ変数
 	int32_t objType_ = (int32_t)OBJType::None;
 	//当たり判定タイプ
 	CollisionType colType_ = CollisionType::None;
+	//球の当たり判定半径
+	float hitRadius_ = 1.0f;
 	//当たり判定フラグ
 	bool isHit_;
 	//ボム当たり判定フラグ
