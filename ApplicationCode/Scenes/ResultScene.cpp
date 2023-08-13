@@ -100,7 +100,10 @@ void ResultScene::Update()
 	ground_->Update();
 	gun_->Update();
 
-	titleBack_->Update();
+	if (waitTimer_++ >= waitTime) {
+		titleBack_->Update();
+		waitTimer_ = waitTime;
+	}
 
 	light_->Update();
 

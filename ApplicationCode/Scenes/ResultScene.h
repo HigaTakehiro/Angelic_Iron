@@ -39,6 +39,9 @@ private: //メンバ関数
 	/// </summary>
 	void SceneChange();
 
+private: //静的メンバ変数
+	static const int32_t waitTime = 60;
+
 private: //メンバ変数
 
 	PostEffect* postEffect_ = nullptr; //ポストエフェクトクラス
@@ -70,5 +73,7 @@ private: //メンバ変数
 
 	Vector3 cameraPos_;
 	Vector3 cameraTargetPos_;
+
+	int32_t waitTimer_;
 };
 

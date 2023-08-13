@@ -74,9 +74,11 @@ void GameOverScene::Update()
 	}
 
 	if (isButtonSelectTiming_) {
-		restart_->Update();
-		titleBack_->Update();
-
+		if (waitTimer_++ >= waitTime) {
+			restart_->Update();
+			titleBack_->Update();
+			waitTimer_ = waitTime;
+		}
 
 		if (!isSelectedButton_) {
 			if (titleBack_->GetIsClick()) {
