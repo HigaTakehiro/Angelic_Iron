@@ -28,7 +28,7 @@ void ScoreItem::Initialize(const Vector3& pos, Player* player, Camera* camera)
 	scoreItem_->SetColType(Object3d::CollisionType::Sphere);
 }
 
-void ScoreItem::Update()
+void ScoreItem::Update(int32_t& score)
 {
 	DirectX::XMVECTOR vel = { 0, 0, 0 };
 	XMVector3TransformNormal(vel, Camera::GetMatWorld());
@@ -51,6 +51,7 @@ void ScoreItem::Update()
 
 	if (scoreItem_->GetIsHit())
 	{
+		score += 500;
 		OnCollision();
 	}
 	scoreItem_->SetPosition(pos_);

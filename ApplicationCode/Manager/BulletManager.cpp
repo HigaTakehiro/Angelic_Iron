@@ -1,7 +1,18 @@
 #include "BulletManager.h"
 
-void BulletManager::Update()
+void BulletManager::Update(int32_t& score)
 {
+	for (std::unique_ptr<PlayerBullet>& playerBullet : playerBullets_) {
+		if (playerBullet->GetBulletObj()->GetIsHit()) {
+			score += 100;
+		}
+	}
+	for (std::unique_ptr<Bomb>& bomb : bombs_) {
+		if (bomb->GetBullet()->GetIsBombHit()) {
+			score += 100;
+		}
+	}
+
 	enemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& enemyBullet) { return enemyBullet->IsDead(); });
 	playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->IsDead(); });
 	bulletCases_.remove_if([](std::unique_ptr<BulletCase>& bulletCase) {return bulletCase->IsDead(); });

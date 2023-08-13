@@ -31,7 +31,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// XVˆ—
 	/// </summary>
-	void Update();
+	void Update(int32_t& score);
 
 	/// <summary>
 	/// •`‰æˆ—

@@ -202,7 +202,7 @@ void BossScene::Update()
 				building->Update();
 			}
 			
-			bulletManager_->Update();
+			bulletManager_->Update(score_);
 
 			for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
 				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetBossObj(), 1.0f, 100.0f)) {

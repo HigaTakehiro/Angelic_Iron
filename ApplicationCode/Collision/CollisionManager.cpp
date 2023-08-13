@@ -77,15 +77,14 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 void CollisionManager::HitTest(Object3d* obj1, Object3d* obj2, bool isBomb)
 {
 	if (obj1->GetColType() == Object3d::CollisionType::Sphere && obj2->GetColType() == Object3d::CollisionType::Sphere) {
-		if (collision_[(long long)Object3d::CollisionType::Sphere][(long long)Object3d::CollisionType::Sphere]->HitTest(obj1, obj2)) {
+		if (collision_[(long long)Object3d::CollisionType::Sphere][(long long)Object3d::CollisionType::Sphere]->HitTest(obj1, obj2) && isBomb) {
+			obj1->BombOnCollision();
+			obj2->BombOnCollision();
+		}
+		else if (collision_[(long long)Object3d::CollisionType::Sphere][(long long)Object3d::CollisionType::Sphere]->HitTest(obj1, obj2)) {
 			obj1->OnCollision();
 			obj2->OnCollision();
-		}
-	}
-
-	if ((obj1->GetIsHit() || obj2->GetIsHit()) && isBomb) {
-		obj1->BombOnCollision();
-		obj2->BombOnCollision();
+		}	
 	}
 }
 

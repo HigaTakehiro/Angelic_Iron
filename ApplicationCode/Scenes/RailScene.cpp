@@ -320,11 +320,11 @@ void RailScene::DelayUpdates()
 			}
 			enemyManager_->Update(isPause_);
 			for (std::unique_ptr<ScoreItem>& scoreItem : scoreItems_) {
-				scoreItem->Update();
+				scoreItem->Update(score_);
 			}
 		}
 
-		bulletManager_->Update();
+		bulletManager_->Update(score_);
 		for (std::unique_ptr<Particle2d>& particle2d : particles2d_) {
 			particle2d->Update();
 		}

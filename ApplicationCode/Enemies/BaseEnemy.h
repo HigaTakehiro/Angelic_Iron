@@ -30,8 +30,6 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	/// <param name="playerPos">プレイヤーの座標</param>
-	/// <param name="delayTime">スロー演出用遅延時間</param>
 	virtual void Update() = 0;
 	/// <summary>
 	/// 描画処理
