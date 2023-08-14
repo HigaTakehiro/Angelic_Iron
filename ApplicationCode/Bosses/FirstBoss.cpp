@@ -17,6 +17,9 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos_) {
 	boss_->SetPosition(pos_);
 	boss_->SetRotation(rot_);
 	boss_->SetScale(scale_);
+	boss_->SetObjType((int32_t)Object3d::OBJType::Enemy);
+	boss_->SetHitRadius(35.0f);
+	boss_->SetColType(Object3d::CollisionType::Sphere);
 
 	leftHand_ = Object3d::Create(ModelManager::GetIns()->GetModel("boss1_Hand"));
 	rightHand_ = Object3d::Create(ModelManager::GetIns()->GetModel("boss1_Hand"));
@@ -35,6 +38,9 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos_) {
 	leftHand_->SetPosition(leftHandPos_);
 	leftHand_->SetScale(leftHandScale_);
 	leftHand_->SetRotation(leftHandRot_);
+	leftHand_->SetObjType((int32_t)Object3d::OBJType::Enemy);
+	leftHand_->SetHitRadius(30.0f);
+	leftHand_->SetColType(Object3d::CollisionType::Sphere);
 
 	rightHandPos_ = { -15.0f, 0.0f, 0.0f };
 	rightHandScale_ = { 1.0f, 1.0f, 1.0f };
@@ -46,6 +52,9 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos_) {
 	rightHand_->SetPosition(rightHandPos_);
 	rightHand_->SetRotation(rightHandRot_);
 	rightHand_->SetScale(rightHandScale_);
+	rightHand_->SetObjType((int32_t)Object3d::OBJType::Enemy);
+	rightHand_->SetHitRadius(30.0f);
+	rightHand_->SetColType(Object3d::CollisionType::Sphere);
 
 	rollingShotTimer_ = 0;
 	leftHandAngle_ = 0.0f;
@@ -85,6 +94,16 @@ void FirstBoss::Update(const Vector3& playerPos, const int32_t delayTime)
 	rightHandShadowPos_ = rightHand_->GetMatWorld().r[3];
 	leftHandShadowPos_.y = -50.0f;
 	rightHandShadowPos_.y = -50.0f;
+
+	if (boss_->GetIsHit() && hp_ >= 1) {
+		OnCollision();
+	}
+	if (leftHand_->GetIsHit() && leftHandHP_ >= 1) {
+		LeftHandOnCollision();
+	}
+	if (rightHand_->GetIsHit() && rightHandHP_ >= 1) {
+		RightHandOnCollision();
+	}
 
 	if (isMovie_) {
 		MovieAction();
@@ -275,14 +294,18 @@ void FirstBoss::MovieAction()
 
 void FirstBoss::LeftHandOnCollision()
 {
-	leftHandHP_--;
-	isLeftHandDamage_ = true;
+	if (!isLeftHandDamage_) {
+		leftHandHP_--;
+		isLeftHandDamage_ = true;
+	}
 }
 
 void FirstBoss::RightHandOnCollision()
 {
-	rightHandHP_--;
-	isRightHandDamage_ = true;
+	if (!isRightHandDamage_) {
+		rightHandHP_--;
+		isRightHandDamage_ = true;
+	}
 }
 
 void FirstBoss::LeftHandDamageReaction()

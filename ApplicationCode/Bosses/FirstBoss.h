@@ -75,12 +75,7 @@ public: //メンバ関数
 	/// エフェクトタイミングフラグ取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsMovieEffectTiming() { return isMoviePoint_2_; }
-	/// <summary>
-	/// カメラ移動タイミングフラグ取得
-	/// </summary>
-	/// <returns></returns>
-	bool GetIsCameraMoveTiming() { return isCameraMoveTiming_; }
+	bool GetIsMovieEffectTiming() override { return isMoviePoint_2_; }
 	/// <summary>
 	/// 左手オブジェクト取得
 	/// </summary>
@@ -91,11 +86,6 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>右手オブジェクト</returns>
 	Object3d* GetRightHandObj() { return rightHand_; }
-	/// <summary>
-	/// 弾管理クラスをセット
-	/// </summary>
-	/// <param name="bulletManager">弾管理クラス</param>
-	void SetBulletManager(BulletManager* bulletManager) { bulletManager_ = bulletManager; }
 
 private: //メンバ関数
 	/// <summary>
@@ -174,7 +164,6 @@ private: //メンバ変数
 	bool isMoviePoint_1_ = false;
 	bool isMoviePoint_2_ = false;
 	bool isMoviePoint_3_ = false;
-	bool isCameraMoveTiming_ = false;
 
 	//攻撃関連変数
 	int32_t rollingShotTimer_;
@@ -185,6 +174,5 @@ private: //メンバ変数
 	int32_t actionPostTimer_;
 	bool isActionPos_;
 	bool isActionPost_;
-	BulletManager* bulletManager_;
 };
 

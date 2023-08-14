@@ -8,8 +8,10 @@ const int32_t BaseBoss::deadHP = 0;
 
 void BaseBoss::OnCollision()
 {
-	hp_--;
-	isDamage_ = true;
+	if (!isDamage_) {
+		hp_--;
+		isDamage_ = true;
+	}
 }
 
 void BaseBoss::DamageReaction()

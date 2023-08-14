@@ -8,6 +8,7 @@
 #include "EnemyBullet.h"
 #include "MotionMath.h"
 #include "ImageManager.h"
+#include "BulletManager.h"
 #include "Sprite.h"
 
 class BossScene;
@@ -85,6 +86,21 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="player">プレイヤー</param>
 	void SetPlayer(BossScenePlayer* player) { player_ = player; }
+	/// <summary>
+	/// 弾管理クラスをセット
+	/// </summary>
+	/// <param name="bulletManager">弾管理クラス</param>
+	void SetBulletManager(BulletManager* bulletManager) { bulletManager_ = bulletManager; }
+	/// <summary>
+	/// カメラ移動タイミングフラグ取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsCameraMoveTiming() { return isCameraMoveTiming_; }
+	/// <summary>
+	/// ムービーエフェクトタイミング取得
+	/// </summary>
+	/// <returns></returns>
+	virtual bool GetIsMovieEffectTiming() = 0;
 
 protected: //静的メンバ変数
 	//行動クールタイム
@@ -135,9 +151,12 @@ protected: //メンバ変数
 	bool isDead_ = false;
 	//ムービーフラグ
 	bool isMovie_ = false;
+	bool isCameraMoveTiming_ = false;
 	//死亡タイマー
 	int32_t deadTimer_;
 	//HPバー
 	Sprite* hpBar_;
 	Sprite* hpRedBar_;
+	BulletManager* bulletManager_;
+
 };

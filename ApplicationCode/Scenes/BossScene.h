@@ -96,8 +96,7 @@ private: //メンバ変数
 
 	Vector3 cameraPos_; //カメラ座標
 
-	//BaseBoss* boss;
-	FirstBoss* firstBoss_;
+	BaseBoss* boss_; //ボス
 
 	//スコア
 	int32_t score_;

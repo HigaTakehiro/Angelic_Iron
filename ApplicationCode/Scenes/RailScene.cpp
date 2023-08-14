@@ -401,13 +401,6 @@ void RailScene::Tutorial()
 
 void RailScene::SceneChange()
 {
-	if (KeyInput::GetIns()->TriggerKey(DIK_0)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_9)) {
-		SceneManager::SceneChange(SceneManager::SceneName::GameOver);
-	}
-
 	//シーン切り替え
 	if (SceneChangeEffect::GetIns()->GetIsSceneChange()) {
 		//死亡フラグが立っている場合

@@ -24,7 +24,7 @@ void EnemyBullet::Initialize(const Vector3& pos, const Vector3& velocity, Object
 	}
 	enemyBullet_->SetPosition(pos_);
 	enemyBullet_->SetObjType((int32_t)Object3d::OBJType::Bullet | (int32_t)Object3d::OBJType::Enemy);
-	enemyBullet_->SetHitRadius(1.0f);
+	enemyBullet_->SetHitRadius(2.0f);
 	enemyBullet_->SetColType(Object3d::CollisionType::Sphere);
 }
 

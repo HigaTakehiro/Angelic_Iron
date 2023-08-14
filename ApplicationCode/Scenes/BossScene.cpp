@@ -49,24 +49,24 @@ void BossScene::Initialize()
 	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 	postEffectTime_ = 0;
 
+	bulletManager_ = new BulletManager();
+
 	player_ = new BossScenePlayer;
 	player_->Initialize(camera_);
 	player_->SetBossScene(this);
+	player_->SetBulletManager(bulletManager_);
+	player_->Update();
 
 	int32_t stageNo = 0;
 	stageNo = SceneManager::GetStageNo();
 	messageWindow_ = new MessageWindow();
 	if (stageNo == 1) {
 		messageWindow_->Initialize("Stage1BossText.aid");
+		boss_ = new FirstBoss;
+		boss_->Initialize("boss1_Body", { 0, 0, 0 });
+		boss_->SetBossScene(this);
+		boss_->SetPlayer(player_);
 	}
-
-	//boss = new FirstBoss;
-	//boss->Initialize(ModelManager::BossBody, { 0, 0, 0 });
-
-	firstBoss_ = new FirstBoss;
-	firstBoss_->Initialize("boss1_Body", {0, 0, 0});
-	firstBoss_->SetBossScene(this);
-	firstBoss_->SetPlayer(player_);
 
 	pause_ = Sprite::Create((UINT)ImageManager::ImageName::Pause, { 640, 100 });
 	pause_->SetAnchorPoint({ 0.5f, 0.5f });
@@ -104,9 +104,8 @@ void BossScene::Initialize()
 	movieTimer_ = 0;
 	cameraPos_ = { 220.0f, 0.0f, 0.0f };
 
-	bulletManager_ = new BulletManager();
 	player_->SetBulletManager(bulletManager_);
-	firstBoss_->SetBulletManager(bulletManager_);
+	boss_->SetBulletManager(bulletManager_);
 }
 
 void BossScene::Update()
@@ -134,8 +133,8 @@ void BossScene::Update()
 	Reticle::GetIns()->Update();
 	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 
-	if (firstBoss_->GetIsMovie()) {
-		if (firstBoss_->GetIsCameraMoveTiming() && firstBoss_->GetIsMovie()) {
+	if (boss_->GetIsMovie()) {
+		if (boss_->GetIsCameraMoveTiming() && boss_->GetIsMovie()) {
 			movieTimer_++;
 			float timeRate = min((float)movieTimer_ / (float)cameraMoveTime, 1.0f);
 			cameraPos_ = easeIn(movieCameraPos, initCameraPos, timeRate);
@@ -164,10 +163,11 @@ void BossScene::Update()
 
 	if (!isPause_) {
 		messageWindow_->Update();
+		colManager_->Update();
 
 		ground_->Update();
 		celetialSphere_->Update();
-		if (!firstBoss_->GetIsMovie()) {
+		if (!boss_->GetIsMovie()) {
 			player_->Update();
 		}
 
@@ -196,59 +196,13 @@ void BossScene::Update()
 		}
 
 		if (player_->GetHPCount() > noneHP) {
-			firstBoss_->Update(player_->GetPlayerObj()->GetMatWorld().r[3]);
+			boss_->Update(player_->GetPlayerObj()->GetMatWorld().r[3]);
 
 			for (std::unique_ptr<Object3d>& building : buildings_) {
 				building->Update();
 			}
 			
 			bulletManager_->Update(score_);
-
-			for (const std::unique_ptr<PlayerBullet>& playerBullet : bulletManager_->GetPlayerBullets()) {
-				if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetBossObj(), 1.0f, 100.0f)) {
-					if (firstBoss_->GetBossHp() > 0) {
-						score_ += 100;
-						firstBoss_->OnCollision();
-						playerBullet->OnCollision();
-					}
-				}
-
-				if (!firstBoss_->GetIsLeftHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetLeftHandObj(), 1.0f, 30.0f)) {
-						score_ += 100;
-						firstBoss_->LeftHandOnCollision();
-						playerBullet->OnCollision();
-					}
-				}
-
-				if (!firstBoss_->GetIsRightHandDead()) {
-					if (Collision::GetIns()->OBJSphereCollision(playerBullet->GetBulletObj(), firstBoss_->GetRightHandObj(), 1.0f, 30.0f)) {
-						score_ += 100;
-						firstBoss_->RightHandOnCollision();
-						playerBullet->OnCollision();
-					}
-				}
-			}
-
-			for (const std::unique_ptr<EnemyBullet>& bossBullet : bulletManager_->GetEnemyBullets()) {
-				if (Collision::GetIns()->OBJSphereCollision(bossBullet->GetEnemyBulletObj(), player_->GetPlayerObj(), 2.0f, 5.0f)) {
-					bossBullet->OnCollision();
-					if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
-						player_->OnCollision();
-					}
-				}
-			}
-
-			if (Collision::GetIns()->OBJSphereCollision(firstBoss_->GetLeftHandObj(), player_->GetPlayerObj(), 2.0f, 30.0f)) {
-				if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
-					player_->OnCollision();
-				}
-			}
-			if (Collision::GetIns()->OBJSphereCollision(firstBoss_->GetRightHandObj(), player_->GetPlayerObj(), 2.0f, 30.0f)) {
-				if (!player_->GetIsDamage() && player_->GetHPCount() > noneHP) {
-					player_->OnCollision();
-				}
-			}
 		}
 
 	}
@@ -293,7 +247,7 @@ void BossScene::Draw()
 
 	isRoop = true;
 
-	if (firstBoss_->GetIsMovieEffectTiming() && firstBoss_->GetIsMovie()) {
+	if (boss_->GetIsMovieEffectTiming() && boss_->GetIsMovie()) {
 		postEffectNo_ = PostEffect::PostEffectNo::DASH;
 		postEffect_->SetBlurCenter({ -0.5f, -0.5f });
 		postEffect_->SetMask(0.2f);
@@ -315,7 +269,7 @@ void BossScene::Draw()
 	ground_->Draw();
 	celetialSphere_->Draw();
 	player_->Draw();
-	firstBoss_->Draw();
+	boss_->Draw();
 	for (std::unique_ptr<Object3d>& building : buildings_) {
 		building->Draw();
 	}
@@ -334,14 +288,14 @@ void BossScene::Draw()
 	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), (float)postEffectTime_, postEffectNo_, isRoop);
 	//ポストエフェクトを掛けないスプライト描画(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	if (!firstBoss_->GetIsMovie()) {
+	if (!boss_->GetIsMovie()) {
 		scoreText_->Draw();
 		for (int32_t i = 0; i < 6; i++) {
 			scoreNumber_[i]->Draw();
 		}
 	}
 	for (int32_t i = 0; i < 2; i++) {
-		if (firstBoss_->GetIsMovie()) {
+		if (boss_->GetIsMovie()) {
 			movieBar_[i]->Draw();
 		}
 	}
@@ -356,7 +310,7 @@ void BossScene::Draw()
 	}
 	if (!isPause_) {
 		messageWindow_->SpriteDraw();
-		firstBoss_->SpriteDraw();
+		boss_->SpriteDraw();
 	}
 	Reticle::GetIns()->Draw();
 	SceneChangeEffect::GetIns()->Draw();
@@ -373,8 +327,8 @@ void BossScene::Finalize()
 	safe_delete(pause_);
 	safe_delete(titleBack_);
 	safe_delete(back_);
-	firstBoss_->Finalize();
-	safe_delete(firstBoss_);
+	boss_->Finalize();
+	safe_delete(boss_);
 	player_->Finalize();
 	safe_delete(player_);
 	safe_delete(scoreText_);
@@ -387,11 +341,12 @@ void BossScene::Finalize()
 	for (int32_t i = 0; i < 6; i++) {
 		safe_delete(scoreNumber_[i]);
 	}
+	colManager_->Finalize();
 }
 
 void BossScene::SceneChange()
 {
-	if (firstBoss_->GetIsDead()) {
+	if (boss_->GetIsDead()) {
 		SceneChangeEffect::GetIns()->SetIsSceneChangeStart(true);
 	}
 
@@ -400,7 +355,7 @@ void BossScene::SceneChange()
 			SceneManager::AddScore(score_);
 			SceneManager::SceneChange(SceneManager::SceneName::GameOver);
 		}
-		else if (firstBoss_->GetIsDead()) {
+		else if (boss_->GetIsDead()) {
 			SceneManager::AddScore(score_);
 			SceneManager::SetIsBossScene(false);
 			SceneManager::SceneChange(SceneManager::SceneName::Result);

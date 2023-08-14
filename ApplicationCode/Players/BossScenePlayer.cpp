@@ -17,6 +17,9 @@ void BossScenePlayer::Initialize(Camera* camera)
 
 	player_ = Object3d::Create(ModelManager::GetIns()->GetModel("player_Normal"));
 	player_->SetCameraParent(camera_);
+	player_->SetObjType((int32_t)Object3d::OBJType::Player);
+	player_->SetHitRadius(5.0f);
+	player_->SetColType(Object3d::CollisionType::Sphere);
 	pos_ = { 0.0f, -10.0f, -25.0f };
 	rot_ = { 0.0f, 90.0f, 0.0f };
 	scale_ = { 1.0f, 1.0f, 1.0f };
@@ -82,12 +85,10 @@ void BossScenePlayer::Update()
 	camera_->SetEye(cameraPos_);
 	player_->SetPosition(pos_);
 	player_->SetRotation(rot_);
-	player_->Update();
 	playerWPos_ = player_->GetMatWorld().r[3];
-	gun_->Update();
 
 	if (player_->GetIsHit()) {
-		player_->OnCollision();
+		OnCollision();
 	}
 
 	if (hpCount_ > noneHP) {
@@ -105,6 +106,9 @@ void BossScenePlayer::Update()
 	if (hpCount_ <= noneHP) {
 		DeadPerformance();
 	}
+
+	player_->Update();
+	gun_->Update();
 }
 
 void BossScenePlayer::Draw()
@@ -151,10 +155,12 @@ void BossScenePlayer::Finalize() {
 
 void BossScenePlayer::OnCollision()
 {
-	hpCount_--;
-	//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
-	//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
-	isDamage_ = true;
+	if (!isDamage_) {
+		hpCount_--;
+		//sound->PlayWave("Engine/Resources/Sound/SE/damage.wav", false, 0.1f);
+		//sound->PlayWave("Engine/Resources/Sound/SE/noise.wav", false, 0.1f);
+		isDamage_ = true;
+	}
 }
 
 void BossScenePlayer::Move() {
