@@ -140,9 +140,6 @@
     <ClCompile Include="Engine\Object2d\Sprite.cpp">
       <Filter>ソース ファイル\Engine\Object2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object3d\Collision.cpp">
-      <Filter>ソース ファイル\Engine\Object3d</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object3d\MapChip.cpp">
       <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClCompile>
@@ -369,9 +366,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Object2d\Sprite.h">
       <Filter>ソース ファイル\Engine\Object2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object3d\Collision.h">
-      <Filter>ソース ファイル\Engine\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object3d\MapChip.h">
       <Filter>ソース ファイル\Engine\Object3d</Filter>

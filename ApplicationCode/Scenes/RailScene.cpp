@@ -3,7 +3,6 @@
 #include "KeyInput.h"
 #include "MouseInput.h"
 #include "PadInput.h"
-#include "Collision.h"
 #include "ModelManager.h"
 #include "ImageManager.h"
 #include "SceneManager.h"
