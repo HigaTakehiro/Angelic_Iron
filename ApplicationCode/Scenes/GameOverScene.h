@@ -13,18 +13,6 @@
 class GameOverScene : public BaseScene
 {
 public:
-	enum class ScoreNumber {
-		zero = 64 * 0,
-		one = 64 * 1,
-		two = 64 * 2,
-		three = 64 * 3,
-		four = 64 * 4,
-		five = 64 * 5,
-		six = 64 * 6,
-		seven = 64 * 7,
-		eight = 64 * 8,
-		nine = 64 * 9
-	};
 
 public: //ƒƒ“ƒoŠÖ”
 

@@ -10,6 +10,8 @@
 #include "SafeDelete.h"
 #include "Reticle.h"
 #include "CollisionManager.h"
+#include "PostEffect.h"
+#include "ModelManager.h"
 
 class BaseScene
 {
@@ -30,6 +32,16 @@ public:
 		eight = 64 * 8,
 		nine = 64 * 9
 	};
+
+	//デバックテキスト用テクスチャ番号
+	static const int32_t debugTextNumber = 0;
+
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+	using XMVECTOR = DirectX::XMVECTOR;
 
 public: //仮想関数
 	/// <summary>

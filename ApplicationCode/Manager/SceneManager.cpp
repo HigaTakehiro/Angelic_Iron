@@ -1,6 +1,11 @@
 #include "SceneManager.h"
 #include "SceneChangeEffect.h"
 #include "Reticle.h"
+#include "RailScene.h"
+#include "BossScene.h"
+#include "TitleScene.h"
+#include "ResultScene.h"
+#include "GameOverScene.h"
 
 BaseScene* SceneManager::nowScene_ = nullptr;
 int32_t SceneManager::stageNo_ = 1;

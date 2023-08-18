@@ -154,7 +154,6 @@
     <ClCompile Include="ApplicationCode\Bosses\BaseBoss.cpp" />
     <ClCompile Include="ApplicationCode\Bosses\FirstBoss.cpp" />
     <ClCompile Include="ApplicationCode\CameraMove\RailCamera.cpp" />
-    <ClCompile Include="ApplicationCode\Collision\CollisionManager.cpp" />
     <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp" />
     <ClCompile Include="ApplicationCode\Command\BombCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
@@ -174,6 +173,7 @@
     <ClCompile Include="ApplicationCode\Enemies\SpreadEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemies\StraightEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Manager\BulletManager.cpp" />
+    <ClCompile Include="ApplicationCode\Manager\CollisionManager.cpp" />
     <ClCompile Include="ApplicationCode\Manager\EnemyManager.cpp" />
     <ClCompile Include="ApplicationCode\Manager\SceneManager.cpp" />
     <ClCompile Include="ApplicationCode\Manager\UIManager.cpp" />
@@ -230,7 +230,6 @@
     <ClInclude Include="ApplicationCode\Bosses\FirstBoss.h" />
     <ClInclude Include="ApplicationCode\CameraMove\RailCamera.h" />
     <ClInclude Include="ApplicationCode\Collision\BaseCollision.h" />
-    <ClInclude Include="ApplicationCode\Collision\CollisionManager.h" />
     <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h" />
     <ClInclude Include="ApplicationCode\Command\BombCommand.h" />
     <ClInclude Include="ApplicationCode\Command\Command.h" />
@@ -252,6 +251,7 @@
     <ClInclude Include="ApplicationCode\Enemies\SpreadEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemies\StraightEnemy.h" />
     <ClInclude Include="ApplicationCode\Manager\BulletManager.h" />
+    <ClInclude Include="ApplicationCode\Manager\CollisionManager.h" />
     <ClInclude Include="ApplicationCode\Manager\EnemyManager.h" />
     <ClInclude Include="ApplicationCode\Manager\SceneManager.h" />
     <ClInclude Include="ApplicationCode\Manager\UIManager.h" />

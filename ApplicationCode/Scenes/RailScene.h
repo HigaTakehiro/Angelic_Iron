@@ -35,8 +35,6 @@ class EnemyManager;
 class RailScene : public BaseScene
 {
 private: //静的メンバ変数
-	//デバックテキスト用テクスチャ番号
-	static const int32_t debugTextNumber = 0;
 
 public: //メンバ関数
 	/// <summary>

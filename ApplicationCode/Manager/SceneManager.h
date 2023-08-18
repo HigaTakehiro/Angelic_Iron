@@ -1,11 +1,6 @@
 #pragma once
 
-#include "RailScene.h"
 #include "BaseScene.h"
-#include "BossScene.h"
-#include "TitleScene.h"
-#include "ResultScene.h"
-#include "GameOverScene.h"
 #include "DirectXSetting.h"
 #include "Sound.h"
 #include "KeyInput.h"

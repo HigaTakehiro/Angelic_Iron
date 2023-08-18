@@ -17,6 +17,14 @@ class BossScenePlayer;
 class BaseBoss
 {
 public:
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+	using XMVECTOR = DirectX::XMVECTOR;
+
+public:
 	virtual ~BaseBoss() {}
 
 public: //ÉÅÉìÉoä÷êî
