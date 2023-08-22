@@ -39,18 +39,6 @@ public: // サブクラス
 		float time_; //時間
 	};
 
-	struct ShadowConstBuff {
-		XMMATRIX wvp_;
-		XMMATRIX world_;
-	};
-
-	struct LightConstBuff
-	{
-		XMMATRIX lightVP;
-		XMFLOAT4 lightColor;
-		Vector3 lightDir;
-	};
-
 	// 頂点シェーダ番号
 	enum class VSPipelineNo {
 		Normal,
@@ -112,13 +100,10 @@ private: // 静的メンバ変数
 	static ID3D12Device* device_;
 	//頂点シェーダー数
 	static const int32_t vsSize = 2;
-	////シャドウマップシェーダー
-	//static const int32_t shadowSize = 1;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList_;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature_;
-	//static ComPtr<ID3D12RootSignature> shadowRootSignature_;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate_[vsSize];
 	//ライト
@@ -146,12 +131,6 @@ private:// 静的メンバ関数
 	/// <param name="psName">ピクセルシェーダー名</param>
 	/// <param name="psBlob">ピクセルシェーダーオブジェクト</param>
 	static void LoadPS(const wchar_t* psName, ComPtr<ID3DBlob>& psBlob);
-
-	/// <summary>
-	/// シャドウマップ初期化
-	/// </summary>
-	/// <returns>成功</returns>
-	//static bool InitializeShadowBuff();
 
 public: //静的メンバ関数
 	/// <summary>
@@ -341,14 +320,8 @@ public: // メンバ関数
 	/// <returns>ヒットフラグ</returns>
 	bool GetIsBombHit() { return isBombHit_; }
 
-	//ComPtr<ID3D12Resource> GetConstBuff() { return constBuffB0_; }
-
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0_; // 定数バッファ
-	//シャドウマップ用バッファ
-	//ComPtr<ID3D12Resource> shadowBuff_;
-	//ライト用バッファ
-	//ComPtr<ID3D12Resource> lightBuff_;
 	// 色
 	XMFLOAT4 color_ = { 1,1,1,1 };
 	// ローカルスケール
