@@ -20,6 +20,7 @@ ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature_;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate_[] = {};
 LightGroup* Object3d::light_ = nullptr;
+ShadowMap* Object3d::shadow_ = nullptr;
 CollisionManager* Object3d::colManager_ = nullptr;
 
 bool Object3d::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)

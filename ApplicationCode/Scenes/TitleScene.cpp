@@ -81,8 +81,8 @@ void TitleScene::Initialize()
 	postEffectNo_ = PostEffect::PostEffectNo::NORMAL;
 	particle_ = ParticleManager::UniquePtrCreate(DirectXSetting::GetIns()->GetDev(), camera_.get());
 
-	shadow_ = new ShadowMap();
-	shadow_->Initialize();
+	shadow_ = ShadowMap::UniquePtrCreate();
+	Object3d::SetShadow(shadow_.get());
 
 	debugText_.Initialize(0);
 }
@@ -284,7 +284,6 @@ void TitleScene::Update()
 	}
 
 	ParticleCreate();
-	shadow_->Update(titlePlayer_.get());
 	jsonLoader_->Update();
 
 	if (isStageChoice_) {
@@ -360,7 +359,6 @@ void TitleScene::Draw()
 
 void TitleScene::Finalize()
 {
-	safe_delete(shadow_);
 	jsonLoader_->Finalize();
 }
 

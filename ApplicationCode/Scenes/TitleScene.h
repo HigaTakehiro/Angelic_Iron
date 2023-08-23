@@ -143,6 +143,8 @@ private: //メンバ変数
 	std::unique_ptr<Camera> camera_ = nullptr;
 	//ライト
 	std::unique_ptr<LightGroup> light_ = nullptr;
+	//シャドウ
+	std::unique_ptr<ShadowMap> shadow_ = nullptr;
 	//パーティクル
 	std::unique_ptr<ParticleManager> particle_ = nullptr;
 	//jsonローダー
@@ -174,6 +176,6 @@ private: //メンバ変数
 	//ページ変更フラグ(前のページ)
 	bool isPrevPage_;
 
-	ShadowMap* shadow_;
+	//ShadowMap* shadow_;
 
 };

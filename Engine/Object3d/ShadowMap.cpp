@@ -2,6 +2,20 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 
+ShadowMap* ShadowMap::Create()
+{
+	ShadowMap* instance = new ShadowMap();
+	instance->Initialize();
+	return instance;
+}
+
+std::unique_ptr<ShadowMap> ShadowMap::UniquePtrCreate()
+{
+	std::unique_ptr<ShadowMap> instance = std::make_unique<ShadowMap>();
+	instance->Initialize();
+	return instance;
+}
+
 void ShadowMap::Initialize()
 {
 	if (!ShadowHeapCreate()) {
@@ -22,25 +36,25 @@ void ShadowMap::Initialize()
 	}
 }
 
-void ShadowMap::Update(Object3d* obj)
+void ShadowMap::Update(DirectX::XMMATRIX world)
 {
 	// 定数バッファへデータ転送
-	ConstBuffDataB0* constMap0 = nullptr;
-	if (SUCCEEDED(constBuffB0_->Map(0, nullptr, (void**)&constMap0))) {
-		constMap0->wvp = obj->GetMatWorld() * Camera::GetMatView() * Camera::GetMatProjection();
-		constMap0->world = obj->GetMatWorld();
-		constBuffB0_->Unmap(0, nullptr);
+	ShadowBuffData* shadowMap = nullptr;
+	if (SUCCEEDED(shadowBuff_->Map(0, nullptr, (void**)&shadowMap))) {
+		shadowMap->wvp = world * Camera::GetMatView() * Camera::GetMatProjection();
+		shadowMap->world = world;
+		shadowBuff_->Unmap(0, nullptr);
 	}
 
-	ConstBuffDataB1* constMap1 = nullptr;
-	if (SUCCEEDED(constBuffB0_->Map(0, nullptr, (void**)&constMap1))) {
-		constMap1->lightColor = { 1, 1, 1, 1 };
-		constMap1->lightVP.r[0] = { 0, 0, 0, 0 };
-		constMap1->lightVP.r[1] = { 0, 0, 0, 0 };
-		constMap1->lightVP.r[2] = { 0, 0, 0, 0 };
-		constMap1->lightVP.r[3] = { 0, 5, 0, 0 };
-		constMap1->lightDir = { 0, 1, 0 };
-		constBuffB0_->Unmap(1, nullptr);
+	LightBuffData* lightMap = nullptr;
+	if (SUCCEEDED(shadowBuff_->Map(0, nullptr, (void**)&lightMap))) {
+		lightMap->lightColor = { 1, 1, 1, 1 };
+		lightMap->lightVP.r[0] = { 0, 0, 0, 0 };
+		lightMap->lightVP.r[1] = { 0, 0, 0, 0 };
+		lightMap->lightVP.r[2] = { 0, 0, 0, 0 };
+		lightMap->lightVP.r[3] = { 0, 5, 0, 0 };
+		lightMap->lightDir = { 0, 1, 0 };
+		shadowBuff_->Unmap(1, nullptr);
 	}
 }
 
@@ -48,7 +62,7 @@ void ShadowMap::Draw()
 {
 	DirectXSetting::GetIns()->GetCmdList()->SetPipelineState(pipelinestate_.Get());
 	DirectXSetting::GetIns()->GetCmdList()->SetGraphicsRootSignature(rootsignature_.Get());
-	DirectXSetting::GetIns()->GetCmdList()->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
+	DirectXSetting::GetIns()->GetCmdList()->SetGraphicsRootConstantBufferView(0, shadowBuff_->GetGPUVirtualAddress());
 }
 
 bool ShadowMap::TexHeapCreate()
@@ -78,14 +92,14 @@ bool ShadowMap::TexHeapCreate()
 
 	srvHandle = texHeap_->GetCPUDescriptorHandleForHeapStart();
 	DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView(
-		shadowBuff_.Get(), &rvDesc, srvHandle
+		lightBuff_.Get(), &rvDesc, srvHandle
 	);
 
 	rvDesc.Format = DXGI_FORMAT_R32_FLOAT;
 	srvHandle.ptr += DirectXSetting::GetIns()->GetDev()->GetDescriptorHandleIncrementSize(
 		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
 	);
-	DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView(shadowBuff_.Get(), &rvDesc, srvHandle);
+	DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView(lightBuff_.Get(), &rvDesc, srvHandle);
 
 	return true;
 }
@@ -98,7 +112,7 @@ bool ShadowMap::ShadowBuffCreate()
 	dsvDesc.Texture2D.MipSlice = 0;
 	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
 	DirectXSetting::GetIns()->GetDev()->CreateDepthStencilView(
-		shadowBuff_.Get(), &dsvDesc,
+		lightBuff_.Get(), &dsvDesc,
 		shadowHeap_->GetCPUDescriptorHandleForHeapStart()
 	);
 
@@ -111,7 +125,7 @@ bool ShadowMap::ShadowBuffCreate()
 	resourceViewDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 	resourceViewDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	DirectXSetting::GetIns()->GetDev()->CreateShaderResourceView(
-		shadowBuff_.Get(), &resourceViewDesc,
+		lightBuff_.Get(), &resourceViewDesc,
 		texHeap_->GetCPUDescriptorHandleForHeapStart()
 	);
 
@@ -166,9 +180,9 @@ bool ShadowMap::ShadowHeapCreate()
 	result = DirectXSetting::GetIns()->GetDev()->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBuffDataB0) + 0xff) & ~0xff),
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ShadowBuffData) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&constBuffB0_)
+		IID_PPV_ARGS(&shadowBuff_)
 	);
 	if (FAILED(result)) {
 		return false;
