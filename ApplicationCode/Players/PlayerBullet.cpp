@@ -1,5 +1,7 @@
 #include "PlayerBullet.h"
 
+const float PlayerBullet::bulletSpeed = 5.0f;
+
 PlayerBullet::PlayerBullet() {
 
 }
@@ -8,7 +10,7 @@ PlayerBullet::~PlayerBullet() {
 	safe_delete(bullet_);
 }
 
-void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
+void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity, Object3d* target) {
 	const Vector3 bulletSize = { 1.0f, 1.0f, 1.0f };
 
 	bullet_ = Object3d::Create(ModelManager::GetIns()->GetModel("bullet"));
@@ -20,6 +22,10 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity) {
 	bullet_->SetObjType((int32_t)Object3d::OBJType::Player | (int32_t)Object3d::OBJType::Bullet);
 	bullet_->SetHitRadius(2.0f);
 	bullet_->SetColType(Object3d::CollisionType::Sphere);
+
+	if (target != nullptr) {
+		target_ = target;
+	}
 }
 
 void PlayerBullet::Update() {
@@ -27,8 +33,13 @@ void PlayerBullet::Update() {
 	if (--lifeTimer_ <= timeOver) {
 		isDead_ = true;
 	}
-	else {
+	else if (target_ != nullptr){
+		velocity_ = target_->GetMatWorld().r[3] - pos_;
+		velocity_ = velocity_.normalize() * bulletSpeed;
 		pos_ += velocity_;
+	}
+	else {
+		pos_ += velocity_ * bulletSpeed;
 	}
 
 	if (bullet_->GetIsHit()) {

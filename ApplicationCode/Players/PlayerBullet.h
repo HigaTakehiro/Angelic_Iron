@@ -17,7 +17,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const Vector3& pos, const Vector3& velocity);
+	void Initialize(const Vector3& pos, const Vector3& velocity, Object3d* target = nullptr);
 
 	/// <summary>
 	/// 更新処理
@@ -48,9 +48,11 @@ public: //メンバ関数
 
 private: //静的メンバ変数
 	static const int32_t lifeTime = 60 * 2;
+	static const float bulletSpeed;
 
 private: //メンバ変数
 	Object3d* bullet_;
+	Object3d* target_ = nullptr;
 	Vector3 pos_;
 	bool isDead_;
 	int32_t lifeTimer_ = lifeTime;

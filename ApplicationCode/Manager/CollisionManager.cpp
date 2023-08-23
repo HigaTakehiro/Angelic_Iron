@@ -47,6 +47,7 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 	const int32_t playerAndPlayerBulletHit = 0x05;
 	const int32_t playerAndBombHit = 0x09;
 	const int32_t bombAndBombHit = 0x08;
+	const int32_t playerBulletAndEnemyBullet = 0x07;
 
 	type = type1 | type2;
 
@@ -70,6 +71,7 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 	if (type == playerAndPlayerBulletHit) return;
 	if (type == playerAndBombHit) return;
 	if (type == bombAndBombHit) return;
+	if (type == playerBulletAndEnemyBullet) return;
 
 	HitTest(obj1, obj2);
 }

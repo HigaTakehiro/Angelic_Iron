@@ -191,10 +191,15 @@ void Player::Shot() {
 	else {
 		velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
 	}
-	velocity = XMVector3Normalize(velocity) * bulletSpeed;
+	velocity = XMVector3Normalize(velocity);
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initialize(playerWPos_, velocity);
+	if (targetEnemy_ != nullptr) {
+		newBullet->Initialize(playerWPos_, velocity, targetEnemy_->GetEnemyObj());
+	}
+	else {
+		newBullet->Initialize(playerWPos_, velocity);
+	}
 
 	Vector3 gunPos = gun_->GetMatWorld().r[3];
 	XMVECTOR gunForward = { 0.0f, 0.0f, 1.0f };
