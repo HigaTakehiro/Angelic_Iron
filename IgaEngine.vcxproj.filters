@@ -308,11 +308,11 @@
     <ClCompile Include="ApplicationCode\UI\RailTutorial.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Collision\SphereAndSphere.cpp">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Manager\CollisionManager.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,14 +550,14 @@
     <ClInclude Include="ApplicationCode\UI\RailTutorial.h">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Collision\CollisionManager.h">
-      <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Collision\SphereAndSphere.h">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Collision\BaseCollision.h">
       <Filter>ソース ファイル\ApplicationCode\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Manager\CollisionManager.h">
+      <Filter>ソース ファイル\ApplicationCode\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

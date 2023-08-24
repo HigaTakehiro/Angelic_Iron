@@ -55,6 +55,7 @@ private: //ƒƒ“ƒo•Ï”
 	Object3d* target_ = nullptr;
 	Vector3 pos_;
 	bool isDead_;
+	bool isHoming_;
 	int32_t lifeTimer_ = lifeTime;
 	Vector3 velocity_;
 };

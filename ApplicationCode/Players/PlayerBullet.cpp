@@ -25,18 +25,26 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity, Objec
 
 	if (target != nullptr) {
 		target_ = target;
+		isHoming_ = true;
 	}
 }
 
 void PlayerBullet::Update() {
 	const int32_t timeOver = 0;
+	const int32_t noObjType = -1;
+	if (target_) {
+		if (target_->GetObjType() <= noObjType) {
+			isHoming_ = false;
+		}
+	}
+
 	if (--lifeTimer_ <= timeOver) {
 		isDead_ = true;
 	}
-	else if (target_ != nullptr){
+	else if (target_ != nullptr && isHoming_){
 		velocity_ = target_->GetMatWorld().r[3] - pos_;
-		velocity_ = velocity_.normalize() * bulletSpeed;
-		pos_ += velocity_;
+		velocity_ = velocity_.normalize();
+		pos_ += velocity_ * bulletSpeed;
 	}
 	else {
 		pos_ += velocity_ * bulletSpeed;

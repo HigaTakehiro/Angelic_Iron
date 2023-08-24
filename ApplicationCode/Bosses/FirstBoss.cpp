@@ -18,7 +18,7 @@ void FirstBoss::Initialize(const std::string modelKey, const Vector3& pos_) {
 	boss_->SetRotation(rot_);
 	boss_->SetScale(scale_);
 	boss_->SetObjType((int32_t)Object3d::OBJType::Enemy);
-	boss_->SetHitRadius(35.0f);
+	boss_->SetHitRadius(50.0f);
 	boss_->SetColType(Object3d::CollisionType::Sphere);
 
 	leftHand_ = Object3d::Create(ModelManager::GetIns()->GetModel("boss1_Hand"));

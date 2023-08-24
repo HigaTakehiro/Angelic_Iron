@@ -184,13 +184,7 @@ void Player::Shot() {
 
 	const float bulletSpeed = 5.0f;
 	XMVECTOR velocity;
-	if (targetEnemy_ != nullptr) {
-		Vector3 enemyPos = targetEnemy_->GetEnemyObj()->GetMatWorld().r[3];
-		velocity = { enemyPos.x - playerWPos_.x, enemyPos.y - playerWPos_.y, enemyPos.z - playerWPos_.z };
-	}
-	else {
-		velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
-	}
+	velocity = { aimPos3d_.x - playerWPos_.x, aimPos3d_.y - playerWPos_.y, aimPos3d_.z - playerWPos_.z };
 	velocity = XMVector3Normalize(velocity);
 
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -203,13 +197,13 @@ void Player::Shot() {
 
 	Vector3 gunPos = gun_->GetMatWorld().r[3];
 	XMVECTOR gunForward = { 0.0f, 0.0f, 1.0f };
-	gunForward = XMVector3TransformNormal( gunForward, gun_->GetMatWorld() );
+	gunForward = XMVector3TransformNormal(gunForward, gun_->GetMatWorld());
 	velocity = { 1.0f, 0.4f, 0.0f };
 	velocity = XMVector3TransformNormal(velocity, camera_->GetMatWorld());
 
 	std::unique_ptr<BulletCase> newBulletCase = std::make_unique<BulletCase>();
 	newBulletCase->Initialize(gunPos, velocity, gunForward);
-	
+
 	bulletManager_->AddPlayerBullet(std::move(newBullet));
 	bulletManager_->AddBulletCase(std::move(newBulletCase));
 
@@ -222,7 +216,7 @@ void Player::Shot() {
 void Player::SetBombMode()
 {
 	const int32_t noneBomb = 0;
-	if(bombCount_ > noneBomb) isBomb_ = true;
+	if (bombCount_ > noneBomb) isBomb_ = true;
 }
 
 void Player::Reload()
@@ -245,7 +239,7 @@ void Player::BombShot() {
 			bulletManager_->AddBomb(std::move(newBomb));
 		}
 	}
-	
+
 	bombCount_--;
 	isBomb_ = false;
 }
@@ -277,10 +271,10 @@ void Player::AimUpdate() {
 
 	XMMATRIX matVPV = Camera::GetMatView() * Camera::GetMatProjection() * Camera::GetMatViewPort(); //ビュープロジェクションビューポート行列
 	XMMATRIX matInverseVPV = XMMatrixInverse(nullptr, matVPV); //ビュープロジェクションビューポート逆行列
-	XMVECTOR posNear = { aimPos_.x, aimPos_.y, 0}; //スクリーン座標
+	XMVECTOR posNear = { aimPos_.x, aimPos_.y, 0 }; //スクリーン座標
 	XMVECTOR posFar = { aimPos_.x, aimPos_.y, 1 }; //スクリーン座標
 
-	posNear = XMVector3TransformCoord(posNear, matInverseVPV);	
+	posNear = XMVector3TransformCoord(posNear, matInverseVPV);
 	posFar = XMVector3TransformCoord(posFar, matInverseVPV);
 
 	XMVECTOR mouseDirection = posFar - posNear; //ベクトル

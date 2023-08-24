@@ -149,7 +149,9 @@ void EnemyManager::EnemyReactions(BaseEnemy* enemy)
 	player_->SetEnemy(nullptr);
 	if (IsTargetCheck(enemy2dPos)) {
 		Reticle::GetIns()->SetIsSelectReticle(true);
-		player_->SetEnemy(enemy);
+		if (enemy) {
+			player_->SetEnemy(enemy);
+		}
 		if (player_->GetIsBomb()) {
 			enemy->SetTarget(true);
 		}
