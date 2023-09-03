@@ -71,11 +71,11 @@ void Score::AddScorePerformance()
 	if (++scoreAddTimer_ < scoreAddTime) {
 		for (int32_t i = 0; i < 4; i++) {
 			addScoreNumber_[i]->SetTextureRect({ (float)JudgeDigitNumber(addScore_, i), 0.0f }, {64, 64});
-			addScoreNumber_[i]->SetPosition({ addScoreNumber_[i]->GetPosition().x, (float)Easing::easeIn(scoreAddTimer_, scoreAddTime, addScoreLastPos, addScoreNumber_[i].get()->GetPosition().y) });
+			addScoreNumber_[i]->SetPosition({ addScoreNumber_[i]->GetPosition().x, (float)Easing::easeIn((float)scoreAddTimer_, (float)scoreAddTime, addScoreLastPos, addScoreNumber_[i].get()->GetPosition().y) });
 		}
 		plus_->SetPosition({ addScoreNumber_[0]->GetPosition().x - 20.0f, addScoreNumber_[0]->GetPosition().y });
 		for (int32_t i = 0; i < 6; i++) {
-			scoreRollPosX_[i] = Easing::easeOut(scoreAddTimer_, scoreAddTime, (float)JudgeDigitNumber(score_ + addScore_, i), scoreRollPosX_[i]);
+			scoreRollPosX_[i] = Easing::easeOut((float)scoreAddTimer_, (float)scoreAddTime, (float)JudgeDigitNumber(score_ + addScore_, i), scoreRollPosX_[i]);
 			scoreNumber_[i]->SetTextureRect({ scoreRollPosX_[i], 0.0f }, { 64.0f, 64.0f });
 		}
 	}
