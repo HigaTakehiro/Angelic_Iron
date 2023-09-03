@@ -23,6 +23,7 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity, Objec
 	bullet_->SetHitRadius(2.0f);
 	bullet_->SetColType(Object3d::CollisionType::Sphere);
 
+	target_ = nullptr;
 	if (target != nullptr) {
 		target_ = target;
 		isHoming_ = true;
@@ -32,16 +33,16 @@ void PlayerBullet::Initialize(const Vector3& pos, const Vector3& velocity, Objec
 void PlayerBullet::Update() {
 	const int32_t timeOver = 0;
 	const int32_t noObjType = -1;
-	if (target_) {
+	if (target_ != NULL) {
 		if (target_->GetObjType() <= noObjType) {
-			isHoming_ = false;
+			target_ = NULL;
 		}
 	}
 
 	if (--lifeTimer_ <= timeOver) {
 		isDead_ = true;
 	}
-	else if (target_ != nullptr && isHoming_){
+	else if (target_ != NULL && isHoming_){
 		velocity_ = target_->GetMatWorld().r[3] - pos_;
 		velocity_ = velocity_.normalize();
 		pos_ += velocity_ * bulletSpeed;

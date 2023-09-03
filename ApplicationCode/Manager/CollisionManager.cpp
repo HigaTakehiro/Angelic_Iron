@@ -38,6 +38,8 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 {
 	const int32_t playerBullet = 0x05;
 	const int32_t enemyBullet = 0x06;
+	const int32_t player = 0x01;
+	const int32_t scoreItem = 0x0f;
 
 	int32_t type;
 	int32_t type1 = obj1->GetObjType();
@@ -46,7 +48,6 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 	if (type1 == playerBullet && type2 == enemyBullet) return;
 	if (type1 == enemyBullet && type2 == playerBullet) return;
 
-	const int32_t playerAndScoreItemHit = 0x0f;
 	const int32_t bombAndEnemyHit = 0x0a;
 	const int32_t enemyAndEnemyBulletHit = 0x06;
 	const int32_t enemyAndEnemyHit = 0x02;
@@ -60,10 +61,10 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 		return;
 	}
 
-	if (type == playerAndScoreItemHit) {
+	if ((type1 == player && type2 == scoreItem) || (type2 == scoreItem && type1 == player)) {
 		HitTest(obj1, obj2);
-		if (type1 == (int32_t)Object3d::OBJType::Player) obj1->SetIsHit(false);
-		if (type2 == (int32_t)Object3d::OBJType::Player) obj2->SetIsHit(false);
+		if (type1 == player) obj1->SetIsHit(false);
+		if (type2 == player) obj2->SetIsHit(false);
 		return;
 	}
 	if (type == bombAndEnemyHit) {
@@ -76,6 +77,7 @@ void CollisionManager::CollisionCheck(Object3d* obj1, Object3d* obj2)
 	if (type == playerAndPlayerBulletHit) return;
 	if (type == playerAndBombHit) return;
 	if (type == bombAndBombHit) return;
+	if (type == scoreItem) return;
 
 	HitTest(obj1, obj2);
 }

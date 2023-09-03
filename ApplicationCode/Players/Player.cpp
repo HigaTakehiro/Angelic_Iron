@@ -151,6 +151,7 @@ void Player::Update(bool isClear) {
 	AimUpdate();
 	player_->Update();
 	gun_->Update();
+	targetEnemy_ = nullptr;
 }
 
 void Player::SpriteDraw() {

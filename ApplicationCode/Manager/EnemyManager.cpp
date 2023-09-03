@@ -146,12 +146,15 @@ void EnemyManager::EnemyReactions(BaseEnemy* enemy)
 
 	DirectX::XMFLOAT2 enemy2dPos = { enemy3dPos.m128_f32[0], enemy3dPos.m128_f32[1] };
 
-	player_->SetEnemy(nullptr);
 	if (IsTargetCheck(enemy2dPos)) {
 		Reticle::GetIns()->SetIsSelectReticle(true);
 		if (enemy) {
 			player_->SetEnemy(enemy);
 		}
+		else {
+			player_->SetEnemy(nullptr);
+		}
+
 		if (player_->GetIsBomb()) {
 			enemy->SetTarget(true);
 		}
